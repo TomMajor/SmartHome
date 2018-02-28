@@ -14,7 +14,6 @@
 #include <Register.h>
 #include <ThreeState.h>
 
-// we use a Pro Mini
 // Arduino pin for the LED
 #define LED1_PIN 6
 #define LED2_PIN 8 
@@ -41,7 +40,15 @@ const struct DeviceInfo PROGMEM devinfo = {
 
 
 // --------------------------------------------------------
-// meine Wassermelder ADC extension
+// my Wassermelder ADC extension
+// Sensor pin 1: 4.7k to ground
+// Sensor pin 2: 4.7k to ADC input, 100k from ADC input to Vcc
+// ADC values with 10mm sensor pin distance, Battery 2.5V:
+// open           1023
+// short-circuit  88
+// water          550-650
+// mineral water  ca. 550
+// Sekt           ca. 500
 
 // --------------------------------------------------------
 class ADCPosition : public Position {
@@ -52,32 +59,55 @@ public:
   void init (uint8_t adcpin) { 
     m_SensePin = adcpin;
     pinMode(m_SensePin, INPUT);
-    digitalWrite(m_SensePin, LOW);  // kein pull-up
+    digitalWrite(m_SensePin, LOW);  			// no pull-up
   }
 
   void measure (__attribute__((unused)) bool async=false) {
-    uint8_t timeout;
-    //ADMUX  &= ~(ADMUX_REFMASK | ADMUX_ADCMASK);
-    ADCSRA = 1<<ADEN | 1<<ADPS2;        // enable ADC, prescaler 16 = 62.5kHz ADC clock @1MHz (range 50..1000 kHz)
-    ADMUX  = 1<<REFS1 | 1<<REFS0;        // Internal 1.1V Voltage Reference with external capacitor at AREF pin
-//todo AVCC als ref
-    uint8_t channel = m_SensePin - 14;
-    ADMUX  |= (channel & 0x0F);          // select channel
+    uint8_t  samples, timeout;
+    uint16_t adc;
+    
+    // complete ADC init in case other modules have chamged this
+    ADCSRA = 1<<ADEN | 1<<ADPS2;			// enable ADC, prescaler 16 = 62.5kHz ADC clock @1MHz (range 50..1000 kHz)
+    ADMUX  = 1<<REFS0;					// AVCC with external capacitor at AREF pin
+    ADCSRB = 0;
+    uint8_t channel = m_SensePin - PIN_A0;
+    ADMUX  |= (channel & 0x0F);          		// select channel
 
-    _delay_ms(10);
+    _delay_ms(25);					// load CVref 100nF, 5*Tau = 25ms
+    
+    // dummy read
     ADCSRA |= 1<<ADSC; timeout = 50;
     while (ADCSRA & (1<<ADSC)) { delayMicroseconds(10); timeout--; if (timeout==0) break; }
-    ADCSRA |= 1<<ADSC; timeout = 50;
-    while (ADCSRA & (1<<ADSC)) { delayMicroseconds(10); timeout--; if (timeout==0) break; }
-//todo filter
 
-    uint16_t value = ADC & 0x3FF;
-    DDECLN(value);
-    if (value > 250) { _position = State::PosC; } // WATER
-    else             { _position = State::PosA; } // DRY
+    // filter
+    adc = 0; samples = 0;
+    for (uint8_t i = 0; i < 4; i++) {
+      timeout = 50;
+      ADCSRA |= 1<<ADSC;				// start ADC
+      while (ADCSRA & (1<<ADSC)) { 
+        delayMicroseconds(10);
+        timeout--;
+        if (timeout == 0)
+          break; 
+      }
+      if (timeout > 0) {
+        adc += (ADC & 0x3FF);
+        samples++;
+      }
+    }
+    if (samples == 4) {
+      adc = adc >> 2;
+      DDECLN(adc);
+      DPRINT("ADC: "); DDECLN(adc); 
+      if (adc < 800) { _position = State::PosC; } 	// WATER
+      else           { _position = State::PosA; } 	// DRY
+    }
+    else {
+      DPRINTLN("ADC Error");
+    }
   }
   
-  uint32_t interval () { return seconds2ticks(60); }  // alle 60sec messen
+  uint32_t interval () { return seconds2ticks(10); }  // meassure every 60sec
 };
 
 // --------------------------------------------------------
@@ -144,7 +174,7 @@ void setup () {
   sdev.init(hal);
   sdev.channel(1).init(SENS1_PIN);
   buttonISR(cfgBtn,CONFIG_BUTTON_PIN);
-  hal.battery.init(seconds2ticks(60UL*60), sysclock);	// measure battery every 1h
+  hal.battery.init(seconds2ticks(60UL*60*24), sysclock);	// at least one message per day
   hal.battery.low(22);
   hal.battery.critical(19);
   sdev.initDone();
