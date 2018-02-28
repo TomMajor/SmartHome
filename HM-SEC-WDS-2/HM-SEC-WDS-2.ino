@@ -41,8 +41,13 @@ const struct DeviceInfo PROGMEM devinfo = {
 
 // --------------------------------------------------------
 // my Wassermelder ADC extension
+//
 // Sensor pin 1: 4.7k to ground
 // Sensor pin 2: 4.7k to ADC input, 100k from ADC input to Vcc
+//
+// Only WATER and DRY status is important to me, so only 1 ADC channel is used here
+// If you need the WET status as well, use a second ADC channel and send State::PosB for the WET case
+//
 // ADC values with 10mm sensor pin distance, Battery 2.5V:
 // open           1023
 // short-circuit  88
@@ -97,7 +102,6 @@ public:
     }
     if (samples == 4) {
       adc = adc >> 2;
-      DDECLN(adc);
       DPRINT("ADC: "); DDECLN(adc); 
       if (adc < 800) { _position = State::PosC; } 	// WATER
       else           { _position = State::PosA; } 	// DRY
@@ -107,7 +111,7 @@ public:
     }
   }
   
-  uint32_t interval () { return seconds2ticks(10); }  // meassure every 60sec
+  uint32_t interval () { return seconds2ticks(60); }  // meassure every 60sec
 };
 
 // --------------------------------------------------------
