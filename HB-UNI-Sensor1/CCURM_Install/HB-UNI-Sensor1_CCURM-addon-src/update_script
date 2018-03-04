@@ -1,0 +1,33 @@
+#!/bin/sh
+
+ADDON_NAME=hbunisensor1
+RC_DIR=/usr/local/etc/config/rc.d
+WWW_DIR=/usr/local/etc/config/addons/www/$ADDON_NAME
+ADDON_DIR=/usr/local/addons/$ADDON_NAME
+
+# mount /usr/local if not already mounted
+mount | grep /usr/local 2>&1 >/dev/null
+if [ $? -eq 1 ]; then
+  mount /usr/local
+fi
+
+# Startscript anlegen
+cp -af rc.d/$ADDON_NAME ${RC_DIR}/
+chmod +x ${RC_DIR}/$ADDON_NAME
+
+# Addon-Verzeichnis anlegen
+mkdir -p ${ADDON_DIR}
+cp -af addon/* ${ADDON_DIR}
+chmod 755 ${ADDON_DIR}
+
+# Symbolic Links
+rm -rf ${WWW_DIR}
+ln -sf ${ADDON_DIR} ${WWW_DIR}
+#rm -f ${WWW_DIR}/update_check.cgi                 
+#ln -sf ${ADDON_DIR}/VERSION ${WWW_DIR}/VERSION.txt
+#ln -sf ${ADDON_DIR}/update-check.cgi ${WWW_DIR}/update-check.cgi
+#rm -f ${WWW_DIR}/addon
+#ln -sf ${ADDON_DIR} ${WWW_DIR}/addon 
+
+# sync filesystem to make sure all changes are written to disk
+sync

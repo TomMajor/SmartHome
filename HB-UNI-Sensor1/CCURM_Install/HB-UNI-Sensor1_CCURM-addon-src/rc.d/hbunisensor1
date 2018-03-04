@@ -1,0 +1,63 @@
+#!/bin/sh
+
+NAME=hbunisensor1
+PIDFILE=/var/run/$NAME.pid
+LOGFILE=/var/log/$NAME.log
+
+ADDON_DIR=/usr/local/addons/${NAME}
+WWW_DIR=/etc/config/addons/www/${NAME}
+RCD_DIR=/usr/local/etc/config/rc.d
+
+start() 
+{
+  echo 'Starting...'
+  if [ ! -f /firmware/rftypes/hb_uni_sensor1.xml ]; then
+    cd ${ADDON_DIR}
+    ./installHBUNISENSOR1  > $LOGFILE 2> /dev/null & echo $!> $PIDFILE
+  else
+   echo "Nothing to do."
+  fi
+
+}
+
+stop() 
+{
+  echo 'Stopped'
+}
+
+case "$1" in
+start)
+start
+;;
+stop)
+stop
+;;
+uninstall)
+    mount -o remount,rw /
+    rm -f /firmware/rftypes/hb_uni_sensor1.xml
+    rm -f /www/config/img/devices/50/hb-uni-sensor1*
+    rm -f /www/config/img/devices/250/hb-uni-sensor1*
+    rm -rf $ADDON_DIR
+    rm -rf $WWW_DIR
+    mount -o remount,ro /
+  ;;
+  
+restart)
+stop
+start
+;;
+
+info)
+  echo "Info: <b>HB-UNI-Sensor1 Addon</b><br>"
+  #echo "Info: <a href='https://github.com/jp112sdl/HB-UNI-Sen-TEMP-DS18B20'>https://github.com/jp112sdl/HB-UNI-Sen-TEMP-DS18B20</a>"
+  echo "Version: 1.0"
+  echo "Name: HB-UNI-Sensor1"
+  echo "Operations: uninstall"
+  #echo "Config-Url: ${CONFIG_URL}"
+  echo "Update: /addons/hbunisensor1/update-check.cgi"
+    ;;
+	
+*)
+start
+echo "Usage: $0 {start|stop|restart|uninstall}"
+esac

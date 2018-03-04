@@ -1,0 +1,50 @@
+#!/bin/sh
+
+ADDON_NAME=hbunisensor1
+ADDON_DIR=/usr/local/addons/$ADDON_NAME
+
+mount -o remount,rw /
+
+##########################################
+### New device HB-UNI-Sensor1 ###
+##########################################
+device="HB-UNI-Sensor1"
+
+### Copy new devices Files ###
+cp -a firmware/rftypes/* /firmware/rftypes/
+
+### Copy new images ###
+cp -ar www/config/img/devices /www/config/img/
+
+### Edit DEVDB.tcl ###
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="array[[:space:]]*set[[:space:]]*DEV_PATHS[[:space:]]*{"
+
+devdescrInsert=""
+devdescrInsert="$devdescrInsert HB-UNI-Sensor1 {{50 \/config\/img\/devices\/50\/hb-uni-sensor1_thumb.png} {250 \/config\/img\/devices\/250\/hb-uni-sensor1.png}} "
+
+if [ -z "`cat $devdescrFile | grep \"$device\"`" ]; then
+	cp -a $devdescrFile $ADDON_DIR/DEVDB.tcl.hbunisensor1save
+	sed -i "s/\($devdescrSearch\)/\1$devdescrInsert/g" $devdescrFile
+fi
+
+### Edit webui.js ###
+webuiFile="/www/webui/webui.js"
+webuiSearch="DEV_HIGHLIGHT[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsert="\n"
+webuiInsert="$webuiInsert DEV_HIGHLIGHT['HB-UNI-Sensor1'] = new Object();\n"
+webuiInsert="$webuiInsert DEV_LIST.push('HB-UNI-Sensor1');\n"
+webuiInsert="$webuiInsert DEV_DESCRIPTION['HB-UNI-Sensor1']='Universal Sensor';\n"
+webuiInsert="$webuiInsert DEV_PATHS['HB-UNI-Sensor1'] = new Object();\n"
+webuiInsert="$webuiInsert DEV_PATHS['HB-UNI-Sensor1']['50'] = '\/config\/img\/devices\/50\/hb-uni-sensor1_thumb.png';\n"
+webuiInsert="$webuiInsert DEV_PATHS['HB-UNI-Sensor1']['250'] = '\/config\/img\/devices\/250\/hb-uni-sensor1.png';\n"
+
+if [ -z "`cat $webuiFile | grep \"$device\"`" ]; then
+	cp -a $webuiFile $ADDON_DIR/webui.js.hbunisensor1save
+	sed -i "s/\($webuiSearch\)/\1$webuiInsert/g" $webuiFile
+fi
+
+sync
+
+mount -o remount,ro /
