@@ -49,8 +49,9 @@ start
 
 info)
   echo "Info: <b>HB-UNI-Sensor1 Addon</b><br>"
-  #echo "Info: <a href='https://github.com/jp112sdl/HB-UNI-Sen-TEMP-DS18B20'>https://github.com/jp112sdl/HB-UNI-Sen-TEMP-DS18B20</a>"
-  echo "Version: 1.0"
+  echo "Info: HB UniSensor1 example<br>"
+  echo "Info: <a href='https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1' target='_blank'>https://github.com/TomMajor/AskSinPP_Examples</a>"
+  echo "Version: $(cat ${ADDON_DIR}/VERSION)"
   echo "Name: HB-UNI-Sensor1"
   echo "Operations: uninstall"
   #echo "Config-Url: ${CONFIG_URL}"

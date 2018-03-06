@@ -1,6 +1,4 @@
 #!/bin/tclsh
-set checkURL    "https://raw.githubusercontent.com/jp112sdl/HB-UNI-Sen-TEMP-DS18B20/master/Addons/CCURM/HB-UNI-Sen-TEMP-DS18B20_CCURM-addon-src/addon/VERSION"
-set downloadURL "https://github.com/jp112sdl/HB-UNI-Sen-TEMP-DS18B20/raw/master/Addons/CCURM/HB-UNI-Sen-TEMP-DS18B20_CCURM-addon.tgz"
 
 catch {
   set input $env(QUERY_STRING)
@@ -12,15 +10,4 @@ catch {
   }
 }
 
-if { [info exists cmd ] && $cmd == "download"} {
-  puts "<html><head><meta http-equiv='refresh' content='0; url=$downloadURL' /></head></html>"
-} else {
-  catch {
-    set newversion [ exec /usr/bin/wget -qO- --no-check-certificate $checkURL ]
-  }
-  if { [info exists newversion] } {
-    puts $newversion
-  } else {
-    puts "n/a"
-  }
-}
+puts "n/a"

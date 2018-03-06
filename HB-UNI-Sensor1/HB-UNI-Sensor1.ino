@@ -14,8 +14,9 @@
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
-#define INTERVAL 180
-#define NUM_SENSORS 3
+#define INTERVAL 180    // alle 3min senden
+
+#define TEMP_SENSORS 4  // 4x DS18x20
 
 //#include "Ds18b20.h"
 
@@ -33,8 +34,8 @@ using namespace as;
 
 // define all device properties
 const struct DeviceInfo PROGMEM devinfo = {
-  {0xAA,0x55,0x10},       	 // Device ID
-  "UNITEMP001",           	 // Device Serial
+  {0x42,0x44,0xA3},       	 // Device ID
+  "UNISENS001",           	 // Device Serial
   {0xF3, 0x01},            	 // Device Model
   0x10,                   	 // Firmware Version
   as::DeviceType::THSensor, 	 // Device Type
@@ -57,8 +58,8 @@ class Hal : public BaseHal {
       //rtc.init();
       // measure battery every 1h
       battery.init(seconds2ticks(60UL * 60), sysclock);
-      battery.low(20); // Low voltage set to 2.0V
-      battery.critical(18); // Critical voltage set to 1.8V
+      battery.low(22); // Low voltage set to 2.2V
+      battery.critical(19); // Critical voltage set to 1.9V
     }
 
     bool runready () {
@@ -68,20 +69,33 @@ class Hal : public BaseHal {
 
 class WeatherEventMsg : public Message {
   public:
-    void init(uint8_t msgcnt, int16_t temps[8], bool batlow) {
+    void init(uint8_t msgcnt, int16_t temps[TEMP_SENSORS], uint16_t airPressure, uint8_t humidity, uint16_t battery, bool batlow) {
 
       uint8_t t1 = (temps[0] >> 8) & 0x7f;
       uint8_t t2 = temps[0] & 0xff;
       if ( batlow == true ) {
         t1 |= 0x80; // set bat low bit
       }
-      Message::init(0x19, msgcnt, 0x70, BIDI, t1, t2); // first byte determines message length; pload[0] starts at byte 13
+      Message::init(0x16, msgcnt, 0x70, BIDI, t1, t2); // first byte determines message length; pload[0] starts at byte 13
 
-      for (int i = 0; i < 14; i++) {
-        pload[i] = (temps[(i / 2) + 1] >> 8) & 0x7f;
-        pload[i + 1] = temps[(i / 2) + 1] & 0xff;
-        i++;
+      int idx = 0;
+      
+      // temps
+      for (int i = 1; i < TEMP_SENSORS; i++) {
+        pload[idx++] = (temps[i] >> 8) & 0x7f;
+        pload[idx++] = temps[i] & 0xff;
       }
+      
+      // airPressure
+      pload[idx++] = (airPressure >> 8) & 0x7f;
+      pload[idx++] = airPressure & 0xff;
+      
+      // humidity
+      pload[idx++] = humidity;
+      
+      // battery
+      pload[idx++] = (battery >> 8) & 0x7f;
+      pload[idx++] = battery & 0xff;
     }
 };
 
@@ -93,8 +107,11 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     WeatherEventMsg msg;
 
     //Ds18b20<3>    ds18b20;
-    int16_t       temperatures[8];
-
+    int16_t       temperatures[TEMP_SENSORS];
+    uint16_t      airPressure;
+    uint8_t       humidity;
+    uint16_t      battery;
+    
   public:
     WeatherChannel () : Channel(), Alarm(seconds2ticks(INTERVAL)) {}
     virtual ~WeatherChannel () {}
@@ -102,35 +119,34 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     virtual void trigger (__attribute__ ((unused)) AlarmClock& clock) {
       uint8_t msgcnt = device().nextcount();
       measure();
-      msg.init(msgcnt, temperatures, device().battery().low());
+      msg.init(msgcnt, temperatures, airPressure, humidity, battery, device().battery().low());
       device().sendPeerEvent(msg, *this);
       // reactivate for next measure
-      tick =  seconds2ticks(INTERVAL);
+      tick = seconds2ticks(INTERVAL);
       clock.add(*this);
     }
 
     // here we do the measurement
     void measure () {
       /*memset(temperatures, 0, sizeof(temperatures));
-      for (int i = 0; i < NUM_SENSORS; i++) {
+      for (int i = 0; i < TEMP_SENSORS; i++) {
         ds18b20.measure(i);
         temperatures[i] = ds18b20.temperature();
         DPRINT("measure(");DDEC(i);DPRINT(") = ");DDECLN(temperatures[i]);
       }*/
-      //Fake Werte zum Testen
-      temperatures[0] = 89;
-      temperatures[1] = 190;
-      temperatures[2] = 560;
-      temperatures[3] = 1200;
-      temperatures[4] = -18;
-      temperatures[5] = -200;
-      temperatures[6] = 95;
-      temperatures[7] = 326;
+      // Dummy Werte zum Testen
+      temperatures[0] = 50 + random(200);   // 5C +x
+      temperatures[1] = 560;                // 56C
+      temperatures[2] = 1055;               // 105,5C
+      temperatures[3] = -18;                // -1,8C
+      airPressure     = 1020;               // 1020 hPa
+      humidity        = 66;                 // 66%
+      battery         = 2750;               // 2,75V
     }
 
     void setup(Device<Hal, WeatherList0>* dev, uint8_t number, uint16_t addr) {
       Channel::setup(dev, number, addr);
-      seconds2ticks(INTERVAL);
+      tick = seconds2ticks(10);	// first message in 10 sec.
       sysclock.add(*this);
       //ds18b20.init();
     }
@@ -169,3 +185,4 @@ void loop() {
     hal.activity.savePower<Sleep<>>(hal);
   }
 }
+
