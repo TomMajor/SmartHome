@@ -11,7 +11,7 @@ RCD_DIR=/usr/local/etc/config/rc.d
 start() 
 {
   echo 'Starting...'
-  if [ ! -f /firmware/rftypes/hb_uni_sensor1.xml ]; then
+  if [ ! -f ${ADDON_DIR}/installed ] || [ ! -f /firmware/rftypes/hb_uni_sensor1.xml ]; then
     cd ${ADDON_DIR}
     ./installHBUNISENSOR1  > $LOGFILE 2> /dev/null & echo $!> $PIDFILE
   else

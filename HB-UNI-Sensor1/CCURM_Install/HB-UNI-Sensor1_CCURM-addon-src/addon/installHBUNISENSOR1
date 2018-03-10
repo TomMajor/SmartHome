@@ -48,3 +48,7 @@ fi
 sync
 
 mount -o remount,ro /
+
+# /etc/init.d/S61rfd restart
+
+touch $ADDON_DIR/installed

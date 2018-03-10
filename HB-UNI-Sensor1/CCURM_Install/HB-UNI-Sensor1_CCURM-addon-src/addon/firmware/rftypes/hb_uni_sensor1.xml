@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="3600">
+<device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
     <type name="HB-UNI-Sensor1" id="HB-UNI-Sensor1" updatable="true">
       <parameter index="9.0" size="1.0" cond_op="GE" const_value="12" />
@@ -7,33 +7,14 @@
     </type>
   </supported_types>
   <paramset type="MASTER" id="hm_uni_sen_dev_master">
-    <parameter id="BURST_RX">
-      <logical type="boolean" default="false" />
-      <physical type="integer" interface="config" list="0" index="1" size="1.0" />
-    </parameter>
-    <parameter id="DEVICE_LED_MODE">
-      <logical type="option">
-        <option id="OFF" default="true" />
-        <option id="ON" />
-      </logical>
-      <physical type="integer" interface="config" list="0" index="5.6" size="0.2" />
-      <conversion type="integer_integer_map">
-        <value_map device_value="0x00" parameter_value="0" />
-        <value_map device_value="0x01" parameter_value="1" />
-      </conversion>
-    </parameter>
     <parameter id="LOW_BAT_LIMIT">
-      <logical type="float" min="1.8" max="3.3" default="3.0" unit="V" />
+      <logical type="float" min="1.8" max="5.0" default="2.2" unit="V" />
       <physical type="integer" interface="config" list="0" index="18" size="1" />
       <conversion type="float_integer_scale" factor="10" />
     </parameter>
     <parameter id="TRANSMIT_DEV_TRY_MAX">
-      <logical type="integer" min="1.0" max="10" default="6" />
+      <logical type="integer" min="1" max="10" default="6" />
       <physical type="integer" interface="config" list="0" index="20" size="1" />
-    </parameter>
-    <parameter id="Altitude">
-      <logical type="integer" min="-50" max="9000" default="500" unit="m" />
-      <physical type="integer" interface="config" list="0" index="36" size="2" />
     </parameter>
   </paramset>
   <channels>
@@ -78,7 +59,12 @@
       <link_roles>
         <source name="WEATHER_TH" />
       </link_roles>
-      <paramset type="MASTER" id="HB-UNI-Sensor1_master"></paramset>
+      <paramset type="MASTER" id="HB-UNI-Sensor1_master">
+        <parameter id="Update Intervall">
+          <logical type="integer" min="60" max="43200" default="300" unit="s" />
+          <physical type="integer" interface="config" list="1" index="11" size="2" />
+        </parameter>                                            
+      </paramset>
       <paramset type="VALUES" id="HB-UNI-Sensor1_values">
         <parameter id="Temperatur 1" operations="read,event">
           <logical type="float" min="-50.0" max="120.0" unit="°C">
@@ -135,7 +121,6 @@
           <physical type="integer" interface="command" value_id="Luftdruck">
             <event frame="WEATHER_EVENT" />
           </physical>
-          <conversion type="float_integer_scale" factor="10.0" />
           <description>
             <field id="AutoconfRoles" value="WEATHER" />
           </description>

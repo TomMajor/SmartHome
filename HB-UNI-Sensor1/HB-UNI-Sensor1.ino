@@ -14,8 +14,6 @@
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
-#define INTERVAL 180    // alle 3min senden
-
 #define TEMP_SENSORS 4  // 4x DS18x20
 
 //#include "Ds18b20.h"
@@ -99,10 +97,30 @@ class WeatherEventMsg : public Message {
     }
 };
 
-DEFREGISTER(WeatherRegsList0, DREG_BURSTRX)
-typedef RegList0<WeatherRegsList0> WeatherList0;
+DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT)
+class SensorList0 : public RegList0<Reg0> {
+public:
+  SensorList0(uint16_t addr) : RegList0<Reg0>(addr) {}
+  void defaults () {
+    clear();
+    transmitDevTryMax(6);
+    lowBatLimit(22);
+  }
+};
 
-class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CHANNEL, WeatherList0>, public Alarm {
+// !! Verwendung: CREG_REFERENCE_RUNNING_TIME_TOP_BOTTOM[_1,_2] als 2 Byte Reg für Update Intervall in Sek.
+// Addr 0x0B, 0x0C
+DEFREGISTER(Reg1, CREG_REFERENCE_RUNNING_TIME_TOP_BOTTOM)
+class SensorList1 : public RegList1<Reg1> {
+  public:
+    SensorList1 (uint16_t addr) : RegList1<Reg1>(addr) {}
+    void defaults () {
+      clear();
+      refRunningTimeTopButton(60);
+    }
+};
+
+class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_PER_CHANNEL, SensorList0>, public Alarm {
 
     WeatherEventMsg msg;
 
@@ -113,7 +131,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint16_t      battery;
     
   public:
-    WeatherChannel () : Channel(), Alarm(seconds2ticks(INTERVAL)) {}
+    WeatherChannel () : Channel(), Alarm(seconds2ticks(60)) {}
     virtual ~WeatherChannel () {}
 
     virtual void trigger (__attribute__ ((unused)) AlarmClock& clock) {
@@ -122,7 +140,8 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       msg.init(msgcnt, temperatures, airPressure, humidity, battery, device().battery().low());
       device().sendPeerEvent(msg, *this);
       // reactivate for next measure
-      tick = seconds2ticks(INTERVAL);
+      uint16_t updCycle = this->getList1().refRunningTimeTopButton();
+      tick = seconds2ticks(updCycle);
       clock.add(*this);
     }
 
@@ -139,16 +158,22 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       temperatures[1] = 560;                // 56C
       temperatures[2] = 1055;               // 105,5C
       temperatures[3] = -18;                // -1,8C
-      airPressure     = 1020;               // 1020 hPa
+      airPressure     = 1024;               // 1020 hPa
       humidity        = 66;                 // 66%
       battery         = 2750;               // 2,75V
     }
 
-    void setup(Device<Hal, WeatherList0>* dev, uint8_t number, uint16_t addr) {
+    void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr) {
       Channel::setup(dev, number, addr);
       tick = seconds2ticks(10);	// first message in 10 sec.
       sysclock.add(*this);
       //ds18b20.init();
+    }
+    
+    void configChanged() {
+      DPRINTLN("Config changed: List1");
+      uint16_t updCycle = this->getList1().refRunningTimeTopButton();
+      DPRINT("updCycle: "); DDECLN(updCycle);
     }
 
     uint8_t status () const {
@@ -160,9 +185,30 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     }
 };
 
-typedef MultiChannelDevice<Hal, WeatherChannel, 1, WeatherList0> WeatherType;
-WeatherType sdev(devinfo, 0x20);
-ConfigButton<WeatherType> cfgBtn(sdev);
+class SensChannelDevice : public MultiChannelDevice<Hal, WeatherChannel, 1, SensorList0> {
+  public:
+    typedef MultiChannelDevice<Hal, WeatherChannel, 1, SensorList0> TSDevice;
+    SensChannelDevice(const DeviceInfo& info, uint16_t addr) : TSDevice(info, addr) {}
+    virtual ~SensChannelDevice () {}
+
+    virtual void configChanged () {
+      TSDevice::configChanged();
+      DPRINTLN("Config Changed: List0");
+      
+      uint8_t lowBatLimit = this->getList0().lowBatLimit();
+      DPRINT("lowBatLimit: ");
+      DDECLN(lowBatLimit);
+      battery().low(lowBatLimit);
+      
+      uint8_t txDevTryMax = this->getList0().transmitDevTryMax();
+      DPRINT("transmitDevTryMax: ");
+      DDECLN(txDevTryMax);
+      this->getList0().transmitDevTryMax(txDevTryMax);
+    }
+};
+
+SensChannelDevice sdev(devinfo, 0x20);
+ConfigButton<SensChannelDevice> cfgBtn(sdev);
 
 void setup () {
   DINIT(57600, ASKSIN_PLUS_PLUS_IDENTIFIER);

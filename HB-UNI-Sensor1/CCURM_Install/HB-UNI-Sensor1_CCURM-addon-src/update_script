@@ -5,9 +5,15 @@ RC_DIR=/usr/local/etc/config/rc.d
 WWW_DIR=/usr/local/etc/config/addons/www/$ADDON_NAME
 ADDON_DIR=/usr/local/addons/$ADDON_NAME
 
-# mount /usr/local if not already mounted
-mount | grep /usr/local 2>&1 >/dev/null
-if [ $? -eq 1 ]; then
+if [ "$1" = "" ]; then
+  echo "CCU1"
+  lcdtool "installing hbunisentemp "
+  mount -t yaffs /dev/mtdblock3 /usr/local
+elif [ "$1" = "CCU2" ]; then
+  echo "CCU2"
+  mount -t ubifs ubi1:user /usr/local
+elif [ "$1" = "HM-RASPBERRYMATIC" ]; then
+  echo "HM-RASPBERRYMATIC"
   mount /usr/local
 fi
 
@@ -23,11 +29,24 @@ chmod 755 ${ADDON_DIR}
 # Symbolic Links
 rm -rf ${WWW_DIR}
 ln -sf ${ADDON_DIR} ${WWW_DIR}
-#rm -f ${WWW_DIR}/update_check.cgi                 
-#ln -sf ${ADDON_DIR}/VERSION ${WWW_DIR}/VERSION.txt
-#ln -sf ${ADDON_DIR}/update-check.cgi ${WWW_DIR}/update-check.cgi
-#rm -f ${WWW_DIR}/addon
-#ln -sf ${ADDON_DIR} ${WWW_DIR}/addon 
+
+rm ${ADDON_DIR}/installed
 
 # sync filesystem to make sure all changes are written to disk
 sync
+
+if [ "$1" = "" ]; then
+  echo "CCU1"
+  lcdtool "Reboot...             "
+  lcdtool -a 0x40 -t bin 00
+  echo "x" > /dev/watchdog
+  reboot
+  while true ; do true ;  done
+elif [ "$1" = "CCU2" ]; then
+  echo "CCU2"
+  # CCU2 always reboots after Addon/Firmware Update
+elif [ "$1" = "HM-RASPBERRYMATIC" ]; then
+  echo "HM-RASPBERRYMATIC"
+  # RASPBERRYMATIC always reboots after Addon/Firmware Update
+fi
+

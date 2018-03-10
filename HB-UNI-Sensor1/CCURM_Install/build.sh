@@ -1,6 +1,6 @@
 #!/bin/sh
 rm HB-UNI-Sensor1_CCURM-addon.tgz
-find . -name ".*" -exec rm -rf {} \;
+find . -name ".DS_Store" -exec rm -rf {} \;
 cd HB-UNI-Sensor1_CCURM-addon-src
 chmod +x update_script
 chmod +x addon/installHBUNISENSOR1
