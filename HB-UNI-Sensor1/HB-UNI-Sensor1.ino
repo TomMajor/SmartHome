@@ -36,7 +36,7 @@ const struct DeviceInfo PROGMEM devinfo = {
   "UNISENS001",           	 // Device Serial
   {0xF3, 0x01},            	 // Device Model
   0x10,                   	 // Firmware Version
-  as::DeviceType::THSensor, 	 // Device Type
+  as::DeviceType::THSensor,  // Device Type
   {0x01, 0x01}             	 // Info Bytes
 };
 
@@ -74,8 +74,9 @@ class WeatherEventMsg : public Message {
       if ( batlow == true ) {
         t1 |= 0x80; // set bat low bit
       }
-      Message::init(0x16, msgcnt, 0x70, BIDI, t1, t2); // first byte determines message length; pload[0] starts at byte 13
-
+      Message::init(0x16, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
+							// BIDI: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
+							// BCAST: ohne ACK, Standard für HM Sensoren
       int idx = 0;
       
       // temps
