@@ -66,11 +66,11 @@
         </parameter>                                            
       </paramset>
       <paramset type="VALUES" id="HB-UNI-Sensor1_values">
-        <parameter id="Temperatur 1" operations="read,event">
+        <parameter id="TEMPERATURE" operations="read,event">
           <logical type="float" min="-50.0" max="120.0" unit="°C">
             <special_value id="NO_SENSOR" value="-99.0" />
           </logical>
-          <physical type="integer" interface="command" value_id="Temperatur 1">
+          <physical type="integer" interface="command" value_id="TEMPERATURE">
             <event frame="WEATHER_EVENT" />
           </physical>
           <conversion type="float_integer_scale" factor="10.0" />
@@ -78,63 +78,33 @@
             <field id="AutoconfRoles" value="WEATHER" />
           </description>
         </parameter>
-        <parameter id="Temperatur 2" operations="read,event">
-          <logical type="float" min="-50.0" max="120.0" unit="°C">
-            <special_value id="NO_SENSOR" value="-99.0" />
-          </logical>
-          <physical type="integer" interface="command" value_id="Temperatur 2">
-            <event frame="WEATHER_EVENT" />
-          </physical>
-          <conversion type="float_integer_scale" factor="10.0" />
-          <description>
-            <field id="AutoconfRoles" value="WEATHER" />
-          </description>
-        </parameter>
-        <parameter id="Temperatur 3" operations="read,event">
-          <logical type="float" min="-50.0" max="120.0" unit = "°C">
-            <special_value id="NO_SENSOR" value="-99.0" />
-          </logical>
-          <physical type="integer" interface="command" value_id="Temperatur 3">
-            <event frame="WEATHER_EVENT" />
-          </physical>
-          <conversion type="float_integer_scale" factor="10.0" />
-          <description>
-            <field id="AutoconfRoles" value="WEATHER" />
-          </description>
-        </parameter>
-        <parameter id="Temperatur 4" operations="read,event">                                           
-          <logical type="float" min="-50.0" max="120.0" unit = "°C"> 
-            <special_value id="NO_SENSOR" value="-99.0" />
-          </logical>
-          <physical type="integer" interface="command" value_id="Temperatur 4">                   
-            <event frame="WEATHER_EVENT" />                                                      
-          </physical>                                                                            
-          <conversion type="float_integer_scale" factor="10.0" />                                
-          <description>
-            <field id="AutoconfRoles" value="WEATHER" />
-          </description>
-        </parameter>                                                                            
-        <parameter id="Luftdruck" operations="read,event">
+        <parameter id="AIR_PRESSURE" operations="read,event">
           <logical type="float" min="500.0" max="1100.0" unit="hPa">
             <special_value id="NO_SENSOR" value="0.0" />
           </logical>
-          <physical type="integer" interface="command" value_id="Luftdruck">
+          <physical type="integer" interface="command" value_id="AIR_PRESSURE">
             <event frame="WEATHER_EVENT" />
           </physical>
           <description>
             <field id="AutoconfRoles" value="WEATHER" />
           </description>
         </parameter>
-        <parameter id="Luftfeuchtigkeit" operations="read,event">
+        <parameter id="HUMIDITY" operations="read,event">
           <logical type="integer" min="1" max="99" unit="%">
             <special_value id="NO_SENSOR" value="0" />
           </logical>
-          <physical type="integer" interface="command" value_id="Luftfeuchtigkeit">
+          <physical type="integer" interface="command" value_id="HUMIDITY">
             <event frame="WEATHER_EVENT" />
           </physical>
           <description>
             <field id="AutoconfRoles" value="WEATHER" />
           </description>
+        </parameter>
+        <parameter id="BRIGHTNESS" operations="read,event">
+          <logical type="integer" min="0" max="255" />
+          <physical type="integer" interface="command" value_id="BRIGHTNESS" no_init="true">
+            <event frame="WEATHER_EVENT" />
+          </physical>
         </parameter>
         <parameter id="Batteriespannung" operations="read,event">
           <logical type="float" min="0.5" max="5.5" unit="V" />
@@ -149,13 +119,11 @@
   </channels>
   <frames>
     <frame id="WEATHER_EVENT" direction="from_device" event="true" fixed_channel="1" type="0x70">
-      <parameter type="integer" signed="true"  index="9"  size="1.7" param="Temperatur 1" />
-      <parameter type="integer" signed="true"  index="11" size="1.7" param="Temperatur 2" />
-      <parameter type="integer" signed="true"  index="13" size="1.7" param="Temperatur 3" />
-      <parameter type="integer" signed="true"  index="15" size="1.7" param="Temperatur 4" />
-      <parameter type="integer" signed="false" index="17" size="2.0" param="Luftdruck" />
-      <parameter type="integer" signed="false" index="19" size="1.0" param="Luftfeuchtigkeit" />
-      <parameter type="integer" signed="false" index="20" size="2.0" param="Batteriespannung" />
+      <parameter type="integer" signed="true"  index="9"  size="1.7" param="TEMPERATURE" />
+      <parameter type="integer" signed="false" index="11" size="2.0" param="AIR_PRESSURE" />
+      <parameter type="integer" signed="false" index="13" size="1.0" param="HUMIDITY" />
+      <parameter type="integer" signed="false" index="14" size="1.0" param="BRIGHTNESS" />
+      <parameter type="integer" signed="false" index="15" size="2.0" param="Batteriespannung" />
     </frame>
   </frames>
   <paramset_defs></paramset_defs>

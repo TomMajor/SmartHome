@@ -14,8 +14,6 @@
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
-#define TEMP_SENSORS 4  // 4x DS18x20
-
 //#include "Ds18b20.h"
 
 // Arduino pin for the config button
@@ -67,34 +65,33 @@ class Hal : public BaseHal {
 
 class WeatherEventMsg : public Message {
   public:
-    void init(uint8_t msgcnt, int16_t temps[TEMP_SENSORS], uint16_t airPressure, uint8_t humidity, uint16_t battery, bool batlow) {
+    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint8_t brightness, uint16_t battery, bool batlow) {
 
-      uint8_t t1 = (temps[0] >> 8) & 0x7f;
-      uint8_t t2 = temps[0] & 0xff;
+      uint8_t t1 = (temp >> 8) & 0x7f;
+      uint8_t t2 = temp & 0xff;
       if ( batlow == true ) {
         t1 |= 0x80; // set bat low bit
       }
-      Message::init(0x16, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
+      Message::init(0x11, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
 							// BIDI: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
-							// BCAST: ohne ACK, Standard für HM Sensoren
-      int idx = 0;
-      
-      // temps
-      for (int i = 1; i < TEMP_SENSORS; i++) {
-        pload[idx++] = (temps[i] >> 8) & 0x7f;
-        pload[idx++] = temps[i] & 0xff;
-      }
+							// BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren
+              // 1 Byte payload -> length 0x0C
+              // 6 Byte payload -> length 0x11
+              // max. msg length 0x19 ?
       
       // airPressure
-      pload[idx++] = (airPressure >> 8) & 0x7f;
-      pload[idx++] = airPressure & 0xff;
+      pload[0] = (airPressure >> 8) & 0x7f;
+      pload[1] = airPressure & 0xff;
       
       // humidity
-      pload[idx++] = humidity;
+      pload[2] = humidity;
+      
+      // brightness
+      pload[3] = brightness;
       
       // battery
-      pload[idx++] = (battery >> 8) & 0x7f;
-      pload[idx++] = battery & 0xff;
+      pload[4] = (battery >> 8) & 0x7f;
+      pload[5] = battery & 0xff;
     }
 };
 
@@ -126,9 +123,10 @@ class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_
     WeatherEventMsg msg;
 
     //Ds18b20<3>    ds18b20;
-    int16_t       temperatures[TEMP_SENSORS];
+    int16_t       temperature;
     uint16_t      airPressure;
     uint8_t       humidity;
+    uint8_t       brightness;
     uint16_t      battery;
     
   public:
@@ -138,7 +136,7 @@ class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_
     virtual void trigger (__attribute__ ((unused)) AlarmClock& clock) {
       uint8_t msgcnt = device().nextcount();
       measure();
-      msg.init(msgcnt, temperatures, airPressure, humidity, battery, device().battery().low());
+      msg.init(msgcnt, temperature, airPressure, humidity, brightness, battery, device().battery().low());
       device().sendPeerEvent(msg, *this);
       // reactivate for next measure
       uint16_t updCycle = this->getList1().refRunningTimeTopButton();
@@ -148,20 +146,13 @@ class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_
 
     // here we do the measurement
     void measure () {
-      /*memset(temperatures, 0, sizeof(temperatures));
-      for (int i = 0; i < TEMP_SENSORS; i++) {
-        ds18b20.measure(i);
-        temperatures[i] = ds18b20.temperature();
-        DPRINT("measure(");DDEC(i);DPRINT(") = ");DDECLN(temperatures[i]);
-      }*/
+
       // Dummy Werte zum Testen
-      temperatures[0] = 50 + random(200);   // 5C +x
-      temperatures[1] = 560;                // 56C
-      temperatures[2] = 1055;               // 105,5C
-      temperatures[3] = -18;                // -1,8C
-      airPressure     = 1024;               // 1020 hPa
-      humidity        = 66;                 // 66%
-      battery         = 2750;               // 2,75V
+      temperature = 150 + random(50);   // 15C +x
+      airPressure = 1024 + random(9);   // 1024 hPa +x
+      humidity    = 66 + random(7);     // 66% +x
+      brightness  = 100 + random(20);   // 100 +x
+      battery     = 2750;               // 2,75V
     }
 
     void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr) {
