@@ -74,7 +74,10 @@ class WeatherEventMsg : public Message {
       }
       Message::init(0x11, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
 							// BIDI: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
+              //       LazyConfig funktioniert, d.h. eine anstehende Conf.Änderung von der CCU wird nach dem nächsten Senden übernommen
+              //       Aber erhöhter Funkverkehr wegen ACK
 							// BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren
+              //       LazyConfig funktioniert nicht, d.h. eine anstehende Conf.Änderung von der CCU muss durch den Config Button am Sensor übernommen werden!!
               // 1 Byte payload -> length 0x0C
               // 6 Byte payload -> length 0x11
               // max. msg length 0x19 ?
@@ -95,30 +98,29 @@ class WeatherEventMsg : public Message {
     }
 };
 
-DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT)
+// die "freien" Register 0x20/21 werden hier als 16bit memory für das Update Intervall in Sek. benutzt
+// siehe auch hb_uni_sensor1.xml, <parameter id="Update Intervall"> ..
+DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT, 0x20, 0x21)
 class SensorList0 : public RegList0<Reg0> {
 public:
   SensorList0(uint16_t addr) : RegList0<Reg0>(addr) {}
+  
+  bool updIntervall (uint16_t value) const {
+    return this->writeRegister(0x20, (value >> 8) & 0xff) && this->writeRegister(0x21, value & 0xff);
+  }
+  uint16_t updIntervall () const {
+    return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0);
+  }
+
   void defaults () {
     clear();
     transmitDevTryMax(6);
     lowBatLimit(22);
+    updIntervall(300);
   }
 };
 
-// !! Verwendung: CREG_REFERENCE_RUNNING_TIME_TOP_BOTTOM[_1,_2] als 2 Byte Reg für Update Intervall in Sek.
-// Addr 0x0B, 0x0C
-DEFREGISTER(Reg1, CREG_REFERENCE_RUNNING_TIME_TOP_BOTTOM)
-class SensorList1 : public RegList1<Reg1> {
-  public:
-    SensorList1 (uint16_t addr) : RegList1<Reg1>(addr) {}
-    void defaults () {
-      clear();
-      refRunningTimeTopButton(60);
-    }
-};
-
-class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_PER_CHANNEL, SensorList0>, public Alarm {
+class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CHANNEL, SensorList0>, public Alarm {
 
     WeatherEventMsg msg;
 
@@ -139,7 +141,7 @@ class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_
       msg.init(msgcnt, temperature, airPressure, humidity, brightness, battery, device().battery().low());
       device().sendPeerEvent(msg, *this);
       // reactivate for next measure
-      uint16_t updCycle = this->getList1().refRunningTimeTopButton();
+      uint16_t updCycle = this->device().getList0().updIntervall();
       tick = seconds2ticks(updCycle);
       clock.add(*this);
     }
@@ -163,9 +165,7 @@ class WeatherChannel : public Channel<Hal, SensorList1, EmptyList, List4, PEERS_
     }
     
     void configChanged() {
-      DPRINTLN("Config changed: List1");
-      uint16_t updCycle = this->getList1().refRunningTimeTopButton();
-      DPRINT("updCycle: "); DDECLN(updCycle);
+      //DPRINTLN("Config changed: List1");
     }
 
     uint8_t status () const {
@@ -188,14 +188,14 @@ class SensChannelDevice : public MultiChannelDevice<Hal, WeatherChannel, 1, Sens
       DPRINTLN("Config Changed: List0");
       
       uint8_t lowBatLimit = this->getList0().lowBatLimit();
-      DPRINT("lowBatLimit: ");
-      DDECLN(lowBatLimit);
+      DPRINT("lowBatLimit: "); DDECLN(lowBatLimit);
       battery().low(lowBatLimit);
       
       uint8_t txDevTryMax = this->getList0().transmitDevTryMax();
-      DPRINT("transmitDevTryMax: ");
-      DDECLN(txDevTryMax);
-      this->getList0().transmitDevTryMax(txDevTryMax);
+      DPRINT("transmitDevTryMax: "); DDECLN(txDevTryMax);
+
+      uint16_t updCycle = this->getList0().updIntervall();
+      DPRINT("updCycle: "); DDECLN(updCycle);
     }
 };
 

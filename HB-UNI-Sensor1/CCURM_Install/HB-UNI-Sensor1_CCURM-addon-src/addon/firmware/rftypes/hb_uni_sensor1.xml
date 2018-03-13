@@ -16,10 +16,14 @@
       <logical type="integer" min="1" max="10" default="6" />
       <physical type="integer" interface="config" list="0" index="20" size="1" />
     </parameter>
+    <parameter id="Update Intervall">
+      <logical type="integer" min="60" max="43200" default="300" unit="s" />
+      <physical type="integer" interface="config" list="0" index="32" size="2" />
+    </parameter>
   </paramset>
   <channels>
     <channel index="0" type="MAINTENANCE" ui_flags="internal" class="maintenance" count="1">
-      <paramset type="MASTER" id="maint_ch_master"></paramset>
+      <paramset type="MASTER" id="maint_ch_master" />
       <paramset type="VALUES" id="maint_ch_values">
         <parameter id="UNREACH" operations="read,event" ui_flags="service">
           <logical type="boolean" />
@@ -59,12 +63,7 @@
       <link_roles>
         <source name="WEATHER_TH" />
       </link_roles>
-      <paramset type="MASTER" id="HB-UNI-Sensor1_master">
-        <parameter id="Update Intervall">
-          <logical type="integer" min="60" max="43200" default="300" unit="s" />
-          <physical type="integer" interface="config" list="1" index="11" size="2" />
-        </parameter>                                            
-      </paramset>
+      <paramset type="MASTER" id="HB-UNI-Sensor1_master" />
       <paramset type="VALUES" id="HB-UNI-Sensor1_values">
         <parameter id="TEMPERATURE" operations="read,event">
           <logical type="float" min="-50.0" max="120.0" unit="°C">
