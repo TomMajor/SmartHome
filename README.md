@@ -2,16 +2,21 @@
 Meine Beispiele für papa's AskSinPP library
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)
 
-## HM-SEC-WDS-2
-- Demonstriert die Verwendung vom ThreeStateSensor device type mit einer anpassbaren Messroutine, in diesem Fall eine Leitfähigkeitsmessung mit ADC.
+
+## Wassermelder (HM-SEC-WDS-2)
+
+- Demonstriert die Verwendung vom ThreeStateSensor device type mit einer anpassbaren Messroutine, in diesem Fall eine Leitfähigkeitsmessung zwischen den Elektroden mit ADC.
 - Eingangsschaltung:
 
-![pic](HM-SEC-WDS-2/Circuit_ADC.png)
+![pic](HM-SEC-WDS-2/Images/Circuit_ADC.png)
 
-## HB-UNI-Sensor1
-- Demonstriert einen HM/RM/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw., erweiterbar für andere Sensorwerte
-- mit konfigurierbaren Sendeintervall
 
-![pic](HB-UNI-Sensor1/HB-UNI-Sensor1_WebUI.png)
+## Universalsensor (HB-UNI-Sensor1)
 
-![pic](HB-UNI-Sensor1/HB-UNI-Sensor1_Parameter.png)
+- Demonstriert einen HM/RM/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
+- modifizierbar für andere Sensoren
+- mit konfigurierbaren Sendeintervall über WebUI
+
+![pic](HB-UNI-Sensor1/Images/HB-UNI-Sensor1_WebUI.png)
+
+![pic](HB-UNI-Sensor1/Images/HB-UNI-Sensor1_Parameter.png)
