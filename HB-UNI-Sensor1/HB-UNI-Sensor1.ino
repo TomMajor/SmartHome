@@ -14,16 +14,26 @@
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
-//#include "Ds18b20.h"
+#include <OneWire.h>
+#include "sens_ds18x20.h"
 
-// Arduino pin for the config button
-#define CONFIG_BUTTON_PIN 9
 
-// Arduino pin for the LED
-#define LED_PIN 6
+//----------------------------------------------
+// SIM_ "Simulation" definitions (for testing HM/RM BidCoS device communication without the real sensors)
+//#define SIM_TEMPERATURE
 
+//----------------------------------------------
+// Pin definitions
+#define CONFIG_BUTTON_PIN   9
+#define LED_PIN             6
+#define ONEWIRE_PIN         3
+
+//----------------------------------------------
 // number of available peers per channel
-#define PEERS_PER_CHANNEL 6
+#define PEERS_PER_CHANNEL   6
+
+// DS18x20 1-wire temperature sensor
+OneWire oneWire(ONEWIRE_PIN);
 
 // all library classes are placed in the namespace 'as'
 using namespace as;
@@ -38,9 +48,7 @@ const struct DeviceInfo PROGMEM devinfo = {
   {0x01, 0x01}             	 // Info Bytes
 };
 
-/**
-   Configure the used hardware
-*/
+// Configure the used hardware
 typedef AvrSPI<10, 11, 12, 13> SPIType;
 typedef Radio<SPIType, 2> RadioType;
 typedef StatusLed<LED_PIN> LedType;
@@ -124,18 +132,25 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 
     WeatherEventMsg msg;
 
-    //Ds18b20<3>    ds18b20;
     int16_t       temperature;
     uint16_t      airPressure;
     uint8_t       humidity;
     uint8_t       brightness;
     uint16_t      battery;
+    Sens_ds18x20  ds18x20;
+    bool          sensorSetupDone;
     
   public:
-    WeatherChannel () : Channel(), Alarm(seconds2ticks(60)) {}
+    WeatherChannel () : Channel(), Alarm(seconds2ticks(60)), sensorSetupDone(false) {}
     virtual ~WeatherChannel () {}
 
     virtual void trigger (__attribute__ ((unused)) AlarmClock& clock) {
+      // delayed sensor setup
+      if (!sensorSetupDone) {
+        DPRINTLN("Sensor Setup");
+        ds18x20.init(oneWire);
+        sensorSetupDone = true;
+      }
       uint8_t msgcnt = device().nextcount();
       measure();
       msg.init(msgcnt, temperature, airPressure, humidity, brightness, battery, device().battery().low());
@@ -149,8 +164,14 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     // here we do the measurement
     void measure () {
 
+      #ifdef SIM_TEMPERATURE
+        temperature = 150 + random(50);   // 15C +x
+      #else
+        ds18x20.measure();
+        temperature = ds18x20.temperature();
+      #endif
+      
       // Dummy Werte zum Testen
-      temperature = 150 + random(50);   // 15C +x
       airPressure = 1024 + random(9);   // 1024 hPa +x
       humidity    = 66 + random(7);     // 66% +x
       brightness  = 100 + random(20);   // 100 +x
@@ -159,9 +180,8 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 
     void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr) {
       Channel::setup(dev, number, addr);
-      tick = seconds2ticks(10);	// first message in 10 sec.
+      tick = seconds2ticks(5);	        // first message in 5 sec.
       sysclock.add(*this);
-      //ds18b20.init();
     }
     
     void configChanged() {
