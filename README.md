@@ -16,7 +16,3 @@ Meine Beispiele für papa's AskSinPP library
 - Demonstriert einen HM/RM/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
 - modifizierbar für andere Sensoren
 - mit konfigurierbaren Sendeintervall über WebUI
-
-![pic](HB-UNI-Sensor1/Images/HB-UNI-Sensor1_WebUI.png)
-
-![pic](HB-UNI-Sensor1/Images/HB-UNI-Sensor1_Parameter.png)
