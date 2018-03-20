@@ -3,7 +3,7 @@
   <supported_types>
     <type name="HB-UNI-Sensor1" id="HB-UNI-Sensor1" updatable="true">
       <parameter index="9.0" size="1.0" cond_op="GE" const_value="12" />
-      <parameter index="10.0" size="2.0" const_value="0xF301" />
+      <parameter index="10.0" size="2.0" const_value="0xF103" />
     </type>
   </supported_types>
   <paramset type="MASTER" id="hm_uni_sen_dev_master">

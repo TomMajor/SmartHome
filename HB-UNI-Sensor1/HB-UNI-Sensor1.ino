@@ -14,13 +14,11 @@
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
-#include <OneWire.h>
-#include "sens_ds18x20.h"
-
 
 //----------------------------------------------
-// SIM_ "Simulation" definitions (for testing HM/RM BidCoS device communication without the real sensors)
-//#define SIM_TEMPERATURE
+// SENSOR_ definitions for real sensors, otherwise dummy sensor values are used (for testing HM/RM BidCoS device communication without the real sensors)
+#define SENSOR_DS18X20
+//#define SENSOR_BME280
 
 //----------------------------------------------
 // Pin definitions
@@ -28,12 +26,22 @@
 #define LED_PIN             6
 #define ONEWIRE_PIN         3
 
-//----------------------------------------------
 // number of available peers per channel
 #define PEERS_PER_CHANNEL   6
 
-// DS18x20 1-wire temperature sensor
-OneWire oneWire(ONEWIRE_PIN);
+#ifdef SENSOR_DS18X20
+  #include <OneWire.h>
+  #include "sens_ds18x20.h"
+  
+  OneWire oneWire(ONEWIRE_PIN);	// DS18x20 1-wire temperature sensor
+#endif
+
+#ifdef SENSOR_BME280
+  #include <BME280I2C.h>
+  #include <EnvironmentCalculations.h>
+  
+  BME280I2C bme280;    		// Default : forced mode, standby time = 1000 ms, Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off
+#endif
 
 // all library classes are placed in the namespace 'as'
 using namespace as;
@@ -42,7 +50,7 @@ using namespace as;
 const struct DeviceInfo PROGMEM devinfo = {
   {0x42,0x44,0xA3},       	 // Device ID
   "UNISENS001",           	 // Device Serial
-  {0xF3, 0x01},            	 // Device Model
+  {0xF1, 0x03},            	 // Device Model
   0x10,                   	 // Firmware Version
   as::DeviceType::THSensor,  // Device Type
   {0x01, 0x01}             	 // Info Bytes
@@ -148,7 +156,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       // delayed sensor setup
       if (!sensorSetupDone) {
         DPRINTLN("Sensor Setup");
-        ds18x20.init(oneWire);
+        #ifdef SENSOR_DS18X20
+	  ds18x20.init(oneWire);
+	#endif
         sensorSetupDone = true;
       }
       uint8_t msgcnt = device().nextcount();
@@ -164,11 +174,11 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     // here we do the measurement
     void measure () {
 
-      #ifdef SIM_TEMPERATURE
-        temperature = 150 + random(50);   // 15C +x
-      #else
+      #ifdef SENSOR_DS18X20
         ds18x20.measure();
         temperature = ds18x20.temperature();
+      #else
+        temperature = 150 + random(50);   // 15C +x
       #endif
       
       // Dummy Werte zum Testen
