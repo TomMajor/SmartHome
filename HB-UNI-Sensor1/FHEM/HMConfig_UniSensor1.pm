@@ -6,13 +6,13 @@ use warnings;
 # device definition
 $HMConfig::culHmModel{'F103'} = {name => 'HB-UNI-Sensor1', st => 'THPLSensor', cyc => '00:10', rxt => 'l:w:c:f', lst  => 'p',   chn  => '',};
 
-$HMConfig::culHmRegDefine{'lowBatLimitTHPL'} = {a=>18.0,s=>1.0,l=>0,min=>1.0 ,max=>5    ,c=>'',f=>10,u=>'V',  d=>0,t=>'Low batterie limit, step 0.1 V.'};
-$HMConfig::culHmRegDefine{'altitude'}        = {a=>36.0,s=>2.0,l=>0,min=>-500,max=>10000,c=>'',f=>'',u=>'m'  ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
+$HMConfig::culHmRegDefine{'lowBatLimit'}  = {a=>18.0,s=>1.0,l=>0,min=>1.0 ,max=>5     ,c=>'',f=>10,u=>'V',  d=>0,t=>'Low batterie limit, step 0.1 V.'};
+$HMConfig::culHmRegDefine{'altitude'}     = {a=>34.0,s=>2.0,l=>0,min=>0   ,max=>10000 ,c=>'',f=>'',u=>'m'  ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
 
 # Register model mapping
 $HMConfig::culHmRegModel{'HB-UNI-Sensor1'} = {
 	'burstRx'         => 1,
-	'lowBatLimitTHPL' => 1,
+	'lowBatLimit'     => 1,
 	'ledMode'         => 1,
 	'transmDevTryMax' => 1,
 	'altitude'        => 1

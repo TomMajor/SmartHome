@@ -6,7 +6,7 @@
 // define this to read the device id, serial and device type from bootloader section
 // #define USE_OTA_BOOTLOADER
 
-#define EI_NOTEXTERNAL
+#define  EI_NOTEXTERNAL
 #include <EnableInterrupt.h>
 #include <AskSinPP.h>
 #include <LowPower.h>
@@ -14,11 +14,10 @@
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
-
 //----------------------------------------------
-// SENSOR_ definitions for real sensors, otherwise dummy sensor values are used (for testing HM/RM BidCoS device communication without the real sensors)
+// SENSOR_ definitions for real sensors, if undefined dummy sensor values are used (for testing HM/RM BidCoS device communication without the real sensors)
 #define SENSOR_DS18X20
-//#define SENSOR_BME280
+#define SENSOR_BME280
 
 //----------------------------------------------
 // Pin definitions
@@ -30,17 +29,12 @@
 #define PEERS_PER_CHANNEL   6
 
 #ifdef SENSOR_DS18X20
-  #include <OneWire.h>
   #include "sens_ds18x20.h"
-  
-  OneWire oneWire(ONEWIRE_PIN);	// DS18x20 1-wire temperature sensor
+  OneWire  oneWire(ONEWIRE_PIN);
 #endif
 
 #ifdef SENSOR_BME280
-  #include <BME280I2C.h>
-  #include <EnvironmentCalculations.h>
-  
-  BME280I2C bme280;    		// Default : forced mode, standby time = 1000 ms, Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off
+  #include "sens_bme280.h"
 #endif
 
 // all library classes are placed in the namespace 'as'
@@ -89,15 +83,25 @@ class WeatherEventMsg : public Message {
         t1 |= 0x80; // set bat low bit
       }
       Message::init(0x11, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
-							// BIDI: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
+
+              // 1 Byte payload -> length 0x0C
+              // 6 Byte payload -> length 0x11
+              // max. msg length 0x19 ?
+
+							// BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
               //       LazyConfig funktioniert, d.h. eine anstehende Conf.Änderung von der CCU wird nach dem nächsten Senden übernommen
               //       Aber erhöhter Funkverkehr wegen ACK
 							// BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren
               //       LazyConfig funktioniert nicht, d.h. eine anstehende Conf.Änderung von der CCU muss durch den Config Button am Sensor übernommen werden!!
-              // 1 Byte payload -> length 0x0C
-              // 6 Byte payload -> length 0x11
-              // max. msg length 0x19 ?
-      
+              
+              // papa:
+              // BIDI - fordert den Empfänger auf ein Ack zu schicken. Das wird auch zwingend für AES-Handling gebraucht.
+              // BCAST - signalisiert eine Broadcast-Message. Das wird z.B. verwendet, wenn mehrere Peers vor einen Sensor existieren.
+              //   Es wird dann an einen Peer gesndet und zusätzlich das BCAST-Flag gesetzt. So dass sich alle die Nachrricht ansehen.
+              //   Ein Ack macht dann natürlich keinen Sinn - es ist ja nicht klar, wer das senden soll.
+              // WKMEUP - wird für LazyConfig verwendet. Ist es in einer Message gesetzt, so weiss die Zentrale, dass das Geräte noch kurz auf weitere Nachrichten wartet.
+              //   Die Lib setzt diese Flag für die StatusInfo-Message automatisch. Außerdem bleibt nach einer Kommunikation der Empfang grundsätzlich für 500ms angeschalten.
+
       // airPressure
       pload[0] = (airPressure >> 8) & 0x7f;
       pload[1] = airPressure & 0xff;
@@ -116,7 +120,7 @@ class WeatherEventMsg : public Message {
 
 // die "freien" Register 0x20/21 werden hier als 16bit memory für das Update Intervall in Sek. benutzt
 // siehe auch hb_uni_sensor1.xml, <parameter id="Update Intervall"> ..
-DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT, 0x20, 0x21)
+DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT, 0x20, 0x21, 0x22, 0x23)
 class SensorList0 : public RegList0<Reg0> {
 public:
   SensorList0(uint16_t addr) : RegList0<Reg0>(addr) {}
@@ -127,12 +131,20 @@ public:
   uint16_t updIntervall () const {
     return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0);
   }
+  
+  bool height (uint16_t value) const {
+    return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff);
+  }
+  uint16_t height () const {
+    return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0);
+  }
 
   void defaults () {
     clear();
     transmitDevTryMax(6);
     lowBatLimit(22);
     updIntervall(300);
+    height(0);
   }
 };
 
@@ -145,8 +157,16 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint8_t       humidity;
     uint8_t       brightness;
     uint16_t      battery;
-    Sens_ds18x20  ds18x20;
     bool          sensorSetupDone;
+
+    #ifdef SENSOR_DS18X20
+      Sens_ds18x20  ds18x20;
+    #endif
+    
+    #ifdef SENSOR_BME280
+      Sens_bme280   bme280;
+    #endif
+
     
   public:
     WeatherChannel () : Channel(), Alarm(seconds2ticks(60)), sensorSetupDone(false) {}
@@ -157,8 +177,11 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       if (!sensorSetupDone) {
         DPRINTLN("Sensor Setup");
         #ifdef SENSOR_DS18X20
-	  ds18x20.init(oneWire);
-	#endif
+	        ds18x20.init(oneWire);
+	      #endif
+        #ifdef SENSOR_BME280
+	        bme280.init();
+	      #endif
         sensorSetupDone = true;
       }
       uint8_t msgcnt = device().nextcount();
@@ -181,9 +204,18 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
         temperature = 150 + random(50);   // 15C +x
       #endif
       
-      // Dummy Werte zum Testen
-      airPressure = 1024 + random(9);   // 1024 hPa +x
-      humidity    = 66 + random(7);     // 66% +x
+      #ifdef SENSOR_BME280
+        uint16_t height = this->device().getList0().height();
+        bme280.measure(height);
+        temperature = bme280.temperature();
+        airPressure = bme280.pressure();
+        humidity    = bme280.humidity();
+      #else
+        airPressure = 1024 + random(9);   // 1024 hPa +x
+        humidity    = 66 + random(7);     // 66% +x
+      #endif
+      
+      // ToDo
       brightness  = 100 + random(20);   // 100 +x
       battery     = 2750;               // 2,75V
     }
@@ -226,6 +258,9 @@ class SensChannelDevice : public MultiChannelDevice<Hal, WeatherChannel, 1, Sens
 
       uint16_t updCycle = this->getList0().updIntervall();
       DPRINT("updCycle: "); DDECLN(updCycle);
+      
+      uint16_t height = this->getList0().height();
+      DPRINT("height: "); DDECLN(height);
     }
 };
 

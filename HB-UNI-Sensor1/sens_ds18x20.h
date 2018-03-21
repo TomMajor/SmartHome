@@ -86,7 +86,7 @@ private:
         //// default is 12 bit resolution, 750 ms conversion time
       }
       _temperature = (raw*10)/16;
-      DPRINT("Temperature: "); DDECLN(_temperature);
+      DPRINT("DS18x20 Temperature: "); DDECLN(_temperature);
     }
     else {
       DPRINTLN("ERROR: DS18x20 crc");

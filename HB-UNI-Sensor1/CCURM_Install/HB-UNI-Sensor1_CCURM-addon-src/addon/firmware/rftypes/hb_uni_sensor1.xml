@@ -20,6 +20,10 @@
       <logical type="integer" min="60" max="43200" default="300" unit="s" />
       <physical type="integer" interface="config" list="0" index="32" size="2" />
     </parameter>
+    <parameter id="Height">
+      <logical type="integer" min="0" max="10000" default="0" unit="m" />
+      <physical type="integer" interface="config" list="0" index="34" size="2" />
+    </parameter>
   </paramset>
   <channels>
     <channel index="0" type="MAINTENANCE" ui_flags="internal" class="maintenance" count="1">
