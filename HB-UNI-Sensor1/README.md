@@ -3,16 +3,23 @@
 
 - Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
 - modifizierbar für andere Sensoren
-- mit konfigurierbaren Sendeintervall über WebUI
+- mit konfigurierbarem Sendeintervall über WebUI
+- mit konfigurierbarer Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
 - über die defines am Anfang des Sketches können entweder Dummy Werte für die Sensoren (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM) oder reale Sensoren aktiviert werden
-- [in Arbeit: Luftdruck, Luftfeuchte, Helligkeit]
+- [in Arbeit: Helligkeit]
 
 # Benötige Libraries
 
-[AskSinPP Library](https://github.com/pa-pa/AskSinPP)
+[AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
+[EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
+[Low-Power](https://github.com/rocketscream/Low-Power)
 
-Für DS18x20 Temperatursensor</br>
+
+Für einen DS18x20 Temperatursensor:</br>
 [OneWire](https://github.com/PaulStoffregen/OneWire)
+
+Für einen BME280 Sensor (Temp./Druck/Feuchte):</br>
+[BME280](https://github.com/finitespace/BME280)
 
 # Schaltung und Bilder
 
