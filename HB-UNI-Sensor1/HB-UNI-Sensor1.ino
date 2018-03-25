@@ -18,6 +18,8 @@
 // SENSOR_ definitions for real sensors, if undefined dummy sensor values are used (for testing HM/RM BidCoS device communication without the real sensors)
 #define SENSOR_DS18X20
 #define SENSOR_BME280
+#define SENSOR_TSL2561
+//#define SENSOR_BH1750
 
 //----------------------------------------------
 // Pin definitions
@@ -35,6 +37,14 @@
 
 #ifdef SENSOR_BME280
   #include "sens_bme280.h"
+#endif
+
+#ifdef SENSOR_TSL2561
+  #include <sensors/Tsl2561.h>
+#endif
+
+#ifdef SENSOR_BH1750
+  #include <sensors/Bh1750.h>
 #endif
 
 // all library classes are placed in the namespace 'as'
@@ -167,6 +177,13 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       Sens_bme280   bme280;
     #endif
 
+    #ifdef SENSOR_TSL2561
+      Tsl2561<>     tsl2561;
+    #endif
+
+    #ifdef SENSOR_BH1750
+      Bh1750<> bh1750;
+    #endif      
     
   public:
     WeatherChannel () : Channel(), Alarm(seconds2ticks(60)), sensorSetupDone(false) {}
@@ -182,6 +199,12 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
         #ifdef SENSOR_BME280
 	        bme280.init();
 	      #endif
+        #ifdef SENSOR_TSL2561
+          tsl2561.init();
+        #endif
+        #ifdef SENSOR_BH1750
+          bh1750.init();
+        #endif
         sensorSetupDone = true;
       }
       uint8_t msgcnt = device().nextcount();
@@ -214,9 +237,20 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
         airPressure = 1024 + random(9);   // 1024 hPa +x
         humidity    = 66 + random(7);     // 66% +x
       #endif
+
+      brightness  = 0;                     //Default
+      #ifdef SENSOR_TSL2561
+        tsl2561.measure();
+        brightness = tsl2561.brightness();
+      #endif
+
+      #ifdef SENSOR_BH1750
+        bh1750.measure();
+        brightness = bh1750.brightness();
+      #endif
       
       // ToDo
-      brightness  = 100 + random(20);   // 100 +x
+      
       battery     = 2750;               // 2,75V
     }
 
