@@ -13,7 +13,7 @@ start()
   echo 'Starting...'
   if [ ! -f ${ADDON_DIR}/installed ] || [ ! -f /firmware/rftypes/hb_uni_sensor1.xml ]; then
     cd ${ADDON_DIR}
-    ./installHBUNISENSOR1  > $LOGFILE 2> /dev/null & echo $!> $PIDFILE
+    echo $!> $PIDFILE & ./installHBUNISENSOR1  > $LOGFILE 2> /dev/null
   else
    echo "Nothing to do."
   fi

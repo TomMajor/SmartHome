@@ -1,23 +1,30 @@
 //- -----------------------------------------------------------------------------------------------------------------------
 // AskSin++
 // 2016-10-31 papa Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
+// HB-UNI-Sensor1
+// 2018-03-30 Tom Major (Creative Commons)
 //- -----------------------------------------------------------------------------------------------------------------------
 
 // define this to read the device id, serial and device type from bootloader section
 // #define USE_OTA_BOOTLOADER
 
+//----------------------------------------------
+// !! NDEBUG should be defined when the sensor development and testing ist done and the device moves to serious operation mode
+// With BME280 and TSL2561 activated, this saves 2k Flash and 560 Bytes RAM (especially the RAM savings are important for stability / dynamic memory allocation etc.)
+//#define NDEBUG
+
 #define  EI_NOTEXTERNAL
 #include <EnableInterrupt.h>
 #include <AskSinPP.h>
 #include <LowPower.h>
-
 #include <Register.h>
 #include <MultiChannelDevice.h>
 
 //----------------------------------------------
 // SENSOR_ definitions for real sensors, if undefined dummy sensor values are used (for testing HM/RM BidCoS device communication without the real sensors)
-#define SENSOR_DS18X20
+//#define SENSOR_DS18X20
 #define SENSOR_BME280
+#define SENSOR_TSL2561
 
 //----------------------------------------------
 // Pin definitions
@@ -29,12 +36,16 @@
 #define PEERS_PER_CHANNEL   6
 
 #ifdef SENSOR_DS18X20
-  #include "sens_ds18x20.h"
+  #include "Sensors/Sens_Ds18x20.h"
   OneWire  oneWire(ONEWIRE_PIN);
 #endif
 
 #ifdef SENSOR_BME280
-  #include "sens_bme280.h"
+  #include "Sensors/Sens_Bme280.h"
+#endif
+
+#ifdef SENSOR_TSL2561
+  #include "Sensors/Sens_Tsl2561.h"
 #endif
 
 // all library classes are placed in the namespace 'as'
@@ -75,17 +86,18 @@ class Hal : public BaseHal {
 
 class WeatherEventMsg : public Message {
   public:
-    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint8_t brightness, uint16_t battery, bool batlow) {
+    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint16_t battery, bool batlow) {
 
       uint8_t t1 = (temp >> 8) & 0x7f;
       uint8_t t2 = temp & 0xff;
       if ( batlow == true ) {
         t1 |= 0x80; // set bat low bit
       }
-      Message::init(0x11, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
+      Message::init(0x14, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
 
               // 1 Byte payload -> length 0x0C
               // 6 Byte payload -> length 0x11
+              // 9 Byte payload -> length 0x14
               // max. msg length 0x19 ?
 
 							// BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
@@ -109,12 +121,15 @@ class WeatherEventMsg : public Message {
       // humidity
       pload[2] = humidity;
       
-      // brightness
-      pload[3] = brightness;
+      // brightness (Lux)
+      pload[3] = (brightness >> 24) & 0xff;
+      pload[4] = (brightness >> 16) & 0xff;
+      pload[5] = (brightness >>  8) & 0xff;
+      pload[6] = (brightness >>  0) & 0xff;
       
       // battery
-      pload[4] = (battery >> 8) & 0x7f;
-      pload[5] = battery & 0xff;
+      pload[7] = (battery >> 8) & 0x7f;
+      pload[8] = battery & 0xff;
     }
 };
 
@@ -155,18 +170,21 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     int16_t       temperature;
     uint16_t      airPressure;
     uint8_t       humidity;
-    uint8_t       brightness;
+    uint32_t      brightness;
     uint16_t      battery;
     bool          sensorSetupDone;
 
     #ifdef SENSOR_DS18X20
-      Sens_ds18x20  ds18x20;
+      Sens_Ds18x20 ds18x20;
     #endif
     
     #ifdef SENSOR_BME280
-      Sens_bme280   bme280;
+      Sens_Bme280  bme280;
     #endif
-
+    
+    #ifdef SENSOR_TSL2561
+      Sens_Tsl2561 tsl2561;
+    #endif
     
   public:
     WeatherChannel () : Channel(), Alarm(seconds2ticks(60)), sensorSetupDone(false) {}
@@ -175,14 +193,17 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     virtual void trigger (__attribute__ ((unused)) AlarmClock& clock) {
       // delayed sensor setup
       if (!sensorSetupDone) {
-        DPRINTLN("Sensor Setup");
         #ifdef SENSOR_DS18X20
 	        ds18x20.init(oneWire);
 	      #endif
         #ifdef SENSOR_BME280
 	        bme280.init();
 	      #endif
+        #ifdef SENSOR_TSL2561
+          tsl2561.init();
+        #endif
         sensorSetupDone = true;
+        DPRINTLN("Sensor setup done");
       }
       uint8_t msgcnt = device().nextcount();
       measure();
@@ -208,15 +229,21 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
         uint16_t height = this->device().getList0().height();
         bme280.measure(height);
         temperature = bme280.temperature();
-        airPressure = bme280.pressure();
+        airPressure = bme280.pressureNN();
         humidity    = bme280.humidity();
       #else
         airPressure = 1024 + random(9);   // 1024 hPa +x
         humidity    = 66 + random(7);     // 66% +x
       #endif
+
+      #ifdef SENSOR_TSL2561
+        tsl2561.measure();
+        brightness = tsl2561.brightnessLux(); // also available: brightnessVis(), brightnessIR(), brightnessFull(), but these are dependent on integration time setting
+      #else
+        brightness  = 67000 + random(1000);   // 67000 Lux +x
+      #endif
       
       // ToDo
-      brightness  = 100 + random(20);   // 100 +x
       battery     = 2750;               // 2,75V
     }
 

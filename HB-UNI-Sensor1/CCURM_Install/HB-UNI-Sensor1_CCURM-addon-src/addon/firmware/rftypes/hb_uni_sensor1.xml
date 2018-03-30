@@ -16,11 +16,11 @@
       <logical type="integer" min="1" max="10" default="6" />
       <physical type="integer" interface="config" list="0" index="20" size="1" />
     </parameter>
-    <parameter id="Update Intervall">
+    <parameter id="Sendeintervall">
       <logical type="integer" min="60" max="43200" default="300" unit="s" />
       <physical type="integer" interface="config" list="0" index="32" size="2" />
     </parameter>
-    <parameter id="Height">
+    <parameter id="Höhe über NN">
       <logical type="integer" min="0" max="10000" default="0" unit="m" />
       <physical type="integer" interface="config" list="0" index="34" size="2" />
     </parameter>
@@ -88,6 +88,7 @@
           <physical type="integer" interface="command" value_id="AIR_PRESSURE">
             <event frame="WEATHER_EVENT" />
           </physical>
+          <conversion type="float_integer_scale" factor="10.0" />
           <description>
             <field id="AutoconfRoles" value="WEATHER" />
           </description>
@@ -103,11 +104,12 @@
             <field id="AutoconfRoles" value="WEATHER" />
           </description>
         </parameter>
-        <parameter id="BRIGHTNESS" operations="read,event">
-          <logical type="integer" min="0" max="255" />
-          <physical type="integer" interface="command" value_id="BRIGHTNESS" no_init="true">
+        <parameter id="LUX" operations="read,event">
+          <logical type="float" min="0.00" max="200000.00" unit="Lux" />
+          <physical type="integer" interface="command" value_id="LUX" no_init="true">
             <event frame="WEATHER_EVENT" />
           </physical>
+          <conversion type="float_integer_scale" factor="1.0" />
         </parameter>
         <parameter id="Batteriespannung" operations="read,event">
           <logical type="float" min="0.5" max="5.5" unit="V" />
@@ -125,8 +127,8 @@
       <parameter type="integer" signed="true"  index="9"  size="1.7" param="TEMPERATURE" />
       <parameter type="integer" signed="false" index="11" size="2.0" param="AIR_PRESSURE" />
       <parameter type="integer" signed="false" index="13" size="1.0" param="HUMIDITY" />
-      <parameter type="integer" signed="false" index="14" size="1.0" param="BRIGHTNESS" />
-      <parameter type="integer" signed="false" index="15" size="2.0" param="Batteriespannung" />
+      <parameter type="integer" signed="false" index="14" size="4.0" param="LUX" />
+      <parameter type="integer" signed="false" index="18" size="2.0" param="Batteriespannung" />
     </frame>
   </frames>
   <paramset_defs></paramset_defs>

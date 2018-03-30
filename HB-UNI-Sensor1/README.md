@@ -6,7 +6,6 @@
 - konfigurierbares Sendeintervall über WebUI
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
 - über die defines am Anfang des Sketches können entweder Dummy Werte für die Sensoren (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM) oder reale Sensoren aktiviert werden
-- [in Arbeit: Helligkeit]
 
 # Benötige Libraries
 
@@ -15,11 +14,14 @@
 [Low-Power](https://github.com/rocketscream/Low-Power)
 
 
-Für einen DS18x20 Temperatursensor:</br>
+Für einen DS18x20 Sensor (Temperatur):</br>
 [OneWire](https://github.com/PaulStoffregen/OneWire)
 
 Für einen BME280 Sensor (Temperatur/Druck/Feuchte):</br>
 [BME280](https://github.com/finitespace/BME280)
+
+Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
+[TSL2561](https://github.com/adafruit/TSL2561-Arduino-Library)
 
 # Schaltung
 ![pic](Images/Schaltung.png)

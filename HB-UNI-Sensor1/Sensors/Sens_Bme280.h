@@ -9,7 +9,7 @@
 
 namespace as {
 
-class Sens_bme280 : public Sensor {
+class Sens_Bme280 : public Sensor {
 
   int16_t   _temperature;
   uint16_t  _pressure;
@@ -19,7 +19,7 @@ class Sens_bme280 : public Sensor {
 
 public:
 
-  Sens_bme280 () {}
+  Sens_Bme280 () {}
 
   void init () {
 
@@ -50,15 +50,15 @@ public:
       float temp(NAN), hum(NAN), pres(NAN), presNN(NAN);
       _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa);
       
-      _temperature = (int16_t)temp * 10;
-      _pressure    = (uint16_t)pres;
+      _temperature = (int16_t)(temp * 10);
+      _pressure    = (uint16_t)(pres * 10);
+      _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(height), temp, pres) * 10);
       _humidity    = (uint8_t)hum;
-      _pressureNN  = (uint16_t)EnvironmentCalculations::EquivalentSeaLevelPressure(float(height), temp, pres);
       
-      DPRINT("BME280  Temperature: "); DDECLN(_temperature);
-      DPRINT("BME280  Pressure:    "); DDECLN(_pressure);
-      DPRINT("BME280  PressureNN:  "); DDECLN(_pressureNN);
-      DPRINT("BME280  Humidity:    "); DDECLN(_humidity);
+      DPRINT("BME280  Temperature    : "); DDECLN(_temperature);
+      DPRINT("BME280  Pressure       : "); DDECLN(_pressure);
+      DPRINT("BME280  PressureNN     : "); DDECLN(_pressureNN);
+      DPRINT("BME280  Humidity       : "); DDECLN(_humidity);
     }
   }
   

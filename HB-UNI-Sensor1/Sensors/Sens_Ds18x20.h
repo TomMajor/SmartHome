@@ -7,11 +7,11 @@
 
 namespace as {
 
-class Sens_ds18x20 : public Temperature {
+class Sens_Ds18x20 : public Temperature {
 
 public:
 
-  Sens_ds18x20 () : _wire(0) {}
+  Sens_Ds18x20 () : _wire(0) {}
 
   void init (OneWire& ow) {
     _temperature = -990;
