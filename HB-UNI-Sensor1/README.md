@@ -27,7 +27,7 @@ Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 ![pic](Images/Schaltung.png)
 
 # Prototyp
-![pic](Images/Prototyp_UniSensor.jpg)
+![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
 
 # RaspberryMatic WebUI
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
