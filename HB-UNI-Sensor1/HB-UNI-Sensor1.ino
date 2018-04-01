@@ -100,10 +100,10 @@ class WeatherEventMsg : public Message {
               // 9 Byte payload -> length 0x14
               // max. msg length 0x19 ?
 
-							// BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
+	      // BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
               //       LazyConfig funktioniert, d.h. eine anstehende Conf.Änderung von der CCU wird nach dem nächsten Senden übernommen
               //       Aber erhöhter Funkverkehr wegen ACK
-							// BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren
+	      // BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren
               //       LazyConfig funktioniert nicht, d.h. eine anstehende Conf.Änderung von der CCU muss durch den Config Button am Sensor übernommen werden!!
               
               // papa:
@@ -115,7 +115,7 @@ class WeatherEventMsg : public Message {
               //   Die Lib setzt diese Flag für die StatusInfo-Message automatisch. Außerdem bleibt nach einer Kommunikation der Empfang grundsätzlich für 500ms angeschalten.
 
       // airPressure
-      pload[0] = (airPressure >> 8) & 0x7f;
+      pload[0] = (airPressure >> 8) & 0xff;
       pload[1] = airPressure & 0xff;
       
       // humidity
@@ -135,6 +135,7 @@ class WeatherEventMsg : public Message {
 
 // die "freien" Register 0x20/21 werden hier als 16bit memory für das Update Intervall in Sek. benutzt
 // siehe auch hb_uni_sensor1.xml, <parameter id="Update Intervall"> ..
+// ausserdem werden die Register 0x22/0x23 für den konf. Parameter Höhe benutzt
 DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT, 0x20, 0x21, 0x22, 0x23)
 class SensorList0 : public RegList0<Reg0> {
 public:
