@@ -11,12 +11,12 @@ class Sens_Ds18x20 : public Temperature {
 
 public:
 
-  Sens_Ds18x20 () : _wire(0) {}
+  Sens_Ds18x20 () : _oneWire(0) {}
 
-  void init (OneWire& ow) {
+  void init (uint8_t pin) {
     _temperature = -990;
-    _wire = &ow;
-    if( ow.search(_addr) == 1) {
+    _oneWire.begin(pin);
+    if( _oneWire.search(_addr) == 1) {
       if( OneWire::crc8(_addr, 7) == _addr[7] ) {
         if( valid(_addr) == true ) {
           _present = true;
@@ -26,7 +26,7 @@ public:
         }
       }
     }
-    ow.reset_search();
+    _oneWire.reset_search();
     if (!_present) {
       DPRINTLN("ERROR: no DS18x20 found");
     }
@@ -42,17 +42,17 @@ public:
 
 private:
 
-  OneWire* _wire;
-  uint8_t  _addr[8];
+  ::OneWire _oneWire;
+  uint8_t   _addr[8];
 
   bool valid(uint8_t* addr) {
     return *addr == 0x10 || *addr == 0x28 || *addr == 0x22;
   }
 
   void convert() {
-    _wire->reset();
-    _wire->select(_addr);
-    _wire->write(0x44);        			// start conversion, use ds.write(0x44,1) with parasite power on at the end
+    _oneWire.reset();
+    _oneWire.select(_addr);
+    _oneWire.write(0x44);        		// start conversion, use ds.write(0x44,1) with parasite power on at the end
   }
 
   void wait () {
@@ -60,13 +60,13 @@ private:
   }
 
   void read () {
-    _wire->reset();
-    _wire->select(_addr);
-    _wire->write(0xBE);         		// Read Scratchpad
+    _oneWire.reset();
+    _oneWire.select(_addr);
+    _oneWire.write(0xBE);         		// Read Scratchpad
 
     uint8_t data[9];
     for (uint8_t i = 0; i < 9; i++) { 		// we need 9 bytes
-      data[i] = _wire->read();
+      data[i] = _oneWire.read();
     }
 
     if (OneWire::crc8(data, 8) == data[8]) {

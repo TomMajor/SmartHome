@@ -5,13 +5,14 @@
 // 2018-03-30 Tom Major (Creative Commons)
 //- -----------------------------------------------------------------------------------------------------------------------
 
-// define this to read the device id, serial and device type from bootloader section
-// #define USE_OTA_BOOTLOADER
-
 //----------------------------------------------
 // !! NDEBUG should be defined when the sensor development and testing ist done and the device moves to serious operation mode
 // With BME280 and TSL2561 activated, this saves 2k Flash and 560 Bytes RAM (especially the RAM savings are important for stability / dynamic memory allocation etc.)
 //#define NDEBUG
+
+//----------------------------------------------
+// define this to read the device id, serial and device type from bootloader section
+// #define USE_OTA_BOOTLOADER
 
 #define  EI_NOTEXTERNAL
 #include <EnableInterrupt.h>
@@ -37,7 +38,6 @@
 
 #ifdef SENSOR_DS18X20
   #include "Sensors/Sens_Ds18x20.h"
-  OneWire  oneWire(ONEWIRE_PIN);
 #endif
 
 #ifdef SENSOR_BME280
@@ -73,9 +73,9 @@ class Hal : public BaseHal {
       BaseHal::init(id);
       // init real time clock - 1 tick per second
       //rtc.init();
-      // measure battery every 1h
-      battery.init(seconds2ticks(60UL * 60), sysclock);
-      battery.low(22); // Low voltage set to 2.2V
+      // measure battery every 12h
+      battery.init(seconds2ticks(12UL * 60 * 60), sysclock);
+      battery.low(22);      // Low voltage set to 2.2V
       battery.critical(19); // Critical voltage set to 1.9V
     }
 
@@ -194,7 +194,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       // delayed sensor setup
       if (!sensorSetupDone) {
         #ifdef SENSOR_DS18X20
-	        ds18x20.init(oneWire);
+	        ds18x20.init(ONEWIRE_PIN);
 	      #endif
         #ifdef SENSOR_BME280
 	        bme280.init();
