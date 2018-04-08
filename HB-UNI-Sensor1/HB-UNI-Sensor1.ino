@@ -128,7 +128,7 @@ class WeatherEventMsg : public Message {
       pload[6] = (brightness >>  0) & 0xff;
       
       // battery
-      pload[7] = (battery >> 8) & 0x7f;
+      pload[7] = (battery >> 8) & 0xff;
       pload[8] = battery & 0xff;
     }
 };
@@ -317,3 +317,21 @@ void loop() {
   }
 }
 
+
+/*
+----------------------------------------------
+Die Registerklassen (Listen) eines Homematic-Gerätes
+
+Gerätebezogene Register
+Gerätebezogene Register existieren für jedes HomeMatic-Gerät nur einmal und werden in der sogenannten List0 gespeichert.
+
+Kanalbezogene Register
+Kanalbezogene Register existieren für jeden Kanal eines Gerätes einmal und werden in der sogenannten List1 gespeichert.
+
+Verknüpfungsbezogene Register
+Diese Register sind am umfangreichsten und werden für jeden Verknüpfungspartner (peer) einzeln separat angelegt in der List3 (RegL_03.<peer>). Die grundsätzlichen Funktionen und ihre Zusammenhänge sind auch ausführlich in der Einsteigerdokumentation erklärt, inklusive Skizzen für die sogenannte state machine.
+
+https://wiki.fhem.de/wiki/Homematic-Register_von_A-Z_(Namen,_Erkl%C3%A4rung)
+https://wiki.fhem.de/wiki/HomeMatic_Register_programmieren
+----------------------------------------------
+*/

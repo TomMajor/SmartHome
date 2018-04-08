@@ -1,5 +1,5 @@
 
-## Wassermelder (HM-SEC-WDS-2)
+## Wassermelder (HB-SEC-WDS-2)
 
 - Demonstriert die Verwendung vom ThreeStateSensor device type mit einer anpassbaren Messroutine, in diesem Fall eine Leitfähigkeitsmessung zwischen den Elektroden mit ADC.
 
