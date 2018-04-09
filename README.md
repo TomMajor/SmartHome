@@ -11,8 +11,9 @@ Meine Beispiele für papa's AskSinPP library
 
 [zum Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
 
-## Wassermelder (HM-SEC-WDS-2)
+## Wassermelder (HB-SEC-WDS-2)
 
-- Demonstriert die Verwendung vom ThreeStateSensor device type mit einer anpassbaren Messroutine, in diesem Fall eine Leitfähigkeitsmessung zwischen den Elektroden mit ADC.
+- Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
+- Demonstriert die Verwendung vom 'ThreeStateSensor' device type aus der AskSinPP Bibliothek mit einer anpassbaren Messroutine, in diesem Fall die Leitfähigkeitsmessung mit dem integrierten ADC
 
-[zum Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HM-SEC-WDS-2)
+[zum Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-SEC-WDS-2)
