@@ -1,7 +1,9 @@
 
 ## Wassermelder (HB-SEC-WDS-2)
 
-- Demonstriert die Verwendung vom ThreeStateSensor device type mit einer anpassbaren Messroutine, in diesem Fall eine Leitfähigkeitsmessung zwischen den Elektroden mit ADC.
+- Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
+
+- Demonstriert die Verwendung vom 'ThreeStateSensor' device type aus der AskSinPP Bibliothek mit einer anpassbaren Messroutine, in diesem Fall die Leitfähigkeitsmessung mit dem integrierten ADC
 
 # Benötige Libraries
 
@@ -16,16 +18,25 @@
 
 ![pic](Images/Prototyp.jpg)
 
-# Option: Step-Up Konverter zum Betrieb mit 1 Batterie oder einem Akku AAA
+# Das angemeldete Gerät im RaspberryMatic WebUI
 
-MAX1724 Testaufbau
+![pic](Images/WebUI.png)
+
+# Option: Step-Up Konverter zum Betrieb mit 1 Mignon AA Batterie oder Akku
+
+MAX1724 Testaufbau<br>
+Entscheidend hier sind die Eignung der Spule für den DC/DC Einsatz (DC-Nennstrom, DC-Widerstand, Güte), das Layout der Bauteile und natürlich kurze Signalwege.
 ![pic](Images/MAX1724.jpg)
 
-Ausgangsspannung Restwelligkeit mit 10uF Keramikkondensator an +3V
+
+Ausgangsspannung +3V @5mA, Restwelligkeit mit 10uF Keramikkondensator am Ausgang
+
 ![pic](Images/step-up_output_AC_with_10u.png)
 
-Ausgangsspannung Restwelligkeit mit 10uF Keramikkondensator + 20uF Tantalelko an +3V
+Ausgangsspannung +3V @5mA, Restwelligkeit mit 10uF Keramikkondensator + 20uF Tantalelko am Ausgang
+
 ![pic](Images/step-up_output_AC_with_10u_20u.png)
 
 Ausgangsspannung DC
+
 ![pic](Images/step-up_output_DC.png)

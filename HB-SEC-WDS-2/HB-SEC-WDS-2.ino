@@ -1,8 +1,16 @@
 //- -----------------------------------------------------------------------------------------------------------------------
 // AskSin++
 // 2017-10-19 papa Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
+// HB-SEC-WDS-2
+// 2018-04-07 Tom Major (Creative Commons)
 //- -----------------------------------------------------------------------------------------------------------------------
 
+//----------------------------------------------
+// !! NDEBUG should be defined when the sensor development and testing ist done and the device moves to serious operation mode
+// With BME280 and TSL2561 activated, this saves 2k Flash and 560 Bytes RAM (especially the RAM savings are important for stability / dynamic memory allocation etc.)
+//#define NDEBUG
+
+//----------------------------------------------
 // define this to read the device id, serial and device type from bootloader section
 // #define USE_OTA_BOOTLOADER
 
@@ -14,13 +22,11 @@
 #include <Register.h>
 #include <ThreeState.h>
 
-// Arduino pin for the LED
-#define LED1_PIN 6
-#define LED2_PIN 8 
-// Arduino pin for the config button
-#define CONFIG_BUTTON_PIN 9
-// ADC sensor pin
-#define SENS1_PIN 14    // A0
+//----------------------------------------------
+// Pin definitions
+#define CONFIG_BUTTON_PIN  5
+#define LED_PIN            6
+#define SENS1_PIN          14    // ADC sensor pin: A0
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 8
@@ -30,8 +36,8 @@ using namespace as;
 
 // define all device properties
 const struct DeviceInfo PROGMEM devinfo = {
-    {0xAA,0x10,0x00},       // Device ID
-    "tomM3000d3",           // Device Serial
+    {0x49,0x29,0xd3},       // Device ID
+    "WATERCHK_1",           // Device Serial
     {0x00,0xb2},            // Device Model
     0x13,                   // Firmware Version
     as::DeviceType::ThreeStateSensor, // Device Type
@@ -40,19 +46,19 @@ const struct DeviceInfo PROGMEM devinfo = {
 
 
 // --------------------------------------------------------
-// my Wassermelder ADC extension
+// meine Wassermelder ADC extension
 //
-// Sensor pin 1: 4.7k to ground
-// Sensor pin 2: 4.7k to ADC input, 100k from ADC input to Vcc
+// Sensor pin 1: 4.7k nach Masse
+// Sensor pin 2: 4.7k zum ADC Eingang A0, 100k vom ADC Eingang A0 nach +3V
 //
-// Only WATER and DRY status is important to me, so only 1 ADC channel is used here
-// If you need the WET status as well, use a second ADC channel and send State::PosB for the WET case
+// Momentan sind mir nur der WASSER und TROCKEN Status wichtig, deswegen wird nur ein ADC Kanal benutzt
+// Falls der FEUCHT Status ebenfalls ben�tigt wird, einfach einen weiteren ADC Kanal nehmen und State::PosB f�r den FEUCHT Fall senden
 //
-// ADC values with 10mm sensor pin distance, Battery 2.5V:
-// open           1023
-// short-circuit  88
-// water          550-650
-// mineral water  ca. 550
+// ADC Werte mit 10mm Abstand zwischen den Sensorpins, Batteriespannung 3V:
+// offen          1023
+// gebr�ckt       88
+// Wasser         550-650
+// Mineralwasser  ca. 550
 // Sekt           ca. 500
 
 // --------------------------------------------------------
@@ -64,7 +70,7 @@ public:
   void init (uint8_t adcpin) { 
     m_SensePin = adcpin;
     pinMode(m_SensePin, INPUT);
-    digitalWrite(m_SensePin, LOW);  			// no pull-up
+    digitalWrite(m_SensePin, LOW);  // kein pull-up
   }
 
   void measure (__attribute__((unused)) bool async=false) {
@@ -72,23 +78,21 @@ public:
     uint16_t adc;
     
     // complete ADC init in case other modules have chamged this
-    ADCSRA = 1<<ADEN | 1<<ADPS2;			// enable ADC, prescaler 16 = 62.5kHz ADC clock @1MHz (range 50..1000 kHz)
+    ADCSRA = 1<<ADEN | 1<<ADPS2 | 1<<ADPS1 | 1<<ADPS0;	// enable ADC, prescaler 128 = 62.5kHz ADC clock @8MHz (range 50..1000 kHz)
     ADMUX  = 1<<REFS0;					// AVCC with external capacitor at AREF pin
     ADCSRB = 0;
     uint8_t channel = m_SensePin - PIN_A0;
     ADMUX  |= (channel & 0x0F);          		// select channel
+    delay(25);						                  // load CVref 100nF, 5*Tau = 25ms
 
-    _delay_ms(25);					// load CVref 100nF, 5*Tau = 25ms
-    
-    // dummy read
+    // 1x dummy read
     ADCSRA |= 1<<ADSC; timeout = 50;
     while (ADCSRA & (1<<ADSC)) { delayMicroseconds(10); timeout--; if (timeout==0) break; }
 
-    // filter
+    // Mittelwert aus 4 samples
     adc = 0; samples = 0;
     for (uint8_t i = 0; i < 4; i++) {
-      timeout = 50;
-      ADCSRA |= 1<<ADSC;				// start ADC
+      ADCSRA |= 1<<ADSC; timeout = 50;			// start ADC
       while (ADCSRA & (1<<ADSC)) { 
         delayMicroseconds(10);
         timeout--;
@@ -111,7 +115,7 @@ public:
     }
   }
   
-  uint32_t interval () { return seconds2ticks(60); }  // meassure every 60sec
+  uint32_t interval () { return seconds2ticks(60); }  // alle 60sec messen
 };
 
 // --------------------------------------------------------
@@ -137,7 +141,7 @@ public:
  */
 typedef AvrSPI<10,11,12,13> SPIType;
 typedef Radio<SPIType,2> RadioType;
-typedef DualStatusLed<LED2_PIN,LED1_PIN> LedType;
+typedef StatusLed<LED_PIN> LedType;
 typedef AskSin<LedType,BatterySensor,RadioType> HalType;
 
 DEFREGISTER(Reg0,DREG_CYCLICINFOMSG,MASTERID_REGS,DREG_TRANSMITTRYMAX)
@@ -179,8 +183,8 @@ void setup () {
   sdev.channel(1).init(SENS1_PIN);
   buttonISR(cfgBtn,CONFIG_BUTTON_PIN);
   hal.battery.init(seconds2ticks(60UL*60*24), sysclock);	// at least one message per day
-  hal.battery.low(22);
-  hal.battery.critical(19);
+  hal.battery.low(10);                 // mit Step-up MAX1724, NiMH Akku, Batt.warnung ab 1,0V
+  hal.battery.critical(9);
   sdev.initDone();
 }
 
