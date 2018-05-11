@@ -2,12 +2,13 @@
 // AskSin++
 // 2016-10-31 papa Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
 // HB-UNI-Sensor1
-// 2018-03-30 Tom Major (Creative Commons)
+// 2018-05-11 Tom Major (Creative Commons)
 //- -----------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------
 // !! NDEBUG should be defined when the sensor development and testing ist done and the device moves to serious operation mode
 // With BME280 and TSL2561 activated, this saves 2k Flash and 560 Bytes RAM (especially the RAM savings are important for stability / dynamic memory allocation etc.)
+// This will get rid of the Arduino warning "Low memory available, stability problems may occur."
 //#define NDEBUG
 
 //----------------------------------------------
@@ -86,11 +87,11 @@ class Hal : public BaseHal {
 
 class WeatherEventMsg : public Message {
   public:
-    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint16_t battery, bool batlow) {
+    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint16_t batteryVoltage, bool batLow) {
 
       uint8_t t1 = (temp >> 8) & 0x7f;
       uint8_t t2 = temp & 0xff;
-      if ( batlow == true ) {
+      if ( batLow == true ) {
         t1 |= 0x80; // set bat low bit
       }
       Message::init(0x14, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
@@ -127,9 +128,9 @@ class WeatherEventMsg : public Message {
       pload[5] = (brightness >>  8) & 0xff;
       pload[6] = (brightness >>  0) & 0xff;
       
-      // battery
-      pload[7] = (battery >> 8) & 0xff;
-      pload[8] = battery & 0xff;
+      // batteryVoltage
+      pload[7] = (batteryVoltage >> 8) & 0xff;
+      pload[8] = batteryVoltage & 0xff;
     }
 };
 
@@ -172,7 +173,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint16_t      airPressure;
     uint8_t       humidity;
     uint32_t      brightness;
-    uint16_t      battery;
+    uint16_t      batteryVoltage;
     bool          sensorSetupDone;
 
     #ifdef SENSOR_DS18X20
@@ -208,7 +209,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
       }
       uint8_t msgcnt = device().nextcount();
       measure();
-      msg.init(msgcnt, temperature, airPressure, humidity, brightness, battery, device().battery().low());
+      msg.init(msgcnt, temperature, airPressure, humidity, brightness, batteryVoltage, device().battery().low());
       device().sendPeerEvent(msg, *this);
       // reactivate for next measure
       uint16_t updCycle = this->device().getList0().updIntervall();
@@ -241,11 +242,13 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
         tsl2561.measure();
         brightness = tsl2561.brightnessLux(); // also available: brightnessVis(), brightnessIR(), brightnessFull(), but these are dependent on integration time setting
       #else
-        brightness  = 67000 + random(1000);   // 67000 Lux +x
+        brightness = 67000 + random(1000);   // 67000 Lux +x
       #endif
       
-      // ToDo
-      battery     = 2750;               // 2,75V
+      // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2 digits will be 00
+      // for higher resolution, override battery() with modified voltage() calculation
+      // see my HB-SEC-WDS-2 for an example with higher resolution
+      batteryVoltage = 100UL * device().battery().current();
     }
 
     void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr) {
