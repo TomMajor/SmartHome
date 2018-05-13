@@ -29,6 +29,11 @@
 #define SENSOR_TSL2561
 
 //----------------------------------------------
+// Battery definitions
+#define BAT_VOLT_LOW        22       // 2.2V
+#define BAT_VOLT_CRITICAL   19       // 1.9V
+
+//----------------------------------------------
 // Pin definitions
 #define CONFIG_BUTTON_PIN   9
 #define LED_PIN             6
@@ -76,8 +81,8 @@ class Hal : public BaseHal {
       //rtc.init();
       // measure battery every 12h
       battery.init(seconds2ticks(12UL * 60 * 60), sysclock);
-      battery.low(22);      // Low voltage set to 2.2V
-      battery.critical(19); // Critical voltage set to 1.9V
+      battery.low(BAT_VOLT_LOW);
+      battery.critical(BAT_VOLT_CRITICAL);
     }
 
     bool runready () {
@@ -159,7 +164,7 @@ public:
   void defaults () {
     clear();
     transmitDevTryMax(6);
-    lowBatLimit(22);
+    lowBatLimit(BAT_VOLT_LOW);
     updIntervall(300);
     height(0);
   }
