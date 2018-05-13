@@ -52,26 +52,28 @@ Ich stelle hier 3 Massnahmen vor, um sich vor diesem Effekt zu schützen, anhand
 
 Der BI könnte entstehen, wenn beim Senden die Batteriespannung so weit zusammenbricht, das ein normaler Programmablauf nicht mehr gegeben ist, dadurch der angefangene Sendevorgang nicht abgeschlossen werden kann, die Spannung aber noch für den Betrieb der Sendeendstufe im CC1101 reicht. <br>Dieser Zustand ist kritisch und soll mit den hier gezeigten Massnahmen vermieden werden.
 
-Ich möchte ausserdem anmerken dass die Störung des Programmablaufes beim Senden nicht nur durch den AVR entstehen kann sondern wahrscheinlich auch durch den CC1101 selbst.<br>
-Dieser hat ebenso einen Mikrokontroller mit Firmware integriert, die beim Senden aufgrund der Spannung genau so wie der AVR abstürzen könnte.<br>
+Ich möchte außerdem anmerken dass die Störung des Programmablaufes beim Senden nicht nur durch den AVR entstehen kann sondern wahrscheinlich auch durch den CC1101 selbst. Dieser hat ebenso einen Mikrokontroller mit Firmware integriert, die beim Senden aufgrund des Spannungseinbruchs genau so wie der AVR abstürzen könnte.<br>
 Ob ein BI also im AVR oder CC1101 entsteht kann nur durch Messung im Falle des Falles am Gerät bewiesen werden, wegen der Reproduzierbarkeit ein schwieriges Unterfangen.
 
 ### Schaltung A
 
-Aus meiner Sicht würde es sehr helfen, eine echte Batteriezustandsmessung unter Last zu haben, um frühzeit leere Batterien zu erkennen und zu tauschen. Der Schaltungsteil belastet die Batterie bzw. den Akku für einige Hundert Millisekunden und misst dabei die Spannung.
-Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung, als z.B. die Standard-Initialisierung
+Aus meiner Sicht würde es sehr helfen, eine echte Batteriezustandsmessung unter Last zu haben, um frühzeit leere Batterien zu erkennen und zu tauschen. Bekanntermassen sagt eine Spannungsmessung an unbelasteter Batterie, je nach Batterie- bzw. Akkutyp, nicht viel über den Ladezustand aus.<br>
+Der Schaltungsteil belastet die Batterie bzw. den Akku für einige Hundert Millisekunden und misst dabei die Spannung.
+Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung, wie z.B. in der Standard-Initialisierung
 `hal.battery.init(seconds2ticks(3600)`<br>
-Im Schaltungsbeispiel wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet.
+Im Schaltungsbeispiel wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich.
 
 ### Schaltung B
 
-Am AVR wird ein Reset-Baustein zur Spannungsüberwachung (BU48xx oder MCP111) angeschlossen. Fällt die Spannung unter den Schwellwert wird das RESET Signal für den AVR aktiv. Falls der AVR der Verursacher des BI ist wird er damit ruhiggestellt.<br>
-Alternativ zum externen Baustein kann man auch die interne Brown-Out Detection (BOD) des AVR mit der 2,7V Schwelle verwenden. Allerdings hebt diese den Strom im Sleep von ca. 4uA auf 18uA (@3V) an.
-Die angesprochenen externen Reset-Bausteine haben eine Stromaufnahme um 1uA, deswegen verwende ich die wesentlich lieber.
+Am AVR wird ein Reset-Baustein zur Spannungsüberwachung (MCP111 oder BU48xx) angeschlossen. Fällt die Spannung unter den Schwellwert wird das RESET Signal für den AVR aktiv. Falls der AVR der Verursacher des BI ist wird er damit ruhiggestellt.<br>
+*Alternativ zum externen Reset-Baustein kann man auch die interne Brown-Out Detection (BOD) des AVR mit der 2,7V oder 1,8V Schwelle verwenden. Allerdings hebt diese den Strom im Sleep von ca. 4uA um 18uA auf ca. 22uA (@3V) an.<br>
+Die angesprochenen externen Reset-Bausteine haben eine Stromaufnahme um 1uA, deswegen verwende ich die wesentlich lieber.<br>
+Außerdem muß man bei Verwendung der internen BOD beachten dass diese per Software deaktiviert werden kann. Dies ist generell ein Verlust an Sicherheit, außerdem deaktiviert die verwendete Low-Power Library in ihren Standardeinstellungen den BOD um Strom zu sparen.
+Aus diesen Gründen empfehle ich einen externen Reset-Baustein.*
 
 ### Schaltung C
 
-Diese Massnahme setzt Schaltung B voraus. Fällt die Spannung unter den Schwellwert wird das RESET Signal für den AVR aktiv. Dadurch werden hardwaremässig beim AVR alle I/O auf Input Mode gesetzt. Der Ausgang D4 kann dadurch keinesfalls mehr den Mosfet T2 schalten, als Resultat wird der CC1101 von der Spannung abgeklemmt und ruhiggestellt.<br>
+Diese Massnahme setzt Schaltung B voraus. Fällt die Spannung unter den Schwellwert wird das RESET Signal für den AVR aktiv. Dadurch werden hardwaremässig beim AVR alle I/O auf Input Mode gesetzt. Der Ausgang D4 kann dadurch keinesfalls mehr den P-Kanal Mosfet T2 schalten, als Resultat wird der CC1101 von der Spannung abgeklemmt und ruhiggestellt.<br>
 Diese Massnahme verwendet man am Besten wenn sicher ist dass der CC1101 und nicht der AVR bei Einbruch der Batteriespannung zum BI wird bzw. wenn man alle Fälle abdecken möchte.
 
 ### Fazit
