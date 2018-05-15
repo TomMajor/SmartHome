@@ -2,7 +2,7 @@
 // AskSin++
 // 2017-10-19 papa Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
 // HB-SEC-WDS-2
-// 2018-04-07 Tom Major (Creative Commons)
+// 2018-05-15 Tom Major (Creative Commons)
 //- -----------------------------------------------------------------------------------------------------------------------
 
 //----------------------------------------------
@@ -18,15 +18,17 @@
 #include <EnableInterrupt.h>
 #include <AskSinPP.h>
 #include <LowPower.h>
-
 #include <Register.h>
 #include <ThreeState.h>
+#include "Sensors/Sensor_Battery.h"
 
 //----------------------------------------------
 // Pin definitions
 #define CONFIG_BUTTON_PIN  5
 #define LED_PIN            6
-#define SENS1_PIN          14    // ADC sensor pin: A0
+#define SENS1_PIN          14     // ADC sensor pin: A0
+#define BAT_SENS_PIN       15     // Battery sensor pin ADC A1
+#define BAT_ACT_PIN        3      // Battery sensor activation pin (N-Channel Mosfet gate)
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 8
@@ -44,7 +46,6 @@ const struct DeviceInfo PROGMEM devinfo = {
     {0x01,0x00}             // Info Bytes
 };
 
-
 // --------------------------------------------------------
 // meine Wassermelder ADC extension
 //
@@ -56,7 +57,7 @@ const struct DeviceInfo PROGMEM devinfo = {
 //
 // ADC Werte mit 10mm Abstand zwischen den Sensorpins, Batteriespannung 3V:
 // offen          1023
-// gebr�ckt       88
+// gebrueckt      88
 // Wasser         550-650
 // Mineralwasser  ca. 550
 // Sekt           ca. 500
@@ -77,13 +78,13 @@ public:
     uint8_t  samples, timeout;
     uint16_t adc;
     
-    // complete ADC init in case other modules have chamged this
+    // setup ADC: complete ADC init in case other modules have chamged this
     ADCSRA = 1<<ADEN | 1<<ADPS2 | 1<<ADPS1 | 1<<ADPS0;	// enable ADC, prescaler 128 = 62.5kHz ADC clock @8MHz (range 50..1000 kHz)
-    ADMUX  = 1<<REFS0;					// AVCC with external capacitor at AREF pin
+    ADMUX  = 1<<REFS0;					// AREF: AVCC with external capacitor at AREF pin
     ADCSRB = 0;
     uint8_t channel = m_SensePin - PIN_A0;
     ADMUX  |= (channel & 0x0F);          		// select channel
-    delay(25);						                  // load CVref 100nF, 5*Tau = 25ms
+    delay(30);						                  // load CVref 100nF, 5*Tau = 25ms
 
     // 1x dummy read
     ADCSRA |= 1<<ADSC; timeout = 50;
@@ -106,12 +107,12 @@ public:
     }
     if (samples == 4) {
       adc = adc >> 2;
-      DPRINT("ADC: "); DDECLN(adc); 
-      if (adc < 800) { _position = State::PosC; } 	// WATER
-      else           { _position = State::PosA; } 	// DRY
+      DPRINT("Water ADC: "); DDEC(adc); DPRINT(", ");
+      if (adc < 800) { _position = State::PosC; DPRINTLN("WATER"); }
+      else           { _position = State::PosA; DPRINTLN("DRY"); }
     }
     else {
-      DPRINTLN("ADC Error");
+      DPRINTLN("Water ADC Error");
     }
   }
   
@@ -134,15 +135,12 @@ public:
 };
 
 // --------------------------------------------------------
-
-
-/**
- * Configure the used hardware
- */
+// Configure the used hardware
 typedef AvrSPI<10,11,12,13> SPIType;
 typedef Radio<SPIType,2> RadioType;
 typedef StatusLed<LED_PIN> LedType;
-typedef AskSin<LedType,BatterySensor,RadioType> HalType;
+typedef Sensor_Battery<BAT_SENS_PIN,BAT_ACT_PIN> BatSensorType;
+typedef AskSin<LedType,BatSensorType,RadioType> HalType;
 
 DEFREGISTER(Reg0,DREG_CYCLICINFOMSG,MASTERID_REGS,DREG_TRANSMITTRYMAX)
 class WDSList0 : public RegList0<Reg0> {
@@ -182,9 +180,9 @@ void setup () {
   sdev.init(hal);
   sdev.channel(1).init(SENS1_PIN);
   buttonISR(cfgBtn,CONFIG_BUTTON_PIN);
-  hal.battery.init(seconds2ticks(60UL*60*24), sysclock);	// at least one message per day
-  hal.battery.low(10);                 // mit Step-up MAX1724, NiMH Akku, Batt.warnung ab 1,0V
-  hal.battery.critical(9);
+  hal.battery.low(1050);                 // mit Step-up MAX1724, NiMH Akku, Low Batt Warnung ab 1,05V
+  hal.battery.critical(900);             // mit Step-up MAX1724, NiMH Akku, Critical Batt ab 0,9V
+  hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);  // 2x Batt.messung täglich, Spannungsteiler 1:2
   sdev.initDone();
 }
 
