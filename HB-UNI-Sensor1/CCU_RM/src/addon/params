@@ -24,10 +24,10 @@ ADDON_INFO_LINK="<a href='https://github.com/TomMajor/AskSinPP_Examples/tree/mas
 
 # update-check.cgi:
 # Online-Link zur VERSION, um auf Update zu prüfen 
-CHECK_URL="https://github.com/TomMajor/AskSinPP_Examples/blob/master/HB-UNI-Sensor1/CCU_RM/src/addon/VERSION"
+CHECK_URL="https://raw.githubusercontent.com/TomMajor/AskSinPP_Examples/master/HB-UNI-Sensor1/CCU_RM/src/addon/VERSION"
 
 # URL zum Download des Addons
-DOWNLOAD_URL="https://github.com/TomMajor/AskSinPP_Examples/blob/master/HB-UNI-Sensor1/CCU_RM/HB-UNI-Sensor1-addon.tgz"
+DOWNLOAD_URL="https://github.com/TomMajor/AskSinPP_Examples/raw/master/HB-UNI-Sensor1/CCU_RM/HB-UNI-Sensor1-addon.tgz"
 
 #############################################################
 
