@@ -1,13 +1,15 @@
 #!/bin/sh
+# WebUI icon used from http://icons8.com 
 
-ADDON_NAME=hbunisensor1
+source ./addon/params 2>/dev/null
+
 RC_DIR=/usr/local/etc/config/rc.d
 WWW_DIR=/usr/local/etc/config/addons/www/$ADDON_NAME
 ADDON_DIR=/usr/local/addons/$ADDON_NAME
 
 if [ "$1" = "" ]; then
   echo "CCU1"
-  lcdtool "installing hbunisentemp "
+  lcdtool "installing $ADDON_NAME "
   mount -t yaffs /dev/mtdblock3 /usr/local
 elif [ "$1" = "CCU2" ]; then
   echo "CCU2"
@@ -32,6 +34,9 @@ ln -sf ${ADDON_DIR} ${WWW_DIR}
 
 rm ${ADDON_DIR}/installed
 
+# Startskript ausführen
+${RC_DIR}/$ADDON_NAME start
+
 # sync filesystem to make sure all changes are written to disk
 sync
 
@@ -44,9 +49,7 @@ if [ "$1" = "" ]; then
   while true ; do true ;  done
 elif [ "$1" = "CCU2" ]; then
   echo "CCU2"
-  # CCU2 always reboots after Addon/Firmware Update
 elif [ "$1" = "HM-RASPBERRYMATIC" ]; then
   echo "HM-RASPBERRYMATIC"
-  # RASPBERRYMATIC always reboots after Addon/Firmware Update
 fi
 
