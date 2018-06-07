@@ -1,6 +1,6 @@
 #############################################################
 # Versionsnummer
-ADDON_VERSION=1.51
+ADDON_VERSION=1.52
 
 # ADDON_NAME, wird verwendet für das rc-Script sowie als Unterverzeichnis der Installation /usr/local/addons/... 
 ADDON_NAME=hb-uni-sensor1
@@ -20,7 +20,7 @@ DEVICE_IMG=${ADDON_NAME}.png
 DEVICE_THUMB=${ADDON_NAME}_thumb.png
 
 # Link zum Projekt (wird in der Addon-Info unter Zusatzinfo angezeigt)
-ADDON_INFO_LINK="<a href='https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1'>https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1</a>"
+ADDON_INFO_LINK="<a href='https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1'>Projekt auf Github</a>"
 
 # update-check.cgi:
 # Online-Link zur VERSION, um auf Update zu prüfen 
