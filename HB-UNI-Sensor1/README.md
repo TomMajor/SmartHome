@@ -6,6 +6,13 @@
 - konfigurierbares Sendeintervall über WebUI
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
 - über die defines am Anfang des Sketches können entweder Dummy Werte für die Sensoren (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM) oder reale Sensoren aktiviert werden
+Beispiel:<br>
+`#define SENSOR_BME280    // realer BME280 angeschlossen`<br>
+`//#define SENSOR_BME280    // es werden BME280 Dummy Werte gesendet`
+- Es können mehrere HB-UNI-Sensor1 an einer Zentrale verwendet werden. Dafür müssen sich die einzelnen Sensoren nur in Device ID und Seriennummer unterscheiden:<br>
+`const struct DeviceInfo PROGMEM devinfo = `<br>
+`  {0x42,0x44,0xA3},       	 // Device ID`<br>
+`  "UNISENS001",           	 // Device Serial`<br>
 
 # Benötige Libraries
 
@@ -29,7 +36,14 @@ Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 # Prototyp
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
 
+# CCU2/RaspberryMatic Installation
+Einstellungen/Systemsteuerung/Zusatzsoftware -> CCU_RM/HB-UNI-Sensor1-addon.tgz installieren
+
+![pic](Images/HB-UNI-Sensor1_Install.png)
+
 # RaspberryMatic WebUI
+Der angemeldete Sensor auf der RaspberryMatic:
+
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
 
 ![pic](Images/HB-UNI-Sensor1_Parameter.png)
