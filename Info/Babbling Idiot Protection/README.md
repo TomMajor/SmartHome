@@ -61,7 +61,10 @@ Aus meiner Sicht würde es sehr helfen, eine echte Batteriezustandsmessung unter
 Der Schaltungsteil belastet die Batterie bzw. den Akku für einige Hundert Millisekunden und misst dabei die Spannung.
 Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung, wie z.B. in der Standard-Initialisierung
 `hal.battery.init(seconds2ticks(3600)`<br>
-Im Schaltungsbeispiel wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich.
+Im Schaltungsbeispiel wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich.<br><br>
+Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belastet wird. Die Spannung bricht um 142mV ein und wird am Ende der 200ms gemessen. Aus meiner Sicht führt dies zu einer viel besseren Information über den Batteriezustand.
+![pic](Images/Batteriemessung_unter_Last.png)
+
 
 ### Schaltung B
 
