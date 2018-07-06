@@ -99,12 +99,12 @@ class WeatherEventMsg : public Message {
       if ( batLow == true ) {
         t1 |= 0x80; // set bat low bit
       }
-      Message::init(0x14, msgcnt, 0x70, BCAST, t1, t2);	// first byte determines message length; pload[0] starts at byte 13
+      Message::init(20, msgcnt, 0x70, BCAST, t1, t2);
 
-              // 1 Byte payload -> length 0x0C
-              // 6 Byte payload -> length 0x11
-              // 9 Byte payload -> length 0x14
-              // max. msg length 0x19 ?
+              // Message Length (first byte param.): 11 + payload
+	      // 1 Byte payload -> length 12
+              // 9 Byte payload -> length 20
+              // max. payload: 17 Bytes (https://www.youtube.com/watch?v=uAyzimU60jw)
 
 	      // BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
               //       LazyConfig funktioniert, d.h. eine anstehende Conf.Änderung von der CCU wird nach dem nächsten Senden übernommen

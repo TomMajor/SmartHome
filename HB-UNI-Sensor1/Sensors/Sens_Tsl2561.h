@@ -6,89 +6,103 @@
 #include <Sensors.h>
 #include <TSL2561.h>
 
+#define TSL2561_ADDR	TSL2561_ADDR_FLOAT
+
 namespace as {
 
 class Sens_Tsl2561 : public Sensor {
 
-  uint16_t  _brightnessFull, _brightnessIR, _brightnessVis;
+  uint16_t  _brightnessFull, _brightnessIR;
   uint32_t  _brightnessLux;
-  bool      _x16;
+  uint8_t   _sensitivity;
   ::TSL2561 _tsl2561;
   
-  void measureRaw (uint8_t sensitivity) {
-    switch (sensitivity) {
-      case 0: _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_13MS);  break;
-      case 1: _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_101MS); break;
-      case 2:
-      default:
-              _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS); break;
+  uint8_t getID() {
+    Wire.beginTransmission(TSL2561_ADDR);
+    Wire.write(TSL2561_REGISTER_ID);
+    Wire.endTransmission();
+    if (Wire.requestFrom(TSL2561_ADDR, 1) == 1) {
+      return Wire.read();
     }
-    uint32_t lum = _tsl2561.getFullLuminosity();
+    return 0x00;
+  }
+
+  void measureRaw() {
+    switch (_sensitivity) {
+      case 0:  _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_13MS);  break;
+      case 1:  _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_101MS); break;
+      case 2:
+      default: _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS); break;
+    }
+    uint32_t lum    = _tsl2561.getFullLuminosity();
     _brightnessFull = lum & 0xFFFF;
     _brightnessIR   = lum >> 16;
-    _brightnessVis  = _brightnessFull - _brightnessIR;
   }
 
 public:
 
   // constructor with parameter in header file -> Initalize with 'member initialiser' syntax in constructor
-  Sens_Tsl2561 () : _tsl2561(TSL2561_ADDR_FLOAT), _x16(true), _brightnessFull(0), _brightnessIR(0), _brightnessVis(0), _brightnessLux(0) { }
+  Sens_Tsl2561() : _tsl2561(TSL2561_ADDR), _sensitivity(2), _brightnessFull(0), _brightnessIR(0), _brightnessLux(0) { }
 
-  void init () {
+  bool init() {
 
     Wire.begin(); //ToDo sync with further I2C sensor classes if needed
 
     uint8_t i = 10;
-    while( (!_tsl2561.begin()) && (i > 0) ) {
+    while (i > 0) {
+      if ( (_tsl2561.begin()) && (getID() == 0x0A) ) {	// Adafruit Lib begin() return code funktioniert nicht bei nicht angeschl. Sensor, deshalb eigener check hier
+	_present = true;
+        _tsl2561.setGain(TSL2561_GAIN_0X);
+        _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS);
+        DPRINTLN("TSL2561 found");
+	return true;
+      }
       delay(100);
       i--;
     }
-    if (i > 0) {
-      _present = true;
-      _tsl2561.setGain(TSL2561_GAIN_0X);
-      _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS);
-      DPRINTLN("Success: found TSL2561 sensor");
-    }
-    else {
-      DPRINTLN("Error: no TSL2561 sensor found");
-    }
+    DPRINTLN("Error: TSL2561 not found");
+    return false;
   }
 
-  void measure () {
+  bool measure() {
     if (_present == true) {
-      uint8_t sensitivity = 2;
-      uint8_t overflow = 0;
+      _sensitivity = 2;
       do {
-        measureRaw(sensitivity);
+        measureRaw();
 	// default wird mit Gain 0 und 402ms Messzeit gemessen
 	// bei zu viel Licht die Empfindlichkeit (exposure time) solange verringern bis sinnvolle Werte kommen
 	// momentan wird hier nur mit Gain 0 gearbeitet, Gain 16 ist fuer Aussenhelligkeiten problematisch (siehe Messwerte) und wuerde nur etwas bringen
 	// falls man in sehr dunklen Umgebungen Lux-Werte mit hoher Aufloesung braucht
-        if ( (_brightnessFull == _brightnessIR) || (_brightnessFull > 60000) ) {
-          if (sensitivity > 0) { sensitivity--; }
-	  else { overflow = 1; break; }	// ungueltiger Wert, keine weitere Verringerung der Empfindlichkeit moeglich
+        if ( (_brightnessFull == _brightnessIR) || (_brightnessFull > 60000) ) {  // ungueltiger Wert
+	  DPRINT("#INVALID# "); DDEC(_brightnessFull); DPRINT(" "); DDEC(_brightnessIR); DPRINT(" "); DDECLN(_sensitivity);
+          if (_sensitivity > 0) {		// ungueltiger Wert, Empfindlichkeit verringern
+	    _sensitivity--;
+	    delay(100);				// Photonen overflow Erholung
+	  }
+	  else {				// ungueltiger Wert, keine weitere Verringerung der Empfindlichkeit moeglich
+            _brightnessLux  = 99999ul;		// overflow, zu viel Licht, besser dem SmartHome System einen hohen Helligkeitswert anstatt 0 Lux melden!
+	    break;
+	  }
         }
-	else { break; }			// brightness Wert ok
+	else {					// // gueltiger Wert
+	  _brightnessLux  = _tsl2561.calculateLux(_brightnessFull, _brightnessIR);
+	  break;
+	}
       } while (true);
-      if (!overflow) {
-        _brightnessLux  = _tsl2561.calculateLux(_brightnessFull, _brightnessIR);
-      }
-      else {
-        _brightnessLux  = 130000;	// overflow, zu viel Licht, besser dem SmartHome System 130000 Lux (klarer Himmel und Sonne im Zenit) anstatt 0 Lux melden!
-      }
       
-      DPRINT("TSL2561 Sensitivity    : "); DDECLN(sensitivity);
-      DPRINT("TSL2561 Brightness Full: "); DDECLN(_brightnessFull);
-      DPRINT("TSL2561 Brightness IR  : "); DDECLN(_brightnessIR);
-      DPRINT("TSL2561 Brightness Vis : "); DDECLN(_brightnessVis);
-      DPRINT("TSL2561 Brightness Lux : "); DDECLN(_brightnessLux);
+      //DPRINT("TSL2561 Sensitivity    : "); DDECLN(_sensitivity);
+      //DPRINT("TSL2561 Brightness Full: "); DDECLN(_brightnessFull);
+      //DPRINT("TSL2561 Brightness IR  : "); DDECLN(_brightnessIR);
+      //DPRINT("TSL2561 Brightness Lux : "); DDECLN(_brightnessLux);
+      return true;
     }
+    return false;
   }
 
-  uint16_t  brightnessFull () { return _brightnessFull; }
-  uint16_t  brightnessIR ()   { return _brightnessIR; }
-  uint16_t  brightnessVis ()  { return _brightnessVis; }
-  uint32_t  brightnessLux ()  { return _brightnessLux; }
+  uint8_t   sensitivity()     { return _sensitivity; }
+  uint16_t  brightnessFull()  { return _brightnessFull; }
+  uint16_t  brightnessIR()    { return _brightnessIR; }
+  uint32_t  brightnessLux()   { return _brightnessLux; }
 };
 
 }
