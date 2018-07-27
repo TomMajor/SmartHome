@@ -54,13 +54,13 @@ public:
 	_present = true;
         _tsl2561.setGain(TSL2561_GAIN_0X);
         _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS);
-        DPRINTLN("TSL2561 found");
+        DPRINT("TSL2561 found"); DPRINT(F("\r\n"));
 	return true;
       }
       delay(100);
       i--;
     }
-    DPRINTLN("Error: TSL2561 not found");
+    DPRINT("Error: TSL2561 not found"); DPRINT(F("\r\n"));
     return false;
   }
 
@@ -74,7 +74,7 @@ public:
 	// momentan wird hier nur mit Gain 0 gearbeitet, Gain 16 ist fuer Aussenhelligkeiten problematisch (siehe Messwerte) und wuerde nur etwas bringen
 	// falls man in sehr dunklen Umgebungen Lux-Werte mit hoher Aufloesung braucht
         if ( (_brightnessFull == _brightnessIR) || (_brightnessFull > 60000) ) {  // ungueltiger Wert
-	  DPRINT("#INVALID# "); DDEC(_brightnessFull); DPRINT(" "); DDEC(_brightnessIR); DPRINT(" "); DDECLN(_sensitivity);
+	  //DPRINT("#INVALID# "); DDEC(_brightnessFull); DPRINT(" "); DDEC(_brightnessIR); DPRINT(" "); DDEC(_sensitivity); DPRINT(F("\r\n"));
           if (_sensitivity > 0) {		// ungueltiger Wert, Empfindlichkeit verringern
 	    _sensitivity--;
 	    delay(100);				// Photonen overflow Erholung

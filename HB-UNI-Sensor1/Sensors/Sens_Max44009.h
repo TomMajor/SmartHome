@@ -31,13 +31,13 @@ public:
         Wire.write(0x02);
         Wire.write(0x03);
         Wire.endTransmission();
-        DPRINTLN("MAX44009 found");
+        DPRINT("MAX44009 found"); DPRINT(F("\r\n"));
         return true;
       }
       delay(100);
       i--;
     }
-    DPRINTLN("Error: MAX44009 not found");
+    DPRINT("Error: MAX44009 not found"); DPRINT(F("\r\n"));
     return false;
   }
 
