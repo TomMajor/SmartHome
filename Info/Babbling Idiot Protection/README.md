@@ -83,10 +83,11 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 ### Schaltung B
 
 Am AVR wird ein Reset-Baustein zur Spannungsüberwachung (MCP111 oder BU48xx) angeschlossen. Fällt die Spannung unter den Schwellwert wird das RESET Signal für den AVR aktiv. Falls der AVR der Verursacher des BI ist wird er damit ruhig gestellt.<br>
-*Alternativ zum externen Reset-Baustein kann man auch die interne Brown-Out Detection (BOD) des AVR mit der 2,7V oder 1,8V Schwelle verwenden. Allerdings hebt diese den Strom im Sleep von ca. 4uA um 18uA auf ca. 22uA (@3V) an.<br>
+<br>Anmerkung:<br>
+Alternativ zum externen Reset-Baustein kann man auch die interne Brown-Out Detection (BOD) des AVR mit der 2,7V oder 1,8V Schwelle verwenden. Allerdings hebt diese den Strom im Sleep von ca. 4uA um 18uA auf ca. 22uA (@3V) an.<br>
 Die angesprochenen externen Reset-Bausteine haben eine Stromaufnahme um 1uA, deswegen verwende ich die wesentlich lieber.<br>
 Außerdem muß man bei Verwendung der internen BOD beachten dass diese per Software deaktiviert werden kann. Dies ist generell ein Verlust an Sicherheit, außerdem deaktiviert die verwendete Low-Power Library in ihren Standardeinstellungen den BOD um Strom zu sparen.
-Aus diesen Gründen empfehle ich einen externen Reset-Baustein.*
+Aus diesen Gründen empfehle ich einen externen Reset-Baustein.
 
 ### Schaltung C
 
