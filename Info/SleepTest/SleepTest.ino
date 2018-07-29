@@ -8,7 +8,7 @@ void cc1101_powerdown();
 void setup() 
 {
   // cc1101_powerdown nur aktivieren falls ein CC1101 angeschlossen ist!
-  //cc1101_powerdown();
+  cc1101_powerdown();
   pinMode(ledPin, OUTPUT);
 }
 
@@ -68,6 +68,7 @@ void cc1101_powerdown()
   SPI.transfer(CC1101_SPWD);            // Send strobe command
   cc1101_Deselect();                    // Deselect CC1101
 
+  SPI.end();
   delay(100);
 }
 
