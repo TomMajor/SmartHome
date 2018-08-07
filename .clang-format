@@ -1,0 +1,14 @@
+---
+Language:        Cpp
+BasedOnStyle:  WebKit
+
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
+AlignOperands:   true
+AlignTrailingComments: true
+AllowShortFunctionsOnASingleLine: Inline
+MaxEmptyLinesToKeep: 2
+SpacesBeforeTrailingComments: 4
+TabWidth:        4
+ColumnLimit:     140
