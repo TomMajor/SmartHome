@@ -13,11 +13,13 @@
 // are important for stability / dynamic memory allocation etc.) This will get
 // rid of the Arduino warning "Low memory available, stability problems may
 // occur."
+//
 //#define NDEBUG
 
 //---------------------------------------------------------
-// define this to read the device id, serial and device type from bootloader
-// section #define USE_OTA_BOOTLOADER
+// define this to read the device id, serial and device type from bootloader section
+//
+// #define USE_OTA_BOOTLOADER
 
 #define EI_NOTEXTERNAL
 #include <EnableInterrupt.h>
@@ -27,19 +29,23 @@
 #include <Register.h>
 
 //---------------------------------------------------------
-// SENSOR_ definitions for real sensors, if undefined dummy sensor values are
-// used (for testing HM/RM BidCoS device communication without the real sensors)
+// Über diese defines werden die real angeschlossenen Sensoren aktiviert.
+// Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
+//
 //#define SENSOR_DS18X20
 #define SENSOR_BME280
-#define SENSOR_TSL2561
+//#define SENSOR_TSL2561
+#define SENSOR_MAX44009
 
 //---------------------------------------------------------
 // Battery definitions
+//
 #define BAT_VOLT_LOW 22         // 2.2V
 #define BAT_VOLT_CRITICAL 19    // 1.9V
 
 //---------------------------------------------------------
 // Pin definitions
+//
 #define CONFIG_BUTTON_PIN 9
 #define LED_PIN 6
 #define ONEWIRE_PIN 3
@@ -59,12 +65,17 @@
 #include "Sensors/Sens_Tsl2561.h"
 #endif
 
+#ifdef SENSOR_MAX44009
+#include "Sensors/Sens_Max44009.h"
+#endif
+
 // all library classes are placed in the namespace 'as'
 using namespace as;
 
 // define all device properties
+// Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
 const struct DeviceInfo PROGMEM devinfo = {
-    { 0x42, 0x44, 0xA3 },        // Device ID
+    { 0xA5, 0xA5, 0x00 },        // Device ID
     "UNISENS001",                // Device Serial
     { 0xF1, 0x03 },              // Device Model
     0x10,                        // Firmware Version
@@ -194,13 +205,14 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_DS18X20
     Sens_Ds18x20 ds18x20;
 #endif
-
 #ifdef SENSOR_BME280
     Sens_Bme280 bme280;
 #endif
-
 #ifdef SENSOR_TSL2561
     Sens_Tsl2561 tsl2561;
+#endif
+#ifdef SENSOR_MAX44009
+    Sens_Max44009 max44009;
 #endif
 
 public:
@@ -225,6 +237,9 @@ public:
 #ifdef SENSOR_TSL2561
             tsl2561.init();
 #endif
+#ifdef SENSOR_MAX44009
+            max44009.init();
+#endif
             sensorSetupDone = true;
             DPRINTLN("Sensor setup done");
         }
@@ -246,7 +261,7 @@ public:
         ds18x20.measure();
         temperature = ds18x20.temperature();
 #else
-        temperature = 150 + random(50);        // 15C +x
+        temperature = 150 + random(50);    // 15C +x
 #endif
 
 #ifdef SENSOR_BME280
@@ -256,8 +271,8 @@ public:
         airPressure = bme280.pressureNN();
         humidity    = bme280.humidity();
 #else
-        airPressure = 1024 + random(9);        // 1024 hPa +x
-        humidity    = 66 + random(7);          // 66% +x
+        airPressure = 1024 + random(9);    // 1024 hPa +x
+        humidity    = 66 + random(7);      // 66% +x
 #endif
 
 #ifdef SENSOR_TSL2561
@@ -265,8 +280,14 @@ public:
         brightness = tsl2561.brightnessLux();    // also available: brightnessVis(),
                                                  // brightnessIR(), brightnessFull(), but these
                                                  // are dependent on integration time setting
+#elif defined SENSOR_MAX44009
+        if (max44009.measure()) {
+            brightness = max44009.brightnessLux();
+        } else {
+            brightness = 0;
+        }
 #else
-        brightness  = 67000 + random(1000);    // 67000 Lux +x
+        brightness = 67000 + random(1000);    // 67000 Lux +x
 #endif
 
         // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2
