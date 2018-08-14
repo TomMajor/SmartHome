@@ -80,7 +80,6 @@ sub CUL_HM_ParseTHPLSensor(@){
 		push (@events, [$shash, 1, 'humidity:' . $humidity]);
 		
 		# brightness
-		$brightness = sprintf('%0.1f', $brightness / 10);
 		$stateMsg .= ' B: ' . $brightness;
 		push (@events, [$shash, 1, 'brightness:' . $brightness]);
 		

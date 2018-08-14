@@ -9,10 +9,12 @@
 Beispiel:<br>
 `#define SENSOR_BME280    // realer BME280 angeschlossen`<br>
 `//#define SENSOR_BME280    // es werden BME280 Dummy Werte gesendet`
-- Es können mehrere HB-UNI-Sensor1 an einer Zentrale verwendet werden. Dafür müssen sich die einzelnen Sensoren nur in Device ID und Seriennummer unterscheiden:<br>
+- Es können mehrere HB-UNI-Sensor1 an einer Zentrale verwendet werden. Dafür müssen sich die einzelnen Sensoren nur in Device ID und Device Serial unterscheiden:<br>
 `const struct DeviceInfo PROGMEM devinfo = `<br>
-`  {0x42,0x44,0xA3},       	 // Device ID`<br>
-`  "UNISENS001",           	 // Device Serial`<br>
+`  { 0xA5, 0xA5, 0x00 },    // Device ID`<br>
+`  "UNISENS001",            // Device Serial`<br>
+- Ich empfehle den MAX44009 Helligkeitssensor anstatt dem TSL2561, siehe<br>
+[SensorTest_Lux](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/SensorTest_Lux)
 
 # Benötige Libraries
 
@@ -30,6 +32,9 @@ Für einen BME280 Sensor (Temperatur/Druck/Feuchte):</br>
 Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 [TSL2561](https://github.com/adafruit/TSL2561-Arduino-Library)
 
+Für einen MAX44009 Sensor (Helligkeit in Lux):</br>
+keine zusätzliche Library nötig.
+
 # Schaltung
 ![pic](Images/Schaltung.png)
 
@@ -37,7 +42,7 @@ Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
 
 # CCU2/RaspberryMatic Installation
-Einstellungen/Systemsteuerung/Zusatzsoftware -> CCU_RM/HB-UNI-Sensor1-addon.tgz installieren
+Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
 
 ![pic](Images/HB-UNI-Sensor1_Install.png)
 
@@ -47,3 +52,6 @@ Der angemeldete Sensor auf der RaspberryMatic:
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
 
 ![pic](Images/HB-UNI-Sensor1_Parameter.png)
+
+# FHEM Installation
+Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM neustarten.
