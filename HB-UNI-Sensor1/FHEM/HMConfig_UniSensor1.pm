@@ -43,7 +43,7 @@ sub CUL_HM_ParseTHPLSensor(@){
 
 		my ($dTempBat, $pressure, $humidity, $brightness, $batVoltage) = map{hex($_)} unpack ('A4A4A2A8A4', $msgData);
 
-		# temperature
+		# temperature, int with scaling factor 10 from device to get one decimal place
 		my $temperature =  $dTempBat & 0x7fff;
 		$temperature = ($temperature &0x4000) ? $temperature - 0x8000 : $temperature; 
 		$temperature = sprintf('%0.1f', $temperature / 10);
@@ -54,26 +54,24 @@ sub CUL_HM_ParseTHPLSensor(@){
 		# battery state
 		push (@events, [$shash, 1, 'battery:' . ($dTempBat & 0x8000 ? 'low' : 'ok')]);
 
-		# battery voltage
+		# battery voltage in mV
 		$batVoltage = sprintf('%.2f', (($batVoltage + 0.00) / 1000));
 		push (@events, [$shash, 1, 'batVoltage:' . $batVoltage]);
 
-		# air pressure
-		if ($pressure) {
-			my $pressureTxt = sprintf('%.1f', $pressure);
-			$stateMsg .= ' P: '    . $pressureTxt;
-			push (@events, [$shash, 1, 'pressure:'    . $pressureTxt]);
+		# air pressure, int with scaling factor 10 from device to get one decimal place
+		my $pressureTxt = sprintf('%.1f', $pressure / 10);
+		$stateMsg .= ' P: '    . $pressureTxt;
+		push (@events, [$shash, 1, 'pressure:'    . $pressureTxt]);
 
-			# HB-UNI-Sensor1 hat eigene pressureNN Berechnung
-			# falls pressureNN Berechnung in FHEM gewünscht, heir auskommentieren und ggf. anpassen
-			#my ($rAltitude) = split(' ', ReadingsVal($name, 'R-altitude', 0));
-			#my $altitude = AttrVal('global', 'altitude', -9999);
-			#my $pressureNN = ($altitude > -9999 && $rAltitude == 0) ? sprintf('%.1f', ($pressure + ($altitude / 8.5))) : 0;
-			#if ($pressureNN) {
-			#	$stateMsg .= ' P-NN: ' . $pressureNN;
-			#	push (@events, [$shash, 1, 'pressure-nn:' . $pressureNN]);
-			#}
-		}
+		# TM: HB-UNI-Sensor1 hat eigene pressureNN Berechnung
+		# falls pressureNN Berechnung in FHEM gewünscht, hier auskommentieren und ggf. anpassen
+		#my ($rAltitude) = split(' ', ReadingsVal($name, 'R-altitude', 0));
+		#my $altitude = AttrVal('global', 'altitude', -9999);
+		#my $pressureNN = ($altitude > -9999 && $rAltitude == 0) ? sprintf('%.1f', ($pressure + ($altitude / 8.5))) : 0;
+		#if ($pressureNN) {
+		#	$stateMsg .= ' P-NN: ' . $pressureNN;
+		#	push (@events, [$shash, 1, 'pressure-nn:' . $pressureNN]);
+		#}
 
 		# humidity
 		$stateMsg .= ' H: ' . $humidity;

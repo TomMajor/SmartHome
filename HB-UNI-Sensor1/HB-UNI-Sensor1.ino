@@ -124,10 +124,10 @@ public:
         // max. payload: 17 Bytes (https://www.youtube.com/watch?v=uAyzimU60jw)
 
         // BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
-        // LazyConfig funktioniert, d.h. eine anstehende Conf.Änderung von der CCU wird nach dem nächsten Senden übernommen Aber erhöhter
+        // LazyConfig funktioniert, d.h. eine anstehende Conf.Änderung von der CCU wird nach dem nächsten Senden übernommen. Aber erhöhter
         // Funkverkehr wegen ACK
         //
-        // BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren
+        // BCAST: ohne ACK zu Erwarten, Standard für HM Sensoren.
         // LazyConfig funktioniert nicht, d.h. eine anstehende Conf.Änderung von der CCU muss durch den Config Button am Sensor übernommen
         // werden!!
 
@@ -195,8 +195,8 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 
     WeatherEventMsg msg;
 
-    int16_t  temperature;
-    uint16_t airPressure;
+    int16_t  temperature10;
+    uint16_t airPressure10;
     uint8_t  humidity;
     uint32_t brightness;
     uint16_t batteryVoltage;
@@ -245,7 +245,7 @@ public:
         }
         uint8_t msgcnt = device().nextcount();
         measure();
-        msg.init(msgcnt, temperature, airPressure, humidity, brightness, batteryVoltage, device().battery().low());
+        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness, batteryVoltage, device().battery().low());
         device().sendPeerEvent(msg, *this);
         // reactivate for next measure
         uint16_t updCycle = this->device().getList0().updIntervall();
@@ -259,20 +259,20 @@ public:
 
 #ifdef SENSOR_DS18X20
         ds18x20.measure();
-        temperature = ds18x20.temperature();
+        temperature10 = ds18x20.temperature();
 #else
-        temperature = 150 + random(50);    // 15C +x
+        temperature10 = 150 + random(50);      // 15C +x
 #endif
 
 #ifdef SENSOR_BME280
         uint16_t height = this->device().getList0().height();
         bme280.measure(height);
-        temperature = bme280.temperature();
-        airPressure = bme280.pressureNN();
-        humidity    = bme280.humidity();
+        temperature10 = bme280.temperature();
+        airPressure10 = bme280.pressureNN();
+        humidity      = bme280.humidity();
 #else
-        airPressure = 1024 + random(9);    // 1024 hPa +x
-        humidity    = 66 + random(7);      // 66% +x
+        airPressure10 = 10240 + random(90);    // 1024 hPa +x
+        humidity      = 66 + random(7);        // 66% +x
 #endif
 
 #ifdef SENSOR_TSL2561
