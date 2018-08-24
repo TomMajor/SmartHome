@@ -1,9 +1,10 @@
 
 //---------------------------------------------------------
+// HB-UNI-Sensor1
+// 2018-08-08 Tom Major (Creative Commons)
 // AskSin++
 // 2016-10-31 papa Creative Commons -
-// http://creativecommons.org/licenses/by-nc-sa/3.0/de/ HB-UNI-Sensor1
-// 2018-08-08 Tom Major (Creative Commons)
+// http://creativecommons.org/licenses/by-nc-sa/3.0/de/
 //---------------------------------------------------------
 
 //---------------------------------------------------------
@@ -36,6 +37,7 @@
 #define SENSOR_BME280
 //#define SENSOR_TSL2561
 #define SENSOR_MAX44009
+//#define SENSOR_SHT10
 
 //---------------------------------------------------------
 // Battery definitions
@@ -48,25 +50,31 @@
 //
 #define CONFIG_BUTTON_PIN 9
 #define LED_PIN 6
-#define ONEWIRE_PIN 3
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 6
 
 #ifdef SENSOR_DS18X20
-#include "Sensors/Sens_Ds18x20.h"
+#include "Sensors/Sens_Ds18x20.h"    // HB-UNI-Sensor1 custom sensor class
+#define ONEWIRE_PIN 3
 #endif
 
 #ifdef SENSOR_BME280
-#include "Sensors/Sens_Bme280.h"
+#include "Sensors/Sens_Bme280.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_TSL2561
-#include "Sensors/Sens_Tsl2561.h"
+#include "Sensors/Sens_Tsl2561.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_MAX44009
-#include "Sensors/Sens_Max44009.h"
+#include "Sensors/Sens_Max44009.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
+#ifdef SENSOR_SHT10
+#include "sensors/Sht10.h"    // AskSinPP default sensor class
+#define SHT10_DATA_PIN A4
+#define SHT10_CLK_PIN A5
 #endif
 
 // all library classes are placed in the namespace 'as'
@@ -214,6 +222,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_MAX44009
     Sens_Max44009 max44009;
 #endif
+#ifdef SENSOR_SHT10
+    Sht10<SHT10_DATA_PIN, SHT10_CLK_PIN> sht10;
+#endif
 
 public:
     WeatherChannel()
@@ -240,6 +251,9 @@ public:
 #ifdef SENSOR_MAX44009
             max44009.init();
 #endif
+#ifdef SENSOR_SHT10
+            sht10.init();
+#endif
             sensorSetupDone = true;
             DPRINTLN("Sensor setup done");
         }
@@ -261,20 +275,25 @@ public:
         ds18x20.measure();
         temperature10 = ds18x20.temperature();
 #else
-        temperature10 = 150 + random(50);      // 15C +x
+        temperature10 = 150 + random(50);    // 15C +x
 #endif
 
+// Entweder BME280 oder SHT10 für Feuchtigkeit, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_BME280
         uint16_t height = this->device().getList0().height();
         bme280.measure(height);
         temperature10 = bme280.temperature();
         airPressure10 = bme280.pressureNN();
         humidity      = bme280.humidity();
+#elif defined SENSOR_SHT10
+        sht10.measure();
+        humidity = sht10.humidity();
 #else
-        airPressure10 = 10240 + random(90);    // 1024 hPa +x
-        humidity      = 66 + random(7);        // 66% +x
+        airPressure10 = 10240 + random(90);      // 1024 hPa +x
+        humidity      = 66 + random(7);          // 66% +x
 #endif
 
+// Entweder TSL2561 oder MAX44009 für Helligkeit, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_TSL2561
         tsl2561.measure();
         brightness = tsl2561.brightnessLux();    // also available: brightnessVis(),
@@ -287,7 +306,7 @@ public:
             brightness = 0;
         }
 #else
-        brightness = 67000 + random(1000);    // 67000 Lux +x
+        brightness    = 67000 + random(1000);    // 67000 Lux +x
 #endif
 
         // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2

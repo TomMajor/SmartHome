@@ -35,6 +35,10 @@ Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 Für einen MAX44009 Sensor (Helligkeit in Lux):</br>
 keine zusätzliche Library nötig.
 
+Für einen SHT10 Sensor (Feuchte):</br>
+[SHT10](https://github.com/spease/Sensirion)
+
+
 # Schaltung
 ![pic](Images/Schaltung.png)
 
