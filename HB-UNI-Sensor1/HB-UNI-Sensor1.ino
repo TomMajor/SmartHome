@@ -230,6 +230,11 @@ public:
     WeatherChannel()
         : Channel()
         , Alarm(seconds2ticks(60))
+        , temperature10(0)
+        , airPressure10(0)
+        , humidity(0)
+        , brightness(0)
+        , batteryVoltage(0)
         , sensorSetupDone(false)
     {
     }
