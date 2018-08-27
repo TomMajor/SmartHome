@@ -1,10 +1,12 @@
 
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// 2018-08-08 Tom Major (Creative Commons)
-// AskSin++
-// 2016-10-31 papa Creative Commons -
-// http://creativecommons.org/licenses/by-nc-sa/3.0/de/
+// 2018-08-27 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// You are free to Share & Adapt under the following terms:
+// Give Credit, NonCommercial, ShareAlike
+// +++
+// AskSin++ 2016-10-31 papa Creative Commons
 //---------------------------------------------------------
 
 //---------------------------------------------------------

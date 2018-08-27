@@ -1,4 +1,14 @@
 
+//---------------------------------------------------------
+// Sens_Max44009
+// 2018-08-12 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// You are free to Share & Adapt under the following terms:
+// Give Credit, NonCommercial, ShareAlike
+// +++
+// AskSin++ 2016-10-31 papa Creative Commons
+//---------------------------------------------------------
+
 #ifndef _SENS_MAX44009_H_
 #define _SENS_MAX44009_H_
 

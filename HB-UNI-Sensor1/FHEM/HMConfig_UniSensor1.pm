@@ -4,7 +4,7 @@ use strict;
 use warnings;
 
 # device definition
-$HMConfig::culHmModel{'F103'} = {name => 'HB-UNI-Sensor1', st => 'THPLSensor', cyc => '00:10', rxt => 'l:w:c:f', lst  => 'p',   chn  => '',};
+$HMConfig::culHmModel{'F103'} = {name => 'HB-UNI-Sensor1', st => 'UniSensor1', cyc => '00:10', rxt => 'l:w:c:f', lst  => 'p',   chn  => '',};
 
 $HMConfig::culHmRegDefine{'lowBatLimit'}  = {a=>18.0,s=>1.0,l=>0,min=>1.0 ,max=>5     ,c=>'',f=>10,u=>'V',  d=>0,t=>'Low batterie limit, step 0.1 V.'};
 $HMConfig::culHmRegDefine{'altitude'}     = {a=>34.0,s=>2.0,l=>0,min=>0   ,max=>10000 ,c=>'',f=>'',u=>'m'  ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
@@ -19,7 +19,7 @@ $HMConfig::culHmRegModel{'HB-UNI-Sensor1'} = {
 };
 
 # subtype channel mapping
-$HMConfig::culHmSubTypeSets{'THPLSensor'}    = {
+$HMConfig::culHmSubTypeSets{'UniSensor1'}    = {
 	'peerChan'       => '0 <actChn> ... single [set|unset] [actor|remote|both]',
 	'fwUpdate'       => '<filename> <bootTime> ...',
 	'getSerial'      => '',
@@ -29,7 +29,7 @@ $HMConfig::culHmSubTypeSets{'THPLSensor'}    = {
 };
 
 # Subtype spezific funtions
-sub CUL_HM_ParseTHPLSensor(@){
+sub CUL_HM_ParseUniSensor1(@){
 	
 	my ($mFlg, $frameType, $src, $dst, $msgData, $targetDevIO) = @_;
 	
