@@ -19,7 +19,7 @@ Die CCU sagte mir "Kommunikationsstörung" zu so ziemlich allen meinen Geräten.
 [[Quelle: FHEM Forum, Antw: AskSin++ Library]](https://forum.fhem.de/index.php/topic,57486.msg783197.html#msg783197)
 
 
-#### Eine weiteres Beispiel:
+#### Ein weiteres Beispiel:
 
 > *Mich hat jemand angeschrieben, der das 8fach-DS18B20 Projekt nachgebaut hat und - oh Wunder - bei leerer Batterie einen BI hatte! :<br>
 Du sag mal, wenn der Temperatursensor leer wird, also die Batterien zu schwach sind, warum geht dann hier keine Funkfernbedienung mehr?*
@@ -27,7 +27,7 @@ Du sag mal, wenn der Temperatursensor leer wird, also die Batterien zu schwach s
 [Quelle: Projekt 8fach-DS18B20, Info über Private Nachricht erhalten]
 
 
-#### Eine weiteres Beispiel:
+#### Noch ein Beispiel:
 
 > *Re: schlagartig Kommunikationsstörungen<br>
 Schließlich habe ich die Ursache gefunden: Ein einziger Sensor HM-SCI-3-FM hat den Funkverkehr weitgehend lahmgelegt. Ob nur die Batterie entladen ist oder der Sensor defekt muss ich noch untersuchen.<br>
@@ -36,7 +36,7 @@ Auf die Spur hat mich CCU-Historian gebracht, der bei mir auch alle (Alchy-)Syst
 [[Quelle: homematic-forum, schlagartig Kommunikationsstörungen]](https://homematic-forum.de/forum/viewtopic.php?f=65&t=43150)
 
 
-#### Eine weiteres Beispiel:
+#### Und noch ein Beispiel:
 
 > Jetzt hab' ich tatsächlich exakt das vom Themenersteller beschriebene Problem - allerdings leider bislang ohne Lösung.<br>
 Meine Zentrale zeigt zwischen 60 und 120 Servicemeldungen an, und selbst Direktverknüpfungen funktionieren nur noch, wenn man den Sender wenige Zentimenter nah an den Empfänger bringt.<br>
@@ -68,6 +68,8 @@ Der BI könnte entstehen, wenn beim Senden die Batteriespannung so weit zusammen
 Ich möchte außerdem anmerken dass die Störung des Programmablaufes beim Senden nicht nur durch den AVR entstehen kann sondern wahrscheinlich auch durch den CC1101 selbst. Dieser hat ebenso einen Mikrocontroller mit Firmware integriert, die beim Senden aufgrund des Spannungseinbruchs genau so wie der AVR abstürzen könnte.<br>
 Ob ein BI also im AVR oder CC1101 entsteht kann nur durch Messung im Falle des Falles am Gerät bewiesen werden, wegen der Reproduzierbarkeit ein schwieriges Unterfangen.
 
+![pic](Images/Schaltung.png)
+
 ### Schaltung A
 
 Aus meiner Sicht würde es sehr helfen, eine echte Messung des Batteriezustands unter Last zu haben, um frühzeitig leere Batterien zu erkennen und zu tauschen. Bekanntermaßen sagt eine Spannungsmessung an unbelasteter Batterie, je nach Batterie- bzw. Akkutyp, nicht viel über den Ladezustand aus.<br>
@@ -77,7 +79,7 @@ Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezust
 Mit Schaltung A wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich.<br><br>
 Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belastet wird. Die Spannung bricht um 142mV ein und wird am Ende der 200ms gemessen. Aus meiner Sicht führt dies zu einer viel besseren Information über den Batteriezustand.<br>
 
-![pic](Images/Batteriemessung_unter_Last.png)
+![pic](Images/BatterySensorLoad.png)
 
 
 ### Schaltung B
@@ -98,5 +100,3 @@ Diese Maßnahme verwendet man am Besten wenn sicher ist dass der CC1101 und nich
 
 Im momentanen Stadium der Prototypen verwende ich die Maßnahmen A und B, die die Sicherheit vor dem BI Zustand meines Erachtens deutlich erhöhen.<br>
 Maßnahme C würde da noch mal eins drauf setzen und den CC1101 ebenfalls abschalten.
-
-![pic](Images/Schaltung.png)

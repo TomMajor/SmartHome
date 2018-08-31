@@ -8,18 +8,18 @@
 namespace as {
 
 template <uint8_t SENSPIN, uint8_t ACTIVATIONPIN>
-class Sensor_Battery : public Alarm {
+class BatterySensorLoad : public Alarm {
 
   uint8_t  m_SensePin, m_ActivationPin;
   uint16_t m_LastValue, m_Low, m_Critical, m_Factor;
   uint32_t m_Period;
 
 public:
-  Sensor_Battery () : Alarm(0), m_LastValue(0), m_Period(0), m_Low(0), m_Critical(0), m_Factor(2000), m_SensePin(SENSPIN), m_ActivationPin(ACTIVATIONPIN) {}
-  virtual ~Sensor_Battery() {}
+  BatterySensorLoad () : Alarm(0), m_LastValue(0), m_Period(0), m_Low(0), m_Critical(0), m_Factor(2000), m_SensePin(SENSPIN), m_ActivationPin(ACTIVATIONPIN) {}
+  virtual ~BatterySensorLoad() {}
 
   virtual void trigger (AlarmClock& clock) {
-    DPRINTLN(F("Battery trigger"));
+    DPRINTLN(F("BattLoad trigger"));
     tick = m_Period;
     clock.add(*this);
     m_LastValue = voltage();
@@ -35,7 +35,7 @@ public:
 
   void critical (uint16_t value) {
     m_Critical = value;
-    DPRINT(F("Battery set crit: ")); DDECLN(m_Critical);
+    DPRINT(F("BattLoad set crit: ")); DDECLN(m_Critical);
   }
 
   bool low () const {
@@ -44,7 +44,7 @@ public:
 
   void low (uint16_t value) {
     m_Low = value;
-    DPRINT(F("Battery set low:  ")); DDECLN(m_Low);
+    DPRINT(F("BattLoad set low:  ")); DDECLN(m_Low);
   }
 
   void init(uint32_t period, AlarmClock& clock, uint16_t factor = 2000) {
@@ -84,7 +84,7 @@ public:
     digitalWrite(m_ActivationPin, LOW);     		// N-Channel Mosfet off
 
     adc = 11UL * m_Factor * (ADC & 0x3FF) / 1024 / 10;
-    DPRINT(F("Battery voltage:  ")); DDECLN(adc);
+    DPRINT(F("BattLoad voltage:  ")); DDECLN(adc);
     return (uint16_t)adc;
   }
 };

@@ -16,6 +16,7 @@ Beispiel:<br>
 - Ich empfehle den MAX44009 Helligkeitssensor anstatt dem TSL2561, siehe<br>
 [SensorTest_Lux](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/SensorTest_Lux)
 
+
 # Benötige Libraries
 
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
@@ -42,13 +43,50 @@ Für einen SHT10 Sensor (Feuchte):</br>
 # Schaltung
 ![pic](Images/Schaltung.png)
 
+
+# Messung der Batteriespannung
+
+![pic](Images/Batteriemessung.png)
+
+- Option1: Batteriespannungsmessung Standard (UBatt = Betriebsspannung AVR)<br>
+keine zusätzliche Hardware notwendig<br>
+`typedef AskSin<LedType, BatterySensor, RadioType> BaseHal;`<br>
+
+- Option2: Batteriespannungsmessung für Step-Up<br>
+2 zusätzliche Widerstände notwendig, Verwendung der Batterieklasse BatterySensorUni<br>
+`BatterySensorUni<17,7,3000>`<br>
+`// sense pin = A1 = 15, activation pin = D7 = 7, Vcc nominal 3,0V`
+
+- Option3: Echte Batteriespannungsmessung unter Last<br>
+Sie dient u.a. dem Schutz vor einem "Babbling Idiot, siehe
+[Babbling Idiot Protection](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Babbling%20Idiot%20Protection)
+<br><br>
+Aus meiner Sicht würde es sehr helfen, eine echte Messung des Batteriezustands unter Last zu haben, um frühzeitig leere Batterien zu erkennen und zu tauschen. Bekanntermaßen sagt eine Spannungsmessung an unbelasteter Batterie, je nach Batterie- bzw. Akkutyp, nicht viel über den Ladezustand aus.
+<br><br>
+Die Schaltung belastet die Batterie bzw. den Akku für einige Hundert Millisekunden und misst dabei die Spannung.
+Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung.
+<br><br>
+Dazu wurde eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier BatterySensorLoad und befindet sich unter Sensors/BatterySensorLoad.h <br>
+Mit dieser Klasse und der Schaltung wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich. Momentan geschieht das 2 mal am Tag:
+<br>
+`TODO: code für Dekl. von BatterySensorLoad`<br>
+`hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);`<br>
+`// 2x Batt.messung täglich, Spannungsteiler 1:2`
+<br><br>
+Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belastet wird. Die Spannung bricht um 142mV ein und wird am Ende der 200ms gemessen.
+<br>
+![pic](Images/BatterySensorLoad.png)
+
+
 # Prototyp
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
+
 
 # CCU2/RaspberryMatic Installation
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
 
 ![pic](Images/HB-UNI-Sensor1_Install.png)
+
 
 # RaspberryMatic WebUI
 Der angemeldete Sensor auf der RaspberryMatic:
@@ -56,6 +94,7 @@ Der angemeldete Sensor auf der RaspberryMatic:
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
 
 ![pic](Images/HB-UNI-Sensor1_Parameter.png)
+
 
 # FHEM Installation
 Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM neustarten.

@@ -20,7 +20,7 @@
 #include <LowPower.h>
 #include <Register.h>
 #include <ThreeState.h>
-#include "Sensors/Sensor_Battery.h"
+#include "Sensors/BatterySensorLoad.h"
 
 //----------------------------------------------
 // Pin definitions
@@ -139,7 +139,7 @@ public:
 typedef AvrSPI<10,11,12,13> SPIType;
 typedef Radio<SPIType,2> RadioType;
 typedef StatusLed<LED_PIN> LedType;
-typedef Sensor_Battery<BAT_SENS_PIN,BAT_ACT_PIN> BatSensorType;
+typedef BatterySensorLoad<BAT_SENS_PIN,BAT_ACT_PIN> BatSensorType;
 typedef AskSin<LedType,BatSensorType,RadioType> HalType;
 
 DEFREGISTER(Reg0,DREG_CYCLICINFOMSG,MASTERID_REGS,DREG_TRANSMITTRYMAX)

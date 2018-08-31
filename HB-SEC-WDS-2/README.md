@@ -43,10 +43,6 @@ Ausgangsspannung DC
 
 ## Option 2: Echte Batteriezustandsmessung unter Last, um frühzeit leere Batterien zu erkennen und zu tauschen.
 
-Dazu wird eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier Sensor_Battery und befindet sich unter Sensors/Sensor_Battery.h <br>
-Mit dieser Klasse wird die Batterie oder der Akku für 200ms mit 75mA belastet. Momentan geschieht das 2 mal am Tag.<br>
-Der Belastungsstrom lässt sich durch die Widerstände R5/R6 ändern, das Interval für die Messung in dieser Zeile:
-`hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);
-// 2x Batt.messung täglich, Spannungsteiler 1:2`
-
-![pic](Images/Class_Sensor_Battery.jpg)
+siehe
+[HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
+Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"
