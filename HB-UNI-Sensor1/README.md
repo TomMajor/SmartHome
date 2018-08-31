@@ -71,7 +71,7 @@ Mit dieser Klasse und der Schaltung wird der 1,2V Akku mit ca. 75mA für die kur
 `TODO code für Dekl. der Klasse`<br>
 `hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);`<br>
 `// 2x Batt.messung täglich, Spannungsteiler 1:2`<br>
-<br>
+
 Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belastet wird. Die Spannung bricht um 142mV ein und wird am Ende der 200ms gemessen.
 <br>
 ![pic](Images/BatterySensorLoad.png)
