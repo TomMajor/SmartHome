@@ -67,8 +67,7 @@ Die Schaltung belastet die Batterie bzw. den Akku für einige Hundert Millisekun
 Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung.
 <br><br>
 Dazu wurde eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier BatterySensorLoad und befindet sich unter Sensors/BatterySensorLoad.h <br>
-Mit dieser Klasse und der Schaltung wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich. Momentan geschieht das 2 mal am Tag:
-<br>
+Mit dieser Klasse und der Schaltung wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich. Momentan geschieht das 2 mal am Tag.<br>
 `TODO code für Dekl. der Klasse`<br>
 `hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);`<br>
 `// 2x Batt.messung täglich, Spannungsteiler 1:2`<br>
