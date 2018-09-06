@@ -74,7 +74,7 @@
 #endif
 
 #ifdef SENSOR_SHT10
-#include "sensors/Sht10.h"    // AskSinPP default sensor class
+#include <Sensirion.h>    // https://github.com/spease/Sensirion
 #define SHT10_DATA_PIN A4
 #define SHT10_CLK_PIN A5
 #endif
@@ -225,7 +225,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     Sens_Max44009 max44009;
 #endif
 #ifdef SENSOR_SHT10
-    Sht10<SHT10_DATA_PIN, SHT10_CLK_PIN> sht10;
+    Sensirion sht10 = Sensirion(SHT10_DATA_PIN, SHT10_CLK_PIN);
 #endif
 
 public:
@@ -259,7 +259,7 @@ public:
             max44009.init();
 #endif
 #ifdef SENSOR_SHT10
-            sht10.init();
+            // SHT10: no init necessary
 #endif
             sensorSetupDone = true;
             DPRINTLN("Sensor setup done");
@@ -293,8 +293,15 @@ public:
         airPressure10 = bme280.pressureNN();
         humidity      = bme280.humidity();
 #elif defined SENSOR_SHT10
-        sht10.measure();
-        humidity = sht10.humidity();
+        uint16_t rawData;
+        if (sht10.measTemp(&rawData) == 0) {
+            float t       = sht10.calcTemp(rawData);
+            temperature10 = t * 10;
+            if (sht10.measHumi(&rawData) == 0) {
+                humidity = sht10.calcHumi(rawData, t);
+            }
+        }
+        DPRINTLN("SHT10 T/H: " + String(temperature10) + " / " + String(humidity));
 #else
         airPressure10 = 10240 + random(90);      // 1024 hPa +x
         humidity      = 66 + random(7);          // 66% +x
