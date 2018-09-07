@@ -1,0 +1,91 @@
+D010    draw      0.00591
+D011    draw      0.00004
+D012    draw      0.00077
+D013    draw      0.00094
+D014    draw      0.00154
+D015    draw      0.00192
+D016    draw      0.00197
+D017    draw      0.00200
+D018    draw      0.00240
+D019    draw      0.00300
+D020    draw      0.00394
+D021    draw      0.00400
+D022    draw      0.00500
+D023    draw      0.00600
+D024    draw      0.00700
+D025    draw      0.00787
+D026    draw      0.00800
+D027    draw      0.01000
+D028    draw      0.01181
+D029    draw      0.01200
+D030    draw      0.01575
+D031    draw      0.01969
+D032    draw      0.02362
+D033    draw      0.03150
+D034    draw      0.05000
+D035    draw      0.05118 x 90.000
+D036    draw      0.05906 x 90.000
+D037    draw      0.07087
+D038    draw      0.09843
+D039    rectangle 0.00591 x 0.01181
+D040    rectangle 0.00787 x 0.04724
+D041    rectangle 0.00788 x 0.03150
+D042    rectangle 0.01000 x 0.02000
+D043    square    0.01181
+D044    rectangle 0.01250 x 0.04375
+D045    rectangle 0.01400 x 0.05600
+D046    rectangle 0.01574 x 0.03150
+D047    rectangle 0.01574 x 0.04724
+D048    rectangle 0.01800 x 0.02300
+D049    rectangle 0.01890 x 0.01417 x 180.000
+D050    rectangle 0.01969 x 0.02559
+D051    square    0.02000
+D052    rectangle 0.02165 x 0.04724
+D053    rectangle 0.02200 x 0.05000 x 45.000
+D054    rectangle 0.02362 x 0.01969 x 90.000
+D055    rectangle 0.02362 x 0.01969 x 180.000
+D056    rectangle 0.02559 x 0.05906
+D057    rectangle 0.02953 x 0.05709
+D058    rectangle 0.02953 x 0.06693
+D059    rectangle 0.03150 x 0.00788
+D060    rectangle 0.03150 x 0.01574
+D061    rectangle 0.03750 x 0.01875
+D062    rectangle 0.03839 x 0.01535
+D063    rectangle 0.03937 x 0.05512
+D064    rectangle 0.04000 x 0.06000
+D065    rectangle 0.04600 x 0.06300
+D066    rectangle 0.04600 x 0.06300 x 90.000
+D067    rectangle 0.04600 x 0.06300 x 270.000
+D068    rectangle 0.04724 x 0.01574
+D069    square    0.04724
+D070    rectangle 0.05000 x 0.02200 x 45.000
+D071    rectangle 0.05000 x 0.10000 x 90.000
+D072    rectangle 0.05118 x 0.01575
+D073    rectangle 0.05118 x 0.05906
+D074    rectangle 0.05118 x 0.05906 x 45.000
+D075    rectangle 0.05118 x 0.05906 x 90.000
+D076    rectangle 0.05118 x 0.05906 x 270.000
+D077    rectangle 0.05118 x 0.05906 x 315.000
+D078    rectangle 0.05118 x 0.06299
+D079    rectangle 0.05118 x 0.06299 x 90.000
+D080    rectangle 0.05118 x 0.06299 x 180.000
+D081    rectangle 0.05118 x 0.06299 x 270.000
+D082    rectangle 0.05315 x 0.02362
+D083    rectangle 0.05512 x 0.02795 x 90.000
+D084    rectangle 0.05600 x 0.01400
+D085    rectangle 0.05709 x 0.02953
+D086    rectangle 0.06299 x 0.05512
+D087    rectangle 0.06299 x 0.05512 x 180.000
+D088    rectangle 0.06299 x 0.07087 x 180.000
+D089    rectangle 0.06299 x 0.07087 x 270.000
+D090    rectangle 0.06693 x 0.02953
+D091    rectangle 0.07087 x 0.14173 x 90.000
+D092    rectangle 0.07200 x 0.00600
+D093    rectangle 0.07874 x 0.03938
+D094    rectangle 0.07874 x 0.06299 x 90.000
+D095    rectangle 0.10625 x 0.01875
+D096    rectangle 0.11875 x 0.19685
+D097    square    0.19685
+D098    octagon   0.06299
+D099    oval      0.05906 x 0.05906 x 270.000
+D100    roundrect 0.01969 x 0.01378 x 0.00138

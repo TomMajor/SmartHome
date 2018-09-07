@@ -1,0 +1,30 @@
+CAM-Ausgabe für AktuellesProjekt Aussensensor_v1.6.T3001
+Ausgabe am 07. Sep 2018, 17:40h
+AktuellesProjekt erzeugt mit TARGET 16.9.0.6 professional
+Ausgabe erzeugt mit TARGET 3001! V16.9.0.6
+LIEFERANSCHRIFT:
+  
+  
+  
+   
+  Tel: 
+  FAX: 
+  eMail: 
+Größe der Platine: 56,200002 mm x 29,400005 mm
+
+Folgend die Beschreibung der erzeugten Dateien:
+
+Aussensensor_v1.6.Top = 16 = Kupfer oben L2   ( *.Top )
+Aussensensor_v1.6.Bot = 2 = Kupfer unten L1   ( *.Bot )
+Aussensensor_v1.6.Tool = Bohrerliste
+Aussensensor_v1.6.Drill = Durchkontaktierte Bohrungen
+Aussensensor_v1.6.Outline = 23 = Platinen-Umriss   ( *.Outline )
+Aussensensor_v1.6.StopTop = 18 = Lötstoppmaske oben   ( *.StopTop )
+Aussensensor_v1.6.StopBot = 4 = Lötstoppmaske unten   ( *.StopBot )
+Aussensensor_v1.6.NamesTop = 31 = Bauteilnamen oben   ( extra in Datei: *.NamesTop )
+Aussensensor_v1.6.NamesBot = 29 = Bauteilnamen unten   ( extra in Datei: *.NamesBot )
+Aussensensor_v1.6.PasteTop = 19 = Lötpaste oben   ( *.PasteTop )
+Aussensensor_v1.6.PasteBot = 5 = Lötpaste unten   ( *.PasteBot )
+Aussensensor_v1.6.Apr = TARGET 3001! Blendenliste
+Aussensensor_v1.6.Whl = Eagle kompatible Blendenliste
+
