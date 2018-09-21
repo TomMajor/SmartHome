@@ -1,6 +1,6 @@
 
 //---------------------------------------------------------
-// Sens_Tsl2561
+// Sens_TSL2561
 // 2018-08-12 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
@@ -20,7 +20,7 @@
 
 namespace as {
 
-class Sens_Tsl2561 : public Sensor {
+class Sens_TSL2561 : public Sensor {
 
     uint16_t  _brightnessFull, _brightnessIR;
     uint32_t  _brightnessLux;
@@ -59,7 +59,7 @@ class Sens_Tsl2561 : public Sensor {
 
 public:
     // constructor with parameter in header file -> Initalize with 'member initialiser' syntax in constructor
-    Sens_Tsl2561()
+    Sens_TSL2561()
         : _tsl2561(TSL2561_ADDR)
         , _sensitivity(2)
         , _brightnessFull(0)
@@ -93,6 +93,7 @@ public:
 
     bool measure()
     {
+        _brightnessLux = 0;
         if (_present == true) {
             _sensitivity = 2;
             do {

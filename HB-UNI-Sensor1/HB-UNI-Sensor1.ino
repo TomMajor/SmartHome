@@ -57,26 +57,26 @@
 #define PEERS_PER_CHANNEL 6
 
 #ifdef SENSOR_DS18X20
-#include "Sensors/Sens_Ds18x20.h"    // HB-UNI-Sensor1 custom sensor class
+#include "Sensors/Sens_DS18X20.h"    // HB-UNI-Sensor1 custom sensor class
 #define ONEWIRE_PIN 3
 #endif
 
 #ifdef SENSOR_BME280
-#include "Sensors/Sens_Bme280.h"    // HB-UNI-Sensor1 custom sensor class
+#include "Sensors/Sens_BME280.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_TSL2561
-#include "Sensors/Sens_Tsl2561.h"    // HB-UNI-Sensor1 custom sensor class
+#include "Sensors/Sens_TSL2561.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_MAX44009
-#include "Sensors/Sens_Max44009.h"    // HB-UNI-Sensor1 custom sensor class
+#include "Sensors/Sens_MAX44009.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_SHT10
-#include <Sensirion.h>    // https://github.com/spease/Sensirion
-#define SHT10_DATA_PIN A4
-#define SHT10_CLK_PIN A5
+#include "Sensors/Sens_SHT10.h"    // HB-UNI-Sensor1 custom sensor class
+#define SHT10_DATAPIN A4
+#define SHT10_CLKPIN A5
 #endif
 
 // all library classes are placed in the namespace 'as'
@@ -213,19 +213,19 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     bool     sensorSetupDone;
 
 #ifdef SENSOR_DS18X20
-    Sens_Ds18x20 ds18x20;
+    Sens_DS18X20 ds18x20;
 #endif
 #ifdef SENSOR_BME280
-    Sens_Bme280 bme280;
+    Sens_BME280 bme280;
 #endif
 #ifdef SENSOR_TSL2561
-    Sens_Tsl2561 tsl2561;
+    Sens_TSL2561 tsl2561;
 #endif
 #ifdef SENSOR_MAX44009
-    Sens_Max44009 max44009;
+    Sens_MAX44009 max44009;
 #endif
 #ifdef SENSOR_SHT10
-    Sensirion sht10 = Sensirion(SHT10_DATA_PIN, SHT10_CLK_PIN);
+    Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
 #endif
 
 public:
@@ -259,7 +259,10 @@ public:
             max44009.init();
 #endif
 #ifdef SENSOR_SHT10
-            // SHT10: no init necessary
+#if defined SENSOR_BME280 || defined SENSOR_TSL2561 || defined SENSOR_MAX44009
+            sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
+#endif
+            sht10.init();
 #endif
             sensorSetupDone = true;
             DPRINTLN("Sensor setup done");
@@ -278,11 +281,24 @@ public:
     void measure()
     {
 
+// Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
+// zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
+#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
+        temperature10 = 188;    // 18.8C
+#endif
+#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
+        humidity = 88;    // 88%
+#endif
+#if !defined(SENSOR_BME280)
+        airPressure10 = 10880;    // 1088 hPa
+#endif
+#if !defined(SENSOR_TSL2561) && !defined(SENSOR_MAX44009)
+        brightness = 88000;    // 88000 Lux
+#endif
+
 #ifdef SENSOR_DS18X20
         ds18x20.measure();
         temperature10 = ds18x20.temperature();
-#else
-        temperature10 = 150 + random(50);    // 15C +x
 #endif
 
 // Entweder BME280 oder SHT10 für Feuchtigkeit, ggf. für anderen Bedarf anpassen
@@ -293,18 +309,9 @@ public:
         airPressure10 = bme280.pressureNN();
         humidity      = bme280.humidity();
 #elif defined SENSOR_SHT10
-        uint16_t rawData;
-        if (sht10.measTemp(&rawData) == 0) {
-            float t       = sht10.calcTemp(rawData);
-            temperature10 = t * 10;
-            if (sht10.measHumi(&rawData) == 0) {
-                humidity = sht10.calcHumi(rawData, t);
-            }
-        }
-        DPRINTLN("SHT10 T/H: " + String(temperature10) + " / " + String(humidity));
-#else
-        airPressure10 = 10240 + random(90);      // 1024 hPa +x
-        humidity      = 66 + random(7);          // 66% +x
+        sht10.measure();
+        temperature10 = sht10.temperature();
+        humidity      = sht10.humidity();
 #endif
 
 // Entweder TSL2561 oder MAX44009 für Helligkeit, ggf. für anderen Bedarf anpassen
@@ -314,13 +321,8 @@ public:
                                                  // brightnessIR(), brightnessFull(), but these
                                                  // are dependent on integration time setting
 #elif defined SENSOR_MAX44009
-        if (max44009.measure()) {
-            brightness = max44009.brightnessLux();
-        } else {
-            brightness = 0;
-        }
-#else
-        brightness    = 67000 + random(1000);    // 67000 Lux +x
+        max44009.measure();
+        brightness = max44009.brightnessLux();
 #endif
 
         // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2

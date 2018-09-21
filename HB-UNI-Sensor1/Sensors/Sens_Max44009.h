@@ -1,6 +1,6 @@
 
 //---------------------------------------------------------
-// Sens_Max44009
+// Sens_MAX44009
 // 2018-08-12 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
@@ -19,12 +19,12 @@
 
 namespace as {
 
-class Sens_Max44009 : public Sensor {
+class Sens_MAX44009 : public Sensor {
 
     uint32_t _brightnessLux;
 
 public:
-    Sens_Max44009()
+    Sens_MAX44009()
         : _brightnessLux(0)
     {
     }
@@ -57,6 +57,7 @@ public:
 
     bool measure()
     {
+        _brightnessLux = 0;
         if (_present == true) {
             // If user wants to read both the Lux High-Byte register 0x03 and Lux Low-Byte register 0x04, then the master should not
             // send a STOP command between the reads of the two registers. Instead a Repeated START command should be used.

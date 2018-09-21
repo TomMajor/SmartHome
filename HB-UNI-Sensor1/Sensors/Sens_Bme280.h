@@ -1,6 +1,6 @@
 
 //---------------------------------------------------------
-// Sens_Bme280
+// Sens_BME280
 // 2018-08-12 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
@@ -19,7 +19,7 @@
 
 namespace as {
 
-class Sens_Bme280 : public Sensor {
+class Sens_BME280 : public Sensor {
 
     int16_t  _temperature;
     uint16_t _pressure;
@@ -28,8 +28,24 @@ class Sens_Bme280 : public Sensor {
     BME280I2C
     _bme280;    // Default : forced mode, standby time = 1000 ms, Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off
 
+    void measureRaw(uint16_t height)
+    {
+        float temp(NAN), hum(NAN), pres(NAN), presNN(NAN);
+        _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa);
+        _temperature = (int16_t)(temp * 10);
+        _pressure    = (uint16_t)(pres * 10);
+        _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(height), temp, pres) * 10);
+        _humidity    = (uint8_t)hum;
+    }
+
 public:
-    Sens_Bme280() {}
+    Sens_BME280()
+        : _temperature(0)
+        , _pressure(0)
+        , _pressureNN(0)
+        , _humidity(0)
+    {
+    }
 
     void init()
     {
@@ -44,35 +60,31 @@ public:
         switch (_bme280.chipModel()) {
         case BME280::ChipModel_BME280:
             _present = true;
-            DPRINTLN("Success: found BME280 sensor");
+            DPRINTLN(F("BME280 found"));
+            measureRaw(0);    // dummy read da die Messwerte der ersten Messung nach power-on weit daneben liegen
             break;
         case BME280::ChipModel_BMP280:
             _present = true;
-            DPRINTLN("Success: found BMP280 sensor, (No Humidity available)");
+            DPRINTLN(F("BMP280 found (No Humidity available)"));
+            measureRaw(0);
             break;
         default:
-            DPRINTLN("Error: no BME280 / BMP280 sensor found");
+            DPRINTLN(F("Error: no BME280/BMP280 sensor found"));
         }
     }
 
     void measure(uint16_t height)
     {
+        _temperature = _pressure = _pressureNN = _humidity = 0;
         if (_present == true) {
-            float temp(NAN), hum(NAN), pres(NAN), presNN(NAN);
-            _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa);
-
-            _temperature = (int16_t)(temp * 10);
-            _pressure    = (uint16_t)(pres * 10);
-            _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(height), temp, pres) * 10);
-            _humidity    = (uint8_t)hum;
-
-            DPRINT("BME280   Temperature   : ");
+            measureRaw(height);
+            DPRINT(F("BME280   Temperature   : "));
             DDECLN(_temperature);
-            DPRINT("BME280   Pressure      : ");
+            DPRINT(F("BME280   Pressure      : "));
             DDECLN(_pressure);
-            DPRINT("BME280   PressureNN    : ");
+            DPRINT(F("BME280   PressureNN    : "));
             DDECLN(_pressureNN);
-            DPRINT("BME280   Humidity      : ");
+            DPRINT(F("BME280   Humidity      : "));
             DDECLN(_humidity);
         }
     }
