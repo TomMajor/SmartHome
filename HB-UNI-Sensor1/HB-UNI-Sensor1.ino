@@ -43,13 +43,11 @@
 
 //---------------------------------------------------------
 // Battery definitions
-//
 #define BAT_VOLT_LOW 22         // 2.2V
 #define BAT_VOLT_CRITICAL 19    // 1.9V
 
 //---------------------------------------------------------
 // Pin definitions
-//
 #define CONFIG_BUTTON_PIN 9
 #define LED_PIN 6
 

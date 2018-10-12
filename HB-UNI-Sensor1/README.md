@@ -97,3 +97,7 @@ Der angemeldete Sensor auf der RaspberryMatic:
 
 # FHEM Installation
 Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM neustarten.
+
+![pic](Images/fhem1.png)
+
+![pic](Images/fhem2.png)
