@@ -101,3 +101,7 @@ Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM ne
 ![pic](Images/fhem1.png)
 
 ![pic](Images/fhem2.png)
+
+**Parameter Höhe einstellen:**<br>
+"Ich konnte bei meinem THPL Sensor mit BME280 und MAX44009 über getConfig // **Config drücken** // set regSet altitude 590 // **Config drücken** // getConfig // **Config drücken** die Höhe einstellen. Bitte berichtigt mich, wenn ich da zu viel drücke und mache- so hat es jedenfalls funktioniert ::)"<br>
+_FHEM user kpwg_
