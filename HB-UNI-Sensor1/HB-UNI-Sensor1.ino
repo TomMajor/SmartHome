@@ -208,7 +208,6 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint8_t  humidity;
     uint32_t brightness;
     uint16_t batteryVoltage;
-    bool     sensorSetupDone;
 
 #ifdef SENSOR_DS18X20
     Sens_DS18X20 ds18x20;
@@ -235,47 +234,22 @@ public:
         , humidity(0)
         , brightness(0)
         , batteryVoltage(0)
-        , sensorSetupDone(false)
     {
     }
     virtual ~WeatherChannel() {}
 
-    virtual void trigger(__attribute__((unused)) AlarmClock& clock)
+    virtual void trigger(AlarmClock& clock)
     {
-        // delayed sensor setup
-        if (!sensorSetupDone) {
-#ifdef SENSOR_DS18X20
-            ds18x20.init(ONEWIRE_PIN);
-#endif
-#ifdef SENSOR_BME280
-            bme280.init();
-#endif
-#ifdef SENSOR_TSL2561
-            tsl2561.init();
-#endif
-#ifdef SENSOR_MAX44009
-            max44009.init();
-#endif
-#ifdef SENSOR_SHT10
-#if defined SENSOR_BME280 || defined SENSOR_TSL2561 || defined SENSOR_MAX44009
-            sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
-#endif
-            sht10.init();
-#endif
-            sensorSetupDone = true;
-            DPRINTLN("Sensor setup done");
-        }
         uint8_t msgcnt = device().nextcount();
         measure();
         msg.init(msgcnt, temperature10, airPressure10, humidity, brightness, batteryVoltage, device().battery().low());
         device().sendPeerEvent(msg, *this);
         // reactivate for next measure
         uint16_t updCycle = this->device().getList0().updIntervall();
-        tick              = seconds2ticks(updCycle);
+        set(seconds2ticks(updCycle));
         clock.add(*this);
     }
 
-    // here we do the measurement
     void measure()
     {
 
@@ -330,10 +304,34 @@ public:
         batteryVoltage = 100UL * device().battery().current();
     }
 
+    void initSensors()
+    {
+#ifdef SENSOR_DS18X20
+        ds18x20.init(ONEWIRE_PIN);
+#endif
+#ifdef SENSOR_BME280
+        bme280.init();
+#endif
+#ifdef SENSOR_TSL2561
+        tsl2561.init();
+#endif
+#ifdef SENSOR_MAX44009
+        max44009.init();
+#endif
+#ifdef SENSOR_SHT10
+#if defined SENSOR_BME280 || defined SENSOR_TSL2561 || defined SENSOR_MAX44009
+        sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
+#endif
+        sht10.init();
+#endif
+        DPRINTLN("Sensor setup done");
+    }
+
     void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr)
     {
         Channel::setup(dev, number, addr);
-        tick = seconds2ticks(5);    // first message in 5 sec.
+        initSensors();
+        set(seconds2ticks(5));    // first message in 5 sec.
         sysclock.add(*this);
     }
 
