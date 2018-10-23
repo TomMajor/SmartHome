@@ -1,7 +1,7 @@
 
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// 2018-08-27 Tom Major (Creative Commons)
+// 2018-10-23 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -40,6 +40,7 @@
 //#define SENSOR_TSL2561
 #define SENSOR_MAX44009
 //#define SENSOR_SHT10
+//#define SENSOR_DIGINPUT
 
 //---------------------------------------------------------
 // Battery definitions
@@ -53,6 +54,9 @@
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 6
+
+// all library classes are placed in the namespace 'as'
+using namespace as;
 
 #ifdef SENSOR_DS18X20
 #include "Sensors/Sens_DS18X20.h"    // HB-UNI-Sensor1 custom sensor class
@@ -77,8 +81,11 @@
 #define SHT10_CLKPIN A5
 #endif
 
-// all library classes are placed in the namespace 'as'
-using namespace as;
+#ifdef SENSOR_DIGINPUT
+#include "Sensors/Sens_DIGINPUT.h"    // HB-UNI-Sensor1 custom sensor class
+#define DIGINPUT_PIN A0
+Sens_DIGINPUT sensorDigInput;
+#endif
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
@@ -115,8 +122,8 @@ public:
 
 class WeatherEventMsg : public Message {
 public:
-    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint16_t batteryVoltage,
-              bool batLow)
+    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint8_t digInputState,
+              uint16_t batteryVoltage, bool batLow)
     {
 
         uint8_t t1 = (temp >> 8) & 0x7f;
@@ -124,11 +131,11 @@ public:
         if (batLow == true) {
             t1 |= 0x80;    // set bat low bit
         }
-        Message::init(20, msgcnt, 0x70, BCAST, t1, t2);
+        Message::init(21, msgcnt, 0x70, BCAST, t1, t2);
 
         // Message Length (first byte param.): 11 + payload
-        // 1 Byte payload -> length 12
-        // 9 Byte payload -> length 20
+        //  1 Byte payload -> length 12
+        // 10 Byte payload -> length 21
         // max. payload: 17 Bytes (https://www.youtube.com/watch?v=uAyzimU60jw)
 
         // BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
@@ -162,9 +169,12 @@ public:
         pload[5] = (brightness >> 8) & 0xff;
         pload[6] = (brightness >> 0) & 0xff;
 
+        // digInputState
+        pload[7] = digInputState;
+
         // batteryVoltage
-        pload[7] = (batteryVoltage >> 8) & 0xff;
-        pload[8] = batteryVoltage & 0xff;
+        pload[8] = (batteryVoltage >> 8) & 0xff;
+        pload[9] = batteryVoltage & 0xff;
     }
 };
 
@@ -207,6 +217,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint16_t airPressure10;
     uint8_t  humidity;
     uint32_t brightness;
+    uint8_t  digInputState;
     uint16_t batteryVoltage;
 
 #ifdef SENSOR_DS18X20
@@ -233,6 +244,7 @@ public:
         , airPressure10(0)
         , humidity(0)
         , brightness(0)
+        , digInputState(0)
         , batteryVoltage(0)
     {
     }
@@ -242,7 +254,7 @@ public:
     {
         uint8_t msgcnt = device().nextcount();
         measure();
-        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness, batteryVoltage, device().battery().low());
+        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness, digInputState, batteryVoltage, device().battery().low());
         device().sendPeerEvent(msg, *this);
         // reactivate for next measure
         uint16_t updCycle = this->device().getList0().updIntervall();
@@ -250,11 +262,16 @@ public:
         clock.add(*this);
     }
 
+    void forceSend()
+    {
+        sysclock.cancel(*this);
+        trigger(sysclock);
+    }
+
     void measure()
     {
-
-// Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
-// zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
+        // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
+        // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
 #if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
         temperature10 = 188;    // 18.8C
 #endif
@@ -297,6 +314,10 @@ public:
         brightness = max44009.brightnessLux();
 #endif
 
+#ifdef SENSOR_DIGINPUT
+        digInputState = sensorDigInput.pinState();
+#endif
+
         // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2
         // digits will be 00 for higher resolution, override battery() with modified
         // voltage() calculation see my HB-SEC-WDS-2 for an example with higher
@@ -323,6 +344,9 @@ public:
         sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
 #endif
         sht10.init();
+#endif
+#ifdef SENSOR_DIGINPUT
+        sensorDigInput.init(DIGINPUT_PIN);
 #endif
         DPRINTLN("Sensor setup done");
     }
@@ -394,9 +418,17 @@ void loop()
     bool worked = hal.runready();
     bool poll   = sdev.pollRadio();
     if (worked == false && poll == false) {
+#ifdef SENSOR_DIGINPUT
+        if (sensorDigInput.notifyEvent()) {
+            sensorDigInput.resetEvent();
+            DPRINTLN(F("DIGINPUT change"));
+            sdev.channel(1).forceSend();
+            delay(250);    // Entprellen
+            sensorDigInput.enableINT();
+        }
+#endif
         // deep discharge protection
-        // if we drop below critical battery level - switch off all and sleep
-        // forever
+        // if we drop below critical battery level - switch off all and sleep forever
         if (hal.battery.critical()) {
             // this call will never return
             hal.activity.sleepForever(hal);

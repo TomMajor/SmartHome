@@ -1,9 +1,13 @@
 #############################################################
 # Versionsnummer
-ADDON_VERSION=1.52
+ADDON_VERSION=1.53
 
 # ADDON_NAME, wird verwendet für das rc-Script sowie als Unterverzeichnis der Installation /usr/local/addons/... 
 ADDON_NAME=hb-uni-sensor1
+
+# Java Device name, nur für TomMajor Erweiterung "custom HM data type 'Digitaler Eingang'" benötigt
+# Java Variablen Konvention muss beachtet werden!
+JAVA_DEVICE_NAME="HBUNISensor1"
 
 # in der WebUI angezeigter Gerätetyp
 # muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-Sensor1" id="HB-UNI-Sensor1">

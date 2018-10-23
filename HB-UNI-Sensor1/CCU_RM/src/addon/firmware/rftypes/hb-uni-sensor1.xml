@@ -111,6 +111,14 @@
           </physical>
           <conversion type="float_integer_scale" factor="1.0" />
         </parameter>
+        <parameter id="ILLUMINATION" operations="read,event">
+          <logical type="integer" min="0" max="1">
+            <special_value id="NO_SENSOR" value="0" />
+          </logical>
+          <physical type="integer" interface="command" value_id="ILLUMINATION" no_init="true">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+        </parameter>
         <parameter id="Batteriespannung" operations="read,event">
           <logical type="float" min="0.5" max="5.5" unit="V" />
           <physical type="integer" interface="command" value_id="Batteriespannung">
@@ -125,10 +133,11 @@
   <frames>
     <frame id="WEATHER_EVENT" direction="from_device" event="true" fixed_channel="1" type="0x70">
       <parameter type="integer" signed="true"  index="9"  size="1.7" param="TEMPERATURE" />
-      <parameter type="integer" signed="false" index="11" size="2.0" param="AIR_PRESSURE" />
-      <parameter type="integer" signed="false" index="13" size="1.0" param="HUMIDITY" />
-      <parameter type="integer" signed="false" index="14" size="4.0" param="LUX" />
-      <parameter type="integer" signed="false" index="18" size="2.0" param="Batteriespannung" />
+      <parameter type="integer" index="11" size="2.0" param="AIR_PRESSURE" />
+      <parameter type="integer" index="13" size="1.0" param="HUMIDITY" />
+      <parameter type="integer" index="14" size="4.0" param="LUX" />
+      <parameter type="integer" index="18" size="0.1" param="ILLUMINATION" />
+      <parameter type="integer" index="19" size="2.0" param="Batteriespannung" />
     </frame>
   </frames>
   <paramset_defs></paramset_defs>
