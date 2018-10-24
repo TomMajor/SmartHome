@@ -15,6 +15,14 @@ Beispiel:<br>
 `  "UNISENS001",            // Device Serial`<br>
 - Ich empfehle den MAX44009 Helligkeitssensor anstatt dem TSL2561, siehe<br>
 [SensorTest_Lux](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/SensorTest_Lux)
+- Der Status eines digitalen Eingangs kann mit übertragen werden. Falls diese Option aktivert ist wird bei einer Änderung an diesem Eingang sofort ein neues Telegramm an die Zentrale gesendet, unabhängig vom eingestellten Sendeintervall.
+- Folgende Sensoren sind zur Zeit beim HB-UNI-Sensor1 aktivierbar:<br>
+`#define SENSOR_DS18X20`<br>
+`#define SENSOR_BME280`<br>
+`#define SENSOR_TSL2561`<br>
+`#define SENSOR_MAX44009`<br>
+`#define SENSOR_SHT10`<br>
+`#define SENSOR_DIGINPUT`<br>
 
 
 # Benötige Libraries
@@ -93,6 +101,8 @@ Der angemeldete Sensor auf der RaspberryMatic:
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
 
 ![pic](Images/HB-UNI-Sensor1_Parameter.png)
+
+![pic](Images/HB-UNI-Sensor1_DigitalerEingang.png)
 
 
 # FHEM Installation

@@ -24,7 +24,8 @@ cd CCU_RM/
 chmod 700 build.sh
 ./build.sh
 mount -o remount,ro /
-/root/CCU_RM/HB-UNI-Sensor1-addon.tgz nach <Repo> zurückkopieren
+/root/CCU_RM nach <Repo> zurückkopieren
+(durch build.sh geänderte Dateien: HB-UNI-Sensor1-addon.tgz, VERSION, update-check.cgi)
 
 -------------------------------------------------------------------------------
 #restart_rm
