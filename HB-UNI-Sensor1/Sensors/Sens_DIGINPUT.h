@@ -10,8 +10,8 @@
 // HB-UNI-Sen-PRESS-SC 2018-05-14 jp112sdl Creative Commons
 //---------------------------------------------------------
 
-#ifndef _SENS_1PINSTATE_H_
-#define _SENS_1PINSTATE_H_
+#ifndef _SENS_DIGINPUT_H_
+#define _SENS_DIGINPUT_H_
 
 #include <Sensors.h>
 
