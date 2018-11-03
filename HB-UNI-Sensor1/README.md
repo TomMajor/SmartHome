@@ -48,10 +48,6 @@ Für einen SHT10 Sensor (Feuchte):</br>
 [SHT10](https://github.com/spease/Sensirion)
 
 
-# Schaltung
-![pic](Images/Schaltung.png)
-
-
 # Messung der Batteriespannung
 
 ![pic](Images/Batteriemessung.png)
@@ -86,16 +82,31 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 
 
 # Prototyp
+
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
+![pic](Images/Schaltung.png)
+
+
+# Aussensensor
+
+![pic](Images/HB-UNI-Sensor1_HW1.jpg)
+
+![pic](Images/HB-UNI-Sensor1_HW2.jpg)
+
+[Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT)
+
+[Schaltung](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
 
 # CCU2/RaspberryMatic Installation
+
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
 
 ![pic](Images/HB-UNI-Sensor1_Install.png)
 
 
 # RaspberryMatic WebUI
+
 Der angemeldete Sensor auf der RaspberryMatic:
 
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
@@ -106,6 +117,7 @@ Der angemeldete Sensor auf der RaspberryMatic:
 
 
 # FHEM Installation
+
 Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM neustarten.
 
 ![pic](Images/fhem1.png)

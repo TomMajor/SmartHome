@@ -17,7 +17,7 @@
       <physical type="integer" interface="config" list="0" index="20" size="1" />
     </parameter>
     <parameter id="Sendeintervall">
-      <logical type="integer" min="60" max="43200" default="300" unit="s" />
+      <logical type="integer" min="60" max="43200" default="600" unit="s" />
       <physical type="integer" interface="config" list="0" index="32" size="2" />
     </parameter>
     <parameter id="Hoehe ueber NN">

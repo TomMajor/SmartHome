@@ -49,8 +49,8 @@
 
 //---------------------------------------------------------
 // Pin definitions
-#define CONFIG_BUTTON_PIN 9
-#define LED_PIN 6
+#define CONFIG_BUTTON_PIN 8
+#define LED_PIN 4
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 6
@@ -204,7 +204,7 @@ public:
         clear();
         transmitDevTryMax(6);
         lowBatLimit(BAT_VOLT_LOW);
-        updIntervall(300);
+        updIntervall(600);
         height(0);
     }
 };
