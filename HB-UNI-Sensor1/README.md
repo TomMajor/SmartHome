@@ -48,6 +48,24 @@ Für einen SHT10 Sensor (Feuchte):</br>
 [SHT10](https://github.com/spease/Sensirion)
 
 
+# Prototyp
+
+![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
+
+![pic](Images/Schaltung.png)
+
+
+# Aussensensor
+
+![pic](Images/HB-UNI-Sensor1_HW1.jpg)
+
+![pic](Images/HB-UNI-Sensor1_HW2.jpg)
+
+[Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT)
+
+[Schaltung](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
+
+
 # Messung der Batteriespannung
 
 ![pic](Images/Batteriemessung.png)
@@ -79,23 +97,6 @@ Mit dieser Klasse und der Schaltung wird der 1,2V Akku mit ca. 75mA für die kur
 Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belastet wird. Die Spannung bricht um 142mV ein und wird am Ende der 200ms gemessen.
 <br>
 ![pic](Images/BatterySensorLoad.png)
-
-
-# Prototyp
-
-![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
-![pic](Images/Schaltung.png)
-
-
-# Aussensensor
-
-![pic](Images/HB-UNI-Sensor1_HW1.jpg)
-
-![pic](Images/HB-UNI-Sensor1_HW2.jpg)
-
-[Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT)
-
-[Schaltung](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
 
 # CCU2/RaspberryMatic Installation
