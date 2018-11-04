@@ -40,3 +40,22 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 ![pic](Images/Bottom.png)
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
+
+# Spezielle Bauelemente
+
+- Gehäuse mit Klarsichtdeckel: GAINTA G201C (ohne Befestigunslaschen), GAINTA G201CMF (mit Befestigunslaschen)
+
+- Batteriehalter 2xAA: COMF BH-321-1A
+
+- MOSFET für Option 'Echte Batteriespannungsmessung unter Last'
+    * Meine Wahl: IRML6344 (Gate Threshold Voltage 0,8V, RDSon 27mOhm, 5A, SOT-23 Gehäuse, Pinout Gate 1, Source 2, Drain 3, N-Channel)
+    * Es gehen natürlich auch günstigere bzw. leichter beschaffbare MOSFETs, wichtig ist das dieser bei minimaler Betriebsspannung des Sensors (nehmen wir mal 2V an) sicher durchschalten kann (Gate Threshold Voltage) und das der RDSon möglichst klein im Bezug zu den Widerständen des Spannungsteilers R2/R3 ist.
+    Und natürlich muss er den gewählten Laststrom aushalten und das Pinout muss passen.
+    * Der Si2302 zum Beispiel wäre auch gut geeignet, ist leichter beschaffbar und günstiger (aliexpress), Gate Threshold Voltage 0,7V, RDSon 85mOhm, 2,6A.
+
+- Spule für optionalen Step-Up Wandler: Murata LQH43CN100K03L oder vergleichbare, unbedingt Strom und DC-Widerstand beachten, aus Produktrange 'Power lines', 'DC/DC' o.ä.
+
+# Verbesserungen fürs Redesign
+
+- das Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, ggf. ein zweites Bohrloch
+
