@@ -90,10 +90,14 @@ Sens_DIGINPUT sensorDigInput;
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
 const struct DeviceInfo PROGMEM devinfo = {
-    { 0xA5, 0xA5, 0x00 },        // Device ID
-    "UNISENS001",                // Device Serial
-    { 0xF1, 0x03 },              // Device Model
-    0x10,                        // Firmware Version
+    { 0xA5, 0xA5, 0x00 },    // Device ID
+    "UNISENS001",            // Device Serial
+    { 0xF1, 0x03 },          // Device Model
+    // Firmware Version 0x11
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="17" />
+    // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
+    // bei Änderungen in der Payload, im message layout usw. muss die Version an beiden Stellen hochgezogen werden!
+    0x11,
     as::DeviceType::THSensor,    // Device Type
     { 0x01, 0x01 }               // Info Bytes
 };
@@ -131,7 +135,15 @@ public:
         if (batLow == true) {
             t1 |= 0x80;    // set bat low bit
         }
-        Message::init(21, msgcnt, 0x70, BCAST, t1, t2);
+
+        // als Standard wird BCAST gesendet um Energie zu sparen, siehe Beschreibung unten.
+        // Bei jeder 20. Nachricht senden wir stattdessen BIDI|WKMEUP, um eventuell anstehende Konfigurationsänderungen auch
+        // ohne Betätigung des Anlerntaster übernehmen zu können (mit Verzögerung, worst-case 20x Sendeintervall).
+        uint8_t flags = BCAST;
+        if ((msgcnt % 20) == 2) {
+            flags = BIDI | WKMEUP;
+        }
+        Message::init(21, msgcnt, 0x70, flags, t1, t2);
 
         // Message Length (first byte param.): 11 + payload
         //  1 Byte payload -> length 12
