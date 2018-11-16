@@ -1,6 +1,6 @@
 
 ## Diverse Infos und Dokumentationen zur HM Anbindung
-// 2018-10-23 Tom Major (Creative Commons)<br>
+// 2018-11-16 Tom Major (Creative Commons)<br>
 // https://creativecommons.org/licenses/by-nc-sa/3.0/<br>
 // Danke an jp112sdl für seine wertvollen Hinweise
 
@@ -21,7 +21,7 @@
     # (Repo)CCU_RM/src/addon/params prüfen/anpassen, Versionsnummer erhöhen
     mount -o remount,rw /
     # (Repo)CCU_RM nach /root kopieren
-    cd CCU_RM/
+    cd /root/CCU_RM
     chmod 700 build.sh
     ./build.sh
     mount -o remount,ro /
@@ -48,8 +48,9 @@ Ein Abschnitt im install bzw. uninstall Script sorgt für die Änderungen, diese
 
     # neue Zeile in:
     /www/config/stringtable_de.txt
-    WEATHER|ILLUMINATION\t\t\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}
-    # wichtig, Tabs müssen sein, nur mit space wird der String-Namen nicht eingelesen!
+    WEATHER|ILLUMINATION**TAB CHAR**\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}
+    # wichtig, der Tab muss sein, nur mit space wird der String-Namen nicht eingelesen!
+    # Wegen alter Version vom Tool sed auf der CCU2 muss ein richtiger Tab char 0x09 in der Zeile erzeugt werden, ein \t geht auf RM aber nicht auf CCU2
 
     # neue Zeile in:
     /www/webui/js/lang/de/translate.lang.stringtable.js

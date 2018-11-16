@@ -47,7 +47,7 @@ fi
 # Process stringtable_de.txt
 myfile="/www/config/stringtable_de.txt"
 mysearch="#[[:space:]]*END WEATHER SENSOR"
-myinsert="WEATHER|ILLUMINATION\t\t\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}"
+myinsert="WEATHER|ILLUMINATION	\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}"
 if [ -z "`cat $myfile | grep \"$JAVA_DEVICE_NAME\"`" ]; then
 	# sed: insert before match
 	sed -i "/$mysearch/i $myinsert" $myfile

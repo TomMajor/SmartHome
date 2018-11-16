@@ -32,7 +32,7 @@ chmod 755 ${ADDON_DIR}
 rm -rf ${WWW_DIR}
 ln -sf ${ADDON_DIR} ${WWW_DIR}
 
-rm ${ADDON_DIR}/installed
+rm -f ${ADDON_DIR}/installed
 
 # Startskript ausführen
 ${RC_DIR}/$ADDON_NAME start
@@ -51,5 +51,6 @@ elif [ "$1" = "CCU2" ]; then
   echo "CCU2"
 elif [ "$1" = "HM-RASPBERRYMATIC" ]; then
   echo "HM-RASPBERRYMATIC"
+  exit 10
 fi
 
