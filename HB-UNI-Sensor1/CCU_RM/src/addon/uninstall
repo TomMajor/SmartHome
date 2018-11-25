@@ -20,35 +20,6 @@ rm -f $FIRMWARE_FILES
 rm -f /www/config/img/devices/250/$DEVICE_IMG
 rm -f /www/config/img/devices/50/$DEVICE_THUMB
 
-# ---------------------------------------------------------
-# Start TomMajor custom HM data type 'Digitaler Eingang'
-
-# Process stringtable_de.txt
-myfile="/www/config/stringtable_de.txt"
-if [ "`cat $myfile | grep \"$JAVA_DEVICE_NAME\"`" ]; then
-	# sed: remove (matched) line
-	sed -i "/$JAVA_DEVICE_NAME/d" $myfile
-fi
-
-# Process translate.lang.stringtable.js
-myfile="/www/webui/js/lang/de/translate.lang.stringtable.js"
-if [ "`cat $myfile | grep \"$JAVA_DEVICE_NAME\"`" ]; then
-	# sed: remove (matched) line
-	sed -i "/$JAVA_DEVICE_NAME/d" $myfile
-fi
-
-# Process translate.lang.diagram.js
-myfile="/www/webui/js/lang/de/translate.lang.diagram.js"
-mysearch="diagramValueTypeILLUMINATION"
-myinsert="\    \"diagramValueTypeILLUMINATION\": \"Helligkeit\","
-if [ "`cat $myfile | grep \"Digitaler Eingang\"`" ]; then
-	# sed: change (matched) line
-	sed -i "/$mysearch/c $myinsert" $myfile
-fi
-
-# End TomMajor custom HM data type 'Digitaler Eingang'
-# ---------------------------------------------------------
-
 sync
 
 mount -o remount,ro /

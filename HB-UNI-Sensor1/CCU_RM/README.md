@@ -1,11 +1,10 @@
-
-## Diverse Infos und Dokumentationen zur HM Anbindung
+### Diverse Infos und Dokumentationen zur HM Anbindung
+#### Nur für Entwickler, für Anwender reicht die Installation des AddOn mittels Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz auswählen
 // 2018-11-16 Tom Major (Creative Commons)<br>
 // https://creativecommons.org/licenses/by-nc-sa/3.0/<br>
 // Danke an jp112sdl für seine wertvollen Hinweise
 
-
-## neues xml testen:
+### neues xml testen:
     mount -o remount,rw /
     # restart_rm nach /root kopieren
     chmod 700 restart_rm
@@ -15,8 +14,7 @@
     grep "\sro[\s,]" /proc/mounts
     /root/restart_rm
 
-
-## HB-UNI-Sensor1-addon.tgz bauen:
+### HB-UNI-Sensor1-addon.tgz bauen:
     # ggf. neues xml nach (Repo)/CCU_RM/src/addon/firmware/rftypes kopieren
     # (Repo)CCU_RM/src/addon/params prüfen/anpassen, Versionsnummer erhöhen
     mount -o remount,rw /
@@ -28,8 +26,7 @@
     # /root/CCU_RM nach <Repo> zurückkopieren
     # durch build.sh geänderte Dateien: HB-UNI-Sensor1-addon.tgz, VERSION, update-check.cgi
 
-
-## Script restart_rm
+### Script restart_rm
     #!/bin/sh
     echo
     /etc/init.d/S50lighttpd restart
@@ -38,30 +35,7 @@
     sleep 1
     /etc/init.d/S70ReGaHss restart
 
-
-## custom HM data type 'Digitaler Eingang'
-Durch diese Änderungen wird der plotbare HomeMatic Datentyp ILLUMINATION für den HB-UNI-Sensor1 in den Datentyp 'Digitaler Eingang' umgewandelt.<br>
-So erhält man in der Geräteansicht **und** in der Diagramm-Legende einen Namen der besser zu einem beliebigen (binären) Status 0/1 passt.<br>
-Dieser Status ist in einem Diagramm plotbar (dies ist nicht mit allen HM Datentypen möglich).<br>
-Die Wahl fiel auf Datentyp ILLUMINATION weil dieser in den Device xml-Dateien der diversen HM Geräte kaum bzw. nicht verwendet wird.<br>
-Ein Abschnitt im install bzw. uninstall Script sorgt für die Änderungen, diese sind im Einzelnen:<br>
-
-    # neue Zeile in:
-    /www/config/stringtable_de.txt
-    WEATHER|ILLUMINATION**TAB CHAR**\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}
-    # wichtig, der Tab muss sein, nur mit space wird der String-Namen nicht eingelesen!
-    # Wegen alter Version vom Tool sed auf der CCU2 muss ein richtiger Tab char 0x09 in der Zeile erzeugt werden, ein \t geht auf RM aber nicht auf CCU2
-
-    # neue Zeile in:
-    /www/webui/js/lang/de/translate.lang.stringtable.js
-    "stringTableWeatherIllumination$JAVA_DEVICE_NAME" : "Digitaler Eingang",
-
-    # Ersetzen in:
-    /www/webui/js/lang/de/translate.lang.diagram.js
-    "diagramValueTypeILLUMINATION": "Digitaler Eingang",
-
-
-## Versionierung Firmware(Sketch) <-> CCU Addon xml (jp112sdl)
+### Versionierung Firmware(Sketch) <-> CCU Addon xml (jp112sdl)
 Also die VERSION habe ich in der Addon source natürlich hochgesetzt -
 Diese Versionsangabe dient lediglich der Anzeige in der WebUI, um den Anwender über den Versionsstand des jeweiligen Addons zu informieren.
 Was ich meine, ist die Firmware-Version des Gerätes.
@@ -87,3 +61,26 @@ Es wäre nun also ratsam
 Anschließend beide Versionen ausliefern.
 Du hast ein Addon (Anzahl 1) und packst da einfach mehrere XML-Files mit rein.
 So können dann nach wie vor auch Geräte mit altem FW-Stand wieder korrekt angelernt werden, ohne sie neu flashen zu müssen.
+
+### custom HM data type 'Digitaler Eingang'
+**Achtung: obsolete, nicht mehr verwendet, da der geänderte Datentyp zwar in der Zentrale aber nicht in Systemen wie ioBroker funktioniert**
+
+Durch diese Änderungen wird der plotbare HomeMatic Datentyp ILLUMINATION für den HB-UNI-Sensor1 in den Datentyp 'Digitaler Eingang' umgewandelt.<br>
+So erhält man in der Geräteansicht **und** in der Diagramm-Legende einen Namen der besser zu einem beliebigen (binären) Status 0/1 passt.<br>
+Dieser Status ist in einem Diagramm plotbar (dies ist nicht mit allen HM Datentypen möglich).<br>
+Die Wahl fiel auf Datentyp ILLUMINATION weil dieser in den Device xml-Dateien der diversen HM Geräte kaum bzw. nicht verwendet wird.<br>
+Ein Abschnitt im install bzw. uninstall Script sorgt für die Änderungen, diese sind im Einzelnen:<br>
+
+    # neue Zeile in:
+    /www/config/stringtable_de.txt
+    WEATHER|ILLUMINATION**TAB CHAR**\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}
+    # wichtig, der Tab muss sein, nur mit space wird der String-Namen nicht eingelesen!
+    # Wegen alter Version vom Tool sed auf der CCU2 muss ein richtiger Tab char 0x09 in der Zeile erzeugt werden, ein \t geht auf RM aber nicht auf CCU2
+
+    # neue Zeile in:
+    /www/webui/js/lang/de/translate.lang.stringtable.js
+    "stringTableWeatherIllumination$JAVA_DEVICE_NAME" : "Digitaler Eingang",
+
+    # Ersetzen in:
+    /www/webui/js/lang/de/translate.lang.diagram.js
+    "diagramValueTypeILLUMINATION": "Digitaler Eingang",

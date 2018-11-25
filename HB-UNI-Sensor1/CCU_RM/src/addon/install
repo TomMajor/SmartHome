@@ -41,37 +41,6 @@ if [ -z "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
 	sed -i "s/\($webuiSearch\)/\1$webuiInsert/g" $webuiFile
 fi
 
-# ---------------------------------------------------------
-# Start TomMajor custom HM data type 'Digitaler Eingang'
-
-# Process stringtable_de.txt
-myfile="/www/config/stringtable_de.txt"
-mysearch="#[[:space:]]*END WEATHER SENSOR"
-myinsert="WEATHER|ILLUMINATION	\${stringTableWeatherIllumination$JAVA_DEVICE_NAME}"
-if [ -z "`cat $myfile | grep \"$JAVA_DEVICE_NAME\"`" ]; then
-	# sed: insert before match
-	sed -i "/$mysearch/i $myinsert" $myfile
-fi
-
-# Process translate.lang.stringtable.js
-myfile="/www/webui/js/lang/de/translate.lang.stringtable.js"
-mysearch="stringTableWeatherWindSpeedResultSourceMax"
-myinsert="\    \"stringTableWeatherIllumination$JAVA_DEVICE_NAME\" : \"Digitaler Eingang\","
-if [ -z "`cat $myfile | grep \"$JAVA_DEVICE_NAME\"`" ]; then
-	# sed: append after match
-	sed -i "/$mysearch/a $myinsert" $myfile
-fi
-
-# Process translate.lang.diagram.js
-myfile="/www/webui/js/lang/de/translate.lang.diagram.js"
-mysearch="diagramValueTypeILLUMINATION"
-myinsert="\    \"diagramValueTypeILLUMINATION\": \"Digitaler Eingang\","
-# sed: change (matched) line
-sed -i "/$mysearch/c $myinsert" $myfile
-
-# End TomMajor custom HM data type 'Digitaler Eingang'
-# ---------------------------------------------------------
-
 sync
 
 mount -o remount,ro /
