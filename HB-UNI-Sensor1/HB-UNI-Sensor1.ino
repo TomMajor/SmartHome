@@ -84,7 +84,7 @@ using namespace as;
 #ifdef SENSOR_DIGINPUT
 #include "Sensors/Sens_DIGINPUT.h"    // HB-UNI-Sensor1 custom sensor class
 #define DIGINPUT_PIN A0
-Sens_DIGINPUT sensorDigInput;
+Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (Interrupt event)
 #endif
 
 // define all device properties
@@ -327,7 +327,7 @@ public:
 #endif
 
 #ifdef SENSOR_DIGINPUT
-        digInputState = sensorDigInput.pinState();
+        digInputState = digitalInput.pinState();
 #endif
 
         // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2
@@ -358,7 +358,7 @@ public:
         sht10.init();
 #endif
 #ifdef SENSOR_DIGINPUT
-        sensorDigInput.init(DIGINPUT_PIN);
+        digitalInput.init(DIGINPUT_PIN);
 #endif
         DPRINTLN("Sensor setup done");
     }
@@ -431,12 +431,12 @@ void loop()
     bool poll   = sdev.pollRadio();
     if (worked == false && poll == false) {
 #ifdef SENSOR_DIGINPUT
-        if (sensorDigInput.notifyEvent()) {
-            sensorDigInput.resetEvent();
+        if (digitalInput.notifyEvent()) {
+            digitalInput.resetEvent();
             DPRINTLN(F("DIGINPUT change"));
             sdev.channel(1).forceSend();
             delay(250);    // Entprellen
-            sensorDigInput.enableINT();
+            digitalInput.enableINT();
         }
 #endif
         // deep discharge protection

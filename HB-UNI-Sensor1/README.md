@@ -76,8 +76,8 @@ keine zusätzliche Hardware notwendig<br>
 
 - Option2: Batteriespannungsmessung für Step-Up<br>
 2 zusätzliche Widerstände notwendig, Verwendung der Batterieklasse BatterySensorUni<br>
-`BatterySensorUni<17,7,3000>`<br>
-`// sense pin = A1 = 15, activation pin = D7 = 7, Vcc nominal 3,0V`
+`BatterySensorUni<14,9,3000>`<br>
+`// sense pin = A0 (Arduino 14), activation pin = D9 (Arduino 9), Vcc nominal 3,0V`
 
 - Option3: Echte Batteriespannungsmessung unter Last<br>
 Sie dient u.a. dem Schutz vor einem "Babbling Idiot, siehe
@@ -89,7 +89,7 @@ Die Schaltung belastet die Batterie bzw. den Akku für einige Hundert Millisekun
 Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung.
 <br><br>
 Dazu wurde eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier BatterySensorLoad und befindet sich unter Sensors/BatterySensorLoad.h <br>
-Mit dieser Klasse und der Schaltung wird der 1,2V Akku mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R5/R6 möglich. Momentan geschieht das 2 mal am Tag.<br>
+Mit dieser Klasse und der Schaltung werden die Batterien bei 3V mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R2/R3 möglich. Momentan geschieht das 2 mal am Tag.<br>
 `TODO code für Dekl. der Klasse`<br>
 `hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);`<br>
 `// 2x Batt.messung täglich, Spannungsteiler 1:2`<br>

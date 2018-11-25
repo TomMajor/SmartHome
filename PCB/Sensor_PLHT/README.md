@@ -57,5 +57,8 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 # Verbesserungen fürs Redesign
 
-- das Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, ggf. ein zweites Bohrloch
+- das linke Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, zweites Bohrloch rechts vorsehen
+- MAX44001 und BME280 Pin 1 Markierungen nachtragen
+- SHT10 optional?
+- Arduino Pro Mini Leiste JP2/U-Bat: Sollte da nicht ein Jumper dazwischen sein? Warum hat Dirk U-Bat fest auf 3,3V geklemmt wenn kein Step-Up verbaut ist?
 
