@@ -93,11 +93,11 @@ const struct DeviceInfo PROGMEM devinfo = {
     { 0xA5, 0xA5, 0x00 },    // Device ID
     "UNISENS001",            // Device Serial
     { 0xF1, 0x03 },          // Device Model
-    // Firmware Version 0x11
-    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x11" />
+    // Firmware Version
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x12" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
-    // bei Änderungen in der Payload, im message layout usw. muss die Version an beiden Stellen hochgezogen werden!
-    0x11,
+    // bei Änderungen von Payload, message layout, Datenpunkt-Typen usw. muss die Version an beiden Stellen hochgezogen werden!
+    0x12,
     as::DeviceType::THSensor,    // Device Type
     { 0x01, 0x01 }               // Info Bytes
 };
