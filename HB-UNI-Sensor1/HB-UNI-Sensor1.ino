@@ -43,9 +43,14 @@
 //#define SENSOR_DIGINPUT
 
 //---------------------------------------------------------
-// Battery definitions
+// Schwellwerte für Batteriespannungsmessung
 #define BAT_VOLT_LOW 22         // 2.2V
 #define BAT_VOLT_CRITICAL 19    // 1.9V
+
+//---------------------------------------------------------
+// Optionen für Batteriespannungsmessung, siehe README
+#define BAT_SENSOR BatterySensor    // Standard, UBatt = Betriebsspannung AVR
+//#define BAT_SENSOR BatterySensorUni<14, 9, 3000>    // mit StepUp, sense pin A0, activation pin D9, Vcc StepUp 3,0V
 
 //---------------------------------------------------------
 // Pin definitions
@@ -103,10 +108,10 @@ const struct DeviceInfo PROGMEM devinfo = {
 };
 
 // Configure the used hardware
-typedef AvrSPI<10, 11, 12, 13>                    SPIType;
-typedef Radio<SPIType, 2>                         RadioType;
-typedef StatusLed<LED_PIN>                        LedType;
-typedef AskSin<LedType, BatterySensor, RadioType> BaseHal;
+typedef AvrSPI<10, 11, 12, 13>                 SPIType;
+typedef Radio<SPIType, 2>                      RadioType;
+typedef StatusLed<LED_PIN>                     LedType;
+typedef AskSin<LedType, BAT_SENSOR, RadioType> BaseHal;
 
 class Hal : public BaseHal {
 public:
@@ -191,8 +196,8 @@ public:
 };
 
 // die "freien" Register 0x20/21 werden hier als 16bit memory für das Update
-// Intervall in Sek. benutzt siehe auch hb_uni_sensor1.xml, <parameter
-// id="Update Intervall"> .. ausserdem werden die Register 0x22/0x23 für den
+// Intervall in Sek. benutzt siehe auch hb-uni-sensor1.xml, <parameter
+// id="Sendeintervall"> .. ausserdem werden die Register 0x22/0x23 für den
 // konf. Parameter Höhe benutzt
 DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT, 0x20, 0x21, 0x22, 0x23)
 class SensorList0 : public RegList0<Reg0> {

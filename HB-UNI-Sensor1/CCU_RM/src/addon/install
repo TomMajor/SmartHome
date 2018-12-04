@@ -7,6 +7,8 @@ mount -o remount,rw /
 ### Copy new devices Files ###
 cp -a firmware/rftypes/* /firmware/rftypes/
 
+chmod 644 $FIRMWARE_FILE
+
 ### Copy new images ###
 cp -ar www/config/img/devices /www/config/img/
 

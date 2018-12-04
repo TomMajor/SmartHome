@@ -55,10 +55,13 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 - Spule für optionalen Step-Up Wandler: Murata LQH43CN100K03L oder vergleichbare, unbedingt Strom und DC-Widerstand beachten, aus Produktrange 'Power lines', 'DC/DC' o.ä.
 
-# Verbesserungen fürs Redesign
+# Verbesserungen für's nächste Redesign
 
-- das linke Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, zweites Bohrloch rechts vorsehen
-- MAX44001 und BME280 Pin 1 Markierungen nachtragen
-- SHT10 optional?
-- Arduino Pro Mini Leiste JP2/U-Bat: Sollte da nicht ein Jumper dazwischen sein? Warum hat Dirk U-Bat fest auf 3,3V geklemmt wenn kein Step-Up verbaut ist?
+- das linke Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, zweites Bohrloch rechts vorsehen (TomMajor)
+- Arduino Pro Mini Leiste JP2/U-Bat: Sollte da nicht ein Jumper dazwischen sein? Warum hat Dirk U-Bat fest auf 3,3V geklemmt wenn kein Step-Up verbaut ist? (TomMajor)
+- MAX44001 und BME280 Pin 1 Markierungen nachtragen (PeMue)
+- SHT10 optional (kpwg)
+- die Breakout-Boards Pinreihen beide am Rand platzieren und mit Abstand zueinander - aktuell musste ich am MAX44009 feilen, damit es passte (kpwg)
+- alle wichtigen Beschriftungen des Bestückungsdruckes größer machen - die Chinesen haben offenbar Probleme mit so kleinen Zeichen (kpwg)
+- die LED Pads als 1206 vorsehen - 0805 lässt sich auf 1206 gut auflöten, aber 1206 auf 0805 ist schon grenzwertig (kpwg)
 
