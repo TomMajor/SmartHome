@@ -58,7 +58,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 # Bestückungsvarianten
 
 | Thema | Variante | zu bestückende Bauteile |
-|--------|--------|--------|--------|
+| --- | --- | --- |
 | CC1101 | immer | M1, R9, C12 |
 | Interface | immer | LED1, R7, CONFIG1 |
 | I2C | immer | R5, R6 |
