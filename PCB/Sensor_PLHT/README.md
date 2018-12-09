@@ -57,7 +57,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 # Bestückungsvarianten
 
-| Thema | Variante | zu bestückende Bauteile |
+| Thema | Variante | zu bestückende Bauelemente |
 | --- | --- | --- |
 | CC1101 | immer | M1, R9, C12 |
 | Interface | immer | LED1, R7, CONFIG1 |
@@ -66,8 +66,12 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 | CPU | Arduino Pro Mini | über Pin Header JP1, JP2, JP3 stecken oder löten |
 | I2C Sensoren | Temperatur, Luftdruck, Luftfeuchte, Helligkeit | nach Bedarf IC3 + C4, IC6 + C11, SV1, SV2 |
 | 1-Wire Sensor DS18B20 | Temperatur | IC7, R8 |
-
-**Thema in Arbeit**
+| Betriebsspannung | Standard 2x AA (3V) | SJ1 geschlossen |
+| Betriebsspannung | Step-Up 1x AA oder Akku (1,2-1,5V) | MAX1724, L1, C8, C9, C10, SJ1 offen |
+| Betriebsspannung | >3V | nur mit LDO, extern oder LDO auf dem Arduino Pro Mini, SJ1 offen |
+| Messung Batteriespannung | Standard 3V | keine zusätzlichen Bauelemente nötig |
+| Messung Batteriespannung | Step-Up MAX1724 | R2 470k, R3 100k, SJ2 geschlossen |
+| Messung Batteriespannung | Messung unter Last (Schutz vor "Babbling Idiot") | R2 30, R3 10, T1, R4 bestücken, SJ2 offen, R2/R3 an gewünschten Laststrom anpassen |
 
 # Flashen
 
@@ -76,7 +80,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 # Verbesserungen für's nächste Redesign
 
 - das linke Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, zweites Bohrloch rechts vorsehen (TomMajor)
-- Arduino Pro Mini Leiste JP2/U-Bat: Jumper vorsehen um beim Pro Mini den Eingang des Step-Down abzuklemmen, der Step-Down wird bei Batteriebetrieb nicht benötigt. Am Besten ist es sowieso den Step-Down zu entfernen um Ruhestrom zu sparen. (TomMajor)
+- Arduino Pro Mini Leiste JP2/U-Bat: Jumper vorsehen um beim Pro Mini den Eingang des LDO abzuklemmen, der LDO wird bei Batteriebetrieb nicht benötigt. Am Besten ist es sowieso den LDO zu entfernen um Ruhestrom zu sparen. (TomMajor)
 - MAX44001 und BME280 Pin 1 Markierungen nachtragen (PeMue)
 - SHT10 optional (kpwg)
 - die Breakout-Boards Pinreihen beide am Rand platzieren und mit Abstand zueinander - aktuell musste ich am MAX44009 feilen, damit es passte (kpwg)
