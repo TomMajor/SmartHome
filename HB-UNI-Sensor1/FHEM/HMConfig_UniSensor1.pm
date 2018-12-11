@@ -7,7 +7,7 @@ use warnings;
 $HMConfig::culHmModel{'F103'} = {name => 'HB-UNI-Sensor1', st => 'UniSensor1', cyc => '00:10', rxt => 'l:w:c:f', lst  => 'p',   chn  => '',};
 
 $HMConfig::culHmRegDefine{'lowBatLimit'}     = {a=>18.0,s=>1.0,l=>0,min=>1.0 ,max=>5     ,c=>'',f=>10,u=>'V',  d=>0,t=>'Low batterie limit, step 0.1 V.'};
-$HMConfig::culHmRegDefine{'updateIntervall'} = {a=>32.0,s=>2.0,l=>0,min=>60  ,max=>43200 ,c=>'',f=>'',u=>'s'  ,d=>0,t=>'Sensor mesure und send intervall in seconds.'};
+$HMConfig::culHmRegDefine{'updateIntervall'} = {a=>32.0,s=>2.0,l=>0,min=>60  ,max=>43200 ,c=>'',f=>'',u=>'s'  ,d=>0,t=>'Sensor measure and send intervall in seconds.'};
 $HMConfig::culHmRegDefine{'altitude'}        = {a=>34.0,s=>2.0,l=>0,min=>0   ,max=>10000 ,c=>'',f=>'',u=>'m'  ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
 
 # Register model mapping

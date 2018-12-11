@@ -65,6 +65,8 @@ Für einen SHT10 Sensor (Feuchte):</br>
 
 [Schaltung](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
+[Verringerung Ruhestrom](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Ruhestrom)
+
 
 # Messung der Batteriespannung
 
