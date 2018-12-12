@@ -3,27 +3,34 @@
 
 - Auf dem Arduino Pro Mini sollte der LDO Spannungsregler (die Stelle ist im Bild mit 1 markiert) sowie die Power-LED (2) entfernt werden, um den Ruhestrom wesentlich zu verringern.
 
-![pic](ProMini_LDO.jpg)
+![pic](Images/ProMini_LDO.jpg)
 
+<br>
 ## Ruhestrom mit Sensor-Boards
 
 Meine Messungen an den MAX44009 und BME280 Sensor-Boards zeigen diese Stromaufnahme im Standby:
 
 | Sensor | Boardtyp | Strom mit LDO | Strom ohne LDO |
 | --- | --- | --- | --- |
-| BME280 | GYBMEP | 5 µA | 0,1 µA |
-| MAX44009 | GY-49 | 6 µA | Messung folgt |
+| BME280 | GYBMEP | 5 µA | 0,15 µA |
+| MAX44009 | GY-49 | 6 µA | 0,7 µA |
 
 - Der LDO (oft ist der Typ 662K zu finden) ist für den Arduino 5V Betrieb gedacht. Da die AskSinPP-Geräte mit 3,3V betrieben werden (CC1101!) ist der LDO auf den Sensor-Boards unnötig und verursacht nur erhöhten Ruhestrom. Aus diesem Grund empfehle ich diesen zu entfernen.
-- Danach muss Vin mit Vout gebrückt werden. Auf den Boards ist eine I2C Level-Shifter mit 2 Transistoren und 4 Widerstanden verbaut.
+- Danach muss Vin mit Vout gebrückt werden. Auf den Boards ist eine I2C Level-Shifter mit 2 Transistoren und 4 Widerständen verbaut.
 Das Einfachste ist es, eine kleine Lötbrücke (Vin-Vout) zwischen den 2 Widerstandspaaren zu machen, im Bild mit einem kleinem Kreuz markiert.
 - Der I2C Level-Shifter funktioniert auch bei gleicher Spannung rechts und links.
 
-![pic](GYBMEP_LDO.jpg)
+Schaltung LevelShifter
+![pic](Images/I2C_LevelShifter.png)
 
-![pic](I2C_LevelShifter.png)
+GYBMEP: Entfernung LDO und Brücke Vin-Vout
+![pic](Images/GYBMEP_LDO.jpg)
+
+GY-49: Entfernung LDO und Brücke Vin-Vout
+![pic](Images/GY-49_LDO.jpg)
 
 
+<br>
 ## Überprüfung des Ruhestroms
 
 - Der Sketch SleepTest.ino dient zur Überprüfung von Aktiv- und Power-Down-Strom eines Arduino Pro Mini 328 - 3.3V/8MHz mit angeschlossenem CC1101 (das wäre ein Basic HM AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW). Die Ströme sind bei batteriebetriebenen Geräten wichtig für die Batterielebensdauer.
@@ -36,4 +43,4 @@ Das Einfachste ist es, eine kleine Lötbrücke (Vin-Vout) zwischen den 2 Widerst
 
 - Multimeter haben meist einen relativ hohem Innenwiderstand im µA-Messbereich. Auf die µA-Messung sollte man deshalb nur dann kurz umschalten wenn der AVR im Power-Down-Modus ist (LED aus) und vor Ablauf der 8sec wieder zurück auf den mA-Messbereich. Andernfalls wird der AVR im aktivem Zustand eventuell nicht wieder anlaufen, da der Spannungsabfall dann über den µA-Messbereich des Multimeters zu hoch ist.
 
-![pic](SleepTest.jpg)
+![pic](Images/SleepTest.jpg)

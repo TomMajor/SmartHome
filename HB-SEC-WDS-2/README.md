@@ -16,7 +16,7 @@
 
 ## Aufbau Prototyp
 
-![pic](Images/Prototyp.jpg)
+![pic](Images/Prototyp_Wassermelder.jpg)
 
 ## Das angemeldete Gerät im RaspberryMatic WebUI
 
