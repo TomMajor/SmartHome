@@ -7,6 +7,17 @@
     </type>
   </supported_types>
   <paramset type="MASTER" id="hm_uni_sen_dev_master">
+    <parameter id="DEVICE_LED_MODE">
+      <logical type="option">
+        <option id="OFF" />
+        <option id="ON" default="true" />
+      </logical>
+      <physical type="integer" interface="config" list="0" index="5.6" size="0.2" />
+      <conversion type="integer_integer_map">
+        <value_map device_value="0x00" parameter_value="0" />
+        <value_map device_value="0x01" parameter_value="1" />
+      </conversion>
+    </parameter>
     <parameter id="LOW_BAT_LIMIT">
       <logical type="float" min="1.8" max="5.0" default="2.2" unit="V" />
       <physical type="integer" interface="config" list="0" index="18" size="1" />

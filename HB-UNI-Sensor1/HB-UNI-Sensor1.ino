@@ -44,7 +44,7 @@
 
 //---------------------------------------------------------
 // Schwellwerte für Batteriespannungsmessung
-#define BAT_VOLT_LOW 22         // 2.2V
+#define BAT_VOLT_LOW 21         // 2.1V
 #define BAT_VOLT_CRITICAL 19    // 1.9V
 
 //---------------------------------------------------------
@@ -95,7 +95,7 @@ Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (I
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
 const struct DeviceInfo PROGMEM devinfo = {
-    { 0xA5, 0xA5, 0x00 },    // Device ID
+    { 0xA5, 0xA5, 0x01 },    // Device ID
     "UNISENS001",            // Device Serial
     { 0xF1, 0x03 },          // Device Model
     // Firmware Version
@@ -199,7 +199,7 @@ public:
 // Intervall in Sek. benutzt siehe auch hb-uni-sensor1.xml, <parameter
 // id="Sendeintervall"> .. ausserdem werden die Register 0x22/0x23 für den
 // konf. Parameter Höhe benutzt
-DEFREGISTER(Reg0, MASTERID_REGS, DREG_TRANSMITTRYMAX, DREG_LOWBATLIMIT, 0x20, 0x21, 0x22, 0x23)
+DEFREGISTER(Reg0, MASTERID_REGS, DREG_LEDMODE, DREG_LOWBATLIMIT, DREG_TRANSMITTRYMAX, 0x20, 0x21, 0x22, 0x23)
 class SensorList0 : public RegList0<Reg0> {
 public:
     SensorList0(uint16_t addr)
@@ -219,8 +219,9 @@ public:
     void defaults()
     {
         clear();
-        transmitDevTryMax(6);
+        ledMode(1);
         lowBatLimit(BAT_VOLT_LOW);
+        transmitDevTryMax(6);
         updIntervall(600);
         height(0);
     }
@@ -399,6 +400,10 @@ public:
     {
         TSDevice::configChanged();
         DPRINTLN("Config Changed: List0");
+
+        uint8_t ledMode = this->getList0().ledMode();
+        DPRINT("ledMode: ");
+        DDECLN(ledMode);
 
         uint8_t lowBatLimit = this->getList0().lowBatLimit();
         DPRINT("lowBatLimit: ");
