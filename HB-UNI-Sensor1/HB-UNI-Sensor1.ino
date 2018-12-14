@@ -37,6 +37,7 @@
 //
 //#define SENSOR_DS18X20
 #define SENSOR_BME280
+//#define SENSOR_BMP180
 //#define SENSOR_TSL2561
 #define SENSOR_MAX44009
 //#define SENSOR_SHT10
@@ -70,6 +71,10 @@ using namespace as;
 
 #ifdef SENSOR_BME280
 #include "Sensors/Sens_BME280.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
+#ifdef SENSOR_BMP180
+#include "Sensors/Sens_BMP180.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_TSL2561
@@ -244,6 +249,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_BME280
     Sens_BME280 bme280;
 #endif
+#ifdef SENSOR_BMP180
+    Sens_BMP180 bmp180;
+#endif
 #ifdef SENSOR_TSL2561
     Sens_TSL2561 tsl2561;
 #endif
@@ -290,13 +298,13 @@ public:
     {
         // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
         // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
-#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
+#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT10)
         temperature10 = 188;    // 18.8C
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
         humidity = 88;    // 88%
 #endif
-#if !defined(SENSOR_BME280)
+#if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
         airPressure10 = 10880;    // 1088 hPa
 #endif
 #if !defined(SENSOR_TSL2561) && !defined(SENSOR_MAX44009)
@@ -308,14 +316,22 @@ public:
         temperature10 = ds18x20.temperature();
 #endif
 
-// Entweder BME280 oder SHT10 für Feuchtigkeit, ggf. für anderen Bedarf anpassen
+// Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_BME280
         uint16_t height = this->device().getList0().height();
         bme280.measure(height);
         temperature10 = bme280.temperature();
         airPressure10 = bme280.pressureNN();
         humidity      = bme280.humidity();
-#elif defined SENSOR_SHT10
+#elif defined SENSOR_BMP180
+        uint16_t height = this->device().getList0().height();
+        bmp180.measure(height);
+        temperature10 = bmp180.temperature();
+        airPressure10 = bmp180.pressure();
+#endif
+
+// Feuchte vom SHT10 falls kein BME280 vorhanden
+#if defined(SENSOR_SHT10) && !defined(SENSOR_BME280)
         sht10.measure();
         temperature10 = sht10.temperature();
         humidity      = sht10.humidity();
@@ -351,6 +367,9 @@ public:
 #ifdef SENSOR_BME280
         bme280.init();
 #endif
+#ifdef SENSOR_BMP180
+        bmp180.init();
+#endif
 #ifdef SENSOR_TSL2561
         tsl2561.init();
 #endif
@@ -358,7 +377,7 @@ public:
         max44009.init();
 #endif
 #ifdef SENSOR_SHT10
-#if defined SENSOR_BME280 || defined SENSOR_TSL2561 || defined SENSOR_MAX44009
+#if defined SENSOR_BME280 || defined SENSOR_BMP180 || defined SENSOR_TSL2561 || defined SENSOR_MAX44009
         sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
 #endif
         sht10.init();
