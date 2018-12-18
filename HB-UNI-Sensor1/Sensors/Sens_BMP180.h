@@ -52,21 +52,25 @@ public:
         return false;
     }
 
-    void measure(uint16_t height)
+    void measure(uint16_t altitude)
     {
         _temperature = _pressure = _pressureNN = 0;
         if (_present == true) {
-            float T = _bmp180.getTemperature();
-            if (T != BMP180_ERROR) {
-                _temperature = (int16_t)(T * 10);    // C*10
+            float temp = _bmp180.getTemperature();    // C
+            if (temp != BMP180_ERROR) {
+                _temperature = (int16_t)(temp * 10.0);    // HB-UNI-Sensor1: C*10
                 DPRINT(F("BMP180   Temperature   : "));
                 DDECLN(_temperature);
-            }
-            int32_t P = _bmp180.getPressure();
-            if (P != BMP180_ERROR) {
-                _pressure = (uint16_t)(P / 10);    // hPa*10
-                DPRINT(F("BMP180   Pressure      : "));
-                DDECLN(_pressure);
+
+                float pres = _bmp180.getPressure();    // Pa
+                if (pres != BMP180_ERROR) {
+                    _pressure    = (uint16_t)(pres / 10.0);    // HB-UNI-Sensor1: hPa*10
+                    _pressureNN  = (uint16_t)(EquivalentSeaLevelPressure(float(altitude), temp, pres) / 10.0);
+                    DPRINT(F("BMP180   Pressure      : "));
+                    DDECLN(_pressure);
+                    DPRINT(F("BMP180   PressureNN    : "));
+                    DDECLN(_pressureNN);
+                }
             }
         }
     }
@@ -74,6 +78,12 @@ public:
     int16_t  temperature() { return _temperature; }
     uint16_t pressure() { return _pressure; }
     uint16_t pressureNN() { return _pressureNN; }
+
+private:
+    float EquivalentSeaLevelPressure(float altitude, float temp, float pres)
+    {
+        return (pres / pow(1 - ((0.0065 * altitude) / (temp + (0.0065 * altitude) + 273.15)), 5.257));
+    }
 };
 
 }

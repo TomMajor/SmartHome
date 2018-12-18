@@ -218,8 +218,8 @@ public:
     }
     uint16_t updIntervall() const { return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0); }
 
-    bool height(uint16_t value) const { return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff); }
-    uint16_t height() const { return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0); }
+    bool altitude(uint16_t value) const { return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff); }
+    uint16_t altitude() const { return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0); }
 
     void defaults()
     {
@@ -228,7 +228,7 @@ public:
         lowBatLimit(BAT_VOLT_LOW);
         transmitDevTryMax(6);
         updIntervall(600);
-        height(0);
+        altitude(0);
     }
 };
 
@@ -318,16 +318,16 @@ public:
 
 // Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_BME280
-        uint16_t height = this->device().getList0().height();
-        bme280.measure(height);
+        uint16_t altitude = this->device().getList0().altitude();
+        bme280.measure(altitude);
         temperature10 = bme280.temperature();
         airPressure10 = bme280.pressureNN();
         humidity      = bme280.humidity();
 #elif defined SENSOR_BMP180
-        uint16_t height = this->device().getList0().height();
-        bmp180.measure(height);
+        uint16_t altitude = this->device().getList0().altitude();
+        bmp180.measure(altitude);
         temperature10 = bmp180.temperature();
-        airPressure10 = bmp180.pressure();
+        airPressure10 = bmp180.pressureNN();
 #endif
 
 // Feuchte vom SHT10 falls kein BME280 vorhanden
@@ -437,9 +437,9 @@ public:
         DPRINT("updCycle: ");
         DDECLN(updCycle);
 
-        uint16_t height = this->getList0().height();
-        DPRINT("height: ");
-        DDECLN(height);
+        uint16_t altitude = this->getList0().altitude();
+        DPRINT("altitude: ");
+        DDECLN(altitude);
     }
 };
 

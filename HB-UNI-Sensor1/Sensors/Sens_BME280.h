@@ -28,13 +28,13 @@ class Sens_BME280 : public Sensor {
     BME280I2C
     _bme280;    // Default : forced mode, standby time = 1000 ms, Oversampling = pressure ×1, temperature ×1, humidity ×1, filter off
 
-    void measureRaw(uint16_t height)
+    void measureRaw(uint16_t altitude)
     {
         float temp(NAN), hum(NAN), pres(NAN), presNN(NAN);
-        _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa);
-        _temperature = (int16_t)(temp * 10);
-        _pressure    = (uint16_t)(pres * 10);
-        _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(height), temp, pres) * 10);
+        _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa); // hPa
+        _temperature = (int16_t)(temp * 10); // HB-UNI-Sensor1: C*10
+        _pressure    = (uint16_t)(pres * 10); // HB-UNI-Sensor1: hPa*10
+        _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(altitude), temp, pres) * 10);
         _humidity    = (uint8_t)hum;
     }
 
@@ -73,11 +73,11 @@ public:
         }
     }
 
-    void measure(uint16_t height)
+    void measure(uint16_t altitude)
     {
         _temperature = _pressure = _pressureNN = _humidity = 0;
         if (_present == true) {
-            measureRaw(height);
+            measureRaw(altitude);
             DPRINT(F("BME280   Temperature   : "));
             DDECLN(_temperature);
             DPRINT(F("BME280   Pressure      : "));
