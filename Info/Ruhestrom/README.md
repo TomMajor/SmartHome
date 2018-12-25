@@ -6,7 +6,7 @@
 
 ![pic](Images/ProMini_LDO.jpg)
 
-<br>
+
 ## Ruhestrom mit Sensor-Boards
 
 Meine Messungen an den MAX44009 und BME280 Sensor-Boards zeigen diese Stromaufnahme im Standby:
@@ -21,17 +21,16 @@ Meine Messungen an den MAX44009 und BME280 Sensor-Boards zeigen diese Stromaufna
 Das Einfachste ist es, eine kleine Lötbrücke (Vin-Vout) zwischen den 2 Widerstandspaaren zu machen, im Bild mit einem kleinem Kreuz markiert.
 - Der I2C Level-Shifter funktioniert auch bei gleicher Spannung rechts und links.
 
-Schaltung LevelShifter
+Schaltung LevelShifter (Quelle: NXP Semiconductors, AN10441)
 ![pic](Images/I2C_LevelShifter.png)
 
-GYBMEP: Entfernung LDO und Brücke Vin-Vout
+BME280 Board: Entfernung LDO und Brücke Vin-Vout
 ![pic](Images/GYBMEP_LDO.jpg)
 
-GY-49: Entfernung LDO und Brücke Vin-Vout
+MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 ![pic](Images/GY-49_LDO.jpg)
 
 
-<br>
 ## Überprüfung des Ruhestroms
 
 - Der Sketch SleepTest.ino dient zur Überprüfung von Aktiv- und Power-Down-Strom eines Arduino Pro Mini 328 - 3.3V/8MHz mit angeschlossenem CC1101 (das wäre ein Basic HM AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW). Die Ströme sind bei batteriebetriebenen Geräten wichtig für die Batterielebensdauer.
