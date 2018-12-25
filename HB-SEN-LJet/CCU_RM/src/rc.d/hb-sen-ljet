@@ -1,0 +1,63 @@
+#!/bin/sh
+# WebUI icon used from http://icons8.com 
+
+ADDON_NAME=`basename "$0"`
+
+source /usr/local/addons/${ADDON_NAME}/params 2>/dev/null
+
+ADDON_DIR=/usr/local/addons/${ADDON_NAME}
+WWW_DIR=/etc/config/addons/www/${ADDON_NAME}
+PIDFILE=/var/run/$ADDON_NAME.pid
+LOGFILE=/var/log/$ADDON_NAME.log
+ERRFILE=/var/log/$ADDON_NAME.err
+
+case "$1" in
+	""|start)
+		echo 'Starting...'
+		if [ ! -f ${ADDON_DIR}/installed ] || [ ! -f ${FIRMWARE_FILE} ]; then
+			cd ${ADDON_DIR}
+			echo $!> $PIDFILE & ./install > $LOGFILE 2>$ERRFILE
+		else
+			echo "Nothing to do for $DEVICE"
+		fi
+	;;
+
+	stop)
+		echo "Nothing to stop..."
+	;;
+
+	uninstall)
+    		cd ${ADDON_DIR}
+    		echo $!> $PIDFILE & ./uninstall > $LOGFILE 2>$ERRFILE
+    		cd /
+    		rm -rf $ADDON_DIR
+    		rm -rf $WWW_DIR
+    	;;
+  
+	restart|reload)
+  	  # Operations to stop and start (restart) the addon
+  	  stop
+  	  sleep 2
+  	  start
+    	;;
+
+	info)
+		echo "Info: <b>$DEVICE Addon</b><br>"
+		echo "Info: <b>CCU2 & RaspberryMatic</b><br>"
+		echo "Info: (c) 2018 TomMajor<br>"
+		echo "Info: ${ADDON_INFO_LINK}"
+		echo "Version: $(cat ${ADDON_DIR}/VERSION)"
+		echo "Name: $DEVICE"
+		echo "Operations: uninstall"
+		#echo "Config-Url: ${CONFIG_URL}"
+		echo "Update: /addons/$ADDON_NAME/update-check.cgi"
+	;;
+	
+	*)
+		echo "Usage: $ADDON_NAME {start|stop|restart|info|uninstall}" >&2
+		exit 1
+    	;;
+
+esac
+
+exit $?
