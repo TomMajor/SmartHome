@@ -46,6 +46,15 @@ Meine Beispiele für papa's AskSinPP library
 [Projektseite BI Schutz](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Babbling%20Idiot%20Protection)
 
 
+## PLHT Sensor
+
+- Redesign von Dirks/PeMue's Universalsensor-Platinen für Außen- oder Innenanwendungen
+
+<p align="center"><img src="Images/PLHT_small.png?raw=true"/></p>
+
+[Projektseite PLHT Sensor](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT)
+
+
 ## Ruhestrom
 
 - Hinweise zur Verringerung des Ruhestromverbrauchs

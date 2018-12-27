@@ -5,6 +5,8 @@ Ein "Babbling Idiot", im folgenden mit **BI** abgekürzt, ist hier ein Dauersend
 
 Beim Homematic Funknetzwerk kann ein BI wegen der 1% Regel sehr schnell das ganze System über Stunden lahmlegen.
 
+![pic](Images/BI.jpg)
+
 #### Problem
 
 Der Auslöser der Überlegungen hier war der Post von jp112sdl im FHEM Forum über die "Stilllegung" seines Homematic Netzwerkes im Haus:
