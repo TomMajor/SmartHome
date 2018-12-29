@@ -12,6 +12,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - andere I2C Sensoren über Breakout-Boards anschliessbar
 - Spannungsversorgung: Batterien 2 Zellen / Batterie 1 Zelle mit MAX1724 / Netzteil
 
+
 # Changelog Ver 2.01
 
 - MAX44009 hinzugefügt
@@ -25,13 +26,16 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - Layout entflochten und verbessert
 - Lötpads für BME280 und MAX44009 nach außen verlängert falls man versuchen will diese ohne Reflow oder Heisßluft zu löten
 
+
 # Software
 
 [HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
 
+
 # Schaltung
 
 [Sensor PLHT](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
+
 
 # Bilder
 
@@ -40,6 +44,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 ![pic](Images/Bottom.png)
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
+
 
 # Spezielle Bauelemente
 
@@ -54,6 +59,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
     * Der Si2302 zum Beispiel wäre auch gut geeignet, ist leichter beschaffbar und günstiger (aliexpress), Gate Threshold Voltage 0,7V, RDSon 85mOhm, 2,6A.
 
 - Spule für optionalen Step-Up Wandler: Murata LQH43CN100K03L oder vergleichbare, unbedingt Strom und DC-Widerstand beachten, aus Produktrange 'Power lines', 'DC/DC' o.ä.
+
 
 # Bestückungsvarianten
 
@@ -73,9 +79,44 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 | Messung Batteriespannung | Step-Up MAX1724 | R2 470k, R3 100k, SJ2 geschlossen |
 | Messung Batteriespannung | Messung unter Last (Schutz vor "Babbling Idiot") | R2 30, R3 10, T1, R4 bestücken, SJ2 offen, R2/R3 an gewünschten Laststrom anpassen |
 
+
 # Flashen
 
-**Thema in Arbeit**
+###### 1. Bootloader (nur bei Verwendung eines ATmega328P Chips)
+
+- Zunächst wird der Arduino Standard-Bootloader mittels eines ISP-Programmers geflasht. <br/>Beispiele für ISP-Programmer sind u.a. USBasp, Diamex, Atmel-ICE.<br/>Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
+- Die ISP Programmierung läuft über 6 Pins und so sieht die Anschlussbelegung zu JP2 auf der Platine aus:
+
+| ISP | JP2 Pin |
+| --- | --- |
+| GND | 2 |
+| RESET | 3 |
+| +3,3V | 4 |
+| SCK | 9 |
+| MISO | 10 |
+| MOSI | 11 |
+
+- Es reicht die Pins auf JP2 aufzustecken und leicht zu verkanten, so wie im Foto zu sehen, der Bootloader muss nur einmal programmiert werden.
+- Für den Vorgang muss der Chip aufgelötet sein und mit Spannung versorgt werden. Falls ein externer Quarz eingesetzt werden soll muss auch dieser bestückt sein.
+- Wenn der ISP-Programmer einmal dran ist sollten auch gleich die Fuses geprüft und ggf. angepasst werden (Oszillator, BOD usw.).
+- Beispiele für Bootloader und Fuse-Einstellungen:
+[Bootloader HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1/bootloader)
+
+![pic](Images/pgm_bootloader.jpg)
+
+###### 2. Applikation / Sketch
+
+- Wenn der Bootloader vorhanden ist kann ganz normal mittels eines FTDI-Adapters direkt aus der Arduino IDE seriell programmiert werden. Dazu werden 4 Pins an JP1 verwendet:
+
+| FTDI | JP1 Pin |
+| --- | --- |
+| RXD | 12 |
+| TXD | 11 |
+| DTR | 10 |
+| GND | 9 |
+
+![pic](Images/pgm_ftdi.jpg)
+
 
 # Verbesserungen für's nächste Redesign
 
