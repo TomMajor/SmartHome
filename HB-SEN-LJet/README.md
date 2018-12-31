@@ -10,7 +10,7 @@
 
 ## Schaltung
 
-- WIP
+![pic](Images/Blockschaltbild_HB-SEN-LJet.png)
 
 
 ## Benötige Libraries
