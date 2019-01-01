@@ -30,6 +30,7 @@
 #include <LowPower.h>
 #include <MultiChannelDevice.h>
 #include <Register.h>
+#include "DeviceID.h"
 
 //---------------------------------------------------------
 // Über diese defines werden die real angeschlossenen Sensoren aktiviert.
@@ -99,10 +100,11 @@ Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (I
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
+// Device ID und Device Serial werden aus der Datei "DeviceID.h" geholt um mehrere Geräte ohne Änderung des Sketches flashen zu können
 const struct DeviceInfo PROGMEM devinfo = {
-    { 0xA5, 0xA5, 0x01 },    // Device ID
-    "UNISENS001",            // Device Serial
-    { 0xF1, 0x03 },          // Device Model
+    cDEVICE_ID,        // Device ID
+    cDEVICE_SERIAL,    // Device Serial
+    { 0xF1, 0x03 },    // Device Model
     // Firmware Version
     // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x12" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
@@ -218,7 +220,10 @@ public:
     }
     uint16_t updIntervall() const { return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0); }
 
-    bool altitude(uint16_t value) const { return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff); }
+    bool altitude(uint16_t value) const
+    {
+        return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff);
+    }
     uint16_t altitude() const { return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0); }
 
     void defaults()
