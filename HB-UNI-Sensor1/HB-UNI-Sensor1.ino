@@ -53,11 +53,14 @@
 //---------------------------------------------------------
 // Optionen für Batteriespannungsmessung, siehe README
 //------------
-// A) Standard: tmBattery, UBatt = Betriebsspannung AVR
+// 1) Standard: tmBattery, UBatt = Betriebsspannung AVR
 #define BAT_SENSOR tmBattery
 //------------
-// B) für StepUp/StepDown: tmBatteryResDiv, sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700
+// 2) für StepUp/StepDown: tmBatteryResDiv, sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700
 //#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>
+//------------
+// 3) Echte Batteriespannungsmessung unter Last, siehe README und Thema "Babbling Idiot Protection"
+//coming soon
 
 //---------------------------------------------------------
 // Pin definitions

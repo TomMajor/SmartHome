@@ -1,5 +1,4 @@
-
-## Universalsensor (HB-UNI-Sensor1)
+# Universalsensor (HB-UNI-Sensor1)
 
 - Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
 - modifizierbar für andere Sensoren
@@ -19,43 +18,24 @@ Beispiel:<br>
 - Folgende Sensoren sind zur Zeit beim HB-UNI-Sensor1 aktivierbar:<br>
 `#define SENSOR_DS18X20`<br>
 `#define SENSOR_BME280`<br>
+`#define SENSOR_BMP180`<br>
 `#define SENSOR_TSL2561`<br>
 `#define SENSOR_MAX44009`<br>
 `#define SENSOR_SHT10`<br>
 `#define SENSOR_DIGINPUT`<br>
 
 
-# Benötige Libraries
-
-[AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
-[EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
-[Low-Power](https://github.com/rocketscream/Low-Power)
-
-
-Für einen DS18x20 Sensor (Temperatur):</br>
-[OneWire](https://github.com/PaulStoffregen/OneWire)
-
-Für einen BME280 Sensor (Temperatur/Druck/Feuchte):</br>
-[BME280](https://github.com/finitespace/BME280)
-
-Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
-[TSL2561](https://github.com/adafruit/TSL2561-Arduino-Library)
-
-Für einen MAX44009 Sensor (Helligkeit in Lux):</br>
-keine zusätzliche Library nötig.
-
-Für einen SHT10 Sensor (Feuchte):</br>
-[SHT10](https://github.com/spease/Sensirion)
-
-
-# Prototyp
+## Prototyp
 
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
+
+
+## Schaltung
 
 ![pic](Images/Schaltung.png)
 
 
-# Aussensensor
+## Aussensensor
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
@@ -68,21 +48,23 @@ Für einen SHT10 Sensor (Feuchte):</br>
 [Verringerung Ruhestrom](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Ruhestrom)
 
 
-# Messung der Batteriespannung
+## Messung der Batteriespannung
 
 ![pic](Images/Batteriemessung.png)
 
-- Option1: Batteriespannungsmessung Standard (UBatt = Betriebsspannung AVR)<br>
+- Option 1: Standard, UBatt = Betriebsspannung AVR<br>
 keine zusätzliche Hardware notwendig<br>
-`typedef AskSin<LedType, BatterySensor, RadioType> BaseHal;`<br>
+`#define BAT_SENSOR tmBattery`<br>
 
-- Option2: Batteriespannungsmessung für Step-Up<br>
-2 zusätzliche Widerstände notwendig, Verwendung der Batterieklasse BatterySensorUni<br>
-`BatterySensorUni<14,9,3000>`<br>
-`// sense pin = A0 (Arduino 14), activation pin = D9 (Arduino 9), Vcc nominal 3,0V`
+- Option 2: Batteriespannungsmessung für StepUp/StepDown<br>
+2 zusätzliche Widerstände notwendig<br>
+`#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>`<br>
+`// sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700`
 
-- Option3: Echte Batteriespannungsmessung unter Last<br>
-Sie dient u.a. dem Schutz vor einem "Babbling Idiot, siehe
+- Option 3: Echte Batteriespannungsmessung unter Last<br>
+`coming soon`<br>
+
+Die Batteriespannungsmessung unter Last dient u.a. dem Schutz vor einem "Babbling Idiot, siehe
 [Babbling Idiot Protection](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Babbling%20Idiot%20Protection)
 <br><br>
 Aus meiner Sicht würde es sehr helfen, eine echte Messung des Batteriezustands unter Last zu haben, um frühzeitig leere Batterien zu erkennen und zu tauschen. Bekanntermaßen sagt eine Spannungsmessung an unbelasteter Batterie, je nach Batterie- bzw. Akkutyp, nicht viel über den Ladezustand aus.
@@ -101,14 +83,14 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 ![pic](Images/BatterySensorLoad.png)
 
 
-# CCU2/RaspberryMatic Installation
+## CCU2/RaspberryMatic Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
 
 ![pic](Images/HB-UNI-Sensor1_Install.png)
 
 
-# RaspberryMatic WebUI
+## RaspberryMatic WebUI
 
 Der angemeldete Sensor auf der RaspberryMatic:
 
@@ -119,7 +101,7 @@ Der angemeldete Sensor auf der RaspberryMatic:
 ![pic](Images/HB-UNI-Sensor1_DigitalerEingang.png)
 
 
-# FHEM Installation
+## FHEM Installation
 
 Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM neustarten.
 
@@ -130,3 +112,28 @@ Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM ne
 **Parameter Höhe einstellen:**<br>
 "Ich konnte bei meinem THPL Sensor mit BME280 und MAX44009 über getConfig // **Config drücken** // set regSet altitude 590 // **Config drücken** // getConfig // **Config drücken** die Höhe einstellen. Bitte berichtigt mich, wenn ich da zu viel drücke und mache- so hat es jedenfalls funktioniert ::)"<br>
 _FHEM user kpwg_
+
+
+## Benötige Libraries
+
+[AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
+[EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
+[Low-Power](https://github.com/rocketscream/Low-Power)
+
+Für einen DS18x20 Sensor (Temperatur):</br>
+[OneWire](https://github.com/PaulStoffregen/OneWire)
+
+Für einen BME280 Sensor (Temperatur/Druck/Feuchte):</br>
+[BME280](https://github.com/finitespace/BME280)
+
+Für einen BMP180 Sensor (Temperatur/Druck):</br>
+[BMP180](https://github.com/enjoyneering/BMP180)
+
+Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
+[TSL2561](https://github.com/adafruit/TSL2561-Arduino-Library)
+
+Für einen MAX44009 Sensor (Helligkeit in Lux):</br>
+keine zusätzliche Library nötig.
+
+Für einen SHT10 Sensor (Feuchte):</br>
+[SHT10](https://github.com/spease/Sensirion)
