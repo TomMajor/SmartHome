@@ -16,11 +16,9 @@
 #include <Sensors.h>
 #include <TSL2561.h>
 
-#define TSL2561_ADDR TSL2561_ADDR_FLOAT
-
 namespace as {
 
-class Sens_TSL2561 : public Sensor {
+template <uint8_t I2C_ADDR> class Sens_TSL2561 : public Sensor {
 
     uint16_t  _brightnessFull, _brightnessIR;
     uint32_t  _brightnessLux;
@@ -29,10 +27,10 @@ class Sens_TSL2561 : public Sensor {
 
     uint8_t getID()
     {
-        Wire.beginTransmission(TSL2561_ADDR);
+        Wire.beginTransmission(I2C_ADDR);
         Wire.write(TSL2561_REGISTER_ID);
         Wire.endTransmission();
-        if (Wire.requestFrom(TSL2561_ADDR, 1) == 1) {
+        if (Wire.requestFrom(I2C_ADDR, (uint8_t)1) == 1) {
             return Wire.read();
         }
         return 0x00;
@@ -60,7 +58,7 @@ class Sens_TSL2561 : public Sensor {
 public:
     // constructor with parameter in header file -> Initalize with 'member initialiser' syntax in constructor
     Sens_TSL2561()
-        : _tsl2561(TSL2561_ADDR)
+        : _tsl2561(I2C_ADDR)
         , _sensitivity(2)
         , _brightnessFull(0)
         , _brightnessIR(0)
@@ -119,10 +117,10 @@ public:
                 }
             } while (true);
 
-            // DPRINT("TSL2561 Sensitivity    : "); DDECLN(_sensitivity);
-            // DPRINT("TSL2561 Brightness Full: "); DDECLN(_brightnessFull);
-            // DPRINT("TSL2561 Brightness IR  : "); DDECLN(_brightnessIR);
-            // DPRINT("TSL2561 Brightness Lux : "); DDECLN(_brightnessLux);
+            DPRINT("TSL2561 Sensitivity    : "); DDECLN(_sensitivity);
+            DPRINT("TSL2561 Brightness Full: "); DDECLN(_brightnessFull);
+            DPRINT("TSL2561 Brightness IR  : "); DDECLN(_brightnessIR);
+            DPRINT("TSL2561 Brightness Lux : "); DDECLN(_brightnessLux);
             return true;
         }
         return false;

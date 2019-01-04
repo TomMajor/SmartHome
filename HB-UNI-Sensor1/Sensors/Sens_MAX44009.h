@@ -15,11 +15,9 @@
 #include <Wire.h>
 #include <Sensors.h>
 
-#define MAX44009_ADDR 0x4A
-
 namespace as {
 
-class Sens_MAX44009 : public Sensor {
+template <uint8_t I2C_ADDR> class Sens_MAX44009 : public Sensor {
 
     uint32_t _brightnessLux;
 
@@ -35,10 +33,10 @@ public:
 
         uint8_t i = 10;
         while (i > 0) {
-            Wire.beginTransmission(MAX44009_ADDR);
+            Wire.beginTransmission(I2C_ADDR);
             if (Wire.endTransmission() == 0) {
                 _present = true;
-                Wire.beginTransmission(MAX44009_ADDR);
+                Wire.beginTransmission(I2C_ADDR);
                 // set continuous mode 800ms (lowest possible supply current), automatic mode (autorange for timing and gain)
                 Wire.write(0x02);
                 Wire.write(0x03);
@@ -62,16 +60,16 @@ public:
             // If user wants to read both the Lux High-Byte register 0x03 and Lux Low-Byte register 0x04, then the master should not
             // send a STOP command between the reads of the two registers. Instead a Repeated START command should be used.
             // This ensures accurate data is obtained from the I 2 C registers (by disabling internal updates during the read process).
-            Wire.beginTransmission(MAX44009_ADDR);
+            Wire.beginTransmission(I2C_ADDR);
             Wire.write(0x03);
             Wire.endTransmission();
-            if (Wire.requestFrom(MAX44009_ADDR, 1, false) == 1) {    // Repeated START
+            if (Wire.requestFrom(I2C_ADDR, (uint8_t)1, (uint8_t)0) == 1) {    // Repeated START
                 uint8_t data[2];
                 data[0] = Wire.read();
-                Wire.beginTransmission(MAX44009_ADDR);
+                Wire.beginTransmission(I2C_ADDR);
                 Wire.write(0x04);
                 Wire.endTransmission();
-                if (Wire.requestFrom(MAX44009_ADDR, 1, true) == 1) {
+                if (Wire.requestFrom(I2C_ADDR, (uint8_t)1, (uint8_t)1) == 1) {
                     data[1] = Wire.read();
                     // DHEX(data[0]); DPRINT(" "); DHEXLN(data[1]);
                     int   expo     = (data[0] >> 4) & 0x0F;
