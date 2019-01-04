@@ -12,4 +12,4 @@ MaxEmptyLinesToKeep: 2
 SpacesBeforeTrailingComments: 4
 SortIncludes:    false
 TabWidth:        4
-ColumnLimit:     140
+ColumnLimit:     150

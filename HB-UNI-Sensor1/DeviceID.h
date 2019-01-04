@@ -1,7 +1,7 @@
 
 //---------------------------------------------------------
 // DeviceID.h
-// 2018-10-16 Tom Major (Creative Commons)
+// 2019-01-02 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike

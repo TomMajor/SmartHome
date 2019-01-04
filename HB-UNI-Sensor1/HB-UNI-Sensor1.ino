@@ -30,19 +30,20 @@
 #include <LowPower.h>
 #include <MultiChannelDevice.h>
 #include <Register.h>
+#include "Sensors/tmBattery.h"
 #include "DeviceID.h"
 
 //---------------------------------------------------------
 // Über diese defines werden die real angeschlossenen Sensoren aktiviert.
 // Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
 //
-//#define SENSOR_DS18X20
+//#define SENSOR_DS18X20  // Achtung, ONEWIRE_PIN define weiter unten muss zur HW passen!
 #define SENSOR_BME280
 //#define SENSOR_BMP180
-//#define SENSOR_TSL2561
-#define SENSOR_MAX44009
-//#define SENSOR_SHT10
-//#define SENSOR_DIGINPUT
+//#define SENSOR_TSL2561  // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
+#define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
+//#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
 
 //---------------------------------------------------------
 // Schwellwerte für Batteriespannungsmessung
@@ -51,8 +52,12 @@
 
 //---------------------------------------------------------
 // Optionen für Batteriespannungsmessung, siehe README
-#define BAT_SENSOR BatterySensor    // Standard, UBatt = Betriebsspannung AVR
-//#define BAT_SENSOR BatterySensorUni<14, 9, 3000>    // mit StepUp, sense pin A0, activation pin D9, Vcc StepUp 3,0V
+//------------
+// A) Standard: tmBattery, UBatt = Betriebsspannung AVR
+#define BAT_SENSOR tmBattery
+//------------
+// B) für StepUp/StepDown: tmBatteryResDiv, sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700
+//#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>
 
 //---------------------------------------------------------
 // Pin definitions
@@ -80,10 +85,12 @@ using namespace as;
 
 #ifdef SENSOR_TSL2561
 #include "Sensors/Sens_TSL2561.h"    // HB-UNI-Sensor1 custom sensor class
+#define TSL2561_ADDR TSL2561_ADDR_FLOAT
 #endif
 
 #ifdef SENSOR_MAX44009
 #include "Sensors/Sens_MAX44009.h"    // HB-UNI-Sensor1 custom sensor class
+#define MAX44009_ADDR 0x4A
 #endif
 
 #ifdef SENSOR_SHT10
@@ -214,16 +221,10 @@ public:
     {
     }
 
-    bool updIntervall(uint16_t value) const
-    {
-        return this->writeRegister(0x20, (value >> 8) & 0xff) && this->writeRegister(0x21, value & 0xff);
-    }
+    bool     updIntervall(uint16_t value) const { return this->writeRegister(0x20, (value >> 8) & 0xff) && this->writeRegister(0x21, value & 0xff); }
     uint16_t updIntervall() const { return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0); }
 
-    bool altitude(uint16_t value) const
-    {
-        return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff);
-    }
+    bool     altitude(uint16_t value) const { return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff); }
     uint16_t altitude() const { return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0); }
 
     void defaults()
@@ -258,10 +259,10 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     Sens_BMP180 bmp180;
 #endif
 #ifdef SENSOR_TSL2561
-    Sens_TSL2561 tsl2561;
+    Sens_TSL2561<TSL2561_ADDR> tsl2561;
 #endif
 #ifdef SENSOR_MAX44009
-    Sens_MAX44009 max44009;
+    Sens_MAX44009<MAX44009_ADDR> max44009;
 #endif
 #ifdef SENSOR_SHT10
     Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
@@ -357,11 +358,7 @@ public:
         digInputState = digitalInput.pinState();
 #endif
 
-        // convert default AskSinPP battery() resolution of 100mV to 1mV, last 2
-        // digits will be 00 for higher resolution, override battery() with modified
-        // voltage() calculation see my HB-SEC-WDS-2 for an example with higher
-        // resolution
-        batteryVoltage = 100UL * device().battery().current();
+        batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
     }
 
     void initSensors()
@@ -390,7 +387,8 @@ public:
 #ifdef SENSOR_DIGINPUT
         digitalInput.init(DIGINPUT_PIN);
 #endif
-        DPRINTLN("Sensor setup done");
+        DPRINT("Sensor setup done, Serial: ");
+        DPRINTLN(cDEVICE_SERIAL);
     }
 
     void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr)
