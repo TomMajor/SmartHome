@@ -117,6 +117,17 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 ![pic](Images/pgm_ftdi.jpg)
 
+###### 3. Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+
+Die weit verbreiteten und billigen (1€) USBasp Klones haben einen Jumper zur 3,3V / 5V Umschaltung.<br>
+Leider ist diese Umschaltung nur für die Versorgung des (Programmier-)Ziels zuständig, nicht für die Betriebsspannung des Controllers auf dem USBasp!<br>
+Dies führt dazu dass der zu programmierende AVR zwar mit 3,3V betrieben wird, die Programmierleitungen SCK/MISO/MOSI/RESET führen jedoch 5V Pegel was ganz klar eine Verletzung der Spezifikation für den zu programmierenden AVR ist.<br>
+Das Gleiche gilt für einen angeschlossenen CC1101.<br>
+Es besteht somit die Gefahr, sowohl AVR als auch CC1101 durch Einsatz eines USBasp Klones zu zerstören.<br>
+Ich habe Berichte von Usern gelesen wo das Programmieren gut ging, aber sicher ist das nicht. Es gibt auch Berichte wo der USBasp Chips zerstört hat.<br>
+**Aus diesen Gründen rate ich vom Einsatz eines USBasp Klones in 3,3V Umgebungen ab.**<br>
+Der Thread zu diesem Thema:
+[HM Forum](https://homematic-forum.de/forum/viewtopic.php?f=76&t=47361&start=50#p480173)
 
 # Verbesserungen für's nächste Redesign
 
