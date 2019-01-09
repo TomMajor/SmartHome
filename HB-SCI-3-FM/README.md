@@ -3,13 +3,8 @@
 
 - von 'Position' abgeleitete Klasse 'OnePinPosition' für das Einlesen der Schließerkontakte
 - für die 3 Eingänge werden im Sketch pull-up Widerstände konfiguriert
-- Entweder schaltet man in der Zentrale "Gesicherte Übertragung" für **jeden** Kanal aus oder aktiviert den AskSinPP Mechanismus für verschlüsselte Übertragung
-
-## Benötige Libraries
-
-[AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
-[EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
-[Low-Power](https://github.com/rocketscream/Low-Power)
+- Das Gerät HB-SCI-3-FM wird durch die Zentrale standardmäßig direkt beim Anlernen auf "gesicherte Übertragung" eingestellt. Damit dieser Eigenbau funktioniert müssen **alle 3 Kanäle** nach dem Anlernen auf "Standard Übertragung" umgestellt werden.<br>Oder man aktiviert AES für den Sketch:
+[AskSinPP AES Support](https://github.com/pa-pa/AskSinPP#enable-aes-support)
 
 ## Schaltung
 
@@ -19,3 +14,9 @@
 ## Das angemeldete Gerät im RaspberryMatic WebUI
 
 ![pic](Images/HB_SCI_3_FM.png)
+
+## Benötige Libraries
+
+[AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
+[EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
+[Low-Power](https://github.com/rocketscream/Low-Power)

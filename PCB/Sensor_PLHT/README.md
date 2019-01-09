@@ -1,9 +1,9 @@
 
-## PLHT Sensor Ver 2.01
+# PLHT Sensor Ver 2.01
 
 Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
-# Features
+## Features
 
 - Bestückung mit Arduino Pro Mini oder alternativ mit ATmega328P
 - RC- oder Quarzoszillator möglich
@@ -13,7 +13,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - Spannungsversorgung: Batterien 2 Zellen / Batterie 1 Zelle mit MAX1724 / Netzteil
 
 
-# Changelog Ver 2.01
+## Changelog Ver 2.01
 
 - MAX44009 hinzugefügt
 - BMP180 entfernt (Ersatz durch BME280)
@@ -27,17 +27,17 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - Lötpads für BME280 und MAX44009 nach außen verlängert falls man versuchen will diese ohne Reflow oder Heisßluft zu löten
 
 
-# Software
+## Software
 
 [HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
 
 
-# Schaltung
+## Schaltung
 
 [Sensor PLHT](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
 
-# Bilder
+## Bilder
 
 ![pic](Images/Top.png)
 
@@ -46,22 +46,23 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
 
-# Spezielle Bauelemente
+## Spezielle Bauelemente
 
 - Gehäuse mit Klarsichtdeckel: GAINTA G201C (ohne Befestigunslaschen), GAINTA G201CMF (mit Befestigunslaschen)
 
 - Batteriehalter 2xAA: COMF BH-321-1A
 
 - MOSFET für Option 'Echte Batteriespannungsmessung unter Last'
-    * Meine Wahl: IRML6344 (Gate Threshold Voltage 0,8V, RDSon 27mOhm, 5A, SOT-23 Gehäuse, Pinout Gate 1, Source 2, Drain 3, N-Channel)
-    * Es gehen natürlich auch günstigere bzw. leichter beschaffbare MOSFETs, wichtig ist das dieser bei minimaler Betriebsspannung des Sensors (nehmen wir mal 2V an) sicher durchschalten kann (Gate Threshold Voltage) und das der RDSon möglichst klein im Bezug zu den Widerständen des Spannungsteilers R2/R3 ist.
+    * Meine Wahl: IRML6344 (Gate Threshold Voltage - GTV) 0,8V, RDSon 27mOhm, 5A, SOT-23 Gehäuse, Pinout Gate 1, Source 2, Drain 3, N-Channel)
+    * Es gehen natürlich auch günstigere bzw. leichter beschaffbare MOSFETs, wichtig ist das dieser bei minimaler Betriebsspannung des Sensors (nehmen wir mal 2V an) sicher durchschalten kann (GTV) und das der RDSon möglichst klein im Bezug zu den Widerständen des Spannungsteilers R2/R3 ist.
     Und natürlich muss er den gewählten Laststrom aushalten und das Pinout muss passen.
-    * Der Si2302 zum Beispiel wäre auch gut geeignet, ist leichter beschaffbar und günstiger (aliexpress), Gate Threshold Voltage 0,7V, RDSon 85mOhm, 2,6A.
-
+    * Der Si2302 zum Beispiel wäre auch gut geeignet, ist leichter beschaffbar und günstiger (aliexpress), GTV 0,7V, RDSon 85mOhm, 2,6A.
+    * HM user 'klassisch' weist auf den Umstand hin dass der GTV Wert nicht der Wert ist, beim dem der MOSFET sicher leitet sondern da fängt er gerade (mit minimalen Strom) erst an zu leiten. Die Spannung muss also für sicheres Durchschalten schon etwas höher sein als die GTV. Bei den genannten MOSFET IRML6344 und Si2302 ist das kein Problem, z.B. hat der IRML6344 bei Vgs 2,5V einen Widerstand von 27mOhm. Bei anderen MOSFET sollte man ins Datenblatt schauen und sicherstellen dass die Leitfähigkeit bei minimaler Betriebsspannung gegeben ist.
+<br><br>
 - Spule für optionalen Step-Up Wandler: Murata LQH43CN100K03L oder vergleichbare, unbedingt Strom und DC-Widerstand beachten, aus Produktrange 'Power lines', 'DC/DC' o.ä.
 
 
-# Bestückungsvarianten
+## Bestückungsvarianten
 
 | Thema | Variante | zu bestückende Bauelemente |
 | --- | --- | --- |
@@ -80,11 +81,11 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 | Messung Batteriespannung | Messung unter Last (Schutz vor "Babbling Idiot") | R2 30, R3 10, T1, R4 bestücken, SJ2 offen, R2/R3 an gewünschten Laststrom anpassen |
 
 
-# Flashen
+## Flashen
 
 ###### 1. Bootloader (nur bei Verwendung eines ATmega328P Chips)
 
-- Zunächst wird der Arduino Standard-Bootloader mittels eines ISP-Programmers geflasht. <br/>Beispiele für ISP-Programmer sind u.a. USBasp, Diamex, Atmel-ICE.<br/>Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
+- Zunächst wird der Arduino Standard-Bootloader mittels eines ISP-Programmers geflasht. <br/>Beispiele für ISP-Programmer sind u.a. ~~USBasp~~, Diamex, Atmel-ICE.<br/>Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
 - Die ISP Programmierung läuft über 6 Pins und so sieht die Anschlussbelegung zu JP2 auf der Platine aus:
 
 | ISP | JP2 Pin |
@@ -117,19 +118,21 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 ![pic](Images/pgm_ftdi.jpg)
 
-###### 3. Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+<br>
+:exclamation: **Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones** :exclamation:
 
 Die weit verbreiteten und billigen (1€) USBasp Klones haben einen Jumper zur 3,3V / 5V Umschaltung.<br>
 Leider ist diese Umschaltung nur für die Versorgung des (Programmier-)Ziels zuständig, nicht für die Betriebsspannung des Controllers auf dem USBasp!<br>
 Dies führt dazu dass der zu programmierende AVR zwar mit 3,3V betrieben wird, die Programmierleitungen SCK/MISO/MOSI/RESET führen jedoch 5V Pegel was ganz klar eine Verletzung der Spezifikation für den zu programmierenden AVR ist.<br>
 Das Gleiche gilt für einen angeschlossenen CC1101.<br>
 Es besteht somit die Gefahr, sowohl AVR als auch CC1101 durch Einsatz eines USBasp Klones zu zerstören.<br>
-Ich habe Berichte von Usern gelesen wo das Programmieren gut ging, aber sicher ist das nicht. Es gibt auch Berichte wo der USBasp Chips zerstört hat.<br>
+Ich habe Berichte von Usern gelesen wo das Programmieren gut ging, aber sicher ist das nicht. Es gibt auch Berichte wo der USBasp den AVR zerstört hat. :fire:<br>
+Der 3,3V Jumper suggeriert dass alles Bestens ist, täuscht damit aber den Benutzer.<br>
 **Aus diesen Gründen rate ich vom Einsatz eines USBasp Klones in 3,3V Umgebungen ab.**<br>
 Der Thread zu diesem Thema:
 [HM Forum](https://homematic-forum.de/forum/viewtopic.php?f=76&t=47361&start=50#p480173)
 
-# Verbesserungen für's nächste Redesign
+## Verbesserungen für's nächste Redesign
 
 - das linke Bohrloch D2,5mm besser zu den vorhandenen Löchern im Batteriehalter ausrichten, zweites Bohrloch rechts vorsehen (TomMajor)
 - Arduino Pro Mini Leiste JP2/U-Bat: Jumper vorsehen um beim Pro Mini den Eingang des LDO abzuklemmen, der LDO wird bei Batteriebetrieb nicht benötigt. Am Besten ist es sowieso den LDO zu entfernen um Ruhestrom zu sparen. (TomMajor)
