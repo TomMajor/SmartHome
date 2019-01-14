@@ -60,7 +60,8 @@
 //#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>
 //------------
 // 3) Echte Batteriespannungsmessung unter Last, siehe README und Thema "Babbling Idiot Protection"
-//coming soon
+// tmBatteryLoad: sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung
+//#define BAT_SENSOR tmBatteryLoad<A0, 9, 4000, 200>
 
 //---------------------------------------------------------
 // Pin definitions

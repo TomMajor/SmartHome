@@ -25,7 +25,7 @@
 #define ADMUX_REF_RESV ((1 << REFS1) | (0 << REFS0))
 #define ADMUX_REF_VBG ((1 << REFS1) | (1 << REFS0))
 
-#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega644P__)               \
+#if defined(__AVR_ATmega32U4__) || defined(__AVR_ATmega1280__) || defined(__AVR_ATmega2560__) || defined(__AVR_ATmega644P__)                         \
     || defined(__AVR_ATmega1284P__)
 #define ADMUX_ADC_VBG ((1 << MUX4) | (1 << MUX3) | (1 << MUX2) | (1 << MUX1) | (0 << MUX0))
 #else
@@ -96,9 +96,9 @@ public:
     }
 
 protected:
-    uint16_t measure()
+    uint16_t measure(uint16_t preDelayTime)
     {
-        delay(50);    // load CVref 100nF, 5*Tau = 25ms
+        delay(preDelayTime);
         // messure 4 times
         uint16_t adc = 0;
         for (int i = 0; i < 4; i++) {
@@ -126,9 +126,9 @@ private:
     {
         // setup reference and input each time, just in case other SW modules have changed this
         ADMUX &= ~(ADMUX_REFMASK | ADMUX_ADCMASK);
-        ADMUX |= ADMUX_REF_AVCC;    // select AVCC as reference
-        ADMUX |= ADMUX_ADC_VBG;     // select bandgap as input
-        uint16_t adc = measure();
+        ADMUX |= ADMUX_REF_AVCC;       // select AVCC as reference
+        ADMUX |= ADMUX_ADC_VBG;        // select bandgap as input
+        uint16_t adc = measure(50);    // load CVref 100nF, 5*Tau = 25ms
         if (adc) {
             // read Bandgap against AVCC:
             // ADC = Vin * 1024 / Vref -> Vref = Vin * 1024 / ADC
@@ -162,26 +162,24 @@ public:
 
     void init(uint32_t period, AlarmClock& clock)
     {
-        pinMode(m_SensePin, INPUT);         // pull-up off
         pinMode(m_ActivationPin, INPUT);    // disable resistor divider
+        pinMode(m_SensePin, INPUT);         // input
+        digitalWrite(m_SensePin, LOW);      // pull-up off
         tmBattery::init(period, clock);
     }
 
 private:
     virtual uint16_t voltage()
     {
-        pinMode(m_ActivationPin, OUTPUT);
-        digitalWrite(m_ActivationPin, LOW);    // enable resistor divider
-        digitalWrite(m_SensePin, LOW);         // pull-up off
-
         // setup reference and input each time, just in case other SW modules have changed this
         ADMUX &= ~(ADMUX_REFMASK | ADMUX_ADCMASK);
         ADMUX |= ADMUX_REF_VBG;                     // select bandgap as reference
         ADMUX |= ((m_SensePin - PIN_A0) & 0x0F);    // select SensePin as input
-        uint16_t adc = tmBattery::measure();
 
-        digitalWrite(m_SensePin, HIGH);     // pull-up on
-        pinMode(m_ActivationPin, INPUT);    // disable resistor divider
+        pinMode(m_ActivationPin, OUTPUT);
+        digitalWrite(m_ActivationPin, LOW);       // enable resistor divider
+        uint16_t adc = tmBattery::measure(50);    // load CVref 100nF, 5*Tau = 25ms
+        pinMode(m_ActivationPin, INPUT);          // disable resistor divider
 
         if (adc) {
             // read SensePin against Bandgap:
@@ -192,6 +190,62 @@ private:
             return (uint16_t)vbat;
         } else {
             DPRINT(F("tmBatteryResDiv Error"));
+            return 0;
+        }
+    }
+};
+
+//---------------------------------------------------------
+template <uint8_t SENSPIN, uint8_t ACTIVATIONPIN, uint16_t FACTOR, uint16_t LOADTIME> class tmBatteryLoad : public tmBattery {
+    uint8_t  m_SensePin;         // A0
+    uint8_t  m_ActivationPin;    // D9
+    uint16_t m_Factor;           // Faktor = Rges/Rlow*1000, z.B. Teiler 10/30 Ohm, Faktor 40/10*1000 = 4000
+    uint16_t m_LoadTime;         // Zeit für Aktivierung der Last in ms, Range 0..2000ms
+
+public:
+    tmBatteryLoad()
+        : tmBattery()
+        , m_SensePin(SENSPIN)
+        , m_ActivationPin(ACTIVATIONPIN)
+        , m_Factor(FACTOR)
+        , m_LoadTime(LOADTIME)
+    {
+    }
+    virtual ~tmBatteryLoad() {}
+
+    void init(uint32_t period, AlarmClock& clock)
+    {
+        pinMode(m_ActivationPin, OUTPUT);
+        digitalWrite(m_ActivationPin, LOW);    // N-Channel Mosfet off
+        pinMode(m_SensePin, INPUT);            // input
+        digitalWrite(m_SensePin, LOW);         // pull-up off
+        if (m_LoadTime > 2000) {               // just for safety
+            m_LoadTime = 2000;
+        }
+        tmBattery::init(period, clock);
+    }
+
+private:
+    virtual uint16_t voltage()
+    {
+        // setup reference and input each time, just in case other SW modules have changed this
+        ADMUX &= ~(ADMUX_REFMASK | ADMUX_ADCMASK);
+        ADMUX |= ADMUX_REF_VBG;                     // select bandgap as reference
+        ADMUX |= ((m_SensePin - PIN_A0) & 0x0F);    // select SensePin as input
+
+        digitalWrite(m_ActivationPin, HIGH);              // N-Channel Mosfet on
+        uint16_t adc = tmBattery::measure(m_LoadTime);    // activate battery load for m_LoadTime ms before measurement
+        digitalWrite(m_ActivationPin, LOW);               // N-Channel Mosfet off
+
+        if (adc) {
+            // read SensePin against Bandgap:
+            // ADC = Vin * 1024 / Vref -> Vin = Vref * ADC / 1024 (* resistor factor)
+            uint32_t vbat = 11UL * adc * m_Factor / 1024 / 10;
+            DPRINT(F("tmBatteryLoad Voltage: "));
+            DDECLN(vbat);
+            return (uint16_t)vbat;
+        } else {
+            DPRINT(F("tmBatteryLoad Error"));
             return 0;
         }
     }

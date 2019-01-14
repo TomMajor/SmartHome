@@ -62,7 +62,8 @@ keine zusätzliche Hardware notwendig<br>
 `// sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700`
 
 - Option 3: Echte Batteriespannungsmessung unter Last<br>
-`coming soon`<br>
+`#define BAT_SENSOR tmBatteryLoad<A0, 9, 4000, 200>`<br>
+`// sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung`
 
 Die Batteriespannungsmessung unter Last dient u.a. dem Schutz vor einem "Babbling Idiot, siehe
 [Babbling Idiot Protection](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Babbling%20Idiot%20Protection)
