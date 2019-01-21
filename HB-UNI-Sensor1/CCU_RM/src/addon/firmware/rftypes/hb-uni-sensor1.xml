@@ -19,7 +19,7 @@
       </conversion>
     </parameter>
     <parameter id="LOW_BAT_LIMIT">
-      <logical type="float" min="1.8" max="5.0" default="2.2" unit="V" />
+      <logical type="float" min="0.9" max="5.0" default="2.2" unit="V" />
       <physical type="integer" interface="config" list="0" index="18" size="1" />
       <conversion type="float_integer_scale" factor="10" />
     </parameter>
