@@ -38,7 +38,7 @@
 // Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
 //
 //#define SENSOR_DS18X20  // Achtung, ONEWIRE_PIN define weiter unten muss zur HW passen!
-#define SENSOR_BME280
+#define SENSOR_BME280   // Achtung, finitespace BME280 Library verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
 //#define SENSOR_TSL2561  // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
 #define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
@@ -321,11 +321,6 @@ public:
         brightness = 88000;    // 88000 Lux
 #endif
 
-#ifdef SENSOR_DS18X20
-        ds18x20.measure();
-        temperature10 = ds18x20.temperature();
-#endif
-
 // Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_BME280
         uint16_t altitude = this->device().getList0().altitude();
@@ -340,7 +335,13 @@ public:
         airPressure10 = bmp180.pressureNN();
 #endif
 
-// Feuchte vom SHT10 falls kein BME280 vorhanden
+// Falls DS18X20 vorhanden, dessen Temp der BME280/BMP180 Temp vorziehen
+#ifdef SENSOR_DS18X20
+        ds18x20.measure();
+        temperature10 = ds18x20.temperature();
+#endif
+
+// Feuchte/Temp vom SHT10 falls kein BME280 vorhanden
 #if defined(SENSOR_SHT10) && !defined(SENSOR_BME280)
         sht10.measure();
         temperature10 = sht10.temperature();
