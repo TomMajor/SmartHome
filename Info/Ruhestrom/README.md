@@ -30,10 +30,8 @@ BME280 Board: Entfernung LDO und Brücke Vin-Vout
 MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 ![pic](Images/GY-49_LDO.jpg)
 
-<br>
-## Überprüfung des AVR Ruhestroms
-#### power-down Mode
 
+## Überprüfung des AVR Ruhestroms (power-down Mode)
 
 - Der Sketch SleepTest.ino dient zur Überprüfung von Aktiv- und power-down Strom eines Arduino Pro Mini 328 - 3.3V/8MHz mit angeschlossenem CC1101 (das wäre ein Basic HM AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW). Die Ströme sind bei batteriebetriebenen Geräten wichtig für die Batterielebensdauer.
 
@@ -47,9 +45,8 @@ MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 
 ![pic](Images/SleepTest.jpg)
 
-<br>
-#### power-save Mode
 
+## Überprüfung des AVR Ruhestroms (power-save Mode)
 
 - Noch besser bezüglich Ruhestrom wird es schließlich wenn man statt dem Watchdog wake-up ein wake-up über die Timer2/RTC Option mit 32,768kHz Uhrenquarz wählt. Dieser Uhrenquarz wird an den XTAL Pins des AVR angeschlossen, als Haupttaktgeber muss man den internen 8MHz RC-Oszillator über die Fuses einstellen.
 
