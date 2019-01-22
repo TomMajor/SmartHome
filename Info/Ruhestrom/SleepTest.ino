@@ -1,28 +1,40 @@
-#include "LowPower.h"
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// SleepTest (AVR Power-down Mode)
+// 2019-01-22 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// Clock Fuses: RC-Oszillator 8MHz, BOD off
+// alternativ 8MHz Quarz an XTAL
+//
+// Der AVR wechselt mit diesem Sketch zwischen 4sec Aktiv Mode und 8sec power-down Mode mit Watchdog wakeup
+// !! Falls mit der HW alles stimmt benötigt die Schaltung im power-down Mode nur ca. 4uA !!
+//
+// Auf die uA-Messung sollte man nur dann kurz umschalten wenn der AVR im power-down Mode ist (LED aus) und vor Ablauf der 8sec
+// wieder zurück auf den mA-Messbereich. Andernfalls wird der AVR im aktivem Zustand eventuell nicht wieder anlaufen, da der Spannungsabfall
+// dann über den uA-Messbereich des Multimeters zu hoch ist.
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 #include <SPI.h>
+#include "LowPower.h"
 
-const int ledPin = 13;
-
-void cc1101_powerdown();
+const int ledPin = 4;
 
 void setup() 
 {
-  // cc1101_powerdown nur aktivieren falls ein CC1101 angeschlossen ist!
-  cc1101_powerdown();
-  pinMode(ledPin, OUTPUT);
+    // cc1101_powerdown nur aktivieren falls wirklich ein CC1101 angeschlossen ist!
+    //cc1101_powerdown();
+    pinMode(ledPin, OUTPUT);
 }
 
 void loop() 
 {
-  digitalWrite(ledPin, HIGH);
-  delay(8000); 
-  digitalWrite(ledPin, LOW);
-  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
+    digitalWrite(ledPin, HIGH);
+    delay(4000); 
+    digitalWrite(ledPin, LOW);
+    LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
 }
 
 // -------------------------------------------------------------------------
 // CC1101 power down
-// -------------------------------------------------------------------------
 
 #define CC1101_GDO0         2           // GDO0 input interrupt pin
 #define CC1101_SRES         0x30        // Reset CC1101 chip
@@ -71,4 +83,3 @@ void cc1101_powerdown()
   SPI.end();
   delay(100);
 }
-

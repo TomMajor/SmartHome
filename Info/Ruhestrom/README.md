@@ -30,17 +30,29 @@ BME280 Board: Entfernung LDO und Brücke Vin-Vout
 MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 ![pic](Images/GY-49_LDO.jpg)
 
+<br>
+## Überprüfung des AVR Ruhestroms
+#### power-down Mode
 
-## Überprüfung des Ruhestroms
 
-- Der Sketch SleepTest.ino dient zur Überprüfung von Aktiv- und Power-Down-Strom eines Arduino Pro Mini 328 - 3.3V/8MHz mit angeschlossenem CC1101 (das wäre ein Basic HM AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW). Die Ströme sind bei batteriebetriebenen Geräten wichtig für die Batterielebensdauer.
+- Der Sketch SleepTest.ino dient zur Überprüfung von Aktiv- und power-down Strom eines Arduino Pro Mini 328 - 3.3V/8MHz mit angeschlossenem CC1101 (das wäre ein Basic HM AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW). Die Ströme sind bei batteriebetriebenen Geräten wichtig für die Batterielebensdauer.
 
-- Der Sketch schickt den CC1101 in den Ruhezustand und schaltet dann aller 8sec zwischen aktivem Zustand und Power-Down-Modus um. Im aktivem Zustand wird außerdem die LED an Pin 13 eingeschaltet.
+- Der AVR wechselt mit diesem Sketch zwischen 4sec Aktiv Mode und 8sec power-down Mode (mit anschließendem Watchdog wake-up). Ein angeschlossener CC1101 kann optional ebenfalls in den Ruhezustand versetzt werden. Im aktivem Zustand wird außerdem die LED am definierten Pin eingeschaltet.
 
-- Wenn die Fuses richtig gesetzt sind und die Hardware in Ordnung ist müssen sich die gezeigten Ströme in etwa einstellen (ca. 3mA im aktivem Zustand, ca. 4µA im Power-Down-Modus).<br>
+- Wenn die Fuses richtig gesetzt sind und die Hardware in Ordnung ist müssen sich die gezeigten Ströme in etwa einstellen (ca. 3mA im aktivem Zustand, **ca. 4µA im power-down Mode**).<br>
 
-- Die Werte sind bei einer Batteriespannung von 2,4V gemessen. Bei 3V wird der Strom im aktivem Zustand etwas höher sein, der Power-Down-Strom sollte sich kaum ändern.
+- Die Werte sind bei einer Batteriespannung von 2,4V gemessen. Bei 3V wird der Strom im aktivem Zustand etwas höher sein, der power-down Strom sollte sich kaum ändern.
 
-- Multimeter haben meist einen relativ hohem Innenwiderstand im µA-Messbereich. Auf die µA-Messung sollte man deshalb nur dann kurz umschalten wenn der AVR im Power-Down-Modus ist (LED aus) und vor Ablauf der 8sec wieder zurück auf den mA-Messbereich. Andernfalls wird der AVR im aktivem Zustand eventuell nicht wieder anlaufen, da der Spannungsabfall dann über den µA-Messbereich des Multimeters zu hoch ist.
+- Multimeter haben meist einen relativ hohem Innenwiderstand im µA-Messbereich. Auf die µA-Messung sollte man deshalb nur dann kurz umschalten wenn der AVR im power-down Mode ist (LED aus) und vor Ablauf der 8sec wieder zurück auf den mA-Messbereich. Andernfalls wird der AVR im aktivem Zustand eventuell nicht wieder anlaufen, da der Spannungsabfall dann über den µA-Messbereich des Multimeters zu hoch ist.
 
 ![pic](Images/SleepTest.jpg)
+
+<br>
+#### power-save Mode
+
+
+- Noch besser bezüglich Ruhestrom wird es schließlich wenn man statt dem Watchdog wake-up ein wake-up über die Timer2/RTC Option mit 32,768kHz Uhrenquarz wählt. Dieser Uhrenquarz wird an den XTAL Pins des AVR angeschlossen, als Haupttaktgeber muss man den internen 8MHz RC-Oszillator über die Fuses einstellen.
+
+- Der zweite Sketch SleepTestRTC.ino demonstriert diese Option. Damit lassen sich **ca. 0,75uA power-save Strom** erreichen, was ein sehr gutes Ergebnis für einen Homebrew-Sensor darstellt.
+
+![pic](Images/SleepTestRTC.jpg)

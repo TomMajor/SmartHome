@@ -59,7 +59,8 @@ Meine Beispiele für papa's AskSinPP library
 
 - Hinweise zur Verringerung des Ruhestromverbrauchs
 - Entfernen des LDOs bei Sensor-Boards
-- Sketch zur Überprüfung von Aktiv- und Power-Down-Strom eines Arduino Pro Mini 328 (3.3V/8MHz) mit angeschlossenem CC1101 (das wäre ein Basis-AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW)
+- Sketch (SleepTest.ino) zur Überprüfung von Aktiv- und power-down Strom eines Arduino Pro Mini 328 (3.3V/8MHz) mit angeschlossenem CC1101 (das wäre ein Basis-AskSinPP Gerät ohne angeschlossene Sensoren oder andere Zusatz-HW)
+- Sketch (SleepTestRTC.ino) zur Überprüfung des AVR power-save Mode mit 32,768kHz RTC, damit kann man weniger als 1µA Ruhestrom erreichen.
 
 <p align="center"><img src="Images/SensorBreakoutBoards_small.jpg?raw=true"/></p>
 
