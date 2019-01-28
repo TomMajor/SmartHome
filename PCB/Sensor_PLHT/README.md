@@ -46,7 +46,9 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
 
-## Spezielle Bauelemente
+## Bauelemente
+
+- alle SMD Widerstände und Kondensatoren haben die Bauform 0805 (außer die Kondensatoren für den optionalen Step-up Wandler, die haben 1206).
 
 - Gehäuse mit Klarsichtdeckel: GAINTA G201C (ohne Befestigunslaschen), GAINTA G201CMF (mit Befestigunslaschen)
 
@@ -118,19 +120,6 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 ![pic](Images/pgm_ftdi.jpg)
 
-<br>
-:exclamation: **Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones** :exclamation:
-
-Die weit verbreiteten und billigen (1€) USBasp Klones haben einen Jumper zur 3,3V / 5V Umschaltung.<br>
-Leider ist diese Umschaltung nur für die Versorgung des (Programmier-)Ziels zuständig, nicht für die Betriebsspannung des Controllers auf dem USBasp!<br>
-Dies führt dazu dass der zu programmierende AVR zwar mit 3,3V betrieben wird, die Programmierleitungen SCK/MISO/MOSI/RESET führen jedoch 5V Pegel was ganz klar eine Verletzung der Spezifikation für den zu programmierenden AVR ist.<br>
-Das Gleiche gilt für einen angeschlossenen CC1101.<br>
-Es besteht somit die Gefahr, sowohl AVR als auch CC1101 durch Einsatz eines USBasp Klones zu zerstören.<br>
-Ich habe Berichte von Usern gelesen wo das Programmieren gut ging, aber sicher ist das nicht. Es gibt auch Berichte wo der USBasp den AVR zerstört hat. :fire:<br>
-Der 3,3V Jumper suggeriert dass alles Bestens ist, täuscht damit aber den Benutzer.<br>
-**Aus diesen Gründen rate ich vom Einsatz eines USBasp Klones in 3,3V Umgebungen ab.**<br>
-Der Thread zu diesem Thema:
-[HM Forum](https://homematic-forum.de/forum/viewtopic.php?f=76&t=47361&start=50#p480173)
 
 ## Verbesserungen für's nächste Redesign
 
@@ -143,3 +132,19 @@ Der Thread zu diesem Thema:
 - die LED Pads als 1206 vorsehen - 0805 lässt sich auf 1206 gut auflöten, aber 1206 auf 0805 ist schon grenzwertig (kpwg)
 - ich verfolge etwas die Diskussion über GND bei der Antennen des CC1101. Um da flexibler zu sein (also eventuell die Durchkontaktierung aufbohren zum Trennen) ist es eventuell besser, sich das GND für den T1 aus einer getrennten Durchkontaktierung und nicht aus dem linken GND des CC1101 zu holen. (harvey)
 - ISP-Header zum bequemen initialen Prog. des Bootloaders - noch unklar ob im Layout machbar (TomMajor, kpwg)
+
+
+## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+
+:exclamation: AVR und CC1101 können bei 3,3V durch Einsatz eines USBasp Klones zerstört werden :exclamation:
+
+Die weit verbreiteten und billigen (1€) USBasp Klones haben einen Jumper zur 3,3V / 5V Umschaltung.<br>
+Leider ist diese Umschaltung nur für die Versorgung des (Programmier-)Ziels zuständig, nicht für die Betriebsspannung des Controllers auf dem USBasp!<br>
+Dies führt dazu dass der zu programmierende AVR zwar mit 3,3V betrieben wird, die Programmierleitungen SCK/MISO/MOSI/RESET führen jedoch 5V Pegel was ganz klar eine Verletzung der Spezifikation für den zu programmierenden AVR ist.<br>
+Das Gleiche gilt für einen angeschlossenen CC1101.<br>
+Es besteht somit die Gefahr, sowohl AVR als auch CC1101 durch Einsatz eines USBasp Klones zu zerstören.<br>
+Ich habe Berichte von Usern gelesen wo das Programmieren gut ging, aber sicher ist das nicht. Es gibt auch Berichte wo der USBasp den AVR zerstört hat. :fire:<br>
+Der 3,3V Jumper suggeriert dass alles Bestens ist, täuscht damit aber den Benutzer.<br>
+**Aus diesen Gründen rate ich vom Einsatz eines USBasp Klones in 3,3V Umgebungen ab.**<br>
+Der Thread zu diesem Thema:
+[HM Forum](https://homematic-forum.de/forum/viewtopic.php?f=76&t=47361&start=50#p480173)
