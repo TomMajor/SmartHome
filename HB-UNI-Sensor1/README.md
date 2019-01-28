@@ -117,7 +117,7 @@ _FHEM user kpwg_
 
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
-[Flashen PLHT Sensor](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT#3-warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
+[Flashen PLHT Sensor](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 
 ## Benötige Libraries
