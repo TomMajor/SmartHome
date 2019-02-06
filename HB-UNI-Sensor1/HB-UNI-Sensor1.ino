@@ -1,7 +1,8 @@
 
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// 2018-10-23 Tom Major (Creative Commons)
+// Version 1.10
+// 2019-02-04 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -44,6 +45,13 @@
 #define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
+
+//---------------------------------------------------------
+// Über diese defines wird die Clock festgelegt
+// CLOCK_SYSCLOCK: 8MHz Quarz an XTAL oder 8MHz int. RC-Oszillator, Sleep Strom ca. 4uA
+// CLOCK_RTC:      8MHz int. RC-Oszillator, 32.768kHz Quarz an XTAL, Sleep Strom ca. 1uA
+#define CLOCK_SYSCLOCK
+//#define CLOCK_RTC
 
 //---------------------------------------------------------
 // Schwellwerte für Batteriespannungsmessung
@@ -109,6 +117,18 @@ using namespace as;
 Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (Interrupt event)
 #endif
 
+#ifdef CLOCK_SYSCLOCK
+#define CLOCK sysclock
+#define SAVEPWR_MODE Sleep<>
+#elif defined CLOCK_RTC
+#define CLOCK rtc
+#define SAVEPWR_MODE SleepRTC
+#undef seconds2ticks
+#define seconds2ticks(tm) (tm)
+#else
+#error INVALID CLOCK OPTION
+#endif
+
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
 // Device ID und Device Serial werden aus der Datei "DeviceID.h" geholt um mehrere Geräte ohne Änderung des Sketches flashen zu können
@@ -136,15 +156,16 @@ public:
     void init(const HMID& id)
     {
         BaseHal::init(id);
-        // init real time clock - 1 tick per second
-        // rtc.init();
+#ifdef CLOCK_RTC
+        rtc.init();    // init real time clock - 1 tick per second
+#endif
         // measure battery every 12h
-        battery.init(seconds2ticks(12UL * 60 * 60), sysclock);
+        battery.init(seconds2ticks(12UL * 60 * 60), CLOCK);
         battery.low(BAT_VOLT_LOW);
         battery.critical(BAT_VOLT_CRITICAL);
     }
 
-    bool runready() { return sysclock.runready() || BaseHal::runready(); }
+    bool runready() { return CLOCK.runready() || BaseHal::runready(); }
 } hal;
 
 class WeatherEventMsg : public Message {
@@ -300,8 +321,8 @@ public:
 
     void forceSend()
     {
-        sysclock.cancel(*this);
-        trigger(sysclock);
+        CLOCK.cancel(*this);
+        trigger(CLOCK);
     }
 
     void measure()
@@ -392,8 +413,14 @@ public:
 #ifdef SENSOR_DIGINPUT
         digitalInput.init(DIGINPUT_PIN);
 #endif
-        DPRINT("Sensor setup done, Serial: ");
+        DPRINTLN(F("Sensor setup done"));
+        DPRINT(F("Serial: "));
         DPRINTLN(cDEVICE_SERIAL);
+#ifdef CLOCK_SYSCLOCK
+        DPRINTLN(F("Clock SYSCLOCK"));
+#elif defined CLOCK_RTC
+        DPRINTLN(F("Clock RTC"));
+#endif
     }
 
     void setup(Device<Hal, SensorList0>* dev, uint8_t number, uint16_t addr)
@@ -401,7 +428,7 @@ public:
         Channel::setup(dev, number, addr);
         initSensors();
         set(seconds2ticks(5));    // first message in 5 sec.
-        sysclock.add(*this);
+        CLOCK.add(*this);
     }
 
     void configChanged()
@@ -483,29 +510,6 @@ void loop()
             hal.activity.sleepForever(hal);
         }
         // if nothing to do - go sleep
-        hal.activity.savePower<Sleep<>>(hal);
+        hal.activity.savePower<SAVEPWR_MODE>(hal);
     }
 }
-
-/*
-//---------------------------------------------------------
-Die Registerklassen (Listen) eines Homematic-Gerätes
-
-Gerätebezogene Register
-Gerätebezogene Register existieren für jedes HomeMatic-Gerät nur einmal und
-werden in der sogenannten List0 gespeichert.
-
-Kanalbezogene Register
-Kanalbezogene Register existieren für jeden Kanal eines Gerätes einmal und
-werden in der sogenannten List1 gespeichert.
-
-Verknüpfungsbezogene Register
-Diese Register sind am umfangreichsten und werden für jeden Verknüpfungspartner
-(peer) einzeln separat angelegt in der List3 (RegL_03.<peer>). Die
-grundsätzlichen Funktionen und ihre Zusammenhänge sind auch ausführlich in der
-Einsteigerdokumentation erklärt, inklusive Skizzen für die sogenannte state
-machine.
-
-https://wiki.fhem.de/wiki/Homematic-Register_von_A-Z_(Namen,_Erkl%C3%A4rung)
-https://wiki.fhem.de/wiki/HomeMatic_Register_programmieren
-*/
