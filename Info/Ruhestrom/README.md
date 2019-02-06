@@ -53,3 +53,17 @@ MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 - Der zweite Sketch SleepTestRTC.ino demonstriert diese Option. Damit lassen sich **ca. 0,75uA power-save Strom** erreichen, was ein sehr gutes Ergebnis für einen Homebrew-Sensor darstellt.
 
 ![pic](Images/SleepTestRTC.jpg)
+
+
+## Für Interessierte
+
+- Das wake-up Verhalten der RTC gemessen mit einem 20 Ohm Widerstand in der Versorgungsleitung. Die Stromaufnahme beträgt wie oben geschrieben ca. 0,75uA. Jede Sekunde wacht die RTC für ca. 157us Aktivzeit auf, gemessen mit dem Sketch des HB-UNI-Sensor1.
+
+- Die zusätzliche Stromaufnahme durch dieses RTC wake-up (kann nicht mit Multimeter gemessen werden) beträgt:<br>
+0,157ms/1000ms * 2100uA = 0,33uA
+
+wake-up Periode
+![pic](Images/RTC_Wakeup_Period.png)
+
+Aktivzeit
+![pic](Images/RTC_Wakeup_Pulse.png)
