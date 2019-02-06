@@ -63,7 +63,9 @@ MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 0,157ms/1000ms * 2100uA = 0,33uA
 
 wake-up Periode
+
 ![pic](Images/RTC_Wakeup_Period.png)
 
 Aktivzeit
+
 ![pic](Images/RTC_Wakeup_Pulse.png)
