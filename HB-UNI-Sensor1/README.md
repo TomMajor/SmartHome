@@ -120,6 +120,20 @@ _FHEM user kpwg_
 [Flashen PLHT Sensor](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 
+## Bewegungsmelder mit PIR AS312 am digitalen Eingang
+
+- Der Inverter mit Transistor sorgt für minimalen Ruhestrom (keine Bewegung, PIR Ausgang Low, Transistor gesperrt) und trägt außerdem durch die Entkopplung zum sicheren Betrieb bei (keine unerwünschte Auslösung des PIR während des 868MHz Sendevorgangs an die Zentrale).
+- Die Bilder demonstrieren die Ideen und den konstruktiven Aufbau von user fhemfreund, getrimmt auf minimale Gerätegröße. Danke für den Ideenaustausch und die Aussicht auf ein Gerät.  :smile:
+- Mit der RTC Option beträgt der Ruhestrom inklusive PIR nur ca. 14uA und es besteht somit die Hoffnung dass die eingesetzte Batterie CR2450 möglichst lange hält.
+
+![pic](PIR/AM312.png)
+![pic](PIR/PIR_Anbindung.png)
+![pic](PIR/UniSensor_PIR1.jpg)
+![pic](PIR/UniSensor_PIR2.jpg)
+![pic](PIR/UniSensor_PIR3.jpg)
+![pic](PIR/UniSensor_PIR4.jpg)
+
+
 ## Benötige Libraries
 
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
