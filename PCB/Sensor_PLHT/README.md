@@ -148,3 +148,13 @@ Der 3,3V Jumper suggeriert dass alles Bestens ist, täuscht damit aber den Benut
 **Aus diesen Gründen rate ich vom Einsatz eines USBasp Klones in 3,3V Umgebungen ab.**<br>
 Der Thread zu diesem Thema:
 [HM Forum](https://homematic-forum.de/forum/viewtopic.php?f=76&t=47361&start=50#p480173)
+
+Absolute Maximum Ratings **ATmega328**
+
+![pic](Images/Absolute_Maximum_Ratings_AVR.png)
+
+<br>
+
+Absolute Maximum Ratings **CC1101**
+
+![pic](Images/Absolute_Maximum_Ratings_CC1101.png)
