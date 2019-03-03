@@ -1,8 +1,8 @@
 
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.10
-// 2019-02-04 Tom Major (Creative Commons)
+// Version 1.11
+// 2019-03-03 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -39,7 +39,7 @@
 // Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
 //
 //#define SENSOR_DS18X20  // Achtung, ONEWIRE_PIN define weiter unten muss zur HW passen!
-#define SENSOR_BME280   // Achtung, finitespace BME280 Library verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
+#define SENSOR_BME280    // Achtung, finitespace BME280 Library verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
 //#define SENSOR_TSL2561  // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
 #define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
@@ -273,6 +273,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint32_t brightness;
     uint8_t  digInputState;
     uint16_t batteryVoltage;
+    bool     regularWakeUp;
 
 #ifdef SENSOR_DS18X20
     Sens_DS18X20 ds18x20;
@@ -303,12 +304,16 @@ public:
         , brightness(0)
         , digInputState(0)
         , batteryVoltage(0)
+        , regularWakeUp(true)
     {
     }
     virtual ~WeatherChannel() {}
 
     virtual void trigger(AlarmClock& clock)
     {
+#ifdef SENSOR_DIGINPUT
+        digitalInput.disableINT();    // digitalInput Interrupt abschalten, dieser könnte beim Senden ausgelöst werden (bei PIR aufgetreten)
+#endif
         uint8_t msgcnt = device().nextcount();
         measure();
         msg.init(msgcnt, temperature10, airPressure10, humidity, brightness, digInputState, batteryVoltage, device().battery().low());
@@ -317,12 +322,23 @@ public:
         uint16_t updCycle = this->device().getList0().updIntervall();
         set(seconds2ticks(updCycle));
         clock.add(*this);
+#ifdef SENSOR_DIGINPUT
+        if (regularWakeUp) {             // bei Senden nach regulären WakeUp den digitalInput Interrupt sofort wieder einschalten
+            digitalInput.enableINT();    // andernfalls erst nach Entprellen in forceSend()
+        }
+#endif
+        regularWakeUp = true;
     }
 
     void forceSend()
     {
         CLOCK.cancel(*this);
-        trigger(CLOCK);
+        regularWakeUp = false;    // Verhindert enableINT in trigger()
+        trigger(CLOCK);           // Messen/Senden
+        delay(250);               // Verzögerung für wiederholtes Senden bzw. digitalInput Entprellen
+#ifdef SENSOR_DIGINPUT
+        digitalInput.enableINT();
+#endif
     }
 
     void measure()
@@ -499,8 +515,6 @@ void loop()
             digitalInput.resetEvent();
             DPRINTLN(F("DIGINPUT change"));
             sdev.channel(1).forceSend();
-            delay(250);    // Entprellen
-            digitalInput.enableINT();
         }
 #endif
         // deep discharge protection

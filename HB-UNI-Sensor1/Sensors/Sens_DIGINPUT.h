@@ -1,7 +1,7 @@
 
 //---------------------------------------------------------
 // Sens_DIGINPUT
-// 2018-10-16 Tom Major (Creative Commons)
+// 2019-03-03 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -42,11 +42,17 @@ public:
     {
         if (digitalPinToInterrupt(_pin) == NOT_AN_INTERRUPT) {
             enableInterrupt(_pin, isr, CHANGE);
-            DPRINTLN(F("Sens_DIGINPUT enable INT"));
+            // DPRINTLN(F("Sens_DIGINPUT enable INT"));
         } /*else {
             attachInterrupt(digitalPinToInterrupt(_pin), isr, CHANGE);
             DPRINTLN(F("Sens_DIGINPUT attach INT"));
         }*/
+    }
+
+    void disableINT()
+    {
+        disableInterrupt(_pin);
+        // DPRINTLN(F("Sens_DIGINPUT disable INT"));
     }
 
     uint8_t pinState() { return digitalRead(_pin); }
