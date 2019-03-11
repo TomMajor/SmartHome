@@ -18,3 +18,13 @@
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
 [EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
 [Low-Power](https://github.com/rocketscream/Low-Power)
+
+
+## CCU2/RaspberryMatic Installation
+
+Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-SEN-LJet-addon.tgz installieren.
+
+
+## Leiterplatte
+
+- Platine in Arbeit
