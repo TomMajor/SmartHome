@@ -34,9 +34,6 @@ ln -sf ${ADDON_DIR} ${WWW_DIR}
 
 rm -f ${ADDON_DIR}/installed
 
-# Startskript ausführen
-${RC_DIR}/$ADDON_NAME start
-
 # sync filesystem to make sure all changes are written to disk
 sync
 
