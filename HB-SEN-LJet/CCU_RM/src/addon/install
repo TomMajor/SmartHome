@@ -47,6 +47,4 @@ sync
 
 mount -o remount,ro /
 
-/etc/init.d/S61rfd restart
-
 touch /usr/local/addons/$ADDON_NAME/installed
