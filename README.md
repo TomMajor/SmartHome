@@ -2,9 +2,9 @@
 # SmartHome
 Various SmartHome Projects, Devices, Information and Examples including AskSinPP usage
 
-:exclamation: Achtung, der Name dieses Repository wurde am 19.03.2019 auf 'SmartHome' geändert (ehemals 'AskSinPP_Examples').<br>
+:exclamation: *Achtung, der Name dieses Repository wurde am 19.03.2019 auf 'SmartHome' geändert (ehemals 'AskSinPP_Examples').<br>
 Der Redirect der alten links sollte automatisch über github funktionieren.<br>
-Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten HomeMatic/RaspberryMatic AddOns so dass deren Update-Prüfung gleich korrekt auf den aktuellen link erfolgt.
+Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten HomeMatic/RaspberryMatic AddOns so dass deren Update-Prüfung gleich korrekt auf den aktuellen link erfolgt.*
 
 ## Universalsensor (HB-UNI-Sensor1)
 
