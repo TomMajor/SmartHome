@@ -1,6 +1,6 @@
 #############################################################
 # Versionsnummer
-ADDON_VERSION=1.07
+ADDON_VERSION=1.08
 
 # ADDON_NAME, wird verwendet für das rc-Script sowie als Unterverzeichnis der Installation /usr/local/addons/... 
 ADDON_NAME=hb-sen-ljet
