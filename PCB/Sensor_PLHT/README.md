@@ -17,7 +17,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 - MAX44009 hinzugefügt
 - BMP180 entfernt (Ersatz durch BME280)
-- TSL2561 entfernt (Ersatz durch MAX44009) warum? [Vergleich TSL2561 MAX44009](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/SensorTest_Lux)
+- TSL2561 entfernt (Ersatz durch MAX44009) warum? [Vergleich TSL2561 MAX44009](https://github.com/TomMajor/SmartHome/tree/master/Info/SensorTest_Lux)
 - Zweite I2C Stiftleiste für zusätzliche Sensoren auf Breakout-Boards
 - Schaltung für echte Batteriespannungsmessung unter Last hinzugefügt
 - 10k pull-up Widerstand am ChipSelect des CC1101 für sicheres ISP-Flashen (Bootloader) mit verbautem CC1101
@@ -29,12 +29,12 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 ## Software
 
-[HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
+[HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 
 
 ## Schaltung
 
-[Sensor PLHT](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
+[Sensor PLHT](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
 
 ## Bilder
@@ -103,7 +103,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - Für den Vorgang muss der Chip aufgelötet sein und mit Spannung versorgt werden. Falls ein externer Quarz eingesetzt werden soll muss auch dieser bestückt sein.
 - Wenn der ISP-Programmer einmal dran ist sollten auch gleich die Fuses geprüft und ggf. angepasst werden (Oszillator, BOD usw.).
 - Beispiele für Bootloader und Fuse-Einstellungen:
-[Bootloader HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1/bootloader)
+[Bootloader HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1/bootloader)
 
 ![pic](Images/pgm_bootloader.jpg)
 

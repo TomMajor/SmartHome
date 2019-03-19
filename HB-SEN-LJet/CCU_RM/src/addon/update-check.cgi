@@ -1,6 +1,6 @@
 #!/bin/tclsh
-set checkURL    "https://raw.githubusercontent.com/TomMajor/AskSinPP_Examples/master/HB-SEN-LJet/CCU_RM/src/addon/VERSION"
-set downloadURL "https://github.com/TomMajor/AskSinPP_Examples/raw/master/HB-SEN-LJet/CCU_RM/HB-SEN-LJet-addon.tgz"
+set checkURL    "https://raw.githubusercontent.com/TomMajor/SmartHome/master/HB-SEN-LJet/CCU_RM/src/addon/VERSION"
+set downloadURL "https://github.com/TomMajor/SmartHome/raw/master/HB-SEN-LJet/CCU_RM/HB-SEN-LJet-addon.tgz"
 catch {
   set input $env(QUERY_STRING)
   set pairs [split $input &]

@@ -63,7 +63,7 @@ Er kann somit die Knoten stören, die ihre Nachrichten synchron mit dem Netzwerk
 jp112sdl und ich haben uns im Frühjahr 2018 etwas intensiver zu dem Thema ausgetauscht und Lösungen entwickelt.
 
 Ich stelle hier 3 Maßnahmen vor, um sich vor diesem Effekt zu schützen, anhand meines Beispiels für den Wassermelder<br>
-[HB-SEC-WDS-2](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-SEC-WDS-2)
+[HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
 
 Der BI könnte entstehen, wenn beim Senden die Batteriespannung so weit zusammenbricht, das ein normaler Programmablauf nicht mehr gegeben ist, dadurch der angefangene Sendevorgang nicht abgeschlossen werden kann, die Spannung aber noch für den Betrieb der Sendeendstufe im CC1101 reicht. <br>Dieser Zustand ist kritisch und soll mit den hier gezeigten Maßnahmen vermieden werden.
 

@@ -1,6 +1,6 @@
 #!/bin/tclsh
-set checkURL    "https://raw.githubusercontent.com/TomMajor/AskSinPP_Examples/master/HB-UNI-Sensor1/CCU_RM/src/addon/VERSION"
-set downloadURL "https://github.com/TomMajor/AskSinPP_Examples/raw/master/HB-UNI-Sensor1/CCU_RM/HB-UNI-Sensor1-addon.tgz"
+set checkURL    "https://raw.githubusercontent.com/TomMajor/SmartHome/master/HB-UNI-Sensor1/CCU_RM/src/addon/VERSION"
+set downloadURL "https://github.com/TomMajor/SmartHome/raw/master/HB-UNI-Sensor1/CCU_RM/HB-UNI-Sensor1-addon.tgz"
 catch {
   set input $env(QUERY_STRING)
   set pairs [split $input &]

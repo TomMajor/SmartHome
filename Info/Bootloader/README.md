@@ -22,13 +22,13 @@
 
 <br>
 #### Bootloader ATmega328p Quarz/RC-Oszillator
-[Quarz-Osc 328p](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Bootloader/mega328/Quarz_Osc)
+[Quarz-Osc 328p](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega328/Quarz_Osc)
 
 #### Bootloader ATmega328p RC-Oszillator mit Kalibrierung
-[RC-Osc Cal. 328p](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Bootloader/mega328/RC_Osc_Cal)
+[RC-Osc Cal. 328p](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega328/RC_Osc_Cal)
 
 #### Bootloader ATmega1284p
-[Quarz_Osc 1284p](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Bootloader/mega1284)
+[Quarz_Osc 1284p](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284)
 
 #### Atmel AVR Fuse Calculator
 

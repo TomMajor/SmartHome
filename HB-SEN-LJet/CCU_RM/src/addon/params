@@ -21,14 +21,14 @@ DEVICE_IMG=${ADDON_NAME}.png
 DEVICE_THUMB=${ADDON_NAME}_thumb.png
 
 # Link zum Projekt (wird in der Addon-Info unter Zusatzinfo angezeigt)
-ADDON_INFO_LINK="<a href='https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-SEN-LJet'>Projekt auf Github</a>"
+ADDON_INFO_LINK="<a href='https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet'>Projekt auf Github</a>"
 
 # update-check.cgi:
 # Online-Link zur VERSION, um auf Update zu prüfen 
-CHECK_URL="https://raw.githubusercontent.com/TomMajor/AskSinPP_Examples/master/HB-SEN-LJet/CCU_RM/src/addon/VERSION"
+CHECK_URL="https://raw.githubusercontent.com/TomMajor/SmartHome/master/HB-SEN-LJet/CCU_RM/src/addon/VERSION"
 
 # URL zum Download des Addons
-DOWNLOAD_URL="https://github.com/TomMajor/AskSinPP_Examples/raw/master/HB-SEN-LJet/CCU_RM/HB-SEN-LJet-addon.tgz"
+DOWNLOAD_URL="https://github.com/TomMajor/SmartHome/raw/master/HB-SEN-LJet/CCU_RM/HB-SEN-LJet-addon.tgz"
 
 #############################################################
 

@@ -13,7 +13,7 @@ Beispiel:<br>
 `  { 0xA5, 0xA5, 0x00 },    // Device ID`<br>
 `  "UNISENS001",            // Device Serial`<br>
 - Ich empfehle den MAX44009 Helligkeitssensor anstatt dem TSL2561, siehe<br>
-[SensorTest_Lux](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/SensorTest_Lux)
+[SensorTest_Lux](https://github.com/TomMajor/SmartHome/tree/master/Info/SensorTest_Lux)
 - Der Status eines digitalen Eingangs kann mit übertragen werden. Falls diese Option aktivert ist wird bei einer Änderung an diesem Eingang sofort ein neues Telegramm an die Zentrale gesendet, unabhängig vom eingestellten Sendeintervall.
 - Folgende Sensoren sind zur Zeit beim HB-UNI-Sensor1 aktivierbar:<br>
 `#define SENSOR_DS18X20`<br>
@@ -41,11 +41,11 @@ Beispiel:<br>
 
 ![pic](Images/HB-UNI-Sensor1_HW2.jpg)
 
-[Projekt](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT)
+[Projekt](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
 
-[Schaltung](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
+[Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
-[Verringerung Ruhestrom](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Ruhestrom)
+[Verringerung Ruhestrom](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom)
 
 
 ## Messung der Batteriespannung
@@ -66,7 +66,7 @@ keine zusätzliche Hardware notwendig<br>
 `// sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung`
 
 Die Batteriespannungsmessung unter Last dient u.a. dem Schutz vor einem "Babbling Idiot, siehe
-[Babbling Idiot Protection](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Babbling%20Idiot%20Protection)
+[Babbling Idiot Protection](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection)
 <br><br>
 Aus meiner Sicht würde es sehr helfen, eine echte Messung des Batteriezustands unter Last zu haben, um frühzeitig leere Batterien zu erkennen und zu tauschen. Bekanntermaßen sagt eine Spannungsmessung an unbelasteter Batterie, je nach Batterie- bzw. Akkutyp, nicht viel über den Ladezustand aus.
 <br><br>
@@ -117,7 +117,7 @@ _FHEM user kpwg_
 
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
-[Flashen PLHT Sensor](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
+[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 
 ## Bewegungsmelder mit PIR AS312 am digitalen Eingang

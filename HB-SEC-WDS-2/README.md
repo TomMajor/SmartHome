@@ -44,5 +44,5 @@ Ausgangsspannung DC
 ## Option 2: Echte Batteriezustandsmessung unter Last, um frühzeit leere Batterien zu erkennen und zu tauschen.
 
 siehe
-[HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
+[HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"

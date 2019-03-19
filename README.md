@@ -1,8 +1,10 @@
 
-# AskSinPP_Examples
-Meine Beispiele für papa's AskSinPP library
-[AskSinPP Library](https://github.com/pa-pa/AskSinPP)
+# SmartHome
+Various SmartHome Projects, Devices, Information and Examples including AskSinPP usage
 
+:exclamation: Achtung, der Name dieses Repository wurde am 19.03.2019 auf 'SmartHome' geändert (ehemals 'AskSinPP_Examples').<br>
+Der Redirect der alten links sollte automatisch über github funktionieren.<br>
+Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten HomeMatic/RaspberryMatic AddOns so dass deren Update-Prüfung gleich korrekt auf den aktuellen link erfolgt.
 
 ## Universalsensor (HB-UNI-Sensor1)
 
@@ -14,7 +16,7 @@ Meine Beispiele für papa's AskSinPP library
 
 <p align="center"><img src="Images/HB-UNI-Sensor1_HW1_small.jpg?raw=true"/></p>
 
-[Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-UNI-Sensor1)
+[Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 
 
 ## Wassermelder (HB-SEC-WDS-2)
@@ -24,7 +26,7 @@ Meine Beispiele für papa's AskSinPP library
 
 <p align="center"><img src="Images/Prototyp_Wassermelder_small.jpg?raw=true"/></p>
 
-[Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-SEC-WDS-2)
+[Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
 
 
 ## Füllstandsanzeige Öltank/Wassertank (HB-SEN-LJet)
@@ -34,7 +36,7 @@ Meine Beispiele für papa's AskSinPP library
 
 <p align="center"><img src="Images/LevelJet_small.jpg?raw=true"/></p>
 
-[Projektseite HB-SEN-LJet](https://github.com/TomMajor/AskSinPP_Examples/tree/master/HB-SEN-LJet)
+[Projektseite HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 
 
 ## Schutz vor "Babbling Idiot" (BI)
@@ -43,7 +45,7 @@ Meine Beispiele für papa's AskSinPP library
 
 <p align="center"><img src="Images/BI_small.jpg?raw=true"/></p>
 
-[Projektseite BI Schutz](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Babbling%20Idiot%20Protection)
+[Projektseite BI Schutz](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection)
 
 
 ## PLHT Sensor
@@ -52,7 +54,7 @@ Meine Beispiele für papa's AskSinPP library
 
 <p align="center"><img src="Images/PLHT_small.png?raw=true"/></p>
 
-[Projektseite PLHT Sensor](https://github.com/TomMajor/AskSinPP_Examples/tree/master/PCB/Sensor_PLHT)
+[Projektseite PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
 
 
 ## Ruhestrom
@@ -64,18 +66,18 @@ Meine Beispiele für papa's AskSinPP library
 
 <p align="center"><img src="Images/SensorBreakoutBoards_small.jpg?raw=true"/></p>
 
-[Projektseite Ruhestrom](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/Ruhestrom)
+[Projektseite Ruhestrom](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom)
 
 
 ## SensorTest_Lux
 
 - Messungen und Betrachtungen zu den Helligkeitssensoren TSL2561 und MAX44009
 
-[Projektseite SensorTest_Lux](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/SensorTest_Lux)
+[Projektseite SensorTest_Lux](https://github.com/TomMajor/SmartHome/tree/master/Info/SensorTest_Lux)
 
 
 ## WDT_Frequenz
 
 - Misst die Abweichung der Watchdog-Timer Frequenz bei einen ATmega328 in Bezug zur Quarzfrequenz, wichtig für das Aufwach-Intervall
 
-[Projektseite WDT_Frequenz](https://github.com/TomMajor/AskSinPP_Examples/tree/master/Info/WDT_Frequenz)
+[Projektseite WDT_Frequenz](https://github.com/TomMajor/SmartHome/tree/master/Info/WDT_Frequenz)

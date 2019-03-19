@@ -4,8 +4,8 @@
 // Bad Hack: absoluter Pfad zu den HB-UNI-Sensor1 TSL2561/MAX44009 class includes, da Arduino kein includes relativ zum aktuellen sketch erlaubt
 // ich moechte die Sensorklassen aber im HB-UNI-Sensor1 Dir. lassen, keine Lib daraus erstellen sowie auch hier keine Dubletten erzeugen
 // Pfad muss natürlich auf anderen Systemen entsprechend angepasst werden!
-#include "e:/_user7/Documents/Arduino/20_HomeMatic/AskSinPP_Examples/HB-UNI-Sensor1/Sensors/Sens_Tsl2561.h"
-#include "e:/_user7/Documents/Arduino/20_HomeMatic/AskSinPP_Examples/HB-UNI-Sensor1/Sensors/Sens_Max44009.h"
+#include "e:/_user7/Documents/Arduino/20_HomeMatic/SmartHome/HB-UNI-Sensor1/Sensors/Sens_Tsl2561.h"
+#include "e:/_user7/Documents/Arduino/20_HomeMatic/SmartHome/HB-UNI-Sensor1/Sensors/Sens_Max44009.h"
 
 using namespace as;
 
