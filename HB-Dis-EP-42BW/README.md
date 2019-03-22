@@ -32,7 +32,7 @@
 - testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein
 [DisplayTest_42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW/DisplayTest_42BW)
 
-### Analyse und Dokumentation der Änderungen für HB-DIS-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
+### Analyse und Dokumentation der Änderungen für den HB-DIS-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
 
 #### 1. patchsource - Diff Analyse
 
@@ -40,6 +40,7 @@
 |---|---|---|---|
 |/www/config/ic_common.tcl|                         p|      3|      3|
 |/www/config/stringtable_de.txt|                    s|      1|      1 (aber nur die 5x HB_EP_xx Einträge)|
+|||||
 |/www/config/devdescr/DEVDB.tcl|                    s|      1|      1 (aber nur die Referenzen auf 2x HB-DIS-EP-42BW png)|
 |||||
 |/www/rega/esp/datapointconfigurator.fn|            (p)|    2|      0|

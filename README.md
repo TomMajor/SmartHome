@@ -39,6 +39,15 @@ Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten 
 [Projektseite HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 
 
+## Infos und AddOn zum 4,2" ePaper Display HB-DIS-EP-42BW
+
+- Sketch für DisplayTest, AddOn, Fuses, Bootloader
+
+<p align="center"><img src="Images/EP42_small.jpg?raw=true"/></p>
+
+[Projektseite HB-DIS-EP-42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-DIS-EP-42BW)
+
+
 ## Schutz vor "Babbling Idiot" (BI)
 
 - Betrachtungen und Lösungen zum Schutz gegen einen "Babbling Idiot" (Dauersender) im HomeMatic Netzwerk bei Selbstbaugeräten
