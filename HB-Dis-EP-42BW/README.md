@@ -7,6 +7,54 @@
 - Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben - Danke an Jerome für die Unterstützung bei dieser Arbeit<br>
 [Original JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon)
 
+### AddOn HB-DIS-EP-42BW
+
+- coming soon
+
+### Script Helper
+
+- Mit dem Script Helper kann man mit minimalem Aufwand aus HomeMatic Skripten heraus Texte an das ePaper Display senden.
+- Installation:
+```
+    1. SSH Zugang aktivieren (Einstellungen > Systemsteuerung > Sicherheit
+    2. SSH Verbindung zur Zentrale
+    3. Skript downloaden:
+    wget -O /usr/local/addons/epaper42.tcl https://raw.githubusercontent.com/TomMajor/SmartHome/master/HB-Dis-EP-42BW/Script_Helper/epaper42.tcl
+```
+- Anwendung:
+```
+    usage: epaper42 serial /line text [icon number] [/nextline text [icon number]] ...
+    
+    Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
+    Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
+    Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
+    Der 3. Parameter ist die Iconnummer oder den Parameter einfach weglassen wenn man kein Icon auf der Zeile haben will.
+    CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.exec() aufrufen.
+    
+    Beispiel 1 - variabler Text in einer Zeile:
+    Zeigt den Text 'Test ABC ÄÖÜäöüß' in Zeile 5 mit Icon 1 auf dem ePaper mit Serial JPDISEP000 an:
+    string displayCmd = "JPDISEP000 /5 'Test ABC ÄÖÜäöüß' 1";
+    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+    
+    Beispiel 2 - variabler Text in mehreren Zeilen:
+    Zeigt 3 Zeilen Text in den Zeilen 5, 7, 10 an, dabei Zeile 5 und 10 mit Icons, 7 ohne Icon
+    string displayCmd = "JPDISEP000 /5 'Test ABC 123' 1 /7 Textzeile_7 /10 Textzeile_10 12";
+    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+    
+    Beispiel 3 - Sensorwert
+    Zeigt die Temperatur vom Gerät UNISENS077 in Zeile 2 an
+    integer temp = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # "°C";
+    string displayCmd = "JPDISEP000 /2 'Temperatur " # temp # "'";
+    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+```
+
+![pic](Images/ScriptExamples.jpg)
+
+### Displaytest
+
+- testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein
+[DisplayTest_42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW/DisplayTest_42BW)
+
 ### Bilder
 
 ![pic](Images/IMG4.jpg)
@@ -26,11 +74,6 @@
 ![pic](Images/Fuses_1284p_1.png)
 
 ![pic](Images/Fuses_1284p_2.png)
-
-### Displaytest
-
-- testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein
-[DisplayTest_42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW/DisplayTest_42BW)
 
 ### Analyse und Dokumentation der Änderungen für den HB-DIS-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
 
