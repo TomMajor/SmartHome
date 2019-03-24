@@ -3,8 +3,8 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.20
-# 2019-03-23 Tom Major (Creative Commons)
+# Version 0.30
+# 2019-03-24 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/3.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -29,8 +29,13 @@
 #
 # Beispiel 3 - Sensorwert
 # Zeigt die Temperatur vom Gerät UNISENS077 in Zeile 2 an
-# integer temp = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # "°C";
+# string temp = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # "°C";
 # string displayCmd = "JPDISEP000 /2 'Temperatur " # temp # "'";
+# dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+#
+# Beispiel 4 - Vordefinierter Text
+# Zeigt den vordef. Text 4 auf Zeile 1, den vordef. Text 19 auf Zeile 9 und den vordef. Text 20 auf Zeile1 10 an, Zeile 1 zusätzlich mit Icon
+# string displayCmd = "JPDISEP000 /1 §4 6 /9 §19 /10 §20";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
 # =================================================
@@ -59,21 +64,32 @@ proc main { argc argv } {
 
             # process each display line
             if { $LINE >= 1 && $LINE <= 10 && [string length $TEXT] > 0 } {
+
                 #debugLog "<$LINE><$TEXT><$ICON>"
-                
-                # TODO fixed text
-                
-                # variable text
-                set txtOut "0x12,"
-                foreach char [split $TEXT ""] {
-                    scan $char "%c" numDec
-                    set numHex [format %x $numDec]
-                    # hex 30..5A, 61..7A
-                    if { ($numDec >= 48 && $numDec <= 90) ||
-                        ($numDec >= 97 && $numDec <= 122) } {
-                        append txtOut "0x$numHex,"
-                    } else {
-                        append txtOut "0x[decodeSpecialChar $numHex],"
+
+                # fixed text
+                if { [string index $TEXT 0] == "§" } {
+                    set textDec [string range $TEXT 1 [expr [string length $TEXT] - 1]]
+                    #debugLog "fixtext: $textDec"
+                    if { $textDec >= 1 && $textDec <= 20 } {
+                        set txtOut "0x12,"
+                        set textDec [expr 127 + $textDec]
+                        set textHex [format %x $textDec]
+                        append txtOut "0x$textHex,"
+                    }
+                } else {
+                    # variable text
+                    set txtOut "0x12,"
+                    foreach char [split $TEXT ""] {
+                        scan $char "%c" numDec
+                        set numHex [format %x $numDec]
+                        # hex 30..5A, 61..7A
+                        if { ($numDec >= 48 && $numDec <= 90) ||
+                            ($numDec >= 97 && $numDec <= 122) } {
+                            append txtOut "0x$numHex,"
+                        } else {
+                            append txtOut "0x[decodeSpecialChar $numHex],"
+                        }
                     }
                 }
                 
