@@ -3,8 +3,8 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.30
-# 2019-03-24 Tom Major (Creative Commons)
+# Version 0.40
+# 2019-03-28 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/3.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -14,7 +14,9 @@
 # Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
 # Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
 # Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
-# Der 3. Parameter ist die Iconnummer oder den Parameter weglassen wenn man kein Icon auf der Zeile haben will.
+# Die im WebUI vordefinierten Texte werden mit dem Code §xx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
+# Der 3. Parameter ist die Iconnummer oder den Parameter weglassen wenn man kein Icon in der Zeile haben will.
+# Die Iconnummer braucht nur eine Stelle bei Icons < 10.
 # CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.exec() aufrufen.
 #
 # Beispiel 1 - variabler Text in einer Zeile:
@@ -33,9 +35,14 @@
 # string displayCmd = "JPDISEP000 /2 'Temperatur " # temp # "'";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
-# Beispiel 4 - Vordefinierter Text
-# Zeigt den vordef. Text 4 auf Zeile 1, den vordef. Text 19 auf Zeile 9 und den vordef. Text 20 auf Zeile1 10 an, Zeile 1 zusätzlich mit Icon
-# string displayCmd = "JPDISEP000 /1 §4 6 /9 §19 /10 §20";
+# Beispiel 4 - vordefinierte Texte
+# Zeigt den vordef. Text 4 in Zeile 1, den vordef. Text 19 in Zeile 9 und den vordef. Text 20 in Zeile1 10 an, Zeile 1 zusätzlich mit Icon
+# string displayCmd = "JPDISEP000 /1 §04 6 /9 §19 /10 §20";
+# dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+#
+# Beispiel 5 - variable und vordefinierte Texte gemischt in einer Zeile
+# Zeigt den vordef. Text 2 gemischt mit variablen Text in Zeile 1 an
+# string displayCmd = "JPDISEP000 /1 abcd§02efgh";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
 # =================================================
@@ -67,22 +74,25 @@ proc main { argc argv } {
 
                 #debugLog "<$LINE><$TEXT><$ICON>"
 
-                # fixed text
-                if { [string index $TEXT 0] == "§" } {
-                    set textDec [string range $TEXT 1 [expr [string length $TEXT] - 1]]
-                    #debugLog "fixtext: $textDec"
-                    if { $textDec >= 1 && $textDec <= 20 } {
-                        set txtOut "0x12,"
-                        set textDec [expr 127 + $textDec]
-                        set textHex [format %x $textDec]
-                        append txtOut "0x$textHex,"
-                    }
-                } else {
-                    # variable text
-                    set txtOut "0x12,"
-                    foreach char [split $TEXT ""] {
-                        scan $char "%c" numDec
-                        set numHex [format %x $numDec]
+                set txtOut "0x12,"
+
+                # fixed or variable text, can be combined in one line
+                for { set n 0 } { $n < [string length $TEXT] } { incr n } {
+                    set char [string index $TEXT $n]
+                    scan $char "%c" numDec
+                    set numHex [format %x $numDec]
+                    if { $numHex == "a7" } {	# §, code for fixed text, 2 digits required
+                        set indexFixText [string range $TEXT [expr $n + 1] [expr $n + 2]]
+                        if { ([string length $indexFixText] == 2) &&
+                            ([string is integer -strict $indexFixText]) &&
+                            ($indexFixText >= 1) &&
+                            ($indexFixText <= 20) } {
+                            set textDec [expr 127 + $indexFixText]
+                            set textHex [format %x $textDec]
+                            append txtOut "0x$textHex,"
+                        }
+                        incr n 2
+                    } else { # variable text
                         # hex 30..5A, 61..7A
                         if { ($numDec >= 48 && $numDec <= 90) ||
                             ($numDec >= 97 && $numDec <= 122) } {
@@ -92,7 +102,7 @@ proc main { argc argv } {
                         }
                     }
                 }
-                
+
                 # optional icon
                 if { $ICON >= 1 && $ICON <= 20 } {
                     append txtOut "0x13,"

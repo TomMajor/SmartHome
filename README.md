@@ -45,7 +45,7 @@ Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten 
 
 <p align="center"><img src="Images/EP42_small.jpg?raw=true"/></p>
 
-[Projektseite HB-DIS-EP-42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-DIS-EP-42BW)
+[Projektseite HB-DIS-EP-42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW)
 
 
 ## Schutz vor "Babbling Idiot" (BI)

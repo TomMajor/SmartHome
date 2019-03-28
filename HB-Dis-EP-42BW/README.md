@@ -28,7 +28,9 @@
     Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
     Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
     Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
-    Der 3. Parameter ist die Iconnummer oder den Parameter einfach weglassen wenn man kein Icon auf der Zeile haben will.
+    Die im WebUI vordefinierten Texte werden mit dem Code §xx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
+    Der 3. Parameter ist die Iconnummer oder den Parameter weglassen wenn man kein Icon in der Zeile haben will.
+    Die Iconnummer braucht nur eine Stelle bei Icons < 10.
     CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.exec() aufrufen.
     
     Beispiel 1 - variabler Text in einer Zeile:
@@ -45,6 +47,16 @@
     Zeigt die Temperatur vom Gerät UNISENS077 in Zeile 2 an
     integer temp = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # "°C";
     string displayCmd = "JPDISEP000 /2 'Temperatur " # temp # "'";
+    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+    
+    Beispiel 4 - vordefinierte Texte
+    Zeigt den vordef. Text 4 in Zeile 1, den vordef. Text 19 in Zeile 9 und den vordef. Text 20 in Zeile1 10 an, Zeile 1 zusätzlich mit Icon
+    string displayCmd = "JPDISEP000 /1 §04 6 /9 §19 /10 §20";
+    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+    
+    Beispiel 5 - variable und vordefinierte Texte gemischt in einer Zeile
+    Zeigt den vordef. Text 2 gemischt mit variablen Text in Zeile 1 an
+    string displayCmd = "JPDISEP000 /1 abcd§02efgh";
     dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 ```
 
