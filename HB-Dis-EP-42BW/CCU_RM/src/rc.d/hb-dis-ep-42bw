@@ -124,7 +124,7 @@ case "$1" in
     info)
 		echo "Info: <b>HB-Dis-EP-42BW Addon</b><br>"
 		echo "Info: <b>CCU2,3 & RaspberryMatic</b><br>"
-		echo "Info: (c) 2018-2019 jp112sdl/(TomMajor repack)<br>"
+		echo "Info: (c) 2018-2019 jp112sdl/repack by TomMajor<br>"
 		echo "Info: <a href='https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW'>Projekt auf Github</a>"
 		echo "Version: $(cat ${ADDON_DIR}/VERSION)"
 		echo "Name: HB-Dis-EP-42BW"

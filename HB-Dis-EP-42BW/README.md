@@ -7,9 +7,13 @@
 - Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben - Danke an Jerome für die Unterstützung bei dieser Arbeit<br>
 [Original JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon)
 
-### AddOn HB-Dis-EP-42BW
 
-[AddOn](CCU_RM)
+### CCU2/CCU3/RaspberryMatic AddOn HB-Dis-EP-42BW
+
+Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addon.tgz installieren.
+
+[HB-Dis-EP-42BW AddOn](CCU_RM)
+
 
 ### Script Helper
 
@@ -60,16 +64,17 @@
     dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 ```
 
-[epaper42.tcl](Script_Helper)
-
 ![pic](Images/ScriptExamples.jpg)
+
+[Script Helper epaper42.tcl](Script_Helper)
+
 
 ### Displaytest
 
 - testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein
-[DisplayTest_42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW/DisplayTest_42BW)
 
 [DisplayTest_42BW](DisplayTest_42BW)
+
 
 ### Bilder
 
@@ -81,15 +86,18 @@
 
 ![pic](Images/IMG3.jpg)
 
+
 ### Bootloader
 
 [Bootloader](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284)
+
 
 ### Fuses
 
 ![pic](Images/Fuses_1284p_1.png)
 
 ![pic](Images/Fuses_1284p_2.png)
+
 
 ### Analyse und Dokumentation der Änderungen für den HB-Dis-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
 
@@ -131,4 +139,3 @@
 |/src/addon/www/config/img/devices/250/hb-dis-ep-42bw_thumb.png|  ja|
 |/src/addon/www/ise/|                                             die icons unter /icons_hm_dis_ep_wm55/24/ auch fürs ePaper|
 |/src/addon/www/rega/|                                            nichts daraus benötigt|
-

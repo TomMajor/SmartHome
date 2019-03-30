@@ -84,7 +84,7 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 ![pic](Images/BatterySensorLoad.png)
 
 
-## CCU2/RaspberryMatic Installation
+## CCU2/CCU3/RaspberryMatic Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
 

@@ -20,7 +20,7 @@
 [Low-Power](https://github.com/rocketscream/Low-Power)
 
 
-## CCU2/RaspberryMatic Installation
+## CCU2/CCU3/RaspberryMatic Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-SEN-LJet-addon.tgz installieren.
 
