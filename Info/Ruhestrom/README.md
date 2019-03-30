@@ -61,6 +61,7 @@ MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 
 - Die zusätzliche Stromaufnahme durch dieses RTC wake-up (kann nicht mit Multimeter gemessen werden) beträgt:<br>
 0,157ms/1000ms * 2100uA = 0,33uA
+(42mV/20Ohm = 2,1mA)
 
 wake-up Periode
 

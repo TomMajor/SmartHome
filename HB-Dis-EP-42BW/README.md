@@ -9,7 +9,7 @@
 
 ### AddOn HB-DIS-EP-42BW
 
-- coming soon
+[AddOn](CCU_RM)
 
 ### Script Helper
 
@@ -60,12 +60,16 @@
     dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 ```
 
+[epaper42.tcl](Script_Helper)
+
 ![pic](Images/ScriptExamples.jpg)
 
 ### Displaytest
 
 - testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein
 [DisplayTest_42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW/DisplayTest_42BW)
+
+[DisplayTest_42BW](DisplayTest_42BW)
 
 ### Bilder
 
