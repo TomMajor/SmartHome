@@ -1,13 +1,13 @@
 
-### Infos und AddOn zum 4,2" ePaper Display HB-DIS-EP-42BW
+### Infos und AddOn zum 4,2" ePaper Display HB-Dis-EP-42BW
 
-- Die Infos hier beziehen sich auf Jeromes Projekt ePaper Display HB-DIS-EP-42BW<br>
-[Original HB-DIS-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
+- Die Infos hier beziehen sich auf Jeromes Projekt ePaper Display HB-Dis-EP-42BW<br>
+[Original HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
 
 - Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben - Danke an Jerome für die Unterstützung bei dieser Arbeit<br>
 [Original JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon)
 
-### AddOn HB-DIS-EP-42BW
+### AddOn HB-Dis-EP-42BW
 
 [AddOn](CCU_RM)
 
@@ -91,16 +91,16 @@
 
 ![pic](Images/Fuses_1284p_2.png)
 
-### Analyse und Dokumentation der Änderungen für den HB-DIS-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
+### Analyse und Dokumentation der Änderungen für den HB-Dis-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
 
 #### 1. patchsource - Diff Analyse
 
-|Dir/File|Patch Methode<br>s sed / p patch|Diffs|Diffs benötigt für HB-DIS-EP-42BW|
+|Dir/File|Patch Methode<br>s sed / p patch|Diffs|Diffs benötigt für HB-Dis-EP-42BW|
 |---|---|---|---|
 |/www/config/ic_common.tcl|                         p|      3|      3|
 |/www/config/stringtable_de.txt|                    s|      1|      1 (aber nur die 5x HB_EP_xx Einträge)|
 |||||
-|/www/config/devdescr/DEVDB.tcl|                    s|      1|      1 (aber nur die Referenzen auf 2x HB-DIS-EP-42BW png)|
+|/www/config/devdescr/DEVDB.tcl|                    s|      1|      1 (aber nur die Referenzen auf 2x HB-Dis-EP-42BW png)|
 |||||
 |/www/rega/esp/datapointconfigurator.fn|            (p)|    2|      0|
 |/www/rega/esp/functions.fn|                        p|      1|      1|
@@ -118,7 +118,7 @@
 
 #### 2. src - benötigte Files
 
-|Dir/File|benötigt für HB-DIS-EP-42BW|
+|Dir/File|benötigt für HB-Dis-EP-42BW|
 |---|---|
 |/src/addon/install_hb-dis-ep-xxx|                                ja|
 |/src/addon/uninstall_hb-dis-ep-xxx|                              ja|
