@@ -1,0 +1,219 @@
+#!/bin/sh
+
+DEVICE="HB-DIS-EP-42BW"
+DEVICE_IMG=hb-dis-ep-42bw.png
+DEVICE_THUMB=hb-dis-ep-42bw_thumb.png
+DEVICE_DESC="ePaper Display 4.2 b\/w"
+
+### Edit DEVDB.tcl ###
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="array[[:space:]]*set[[:space:]]*DEV_PATHS[[:space:]]*{"
+
+devdescrInsert="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+
+if [ -z "`cat $devdescrFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($devdescrSearch\)/\1$devdescrInsert/g" $devdescrFile
+fi
+
+indexFile="/www/rega/pages/index.htm"
+indexFileSearch="<script type=\"text/javascript\" src=\"/webui/webui.js"
+indexFileInsert="<script type=\"text/javascript\" src=\"/webui/js/extern/jp_webui_inc.js\"></script>"
+
+if [ -z "`cat $indexFile | grep \"${indexFileInsert}\"`" ]; then
+    sed -i "\~</body>~i\  $indexFileInsert" $indexFile
+fi
+
+
+### Edit webui.js ###
+webuiFile="/www/webui/webui.js"
+
+webuiSearchBegin="DEV_HIGHLIGHT[[:space:]]*=[[:space:]]*new Array();"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_LIST.push('$DEVICE');\n"
+webuiInsert="${webuiInsert}DEV_DESCRIPTION['$DEVICE']='$DEVICE_DESC';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['50'] = '\/config\/img\/devices\/50\/$DEVICE_THUMB';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['250'] = '\/config\/img\/devices\/250\/$DEVICE_IMG';"
+
+if [ -z "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiSearchBegin="elvST[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsertParam="HB_EP_SHOW_LINE"
+webuiInsertValue="stringTableHbEpShowLine"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_EP_ALIGNMENT"
+webuiInsertValue="stringTableHbEpAlignment"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_EP_ALIGN_RIGHT"
+webuiInsertValue="stringTableHbEpAlignRight"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_EP_ALIGN_CENTER_ICON_RIGHT"
+webuiInsertValue="stringTableHbEpAlignCenterIconRight"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_EP_ALIGN_CENTER_ICON_LEFT"
+webuiInsertValue="stringTableHbEpAlignCenterIconLeft"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_EP_ALIGN_LEFT"
+webuiInsertValue="stringTableHbEpAlignLeft"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+#TM
+mysearch="for (var line = 0; line < 6; line++) {"
+myinsert="for (var line = 0; line < 10; line++) {"
+if [ -z "`cat $webuiFile | grep \"$myinsert\"`" ]; then
+	sed -i "s/$mysearch/$myinsert/" $webuiFile
+fi
+
+
+### Edit stringtable_de.txt ###
+stringtable_deFile="/www/config/stringtable_de.txt"
+
+stringtable_deInsert="HB_EP_SHOW_LINE\t\${stringTableHbEpShowLine}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_EP_SHOW_LINE"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_EP_ALIGNMENT\t\${stringTableHbEpAlignment}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_EP_ALIGNMENT"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_EP_ALIGN_RIGHT\t\${stringTableHbEpAlignRight}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_EP_ALIGN_RIGHT"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_EP_ALIGN_CENTER_ICON_RIGHT\t\${stringTableHbEpAlignCenterIconRight}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_EP_ALIGN_CENTER_ICON_RIGHT"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_EP_ALIGN_CENTER_ICON_LEFT\t\${stringTableHbEpAlignCenterIconLeft}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_EP_ALIGN_CENTER_ICON_LEFT"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_EP_ALIGN_LEFT\t\${stringTableHbEpAlignLeft}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_EP_ALIGN_LEFT"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+### Edit translate.lang.stringtable.js ###
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+translate_deSearch="\"dummy\" : \"\","
+
+translate_deInsert="\n    \"stringTableHbEpShowLine\" : \"Linie nach Zeile\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbEpShowLine\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbEpAlignment\" : \"Textausrichtung\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbEpAlignment\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbEpAlignRight\" : \"rechtsb%FCndig\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbEpAlignRight\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbEpAlignCenterIconRight\" : \"zentriert - Icon rechts\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbEpAlignCenterIconRight\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbEpAlignCenterIconLeft\" : \"zentriert - Icon links\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbEpAlignCenterIconLeft\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbEpAlignLeft\" : \"linksb%FCndig\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbEpAlignLeft\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+### Edit translate.lang.extension.js
+translate_deFile="/www/webui/js/lang/de/translate.lang.extension.js"
+
+translate_deSearch="\"iconServiceMessage\":\"Servicemeldung\","
+translate_deInsert="\n    \"iconHbGarage\":\"Garagentor\","
+if [ -z "`cat $translate_deFile | grep \"iconHbGarage\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbShutter\":\"Rollladen\","
+if [ -z "`cat $translate_deFile | grep \"iconHbShutter\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbShutterUp\":\"Rollladen hoch\","
+if [ -z "`cat $translate_deFile | grep \"iconHbShutterUp\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbShutterDown\":\"Rollladen runter\","
+if [ -z "`cat $translate_deFile | grep \"iconHbShutterDown\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbUp\":\"Hoch\","
+if [ -z "`cat $translate_deFile | grep \"iconHbUp\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbDown\":\"Runter\","
+if [ -z "`cat $translate_deFile | grep \"iconHbDown\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbSnowflake\":\"Frost\","
+if [ -z "`cat $translate_deFile | grep \"iconHbSnowflake\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbWarning\":\"Warnung\","
+if [ -z "`cat $translate_deFile | grep \"iconHbWarning\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbError\":\"Fehler\","
+if [ -z "`cat $translate_deFile | grep \"iconHbError\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbBell\":\"Glocke\","
+if [ -z "`cat $translate_deFile | grep \"iconHbBell\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbCalendar\":\"Kalender\","
+if [ -z "`cat $translate_deFile | grep \"iconHbCalendar\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbThermometer\":\"Thermometer\","
+if [ -z "`cat $translate_deFile | grep \"iconHbThermometer\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi

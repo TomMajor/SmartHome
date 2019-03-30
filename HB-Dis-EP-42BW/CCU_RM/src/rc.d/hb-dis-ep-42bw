@@ -1,0 +1,143 @@
+#!/bin/sh
+# WebUI icon used from http://icons8.com
+
+ADDON_NAME=hb-dis-ep-42bw 
+
+ADDON_DIR=/usr/local/addons/${ADDON_NAME}
+WWW_DIR=/etc/config/addons/www/${ADDON_NAME}
+LOGFILE=/var/log/$ADDON_NAME.log
+ERRFILE=/var/log/$ADDON_NAME.err
+FIRMWARE_DIR=/firmware/rftypes
+RC_DIR=/usr/local/etc/config/rc.d
+CK_FIRMWARE_FILE=${FIRMWARE_DIR}/hb-dis-ep-42bw_e_v1_0.xml 
+
+FW_VERSION=$(grep /VERSION -e 'VERSION=' | sed 's/.*=//')
+BACKUP_DIR=${ADDON_DIR}/backup_${FW_VERSION}
+
+PATCHDIR1=/www/config
+PATCHFIL1=ic_common.tcl
+PATCHDIR2=/www/rega/esp
+PATCHFIL2=functions.fn
+PATCHDIR3=/www/rega/esp
+PATCHFIL3=side.inc
+PATCHDIR4=/www/rega/pages/tabs/admin/views
+PATCHFIL4=programs.htm
+
+case "$1" in
+    ""|start)
+      if [ ! -f ${ADDON_DIR}/installed ] || [ ! -f ${CK_FIRMWARE_FILE} ]; then
+        /etc/init.d/S70ReGaHss stop
+        /etc/init.d/S61rfd stop
+		    
+        mount -o remount,rw /
+        
+        # beim ersten Mal auf neuer Firmware die zu patchenden Originalfiles sichern und (weiter unten) patchen
+        if [ ! -f ${BACKUP_DIR}/saved ]; then
+            mkdir -p ${BACKUP_DIR}
+            cp -af ${PATCHDIR1}/${PATCHFIL1} ${BACKUP_DIR}
+            cp -af ${PATCHDIR2}/${PATCHFIL2} ${BACKUP_DIR}
+            cp -af ${PATCHDIR3}/${PATCHFIL3} ${BACKUP_DIR}
+            cp -af ${PATCHDIR4}/${PATCHFIL4} ${BACKUP_DIR}
+            touch ${BACKUP_DIR}/saved
+        # sonst ist es wahrscheinlich eine Update-Installation
+        # in diedem Fall die Originalfiles einfach zurückholen und (weiter unten) neu patchen
+        else
+            cp -af ${BACKUP_DIR}/${PATCHFIL1} ${PATCHDIR1}
+            cp -af ${BACKUP_DIR}/${PATCHFIL2} ${PATCHDIR2}
+            cp -af ${BACKUP_DIR}/${PATCHFIL3} ${PATCHDIR3}
+            cp -af ${BACKUP_DIR}/${PATCHFIL4} ${PATCHDIR4}
+        fi
+	    	
+        cd ${ADDON_DIR}
+        cp -ar www/* /www/
+        chown root:root /www/config/img/devices/250/${ADDON_NAME}*
+        chmod 755 /www/config/img/devices/250/${ADDON_NAME}*
+        chown root:root /www/config/img/devices/50/${ADDON_NAME}*
+        chmod 755 /www/config/img/devices/50/${ADDON_NAME}*
+        chown root:root /www/ise/img/icons_hm_dis_ep_wm55/24/*
+        chmod 755 /www/ise/img/icons_hm_dis_ep_wm55/24/*
+        
+        ### Patch some files ###
+        cd /www
+        patch -N -p3 -i /usr/local/addons/${ADDON_NAME}/patch/hb-dis-ep-42bw.patch
+      
+        ### Create Symlink to include own js file
+        ln -s /usr/local/addons/${ADDON_NAME}/js/jp_webui_inc.js /www/webui/js/extern/jp_webui_inc.js
+	    	    
+        cd ${ADDON_DIR}
+        echo "Running scripts..."    
+#        for f in ${ADDON_DIR}/install_* ; do echo "  - $(basename $f)"; ./$(basename $f) > $LOGFILE 2>$ERRFILE; done
+        ./install_hb-dis-ep-xxx > $LOGFILE 2>$ERRFILE 
+
+        echo "Creating symlinks for firmware files..."
+        for f in ${ADDON_DIR}${FIRMWARE_DIR}/* ; do rm -f ${FIRMWARE_DIR}/$(basename $f); ln -s $f ${FIRMWARE_DIR}/$(basename $f); echo "  - $(basename $f)"; done
+
+        sync
+        mount -o remount,ro /
+        touch ${ADDON_DIR}/installed
+		    
+        /etc/init.d/S61rfd start
+        /etc/init.d/S70ReGaHss start
+		    
+      else
+        echo "Nothing to do for ${ADDON_NAME}"
+      fi
+    ;;
+
+    stop)
+      echo "Nothing to stop..."
+    ;;
+
+    uninstall)
+      mount -o remount,rw /
+		
+      cd ${ADDON_DIR}
+      echo "Running scripts..."    
+#      for f in ${ADDON_DIR}/uninstall_* ; do echo "  - $(basename $f)"; ./$(basename $f) > $LOGFILE 2>$ERRFILE; done
+      ./uninstall_hb-dis-ep-xxx > $LOGFILE 2>$ERRFILE
+
+      # die gesicherten Originalfiles zurückschreiben
+      if [ -f ${BACKUP_DIR}/saved ]; then
+        cp -af ${BACKUP_DIR}/${PATCHFIL1} ${PATCHDIR1}
+        cp -af ${BACKUP_DIR}/${PATCHFIL2} ${PATCHDIR2}
+        cp -af ${BACKUP_DIR}/${PATCHFIL3} ${PATCHDIR3}
+        cp -af ${BACKUP_DIR}/${PATCHFIL4} ${PATCHDIR4}
+      fi
+
+      # remove symlink to own js file
+      rm -f /www/webui/js/extern/jp_webui_inc.js
+      # eigentlich müsste man hier auch JPs neue icons unter /www/ise/img/icons_hm_dis_ep_wm55/24 entfernen
+      # aber nur 9..18, 0..8 sind original vorhanden!
+
+      cd /
+      rm -rf $ADDON_DIR
+      rm -rf $WWW_DIR
+      rm -f ${RC_DIR}/${ADDON_NAME}
+      sync
+      mount -o remount,ro /
+    ;;
+  
+    restart|reload)
+      # Operations to stop and start (restart) the addon
+    ;;
+
+    info)
+		echo "Info: <b>HB-Dis-EP-42BW Addon</b><br>"
+		echo "Info: <b>CCU2,3 & RaspberryMatic</b><br>"
+		echo "Info: (c) 2018-2019 jp112sdl/(TomMajor repack)<br>"
+		echo "Info: <a href='https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW'>Projekt auf Github</a>"
+		echo "Version: $(cat ${ADDON_DIR}/VERSION)"
+		echo "Name: HB-Dis-EP-42BW"
+		echo "Operations: uninstall"
+		#echo "Config-Url: ${CONFIG_URL}"
+		echo "Update: /addons/${ADDON_NAME}/update-check.cgi"
+	;;
+	
+    *)
+      echo "Usage: $ADDON_NAME {start|stop|restart|info|uninstall}" >&2
+      exit 1
+    ;;
+
+esac
+
+exit $?

@@ -1,0 +1,52 @@
+#!/bin/sh
+# WebUI icon used from http://icons8.com
+# exit code  0: OK ohne reboot
+# exit code 10: OK mit reboot
+# alle anderen: "Ein unerwarteter Fehler ist aufgetreten..."
+
+# mount /usr/local if not already mounted
+mount | grep /usr/local 2>&1 >/dev/null
+if [ $? -eq 1 ]; then
+  mount /usr/local
+fi
+
+# falls das jp-hb-devices-addon installiert ist hat die hb-dis-ep-42bw Installation keinen Sinn, 2 AddOn für ein Gerät geht nicht
+ERROR_LOGFILE=/usr/local/addons/Error-hb-dis-ep-42bw.txt
+if [ -f /usr/local/addons/jp-hb-devices-addon/installed ]; then
+    touch ${ERROR_LOGFILE}
+    echo $(date +"%a %d.%m.%Y %H:%M:%S") "Can't install hb-dis-ep-42bw while jp-hb-devices-addon is installed" >> ${ERROR_LOGFILE}
+    exit 3
+fi
+if [ -f ${ERROR_LOGFILE} ]; then
+    rm -f ${ERROR_LOGFILE}
+fi
+
+ADDON_NAME=hb-dis-ep-42bw
+RC_DIR=/usr/local/etc/config/rc.d
+WWW_DIR=/usr/local/etc/config/addons/www/$ADDON_NAME
+ADDON_DIR=/usr/local/addons/$ADDON_NAME
+
+# Alte Firmware Files löschen
+rm -f ${ADDON_DIR}/firmware/rftypes/*
+
+# Startscript anlegen
+cp -af rc.d/$ADDON_NAME ${RC_DIR}/
+chmod +x ${RC_DIR}/$ADDON_NAME
+
+# Addon-Verzeichnis anlegen
+mkdir -p ${ADDON_DIR}
+cp -af addon/* ${ADDON_DIR}
+chmod 755 ${ADDON_DIR}
+
+# Symbolic Links
+rm -rf ${WWW_DIR}
+ln -sf ${ADDON_DIR} ${WWW_DIR}
+
+# Installationsstatus entfernen, um Installation nach Reboot zu erzwingen
+rm -f ${ADDON_DIR}/installed
+
+sync
+
+if [ "$1" = "HM-RASPBERRYMATIC" ] || [ "$1" = "CCU3" ]; then
+  exit 10
+fi

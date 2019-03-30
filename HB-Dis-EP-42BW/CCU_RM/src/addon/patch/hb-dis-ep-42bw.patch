@@ -1,0 +1,196 @@
+--- ./patchsource/www/rega/esp/side.inc.orig	2018-12-05 21:12:40.000000000 +0100
++++ ./patchsource/www/rega/esp/side.inc	2018-11-30 18:59:29.000000000 +0100
+@@ -15,6 +15,7 @@
+   string hm_partyDialog = "HM-CC-RT-DN HM-TC-IT-WM-W-EU HM-CC-VG-1";
+   string hm_statusDisplay = "HM-Dis-WM55";
+   string hm_statusDisplayEPaper = "HM-Dis-EP-WM55";
++  string hb_statusDisplayEPaper = "HB-DIS-EP-42BW";
+   string hm_rgbw_controller = "HM-LC-RGBW-WM";
+   string hm_jalousieActor = "HM-LC-Ja1PBU";
+   string heatingClimateControlTransceiver =  "HEATING_CLIMATECONTROL_TRANSCEIVER";
+@@ -454,6 +455,7 @@
+             integer partyDialogDevice = hm_partyDialog.Find(chLabel);
+             integer statusDisplayDevice = hm_statusDisplay.Find(chLabel);
+             integer statusDisplayEPaperDevice = hm_statusDisplayEPaper.Find(chLabel);
++            integer statusHbDisplayEPaperDevice = hb_statusDisplayEPaper.Find(chLabel);
+             integer rgbw_controller = chLabel.Find(hm_rgbw_controller);
+             integer i_vir_lg_rgb_dim = chLabel.Find(s_vir_lg_rgb_dim);
+             integer i_vir_lg_rgbw_dim = chLabel.Find(s_vir_lg_rgbw_dim);
+@@ -462,6 +464,7 @@
+ 
+             if ((statusDisplayDevice != -1)
+               || (statusDisplayEPaperDevice != -1)
++              || (statusHbDisplayEPaperDevice != -1)
+               || (rgbw_controller != -1)
+               || ((jalousieActor != - 1) && (oDP.HSSID().Find("LEVEL_COMBINED") != -1))
+               || (((i_vir_lg_rgb_dim != - 1) && (oDP.HSSID().Find("RGB") != -1)) || ((i_vir_lg_rgbw_dim != - 1) && (oDP.HSSID().Find("RGBW") != -1)) || (( i_vir_lg_group != - 1) && (oDP.HSSID().Find("RGBW") != -1)))
+@@ -482,6 +485,13 @@
+                 Write( '<input id="prgStringOptionValue'#oSD.ID()#'" onfocus="SetStatusDisplay('#oSD.ID()#',\'DIS-EP\');" type="text" class="SelectBox" size="10" value="'#iV#'" onchange="iseSingleDestination.SetValue('#oSD.ID()#',this.value,\'STRING\');" /> ' );
+               }
+ 
++              if (statusHbDisplayEPaperDevice != -1) {
++                if(iV == "1") {
++                  ! This is the default string for 'all values not used'
++                  iV = "0x02,0x0A,0x0A,0x0A,0x0A,0x0A,0x0A,0x0A,0x0A,0x0A,0x0A,0x03";
++                }
++                Write( '<input id="prgStringOptionValue'#oSD.ID()#'" onfocus="SetStatusDisplay('#oSD.ID()#',\'DIS-EP42BW\');" type="text" class="SelectBox" size="10" value="'#iV#'" onchange="iseSingleDestination.SetValue('#oSD.ID()#',this.value,\'STRING\');" /> ' );
++              }
+               if (rgbw_controller != -1) {
+ 
+                 if (iV == "0") {
+@@ -532,6 +542,7 @@
+               && (partyDialogDevice == -1)
+               && (statusDisplayDevice == -1)
+               && (statusDisplayEPaperDevice == -1)
++              && (statusHbDisplayEPaperDevice == -1)
+               && (rgbw_controller == -1)
+               && (jalousieActor == -1)
+               && (i_vir_lg_rgb_dim == -1)
+@@ -555,6 +566,9 @@
+               if (statusDisplayEPaperDevice != -1) {
+                 Write( '<span id="setStatusDisplayEPaper'#oSD.ID()#'" class="CLASS02401" onclick="SetStatusDisplay('#oSD.ID()#',\'DIS-EP\');"><img src="/ise/img/notepad.png" /></span>' );
+               }
++              if (statusHbDisplayEPaperDevice != -1) {
++                Write( '<span id="setHbStatusDisplayEPaper'#oSD.ID()#'" class="CLASS02401" onclick="SetStatusDisplay('#oSD.ID()#',\'DIS-EP42BW\');"><img src="/ise/img/notepad.png" /></span>' );
++              }
+               if (rgbw_controller != -1) {
+                 Write( '<span id="setRGBWController'#oSD.ID()#'" class="CLASS02401" onclick="SetRGBWController('#oSD.ID()#',\''#oDP.HSSID()#'\');"><img src="/ise/img/notepad.png" /></span>' );
+               }
+--- ./patchsource/www/rega/esp/functions.fn.orig	2018-12-05 21:12:40.000000000 +0100
++++ ./patchsource/www/rega/esp/functions.fn	2018-12-01 10:11:26.000000000 +0100
+@@ -331,6 +331,13 @@
+     ! Hide channel 3 of this device
+     bShowChannel = false;
+   }
++  
++  ! HB Status Display EPaper 42BW
++  if(( (oDevHssType == "HB-DIS-EP-42BW") ) && (chNumber == 11)) {
++    ! Hide channel 11 of this device
++    bShowChannel = false;
++  }
++  
+ }
+ 
+ function ::showHideHmIPChannel() {
+--- ./patchsource/www/rega/pages/tabs/admin/views/programs.htm.orig	2018-12-05 21:12:41.000000000 +0100
++++ ./patchsource/www/rega/pages/tabs/admin/views/programs.htm	2018-11-29 22:54:25.000000000 +0100
+@@ -141,7 +141,10 @@
+   };
+ 
+   SetStatusDisplay = function(regaDialogID, mode) {
+-    var elm = (mode == "DIS") ? jQuery("#setStatusDisplay" + regaDialogID) : jQuery("#setStatusDisplayEPaper" + regaDialogID) ;
++   var elm;
++   if (mode == "DIS") elm = jQuery("#setStatusDisplay" + regaDialogID);
++   if (mode == "DIS-EP") elm = jQuery("#setStatusDisplayEPaper" + regaDialogID) ;
++   if (mode == "DIS-EP42BW") elm = jQuery("#setHbStatusDisplayEPaper" + regaDialogID) ;
+ 
+     jQuery(elm).prop("disabled", true);
+ 
+@@ -179,6 +182,19 @@
+             inputElm.change();
+           }
+         }, "html");
++      } else if (mode == "DIS-EP42BW") {
++         statusDisplayDialog = new HbStatusDisplayDialogEPaper(translateKey("statusDisplayDialogTitle"), htmlContent, jQuery(inputElm).val(), function (result) {
++          jQuery(elm).prop("disabled", false);
++          if (result == 1) {
++            conInfo("SetStatusDisplay: Yes pressed");
++            var inputElm = jQuery(elm).prev();
++            var cfgString = this.getConfigString();
++            conInfo(cfgString);
++            inputElm.val(cfgString); //.change();
++            encodeStringStatusDisplay(inputElm.prop("id"),false, '0x7e');
++            inputElm.change();
++          }
++        }, "html");
+       }
+ 
+ 
+--- ./patchsource/www/config/ic_common.tcl.orig	2018-12-05 21:12:41.000000000 +0100
++++ ./patchsource/www/config/ic_common.tcl	2018-12-02 10:57:56.000000000 +0100
+@@ -1074,6 +1074,7 @@
+ 
+   set hmDisEPIdentifier "HM-Dis-EP-WM55"
+   set hmDisWM55Identifier "HM-Dis-WM55"
++  set hbDis42BWIdentifier "HB-DIS-EP-42BW"
+ 
+   if { ! [catch { array set ch_descr [xmlrpc $iface_url($iface) getDeviceDescription [list string $address]] } ] } then {
+     set channel_type $ch_descr(TYPE)
+@@ -1167,41 +1168,48 @@
+           append s "<td><input type=\"text\" name=\"$param_id\" value=\"$value\" $id $access /></td>"
+         } else {
+           puts "<script type=\"text/javascript\">load_JSFunc('/config/easymodes/MASTER_LANG/KEY_4Dis.js');</script>"
+-          set helpText [getStatusDisplayHelp]
+-
+-          # The parameter numbering of the channels 1 and 2 are the same as from the HM-Dis-WM55
+-          if {($parent_type != $hmDisEPIdentifier) || ($chn < 4)} {
++          set helpText [getStatusDisplayHelp]          
++          if {($parent_type == $hbDis42BWIdentifier)} then {
+             if {$param_id == "TEXTLINE_1"} {
+-              # Fortlaufende Nummerierung der Textblöcke hinzufügen.
+-              # Berechnung:
+-              # 1. Parameter = Kanalnummer * 2 - 1
+-              if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
+-                append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++              append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"16\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++            } else {
++              append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"16\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++            }
++          } else {
++            # The parameter numbering of the channels 1 and 2 are the same as from the HM-Dis-WM55
++            if {($parent_type != $hmDisEPIdentifier) || ($chn < 4)} {
++              if {$param_id == "TEXTLINE_1"} {
++                # Fortlaufende Nummerierung der Textblöcke hinzufügen.
++                # Berechnung:
++                # 1. Parameter = Kanalnummer * 2 - 1
++                if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
++                  append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++                } else {
++                  append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                }
+               } else {
+-                append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                # 2. Parameter = Kanalnummer * 2
++                if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
++                  append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++                } else {
++                  append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                }
++
++                append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
+               }
+             } else {
+-              # 2. Parameter = Kanalnummer * 2
+-              if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
+-                append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++              # Here we set the parameter numbering for the channels 4 - 8 of the HM-Dis-EP-WM55
++              if {$param_id == "TEXTLINE_1"} {
++                # Fortlaufende Nummerierung der Textblöcke hinzufügen.
++                # Berechnung:
++                # 1. Parameter = Kanalnummer * 2 - 7
++                append s "<td>[expr $chn * 2 - 7]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+               } else {
+-                append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                # 2. Parameter = Kanalnummer * 2 -6
++                append s "<td>[expr $chn * 2 - 6]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
+               }
+-
+-              append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
+-            }
+-          } else {
+-            # Here we set the parameter numbering for the channels 4 - 8 of the HM-Dis-EP-WM55
+-            if {$param_id == "TEXTLINE_1"} {
+-              # Fortlaufende Nummerierung der Textblöcke hinzufügen.
+-              # Berechnung:
+-              # 1. Parameter = Kanalnummer * 2 - 7
+-              append s "<td>[expr $chn * 2 - 7]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+-            } else {
+-              # 2. Parameter = Kanalnummer * 2 -6
+-              append s "<td>[expr $chn * 2 - 6]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+-              append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
+-            }
++            }  
+           }
+         }
+         append s "<td>$unit</td>"
