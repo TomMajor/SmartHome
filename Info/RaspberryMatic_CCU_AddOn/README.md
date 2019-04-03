@@ -10,12 +10,12 @@ Danke an jp112sdl für seine wertvollen Hinweise.<br>
 ### Mein AddOn Konzept
 
 |Datei|Gleich bei allen HB-\* Projekten|Bemerkungen|
-|---|---|
-|update_script|:green_apple: ja|-|
-|rc.d Skript|:green_apple: ja|-|
+|---|---|---|
+|update_script|:green_apple: ja| |
+|rc.d Skript|:green_apple: ja| |
 |install\_\*, uninstall\_\*|:apple: nein|Gerätespezifische Anpassungen, kopieren, patchen usw.|
 |params|:apple: nein|Gerätespezifische Namen, Links, Version|
-|functions|:green_apple: ja|-|
+|functions|:green_apple: ja| |
 
 #### Konzepthinweise von jp112sdl
 
@@ -31,7 +31,7 @@ Danke an jp112sdl für seine wertvollen Hinweise.<br>
 
 #### Warum kann man nicht die gesamte Installation im update_script erledigen?
 
-> Bei einer CCU2 und CCU3 findet das installieren des Addons via update_script in einer chroot Umgebung statt. Es ist zwar über Umwege auch da möglich am read-only rootfs Änderungen vorzunehmen. Gewollt ist es da allerdings nicht.
+> Bei einer CCU2 und CCU3 findet das installieren des Addons via update_script in einer chroot Umgebung statt. Es ist zwar über Umwege auch da möglich am read-only rootfs Änderungen vorzunehmen. Gewollt ist es da allerdings nicht.<br>
 (jmaus)
 
 <!-- -->
@@ -51,7 +51,7 @@ Aus diesem Grund halte ich vor der Installation meines Addons die beiden Dienste
 #### RaspberryMatic rc.d Skript 'init' Zweig
 
 > Beim Hochfahren gibt es mit RaspberryMatic die Möglichkeit Dinge die ein Addon VOR ausführen des ReGaHss, rfd, etc. Dienstes erledigen muss in einen "init" Zweig des Addon rc Skriptes zu stecken. Das nutzt z.B. CUxD damit es VOR dem start von ReGaHss&Co einige Dinge erledigen kann (siehe https://github.com/jens-maus/cuxd/blob/master/ccu3/rc.d/cuxdaemon#L61).<br>
-Damit sollte es dann z.B. möglich sein das du die Dinge die du VOR ReGaHss erledigen musst in dem "init" Zweig deines rc Skriptes abhandelst und damit eigentlich nicht mehr selbst ReGaHss stoppen/starten musst (was eben vermieden werden sollte).
+Damit sollte es dann z.B. möglich sein das du die Dinge die du VOR ReGaHss erledigen musst in dem "init" Zweig deines rc Skriptes abhandelst und damit eigentlich nicht mehr selbst ReGaHss stoppen/starten musst (was eben vermieden werden sollte).<br>
 (jmaus)
 
 
