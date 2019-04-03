@@ -6,6 +6,18 @@ Various SmartHome Projects, Devices, Information and Examples including AskSinPP
 Der Redirect der alten links sollte automatisch über github funktionieren.<br>
 Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten HomeMatic/RaspberryMatic AddOns so dass deren Update-Prüfung gleich korrekt auf den aktuellen link erfolgt.*
 
+
+## AddOn Test- und Kompatibilitätsstatus
+
+
+<br>HB-UNI-Sensor1<br>
+:heavy_check_mark: lauffähig mit CCU/RM Firmware 2.31.x | 3.37.x | 3.41.x | 3.43.15 | 3.45.5<br>
+<br>HB-SEN-LJet<br>
+:heavy_check_mark: lauffähig mit CCU/RM Firmware 2.31.x | 3.37.x | 3.41.x | 3.43.15<br>
+<br>HB-DIS-EP-42BW<br>
+:heavy_check_mark: lauffähig mit CCU/RM Firmware 2.31.x | 3.37.x | 3.41.x | 3.43.15<br>
+
+
 ## Universalsensor (HB-UNI-Sensor1)
 
 - Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.

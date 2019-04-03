@@ -60,7 +60,7 @@ MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 - Das wake-up Verhalten der RTC gemessen mit einem 20 Ohm Widerstand in der Versorgungsleitung. Die Stromaufnahme beträgt wie oben geschrieben ca. 0,75uA. Jede Sekunde wacht die RTC für ca. 157us Aktivzeit auf, gemessen mit dem Sketch des HB-UNI-Sensor1.
 
 - Die zusätzliche Stromaufnahme durch dieses RTC wake-up (kann nicht mit Multimeter gemessen werden) beträgt:<br>
-0,157ms/1000ms * 2100uA = 0,33uA
+0,157ms/1000ms * 2100uA = 0,33uA<br>
 (42mV/20Ohm = 2,1mA)
 
 wake-up Periode
