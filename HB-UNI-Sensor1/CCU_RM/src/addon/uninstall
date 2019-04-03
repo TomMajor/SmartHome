@@ -2,8 +2,8 @@
 
 source ./params 2>/dev/null
 
-mount -o remount,rw /
-
+#------------------------------------------------------------------------------
+# Undo DEVDB.tcl changes
 devdescrFile="/www/config/devdescr/DEVDB.tcl"
 devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
 
@@ -11,15 +11,15 @@ if [ "`cat $devdescrFile | grep \"$DEVICE\"`" ]; then
         sed -i "s/\($devdescrSearch\)//g" $devdescrFile
 fi
 
+#------------------------------------------------------------------------------
+# Undo webui.js changes
 webuiFile="/www/webui/webui.js"
 if [ "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
         sed -i "/\($DEVICE\)/d" $webuiFile
 fi
 
+#------------------------------------------------------------------------------
+# remove device and image files
 rm -f $FIRMWARE_FILES
 rm -f /www/config/img/devices/250/$DEVICE_IMG
 rm -f /www/config/img/devices/50/$DEVICE_THUMB
-
-sync
-
-mount -o remount,ro /

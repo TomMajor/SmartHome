@@ -19,6 +19,7 @@ chmod +x update_script
 chmod +x addon/install*
 chmod +x addon/uninstall*
 chmod +x addon/update-check.cgi
+chmod +x addon/functions
 chmod +x rc.d/*
 tar -zcvf ../${DEVICE}-addon.tgz *
 cd ..
