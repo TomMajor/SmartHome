@@ -1,7 +1,8 @@
 
 //---------------------------------------------------------
 // HB-SEN-LevelJet
-// 2018-12-19 Tom Major (Creative Commons)
+// Version 1.01
+// 2019-04-06 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -38,7 +39,7 @@
 // all library classes are placed in the namespace 'as'
 using namespace as;
 
-LEVELJET leveljet;
+LEVELJET<true, true> leveljet;    // Pegel in mm, benutze Peiltabelle
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
@@ -72,10 +73,7 @@ public:
     {
     }
 
-    bool updIntervall(uint16_t value) const
-    {
-        return this->writeRegister(0x20, (value >> 8) & 0xff) && this->writeRegister(0x21, value & 0xff);
-    }
+    bool     updIntervall(uint16_t value) const { return this->writeRegister(0x20, (value >> 8) & 0xff) && this->writeRegister(0x21, value & 0xff); }
     uint16_t updIntervall() const { return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0); }
 
     void defaults()

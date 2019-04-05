@@ -1,7 +1,8 @@
 
 //---------------------------------------------------------
 // Leveljet.h
-// 2018-12-19 Tom Major (Creative Commons)
+// Version 1.01
+// 2019-04-06 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -19,7 +20,7 @@ const uint16_t cTANK_ANZAHL      = 4;
 
 namespace as {
 
-class LEVELJET {
+template <bool PEGEL_MM, bool USE_PEILTABELLE> class LEVELJET {
 
 public:
     LEVELJET()
@@ -68,9 +69,7 @@ private:
     uint8_t       ljVolumePercent;
     uint16_t      ljLevel, ljVolumeLiter, ljCrcOk, ljCrcErr;
     unsigned long timeStamp;
-#ifndef NDEBUG
-    char dbgBuffer[64];
-#endif
+    char          dbgBuffer[80];
 
     void ProcessLevelJetData(uint8_t uc)
     {
@@ -103,15 +102,25 @@ private:
                 crc = LevelJet_CRC(crc, 0);
                 crc = LevelJet_CRC(crc, 0);
                 crc = (crc >> 8) & 0xFFFF;
-                if (((crc >> 8) == rxBuffer[11]) &&      // crc high byte (in memory big endian, in receive log little endian)
-                    ((crc & 0xFF) == rxBuffer[10])) {    // crc low byte ""
-                    ljCrcOk++;                           // crc is correct
+                if (((crc >> 8) == rxBuffer[11]) &&                            // crc high byte (in memory big endian, in receive log little endian)
+                    ((crc & 0xFF) == rxBuffer[10])) {                          // crc low byte ""
+                    ljCrcOk++;                                                 // crc is correct
                     ljLevel = (((uint16_t)rxBuffer[5]) << 8) + rxBuffer[4];    // Pegel in mm
-                    calcVolume(ljLevel);
-#ifndef NDEBUG
-                    sprintf(dbgBuffer, "CRC OK, Level %d, Volume %d (%d%%)", ljLevel, ljVolumeLiter, ljVolumePercent);
+                    // einige neuere LevelJet geben den Pegel in cm aus, nicht mehr in mm! siehe HM thread, user nuiler, LevelJet Version 3.15
+                    if (PEGEL_MM == false) {
+                        ljLevel = 10 * ljLevel;
+                    }
+                    // Volumen- und Füllstandsberechnung mit Peiltabelle, für komplexe Tanks deren Form sich nicht im LevelJet-Geräte Setup abbilden
+                    // lässt
+                    if (USE_PEILTABELLE) {
+                        calcVolume(ljLevel);
+                    } else {    // Volumen- und Füllstandsberechnung original vom LevelJet-Gerät, für einfache Tanks
+                        ljVolumeLiter   = (((uint16_t)rxBuffer[7]) << 8) + rxBuffer[6];    // Volumen in Liter
+                        ljVolumePercent = rxBuffer[8];                                     // Füllstand in Prozent
+                    }
+                    sprintf(dbgBuffer, "CRC OK, Cfg %d %d, Level %d, Volume %d (%d%%)", (int)PEGEL_MM, (int)USE_PEILTABELLE, ljLevel, ljVolumeLiter,
+                            ljVolumePercent);
                     DPRINTLN(dbgBuffer);
-#endif
                 } else {    // crc is invalid
                     ljCrcErr++;
                     DPRINTLN(F("CRC ERROR"));
