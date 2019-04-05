@@ -3,13 +3,15 @@
 source ./params 2>/dev/null
 
 #------------------------------------------------------------------------------
-# Copy new devices files
-cp -a firmware/rftypes/* /firmware/rftypes/
-
-chmod 644 $FIRMWARE_FILE
+# Generate new device_xml links, no copy anymore
+for xmlfile in /usr/local/addons/${ADDON_NAME}${FIRMWARE_DIR}/* ; do
+    rm -f ${FIRMWARE_DIR}/$(basename $xmlfile)
+    ln -s $xmlfile ${FIRMWARE_DIR}/$(basename $xmlfile)
+    chmod 644 $xmlfile
+done
 
 #------------------------------------------------------------------------------
-# Copy new images
+# Copy new image files
 cp -ar www/config/img/devices /www/config/img/
 
 chown root:root /www/config/img/devices/250/$DEVICE_IMG

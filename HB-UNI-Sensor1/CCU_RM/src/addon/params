@@ -1,6 +1,6 @@
 #############################################################
 # Versionsnummer
-ADDON_VERSION=2.00
+ADDON_VERSION=2.01
 
 # ADDON_NAME, wird verwendet für das rc-Script sowie als Unterverzeichnis der Installation /usr/local/addons/... 
 ADDON_NAME=hb-uni-sensor1
@@ -12,9 +12,10 @@ DEVICE="HB-UNI-Sensor1"
 # in der WebUI angezeigte Gerätebeschreibung
 DEVICE_DESC="Universalsensor1 (Wetterdaten)"
 
-# Name der Firmware Datei, bestehend aus ADDON_NAME.xml
-FIRMWARE_FILE=/firmware/rftypes/${ADDON_NAME}.xml
-FIRMWARE_FILES=/firmware/rftypes/${ADDON_NAME}*
+# Firmware Verzeichnis
+FIRMWARE_DIR=/firmware/rftypes
+# Name der Firmware Datei, bestehend aus ADDON_NAME.xml, nur Hauptname benötigt, auch bei mehreren .xml
+FIRMWARE_FILE=${FIRMWARE_DIR}/${ADDON_NAME}.xml
 
 # Name der Piktogramme, bestehend aus ADDON_NAME.png bzw. ADDON_NAME_thumb.png
 DEVICE_IMG=${ADDON_NAME}.png

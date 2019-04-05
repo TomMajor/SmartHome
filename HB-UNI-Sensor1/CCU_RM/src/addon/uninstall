@@ -19,7 +19,10 @@ if [ "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
 fi
 
 #------------------------------------------------------------------------------
-# remove device and image files
-rm -f $FIRMWARE_FILES
+# remove device_xml links
+rm -f ${FIRMWARE_DIR}/${ADDON_NAME}*
+
+#------------------------------------------------------------------------------
+# remove image files
 rm -f /www/config/img/devices/250/$DEVICE_IMG
 rm -f /www/config/img/devices/50/$DEVICE_THUMB
