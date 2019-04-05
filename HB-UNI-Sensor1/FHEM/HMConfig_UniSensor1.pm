@@ -8,10 +8,10 @@ $HMConfig::culHmModel{'F103'} = {name => 'HB-UNI-Sensor1', st => 'UniSensor1', c
 
 # definitions for register settings
 # examples see HMConfig.pm line 350ff
-$HMConfig::culHmRegDefine{'ledMode'}         = {a=> 5.6,s=>0.2,l=>0,min=>0   ,max=>1     ,c=>'lit',f=>'',u=>''  ,d=>0,t=>'LED mode',lit=>{off=>0,on=>1}};
-$HMConfig::culHmRegDefine{'lowBatLimit'}     = {a=>18.0,s=>1.0,l=>0,min=>1.0 ,max=>5     ,c=>''   ,f=>10,u=>'V' ,d=>0,t=>'Low batterie limit, step 0.1 V.'};
-$HMConfig::culHmRegDefine{'updateIntervall'} = {a=>32.0,s=>2.0,l=>0,min=>60  ,max=>43200 ,c=>''   ,f=>'',u=>'s' ,d=>0,t=>'Sensor measure and send intervall in seconds.'};
-$HMConfig::culHmRegDefine{'altitude'}        = {a=>34.0,s=>2.0,l=>0,min=>0   ,max=>10000 ,c=>''   ,f=>'',u=>'m' ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
+$HMConfig::culHmRegDefine{'ledMode'}         = {a=> 5.6,s=>0.2,l=>0,min=>0   ,max=>1     ,p=>'n',c=>'lit',f=>'',u=>''  ,d=>0,t=>'LED mode',lit=>{off=>0,on=>1}};
+$HMConfig::culHmRegDefine{'lowBatLimit'}     = {a=>18.0,s=>1.0,l=>0,min=>1.0 ,max=>5     ,p=>'n',c=>''   ,f=>10,u=>'V' ,d=>0,t=>'Low batterie limit, step 0.1 V.'};
+$HMConfig::culHmRegDefine{'updateIntervall'} = {a=>32.0,s=>2.0,l=>0,min=>60  ,max=>43200 ,p=>'n',c=>''   ,f=>'',u=>'s' ,d=>0,t=>'Sensor measure and send intervall in seconds.'};
+$HMConfig::culHmRegDefine{'altitude'}        = {a=>34.0,s=>2.0,l=>0,min=>0   ,max=>10000 ,p=>'n',c=>''   ,f=>'',u=>'m' ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
 
 # Register model mapping
 $HMConfig::culHmRegModel{'HB-UNI-Sensor1'} = {
