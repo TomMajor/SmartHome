@@ -1,8 +1,8 @@
 
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.11
-// 2019-03-03 Tom Major (Creative Commons)
+// Version 1.12
+// 2019-04-09 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -41,10 +41,11 @@
 //#define SENSOR_DS18X20  // Achtung, ONEWIRE_PIN define weiter unten muss zur HW passen!
 #define SENSOR_BME280    // Achtung, finitespace BME280 Library verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
-//#define SENSOR_TSL2561  // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_TSL2561    // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
 #define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
+//#define SENSOR_VEML6070
 
 //---------------------------------------------------------
 // Über diese defines wird die Clock festgelegt
@@ -117,6 +118,10 @@ using namespace as;
 Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (Interrupt event)
 #endif
 
+#ifdef SENSOR_VEML6070
+#include "Sensors/Sens_VEML6070.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
 #ifdef CLOCK_SYSCLOCK
 #define CLOCK sysclock
 #define SAVEPWR_MODE Sleep<>
@@ -137,10 +142,10 @@ const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_SERIAL,    // Device Serial
     { 0xF1, 0x03 },    // Device Model
     // Firmware Version
-    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x12" />
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
     // bei Änderungen von Payload, message layout, Datenpunkt-Typen usw. muss die Version an beiden Stellen hochgezogen werden!
-    0x12,
+    0x13,
     as::DeviceType::THSensor,    // Device Type
     { 0x01, 0x01 }               // Info Bytes
 };
@@ -171,7 +176,7 @@ public:
 class WeatherEventMsg : public Message {
 public:
     void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint8_t digInputState,
-              uint16_t batteryVoltage, bool batLow)
+              uint16_t batteryVoltage, bool batLow, uint16_t customData)
     {
 
         uint8_t t1 = (temp >> 8) & 0x7f;
@@ -187,11 +192,11 @@ public:
         if ((msgcnt % 20) == 2) {
             flags = BIDI | WKMEUP;
         }
-        Message::init(21, msgcnt, 0x70, flags, t1, t2);
+        Message::init(23, msgcnt, 0x70, flags, t1, t2);
 
         // Message Length (first byte param.): 11 + payload
         //  1 Byte payload -> length 12
-        // 10 Byte payload -> length 21
+        // 12 Byte payload -> length 23
         // max. payload: 17 Bytes (https://www.youtube.com/watch?v=uAyzimU60jw)
 
         // BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
@@ -231,6 +236,10 @@ public:
         // batteryVoltage
         pload[8] = (batteryVoltage >> 8) & 0xff;
         pload[9] = batteryVoltage & 0xff;
+
+        // user custom data
+        pload[10] = (customData >> 8) & 0xff;
+        pload[11] = customData & 0xff;
     }
 };
 
@@ -270,8 +279,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     int16_t  temperature10;
     uint16_t airPressure10;
     uint8_t  humidity;
-    uint32_t brightness;
+    uint32_t brightness100;
     uint8_t  digInputState;
+    uint16_t customData;
     uint16_t batteryVoltage;
     bool     regularWakeUp;
 
@@ -293,6 +303,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_SHT10
     Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
 #endif
+#ifdef SENSOR_VEML6070
+    Sens_VEML6070<> veml6070;
+#endif
 
 public:
     WeatherChannel()
@@ -301,8 +314,9 @@ public:
         , temperature10(0)
         , airPressure10(0)
         , humidity(0)
-        , brightness(0)
+        , brightness100(0)
         , digInputState(0)
+        , customData(0)
         , batteryVoltage(0)
         , regularWakeUp(true)
     {
@@ -316,7 +330,7 @@ public:
 #endif
         uint8_t msgcnt = device().nextcount();
         measure();
-        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness, digInputState, batteryVoltage, device().battery().low());
+        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(), customData);
         device().sendPeerEvent(msg, *this);
         // reactivate for next measure
         uint16_t updCycle = this->device().getList0().updIntervall();
@@ -346,16 +360,16 @@ public:
         // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
         // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
 #if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT10)
-        temperature10 = 188;    // 18.8C
+        temperature10 = 188;    // 18.8C (scaling 10)
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
         humidity = 88;    // 88%
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
-        airPressure10 = 10880;    // 1088 hPa
+        airPressure10 = 10880;    // 1088 hPa (scaling 10)
 #endif
 #if !defined(SENSOR_TSL2561) && !defined(SENSOR_MAX44009)
-        brightness = 88000;    // 88000 Lux
+        brightness100 = 8800000;    // 88000 Lux (scaling 100)
 #endif
 
 // Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen
@@ -388,16 +402,22 @@ public:
 // Entweder TSL2561 oder MAX44009 für Helligkeit, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_TSL2561
         tsl2561.measure();
-        brightness = tsl2561.brightnessLux();    // also available: brightnessVis(),
-                                                 // brightnessIR(), brightnessFull(), but these
-                                                 // are dependent on integration time setting
+        brightness100 = tsl2561.brightnessLux();
 #elif defined SENSOR_MAX44009
         max44009.measure();
-        brightness = max44009.brightnessLux();
+        brightness100 = max44009.brightnessLux();
 #endif
 
 #ifdef SENSOR_DIGINPUT
         digInputState = digitalInput.pinState();
+#endif
+
+#ifdef SENSOR_VEML6070
+        veml6070.measure();
+        // Beispiel custom payload, 4bit für UV-Index
+        uint8_t uvi = veml6070.uvIndex();
+        customData &= 0xFFF0;
+        customData |= (uvi & 0x0F);
 #endif
 
         batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
@@ -428,6 +448,9 @@ public:
 #endif
 #ifdef SENSOR_DIGINPUT
         digitalInput.init(DIGINPUT_PIN);
+#endif
+#ifdef SENSOR_VEML6070
+        veml6070.init();
 #endif
         DPRINTLN(F("Sensor setup done"));
         DPRINT(F("Serial: "));
