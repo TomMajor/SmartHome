@@ -23,6 +23,7 @@ Beispiel:<br>
 `#define SENSOR_MAX44009`<br>
 `#define SENSOR_SHT10`<br>
 `#define SENSOR_DIGINPUT`<br>
+`#define SENSOR_VEML6070`<br>
 
 
 ## Prototyp
@@ -84,7 +85,7 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 ![pic](Images/BatterySensorLoad.png)
 
 
-## CCU2/CCU3/RaspberryMatic Installation
+## RaspberryMatic/CCU2/CCU3 Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
 
@@ -112,18 +113,40 @@ Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM ne
 
 **Parameter Höhe einstellen:**<br>
 "Ich konnte bei meinem THPL Sensor mit BME280 und MAX44009 über getConfig // **Config drücken** // set regSet altitude 590 // **Config drücken** // getConfig // **Config drücken** die Höhe einstellen. Bitte berichtigt mich, wenn ich da zu viel drücke und mache- so hat es jedenfalls funktioniert ::)"<br>
-_FHEM user kpwg_
+FHEM user *kpwg*
 
 
-## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+## Benutzerspezifischen Sensordaten
 
-[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
+Ab Firmware 0x13 können zwei extra Byte 'customData' in der Payload mit benutzerspezifischen Daten belegt 
+und mit einer alternativen Firmware xml-Datei der RaspberryMatic/CCU2/CCU3-Zentrale bzw. mit dem Perl-Skript FHEM zur Verfügung gestellt werden.
+
+Diese alternative Firmware xml-Datei muss für die Behandlung von 'customData' angepasst werden und im Verzeichnis<br>
+`/usr/local/addons/hb-uni-sensor1/custom_firmware`<br>
+liegen.
+
+Das AddOn Skript sorgt dann dafür, dass die alternativen Firmware xml-Dateien bei Aktionen wie
+- AddOn Update-Installation,
+- Einspielen eines RaspberryMatic/CCU2/CCU3 Backups,
+- Update der RaspberryMatic/CCU2/CCU3 Firmware
+
+wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt werden.
+
+Ein Beispiel für eine alternative Firmware xml-Datei, die zusätzlich den gemessenen UV-Index für den VEML6070 Sensor zur Verfügung stellt, liegt im Verzeichnis<br>
+`/usr/local/addons/hb-uni-sensor1/custom_firmware_bsp`
+
+Zur Aktivierung muss das Verzeichnis in custom_firmware umbenannt und anschließend die Zentrale neugestartet werden.
+
+Danach (und bei jeder weiteren eventuellen Änderung in der alternativen Firmware xml-Datei) muss ein bereits vorhandener HB-UNI-Sensor1 abgelernt/gelöscht und wieder neu angelernt werden!<br>
+Nur so werden die xml Änderungen in die Zentrale übernommen.
+
+![pic](Images/HB-UNI-Sensor1_CustomData.png)
 
 
 ## Bewegungsmelder mit PIR AS312 am digitalen Eingang
 
 - Der Inverter mit Transistor sorgt für minimalen Ruhestrom (keine Bewegung, PIR Ausgang Low, Transistor gesperrt) und trägt außerdem durch die Entkopplung zum sicheren Betrieb bei (keine unerwünschte Auslösung des PIR während des 868MHz Sendevorgangs an die Zentrale).
-- Die Bilder demonstrieren die Ideen und den konstruktiven Aufbau von user fhemfreund, getrimmt auf minimale Gerätegröße. Danke für den Ideenaustausch und die Aussicht auf ein Gerät.  :smile:
+- Die Bilder demonstrieren die Ideen und den konstruktiven Aufbau von user *fhemfreund*, getrimmt auf minimale Gerätegröße. Danke für den Ideenaustausch und das zur Verfügung gestellte Gerät. :smile:
 - Mit der RTC Option beträgt der Ruhestrom inklusive PIR nur ca. 14uA und es besteht somit die Hoffnung dass die eingesetzte Batterie CR2450 möglichst lange hält.
 
 ![pic](PIR/AM312.png)
@@ -133,6 +156,11 @@ _FHEM user kpwg_
 ![pic](PIR/UniSensor_PIR3.jpg)
 ![pic](PIR/UniSensor_PIR4.jpg)
 
+
+<br>
+## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+
+[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 ## Benötige Libraries
 
@@ -157,3 +185,6 @@ keine zusätzliche Library nötig.
 
 Für einen SHT10 Sensor (Feuchte):</br>
 [SHT10](https://github.com/spease/Sensirion)
+
+Für einen VEML6070 Sensor (UV-Index):</br>
+keine zusätzliche Library nötig.
