@@ -4,10 +4,10 @@ source ./params 2>/dev/null
 
 #------------------------------------------------------------------------------
 # Generate new device_xml links, no copy anymore
-for xmlfile in /usr/local/addons/${ADDON_NAME}${FIRMWARE_DIR}/* ; do
-    rm -f ${FIRMWARE_DIR}/$(basename $xmlfile)
-    ln -s $xmlfile ${FIRMWARE_DIR}/$(basename $xmlfile)
-    chmod 644 $xmlfile
+for file in /usr/local/addons/${ADDON_NAME}${FIRMWARE_DIR}/* ; do
+    rm -f ${FIRMWARE_DIR}/$(basename $file)
+    ln -s $file ${FIRMWARE_DIR}/$(basename $file)
+    chmod 644 $file
 done
 
 #------------------------------------------------------------------------------

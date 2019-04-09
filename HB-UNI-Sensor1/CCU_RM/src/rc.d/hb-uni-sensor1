@@ -9,6 +9,7 @@ source /usr/local/addons/${ADDON_NAME}/functions 2>/dev/null
 ADDON_DIR=/usr/local/addons/${ADDON_NAME}
 WWW_DIR=/etc/config/addons/www/${ADDON_NAME}
 RC_DIR=/usr/local/etc/config/rc.d
+CUSTOM_FIRMWARE_DIR=${ADDON_DIR}/custom_firmware
 
 LOGFILE=$ADDON_DIR/inst.log
 ERRFILE=$ADDON_DIR/inst.err
@@ -57,7 +58,16 @@ case "$1" in
             #----------------------------------------------
 
 			cd ${ADDON_DIR}
-			./install >> $LOGFILE 2>>$ERRFILE
+
+			# run AddOn spezific install script
+            ./install >> $LOGFILE 2>>$ERRFILE
+
+            # copy/overwrite default firmware with custom firmware files if they exist
+            for file in ${CUSTOM_FIRMWARE_DIR}/*.xml ; do
+                [ -f "$file" ] || continue    # processing für *.xml verhindern falls nichts gefunden, 'shopt -s nullglob' nicht verfügbar
+                logToFile $LOGFILE "Copy custom firmware file: $(basename $file)"
+                cp -f $file ${ADDON_DIR}${FIRMWARE_DIR}
+            done
 
             # Unprepare
             #----------------------------------------------
@@ -67,12 +77,12 @@ case "$1" in
             touch ${ADDON_DIR}/installed
 
             if [ $RFD -ge 1 ]; then
-                logToFile $LOGFILE "Starting ReGaHss"
+                logToFile $LOGFILE "Starting rfd"
                 /etc/init.d/S61rfd start >> $LOGFILE
             fi
 
             if [ $REGA -ge 1 ]; then
-                logToFile $LOGFILE "Starting rfd"
+                logToFile $LOGFILE "Starting ReGaHss"
                 /etc/init.d/S70ReGaHss start >> $LOGFILE
             fi
 
@@ -83,9 +93,29 @@ case "$1" in
             fi
 
             logToFile $LOGFILE "Installation done."
-
 		else
-			logToFile $LOGFILE "($1) Nothing to do for $DEVICE"
+			# check for user updated custom firmware files
+            changed=0
+            for file in ${ADDON_DIR}${FIRMWARE_DIR}/*.xml ; do
+                [ -f "$file" ] || continue    # processing für *.xml verhindern falls nichts gefunden, 'shopt -s nullglob' nicht verfügbar
+                $(cmp -s ${CUSTOM_FIRMWARE_DIR}/$(basename $file) $file)
+                rc=$?
+                if [ $rc -eq 1 ]; then
+                    logToFile $LOGFILE "($1) Difference detected for custom firmware file: $(basename $file) => copying"
+                    cp -f ${CUSTOM_FIRMWARE_DIR}/$(basename $file) $file
+                    let changed++
+                fi
+            done
+            if [ $changed -gt 0 ]; then
+                logToFile $LOGFILE "($1) $changed custom firmware file(s) changed"
+                check_rfd
+                if [ $RFD -ge 1 ]; then
+                    logToFile $LOGFILE "Restarting rfd"
+                    /etc/init.d/S61rfd restart >> $LOGFILE
+                fi
+            else
+                logToFile $LOGFILE "($1) Nothing to do for $ADDON_NAME"
+            fi
 		fi
 	;;
 
