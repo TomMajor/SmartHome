@@ -46,7 +46,7 @@ sub CUL_HM_ParseUniSensor1(@){
         my $name = $shash->{NAME};
         my $chn = '01';
 
-        my ($dTempBat, $pressure, $humidity, $brightness, $digInputByte, $batVoltage, $customData) = map{hex($_)} unpack ('A4A4A2A8A2A4A4', $msgData);
+        my ($dTempBat, $pressure, $humidity, $brightness, $digInputByte, $batVoltage) = map{hex($_)} unpack ('A4A4A2A8A2A4', $msgData);
 
         # temperature, int with scaling factor 10 from device to get one decimal place
         my $temperature =  $dTempBat & 0x7fff;
@@ -91,10 +91,6 @@ sub CUL_HM_ParseUniSensor1(@){
         if ($digInputByte & 1) { $digInput0 = 1; }
         $stateMsg .= ' I: ' . $digInput0;
         push (@events, [$shash, 1, 'digitalInput:' . $digInput0]);
-        
-        # 16bit customData, ab Firmware 0x13
-        $stateMsg .= ' X: ' . $customData;
-        push (@events, [$shash, 1, 'customData:' . $customData]);
         
         push (@events, [$shash, 1, $stateMsg]);
     }
