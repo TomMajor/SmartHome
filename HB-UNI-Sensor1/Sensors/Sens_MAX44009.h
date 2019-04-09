@@ -1,7 +1,7 @@
 
 //---------------------------------------------------------
 // Sens_MAX44009
-// 2018-08-12 Tom Major (Creative Commons)
+// 2019-04-08 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -19,18 +19,17 @@ namespace as {
 
 template <uint8_t I2C_ADDR> class Sens_MAX44009 : public Sensor {
 
-    uint32_t _brightnessLux;
+    uint32_t _brightnessLux100;    // scaled bei 100
 
 public:
     Sens_MAX44009()
-        : _brightnessLux(0)
+        : _brightnessLux100(0)
     {
     }
 
     bool init()
     {
-        Wire.begin();    // ToDo sync with further I2C sensor classes if needed
-
+        Wire.begin();
         uint8_t i = 10;
         while (i > 0) {
             Wire.beginTransmission(I2C_ADDR);
@@ -41,21 +40,19 @@ public:
                 Wire.write(0x02);
                 Wire.write(0x03);
                 Wire.endTransmission();
-                DPRINT("MAX44009 found");
-                DPRINT(F("\r\n"));
+                DPRINTLN(F("MAX44009 found"));
                 return true;
             }
             delay(100);
             i--;
         }
-        DPRINT("Error: MAX44009 not found");
-        DPRINT(F("\r\n"));
+        DPRINTLN(F("Error: MAX44009 not found"));
         return false;
     }
 
     bool measure()
     {
-        _brightnessLux = 0;
+        _brightnessLux100 = 0;
         if (_present == true) {
             // If user wants to read both the Lux High-Byte register 0x03 and Lux Low-Byte register 0x04, then the master should not
             // send a STOP command between the reads of the two registers. Instead a Repeated START command should be used.
@@ -72,12 +69,12 @@ public:
                 if (Wire.requestFrom(I2C_ADDR, (uint8_t)1, (uint8_t)1) == 1) {
                     data[1] = Wire.read();
                     // DHEX(data[0]); DPRINT(" "); DHEXLN(data[1]);
-                    int   expo     = (data[0] >> 4) & 0x0F;
-                    int   mant     = ((data[0] & 0x0F) << 4) | (data[1] & 0x0F);
-                    float lux      = pow(2, expo) * mant * 0.045;
-                    _brightnessLux = (uint32_t)lux;
-                    DPRINT("MAX44009 Brightness    : ");
-                    DDECLN(_brightnessLux);
+                    int   expo        = (data[0] >> 4) & 0x0F;
+                    int   mant        = ((data[0] & 0x0F) << 4) | (data[1] & 0x0F);
+                    float lux         = pow(2, expo) * mant * 0.045;
+                    _brightnessLux100 = (uint32_t)floor(100.0 * lux + 0.5);
+                    DPRINT(F("MAX44009 Brightness x100: "));
+                    DDECLN(_brightnessLux100);
                     return true;
                 }
             }
@@ -85,7 +82,7 @@ public:
         return false;
     }
 
-    uint32_t brightnessLux() { return _brightnessLux; }
+    uint32_t brightnessLux() { return _brightnessLux100; }
 };
 
 }

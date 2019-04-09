@@ -2,7 +2,7 @@
 <device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
     <type name="HB-UNI-Sensor1" id="HB-UNI-Sensor1" updatable="true">
-      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x12" />
       <parameter index="10.0" size="2.0" const_value="0xF103" />
     </type>
   </supported_types>
@@ -120,7 +120,7 @@
           <physical type="integer" interface="command" value_id="LUX" no_init="true">
             <event frame="WEATHER_EVENT" />
           </physical>
-          <conversion type="float_integer_scale" factor="100.0" />
+          <conversion type="float_integer_scale" factor="1.0" />
         </parameter>
         <parameter id="VALVE_STATE" operations="read,event">
           <logical type="integer" min="0" max="99" />

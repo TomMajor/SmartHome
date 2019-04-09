@@ -1,7 +1,7 @@
 
 //---------------------------------------------------------
 // Sens_TSL2561
-// 2018-08-12 Tom Major (Creative Commons)
+// 2019-04-08 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -20,8 +20,8 @@ namespace as {
 
 template <uint8_t I2C_ADDR> class Sens_TSL2561 : public Sensor {
 
-    uint16_t  _brightnessFull, _brightnessIR;
-    uint32_t  _brightnessLux;
+    uint16_t  _brightnessRawFull, _brightnessRawIR;
+    uint32_t  _brightnessLux100;
     uint8_t   _sensitivity;
     ::TSL2561 _tsl2561;
 
@@ -50,9 +50,9 @@ template <uint8_t I2C_ADDR> class Sens_TSL2561 : public Sensor {
             _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS);
             break;
         }
-        uint32_t lum    = _tsl2561.getFullLuminosity();
-        _brightnessFull = lum & 0xFFFF;
-        _brightnessIR   = lum >> 16;
+        uint32_t lum       = _tsl2561.getFullLuminosity();
+        _brightnessRawFull = lum & 0xFFFF;
+        _brightnessRawIR   = lum >> 16;
     }
 
 public:
@@ -60,15 +60,15 @@ public:
     Sens_TSL2561()
         : _tsl2561(I2C_ADDR)
         , _sensitivity(2)
-        , _brightnessFull(0)
-        , _brightnessIR(0)
-        , _brightnessLux(0)
+        , _brightnessRawFull(0)
+        , _brightnessRawIR(0)
+        , _brightnessLux100(0)
     {
     }
 
     bool init()
     {
-        Wire.begin();    // ToDo sync with further I2C sensor classes if needed
+        Wire.begin();
 
         uint8_t i = 10;
         while (i > 0) {
@@ -77,21 +77,19 @@ public:
                 _present = true;
                 _tsl2561.setGain(TSL2561_GAIN_0X);
                 _tsl2561.setTiming(TSL2561_INTEGRATIONTIME_402MS);
-                DPRINT("TSL2561 found");
-                DPRINT(F("\r\n"));
+                DPRINTLN(F("TSL2561 found"));
                 return true;
             }
             delay(100);
             i--;
         }
-        DPRINT("Error: TSL2561 not found");
-        DPRINT(F("\r\n"));
+        DPRINTLN(F("Error: TSL2561 not found"));
         return false;
     }
 
     bool measure()
     {
-        _brightnessLux = 0;
+        _brightnessLux100 = 0;
         if (_present == true) {
             _sensitivity = 2;
             do {
@@ -100,36 +98,41 @@ public:
                 // bei zu viel Licht die Empfindlichkeit (exposure time) solange verringern bis sinnvolle Werte kommen
                 // momentan wird hier nur mit Gain 0 gearbeitet, Gain 16 ist fuer Aussenhelligkeiten problematisch (siehe Messwerte) und
                 // wuerde nur etwas bringen falls man in sehr dunklen Umgebungen Lux-Werte mit hoher Aufloesung braucht
-                if ((_brightnessFull == _brightnessIR) || (_brightnessFull > 60000)) {    // ungueltiger Wert
-                    // DPRINT("#INVALID# "); DDEC(_brightnessFull); DPRINT(" "); DDEC(_brightnessIR); DPRINT(" "); DDEC(_sensitivity);
+                if ((_brightnessRawFull == _brightnessRawIR) || (_brightnessRawFull > 60000)) {    // ungueltiger Wert
+                    // DPRINT("#INVALID# "); DDEC(_brightnessRawFull); DPRINT(" "); DDEC(_brightnessRawIR); DPRINT(" "); DDEC(_sensitivity);
                     // DPRINT(F("\r\n"));
                     if (_sensitivity > 0) {    // ungueltiger Wert, Empfindlichkeit verringern
                         _sensitivity--;
-                        delay(100);                  // Photonen overflow Erholung
-                    } else {                         // ungueltiger Wert, keine weitere Verringerung der Empfindlichkeit moeglich
-                        _brightnessLux = 99999ul;    // overflow, zu viel Licht, besser dem SmartHome System einen hohen Helligkeitswert
-                                                     // anstatt 0 Lux melden!
+                        delay(100);                     // Photonen overflow Erholung
+                    } else {                            // ungueltiger Wert, keine weitere Verringerung der Empfindlichkeit moeglich
+                        _brightnessLux100 = 99999ul;    // overflow, zu viel Licht, besser dem SmartHome System einen hohen Helligkeitswert
+                                                        // anstatt 0 Lux melden!
                         break;
                     }
                 } else {    // // gueltiger Wert
-                    _brightnessLux = _tsl2561.calculateLux(_brightnessFull, _brightnessIR);
+                    // x100 scaling um zum MAX44009 kompatibel zu sein
+                    _brightnessLux100 = 100 * _tsl2561.calculateLux(_brightnessRawFull, _brightnessRawIR);
                     break;
                 }
             } while (true);
 
-            DPRINT("TSL2561 Sensitivity    : "); DDECLN(_sensitivity);
-            DPRINT("TSL2561 Brightness Full: "); DDECLN(_brightnessFull);
-            DPRINT("TSL2561 Brightness IR  : "); DDECLN(_brightnessIR);
-            DPRINT("TSL2561 Brightness Lux : "); DDECLN(_brightnessLux);
+            DPRINT(F("TSL2561 Sensitivity        : "));
+            DDECLN(_sensitivity);
+            DPRINT(F("TSL2561 Brightness Raw Full: "));
+            DDECLN(_brightnessRawFull);
+            DPRINT(F("TSL2561 Brightness Raw IR  : "));
+            DDECLN(_brightnessRawIR);
+            DPRINT(F("TSL2561 Brightness Lux x100: "));
+            DDECLN(_brightnessLux100);
             return true;
         }
         return false;
     }
 
     uint8_t  sensitivity() { return _sensitivity; }
-    uint16_t brightnessFull() { return _brightnessFull; }
-    uint16_t brightnessIR() { return _brightnessIR; }
-    uint32_t brightnessLux() { return _brightnessLux; }
+    uint16_t brightnessRawFull() { return _brightnessRawFull; }
+    uint16_t brightnessRawIR() { return _brightnessRawIR; }
+    uint32_t brightnessLux() { return _brightnessLux100; }
 };
 
 }

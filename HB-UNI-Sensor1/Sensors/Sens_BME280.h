@@ -49,7 +49,7 @@ public:
 
     void init()
     {
-        Wire.begin();    // ToDo sync with further I2C sensor classes
+        Wire.begin();
 
         uint8_t i = 10;
         while ((!_bme280.begin()) && (i > 0)) {
@@ -78,13 +78,13 @@ public:
         _temperature = _pressure = _pressureNN = _humidity = 0;
         if (_present == true) {
             measureRaw(altitude);
-            DPRINT(F("BME280   Temperature   : "));
+            DPRINT(F("BME280 Temperature x10  : "));
             DDECLN(_temperature);
-            DPRINT(F("BME280   Pressure      : "));
+            DPRINT(F("BME280 Pressure x10     : "));
             DDECLN(_pressure);
-            DPRINT(F("BME280   PressureNN    : "));
+            DPRINT(F("BME280 PressureNN x10   : "));
             DDECLN(_pressureNN);
-            DPRINT(F("BME280   Humidity      : "));
+            DPRINT(F("BME280 Humidity         : "));
             DDECLN(_humidity);
         }
     }
