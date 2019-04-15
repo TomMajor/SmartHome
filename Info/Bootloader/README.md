@@ -14,13 +14,13 @@
     avrdude -c stk500 -p m328p -P COM5 -b 115200 -e -U flash:w:C:\temp\ATmegaBOOT_168_atmega328_pro_8MHz.hex:i
 
 ![pic](Images/Flash_Bootloader.png)
-
 <br>
+
 #### AVR ISP 6-polig
 
 ![pic](Images/AVR_ISP.jpg)
-
 <br>
+
 #### Bootloader ATmega328p Quarz/RC-Oszillator
 [Quarz-Osc 328p](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega328/Quarz_Osc)
 

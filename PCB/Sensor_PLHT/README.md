@@ -103,7 +103,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - Für den Vorgang muss der Chip aufgelötet sein und mit Spannung versorgt werden. Falls ein externer Quarz eingesetzt werden soll muss auch dieser bestückt sein.
 - Wenn der ISP-Programmer einmal dran ist sollten auch gleich die Fuses geprüft und ggf. angepasst werden (Oszillator, BOD usw.).
 - Beispiele für Bootloader und Fuse-Einstellungen:
-[Bootloader HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1/bootloader)
+[Bootloader HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader)
 
 ![pic](Images/pgm_bootloader.jpg)
 
