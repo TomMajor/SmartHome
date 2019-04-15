@@ -17,12 +17,14 @@
 # Die im WebUI vordefinierten Texte werden mit dem Code §xx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
 # Der 3. Parameter ist die Iconnummer oder den Parameter weglassen wenn man kein Icon in der Zeile haben will.
 # Die Iconnummer braucht nur eine Stelle bei Icons < 10.
-# CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.exec() aufrufen.
+# CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
 #
 # Beispiel 1 - variabler Text in einer Zeile:
 # Zeigt den Text 'Test ABC ÄÖÜäöüß' in Zeile 5 mit Icon 1 auf dem ePaper mit Serial JPDISEP000 an:
 # string displayCmd = "JPDISEP000 /5 'Test ABC ÄÖÜäöüß' 1";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+# oder
+# system.Exec("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
 # Beispiel 2 - variabler Text in mehreren Zeilen:
 # Zeigt 3 Zeilen Text in den Zeilen 5, 7, 10 an, dabei Zeile 5 und 10 mit Icons, 7 ohne Icon
