@@ -103,26 +103,21 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 
 #### 1. patchsource - Diff Analyse
 
-|Dir/File|Patch Methode<br>s sed / p patch|Diffs|Diffs benötigt für HB-Dis-EP-42BW|
+|Dir/File|Patch Methode<br>p patch<br>s sed|Diffs|Diffs benötigt für HB-Dis-EP-42BW|
 |---|---|---|---|
+|/www/rega/esp/side.inc|                            p|      7|      6 (1p 2p 3f 4f 5p 6- 7f)<br>momentan alle 7 patches übernommen|
 |/www/config/ic_common.tcl|                         p|      3|      3|
-|/www/config/stringtable_de.txt|                    s|      1|      1 (aber nur die 5x HB_EP_xx Einträge)|
-|||||
-|/www/config/devdescr/DEVDB.tcl|                    s|      1|      1 (aber nur die Referenzen auf 2x HB-Dis-EP-42BW png)|
-|||||
-|/www/rega/esp/datapointconfigurator.fn|            (p)|    2|      0|
+|/www/rega/pages/tabs/admin/views/programs.htm|     p|      3|      2 (1- 2f 3f)<br>momentan alle 3 patches übernommen|
 |/www/rega/esp/functions.fn|                        p|      1|      1|
-|/www/rega/esp/side.inc|                            p|      10|     6 (2,4,5,6,8,10)|
-|||||
-|/www/rega/pages/index.htm|                         s|      1|      1 (Verweis auf jp_webui_inc.js)|
-|/www/rega/pages/tabs/admin/views/programs.htm|     p|      3|      2 (2,3)|
-|||||
-|/www/webui/webui.js|                               s|      7|      5 (1..5) (bei jp ist das eine s/p Kombi, hier nur noch s, kein p mehr)|
-|||||
-|/www/webui/js/lang/de/translate.lang.extension.js| s|      1|      1|
+|/www/rega/esp/datapointconfigurator.fn|            (p)|    2|      0|
 |/www/webui/js/lang/de/translate.lang.js|           (p)|    1|      0|
+|||||
+|/www/config/stringtable_de.txt|                    s|      1|      1 (aber nur die 5x HB_EP_xx Einträge)|
+|/www/config/devdescr/DEVDB.tcl|                    s|      1|      1 (aber nur die Referenzen auf 2x HB-Dis-EP-42BW png)|
+|/www/rega/pages/index.htm|                         s|      1|      1 (Verweis auf jp_webui_inc.js)|
+|/www/webui/webui.js|                               s|      7|      5 (1..5) (bei jp ist das eine s/p Kombi, hier nur noch s, kein p mehr)|
+|/www/webui/js/lang/de/translate.lang.extension.js| s|      1|      1|
 |/www/webui/js/lang/de/translate.lang.stringtable.js| s|    1|      1 (aber nur die 5x stringTableHbEpxx Einträge)|
-
 
 #### 2. src - benötigte Files
 
@@ -139,3 +134,9 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 |/src/addon/www/config/img/devices/250/hb-dis-ep-42bw_thumb.png|  ja|
 |/src/addon/www/ise/|                                             die icons unter /icons_hm_dis_ep_wm55/24/ auch fürs ePaper|
 |/src/addon/www/rega/|                                            nichts daraus benötigt|
+
+
+>Nur der Vollständigkeit noch mal gesagt: 
+So lange sich nur die Stelle (Zeilennummer) in der Datei ändert, hat Patch kein Problem. Da ändere ich dann auch nix. Es kommt beim Patchen nur ein Hinweis, dass der Patch an anderer Stelle applied wurde.
+Ich muss nur dann was anfassen, wenn direkt an den für mich relevanten Abschnitten was geändert wurde.
+(jp112sdl)
