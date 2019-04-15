@@ -91,3 +91,6 @@ sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
 rm -f $FIRMWARE_FILE
 rm -f /www/config/img/devices/250/$DEVICE_IMG
 rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+#TM
+./extra uninstall

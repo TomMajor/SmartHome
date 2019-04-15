@@ -7,13 +7,25 @@
     </type>
   </supported_types>
   <paramset type="MASTER" id="remote_dev_master">
-    <parameter id="LOCAL_RESET_DISABLE">
-      <logical type="boolean" default="false"/>
-      <physical type="integer" interface="config" list="0" index="24" size="0.1"/>
-    </parameter>
     <parameter id="DISPLAY_INVERTING">
       <logical type="boolean" default="false"/>
-      <physical type="integer" interface="config" list="0" index="5.6" size="0.1"/>
+      <physical type="integer" interface="config" list="0" index="6.0" size="0.1"/>
+    </parameter>
+    <parameter id="LOW_BAT_LIMIT">
+      <logical type="float" min="1.0" max="5.0" default="2.4" unit="V"/>
+      <physical type="integer" interface="config" list="0" index="18" size="1"/>
+      <conversion type="float_integer_scale" factor="10"/>
+    </parameter>
+    <parameter id="DEVICE_LED_MODE">
+      <logical type="option">
+        <option id="OFF"/>
+        <option id="ON" default="true"/>
+      </logical>
+      <physical type="integer" interface="config" list="0" index="5.6" size="0.2"/>
+      <conversion type="integer_integer_map">
+        <value_map device_value="0x00" parameter_value="0"/>
+        <value_map device_value="0x01" parameter_value="1"/>
+      </conversion>
     </parameter>
   </paramset>
   <channels>

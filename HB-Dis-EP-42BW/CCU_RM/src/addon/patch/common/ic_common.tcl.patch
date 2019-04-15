@@ -1,0 +1,100 @@
+--- ./patchsource/www/config/ic_common.tcl.orig	2019-02-23 12:12:35.000000000 +0100
++++ ./patchsource/www/config/ic_common.tcl	2019-04-10 08:36:52.000000000 +0200
+@@ -1074,7 +1074,10 @@
+ 
+   set hmDisEPIdentifier "HM-Dis-EP-WM55"
+   set hmDisWM55Identifier "HM-Dis-WM55"
+-
++  set hbDis42BWIdentifier "HB-DIS-EP-42BW"
++  set hbRc12EpcIdentifier "HB-RC-12-EP-C"
++  set hbRc12EpBwIdentifier "HB-RC-12-EP-BW"
++  
+   if { ! [catch { array set ch_descr [xmlrpc $iface_url($iface) getDeviceDescription [list string $address]] } ] } then {
+     set channel_type $ch_descr(TYPE)
+     catch {set chn $ch_descr(INDEX)}
+@@ -1167,40 +1170,53 @@
+           append s "<td><input type=\"text\" name=\"$param_id\" value=\"$value\" $id $access /></td>"
+         } else {
+           puts "<script type=\"text/javascript\">load_JSFunc('/config/easymodes/MASTER_LANG/KEY_4Dis.js');</script>"
+-          set helpText [getStatusDisplayHelp]
+-
+-          # The parameter numbering of the channels 1 and 2 are the same as from the HM-Dis-WM55
+-          if {($parent_type != $hmDisEPIdentifier) || ($chn < 4)} {
++          set helpText [getStatusDisplayHelp]  
++          if {($parent_type == $hbRc12EpcIdentifier) || ($parent_type == $hbRc12EpBwIdentifier)} then {
+             if {$param_id == "TEXTLINE_1"} {
+-              # Fortlaufende Nummerierung der Textblöcke hinzufügen.
+-              # Berechnung:
+-              # 1. Parameter = Kanalnummer * 2 - 1
+-              if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
+-                append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
+-              } else {
+-                append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+-              }
+-            } else {
+-              # 2. Parameter = Kanalnummer * 2
+-              if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
+-                append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
+-              } else {
+-                append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+-              }
+-
+-              append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
++              append s "<td><input type=\"text\" name=\"$param_id\" maxlength=\"10\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
+             }
+-          } else {
+-            # Here we set the parameter numbering for the channels 4 - 8 of the HM-Dis-EP-WM55
+-            if {$param_id == "TEXTLINE_1"} {
+-              # Fortlaufende Nummerierung der Textblöcke hinzufügen.
+-              # Berechnung:
+-              # 1. Parameter = Kanalnummer * 2 - 7
+-              append s "<td>[expr $chn * 2 - 7]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+-            } else {
+-              # 2. Parameter = Kanalnummer * 2 -6
+-              append s "<td>[expr $chn * 2 - 6]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
+-              append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
++          } else {        
++           if {($parent_type == $hbDis42BWIdentifier)} then {
++             if {$param_id == "TEXTLINE_1"} {
++               append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"16\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++             } else {
++               append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"16\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++             }
++           } else {
++             # The parameter numbering of the channels 1 and 2 are the same as from the HM-Dis-WM55
++             if {($parent_type != $hmDisEPIdentifier) || ($chn < 4)} {
++               if {$param_id == "TEXTLINE_1"} {
++                 # Fortlaufende Nummerierung der Textblöcke hinzufügen.
++                 # Berechnung:
++                 # 1. Parameter = Kanalnummer * 2 - 1
++                 if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
++                   append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++                 } else {
++                   append s "<td>[expr $chn * 2 - 1]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                 }
++               } else {
++                 # 2. Parameter = Kanalnummer * 2
++                 if {($parent_type != $hmDisEPIdentifier) && ($parent_type != $hmDisWM55Identifier)} {
++                   append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true);\" value=\"$value\" $id $access /></td>"
++                 } else {
++                   append s "<td>[expr $chn * 2]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                 }
++
++                 append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
++               }
++             } else {
++               # Here we set the parameter numbering for the channels 4 - 8 of the HM-Dis-EP-WM55
++               if {$param_id == "TEXTLINE_1"} {
++                 # Fortlaufende Nummerierung der Textblöcke hinzufügen.
++                 # Berechnung:
++                 # 1. Parameter = Kanalnummer * 2 - 7
++                 append s "<td>[expr $chn * 2 - 7]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++               } else {
++                 # 2. Parameter = Kanalnummer * 2 -6
++                 append s "<td>[expr $chn * 2 - 6]&nbsp;&nbsp;<input type=\"text\" name=\"$param_id\" maxlength=\"12\" onblur=\"encodeStringStatusDisplay('$idval', true, '_');\" value=\"$value\" $id $access /></td>"
++                 append s "<td><img src=\"/ise/img/help.png\"/ size=\"24\" width=\"24\" onclick=\"MessageBox.show(translateKey('dialogHelpTitle'), '$helpText', '', 450, 375) ;\"></td>"
++               }
++             }  
+             }
+           }
+         }
