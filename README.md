@@ -1,10 +1,6 @@
 
 # SmartHome
-Various SmartHome Projects, Devices, Information and Examples including AskSinPP usage
-
-:exclamation: *Achtung, der Name dieses Repository wurde am 19.03.2019 auf 'SmartHome' geändert (ehemals 'AskSinPP_Examples').<br>
-Der Redirect der alten links sollte automatisch über github funktionieren.<br>
-Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten HomeMatic/RaspberryMatic AddOns so dass deren Update-Prüfung gleich korrekt auf den aktuellen link erfolgt.*
+**Various SmartHome Projects, Devices, Information and Examples including AskSinPP usage**
 
 
 ## AddOn Kompatibilität
@@ -14,8 +10,9 @@ Ich empfehle dennoch (falls benötigt) die erneute Installation der geänderten 
 <br>HB-SEN-LJet<br>
 :heavy_check_mark: lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 | 3.37.x - 3.45.7<br>
 <br>HB-DIS-EP-42BW<br>
-:large_blue_circle: lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 | 3.37.x - 3.43.15<br>
+:heavy_check_mark: lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 | 3.37.x - 3.45.7<br>
 
+[comment]: # (:large_blue_circle:)
 
 ## Universalsensor (HB-UNI-Sensor1)
 
