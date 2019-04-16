@@ -1,5 +1,5 @@
 
-# 3-Kanal-Funk-Schließerkontakt (HB-SCI-3-FM)
+# 3-Kanal Kontakt-Interface für Öffner und Schließerkontake (HB-SCI-3-FM)
 
 - von 'Position' abgeleitete Klasse 'OnePinPosition' für das Einlesen der Schließerkontakte
 - für die 3 Eingänge werden im Sketch pull-up Widerstände konfiguriert

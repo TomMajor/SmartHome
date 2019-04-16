@@ -13,7 +13,7 @@ Danke an jp112sdl für seine wertvollen Hinweise.<br>
 |---|---|---|
 |update_script|:green_apple: ja|-|
 |rc.d Skript|:green_apple: ja|-|
-|install\_\*, uninstall\_\*|:apple: nein|Gerätespezifische Anpassungen, kopieren, patchen usw.<br>:green_apple: Gleich bei HB-UNI-Sensor1 / HB-SEN-LJet|
+|install\_\*, uninstall\_\*|:apple: nein|Gerätespezifische Anpassungen, kopieren, patchen usw.<br>:green_apple: Gleich bei HB-UNI-Sensor1 / HB-SEN-LJet<br>:apple: Unterschiedlich bei HB-Dis-EP-42BW|
 |params|:apple: nein|Gerätespezifische Namen, Links, Version|
 |functions|:green_apple: ja|-|
 
