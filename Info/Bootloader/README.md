@@ -8,6 +8,8 @@
 
 -> [Quarz_Osc 1284P](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284)
 
+![pic](mega1284/fuses_1284.png)
+
 
 #### Standard Bootloader ATmega328P Quarz oder RC-Oszillator
 
