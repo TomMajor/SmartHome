@@ -3,7 +3,7 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.40
+# Version 0.41
 # 2019-03-28 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/3.0/
 # You are free to Share & Adapt under the following terms:
