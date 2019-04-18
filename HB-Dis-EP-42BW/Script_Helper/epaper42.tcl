@@ -106,7 +106,7 @@ proc main { argc argv } {
                 }
 
                 # optional icon
-                if { $ICON >= 1 && $ICON <= 20 } {
+                if { $ICON >= 1 && $ICON <= 21 } {
                     append txtOut "0x13,"
                     set iconDec [expr 127 + $ICON]
                     set iconHex [format %x $iconDec]
