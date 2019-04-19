@@ -3,8 +3,8 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.41
-# 2019-03-28 Tom Major (Creative Commons)
+# Version 0.42
+# 2019-04-19 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/3.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -85,13 +85,15 @@ proc main { argc argv } {
                     set numHex [format %x $numDec]
                     if { $numHex == "a7" } {	# §, code for fixed text, 2 digits required
                         set indexFixText [string range $TEXT [expr $n + 1] [expr $n + 2]]
-                        if { ([string length $indexFixText] == 2) &&
-                            ([string is integer -strict $indexFixText]) &&
-                            ($indexFixText >= 1) &&
-                            ($indexFixText <= 20) } {
-                            set textDec [expr 127 + $indexFixText]
-                            set textHex [format %x $textDec]
-                            append txtOut "0x$textHex,"
+                        if { [string length $indexFixText] == 2 } {
+                            # this scan here is required to extract numbers like 08 or 09 correctly, otherwise the number is treated as octal which will result in errors
+                            scan $indexFixText "%d" textCode
+                            if { ($textCode >= 1) &&
+                                 ($textCode <= 20) } {
+                                set textDec [expr 127 + $textCode]
+                                set textHex [format %x $textDec]
+                                append txtOut "0x$textHex,"
+                            }
                         }
                         incr n 2
                     } else { # variable text
