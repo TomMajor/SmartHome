@@ -1,8 +1,8 @@
 
 //---------------------------------------------------------
 // HB-SEN-LevelJet
-// Version 1.01
-// 2019-04-06 Tom Major (Creative Commons)
+// Version 1.02
+// 2019-04-21 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike

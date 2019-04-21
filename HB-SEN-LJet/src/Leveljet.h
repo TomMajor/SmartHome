@@ -1,8 +1,8 @@
 
 //---------------------------------------------------------
 // Leveljet.h
-// Version 1.01
-// 2019-04-06 Tom Major (Creative Commons)
+// Version 1.02
+// 2019-04-21 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -115,7 +115,7 @@ private:
                     if (USE_PEILTABELLE) {
                         calcVolume(ljLevel);
                     } else {    // Volumen- und Füllstandsberechnung original vom LevelJet-Gerät, für einfache Tanks
-                        ljVolumeLiter   = (((uint16_t)rxBuffer[7]) << 8) + rxBuffer[6];    // Volumen in Liter
+                        ljVolumeLiter   = 10 * ((((uint16_t)rxBuffer[7]) << 8) + rxBuffer[6]);    // Volumen in Liter
                         ljVolumePercent = rxBuffer[8];                                     // Füllstand in Prozent
                     }
                     sprintf(dbgBuffer, "CRC OK, Cfg %d %d, Level %d, Volume %d (%d%%)", (int)PEGEL_MM, (int)USE_PEILTABELLE, ljLevel, ljVolumeLiter,
