@@ -74,11 +74,10 @@ Aus meiner Sicht würde es sehr helfen, eine echte Messung des Batteriezustands 
 Die Schaltung belastet die Batterie bzw. den Akku für einige Hundert Millisekunden und misst dabei die Spannung.
 Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung.
 <br><br>
-Dazu wurde eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier BatterySensorLoad und befindet sich unter Sensors/BatterySensorLoad.h <br>
+Dazu wurde eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier tmBatteryLoad und befindet sich unter Sensors/tmBattery.h <br>
+Die Aktivierrung ist oben in Option 3 dargestellt.<br>
 Mit dieser Klasse und der Schaltung werden die Batterien bei 3V mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R2/R3 möglich. Momentan geschieht das 2 mal am Tag.<br>
-`TODO code für Dekl. der Klasse`<br>
-`hal.battery.init(seconds2ticks(60UL*60*12), sysclock, 2000);`<br>
-`// 2x Batt.messung täglich, Spannungsteiler 1:2`<br>
+`battery.init(seconds2ticks(12UL * 60 * 60), CLOCK);`<br>
 
 Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belastet wird. Die Spannung bricht um 142mV ein und wird am Ende der 200ms gemessen.
 <br>
@@ -132,10 +131,12 @@ Das AddOn Skript sorgt dann dafür, dass die alternativen Firmware xml-Dateien b
 
 wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt werden.
 
-Ein Beispiel für eine alternative Firmware xml-Datei, die zusätzlich den gemessenen UV-Index für den VEML6070 Sensor zur Verfügung stellt, liegt im Verzeichnis<br>
+Ein Beispiel für eine alternative Firmware xml-Datei, die zusätzlich den gemessenen UV-Index für den VEML6070 Sensor zur Verfügung stellt, liegt nach Installation des AddOn im Verzeichnis<br>
 `/usr/local/addons/hb-uni-sensor1/custom_firmware_bsp`
 
-Zur Aktivierung muss das Verzeichnis in custom_firmware umbenannt und anschließend die Zentrale neugestartet werden.
+Zur Aktivierung muss dieses Verzeichnis in <br>
+`custom_firmware`<br>
+umbenannt und anschließend die Zentrale neugestartet werden.
 
 Danach (und bei jeder weiteren eventuellen Änderung in der alternativen Firmware xml-Datei) muss ein bereits vorhandener HB-UNI-Sensor1 abgelernt/gelöscht und wieder neu angelernt werden!<br>
 Nur so werden die xml Änderungen in die Zentrale übernommen.
@@ -156,11 +157,13 @@ Nur so werden die xml Änderungen in die Zentrale übernommen.
 ![pic](PIR/UniSensor_PIR3.jpg)
 ![pic](PIR/UniSensor_PIR4.jpg)
 
-
 <br>
+
+
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
 [Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
+
 
 ## Benötige Libraries
 
