@@ -75,7 +75,7 @@ Die Schaltung belastet die Batterie bzw. den Akku für einige Hundert Millisekun
 Dies führt meiner Meinung nach zu realistischeren Werten über den Batteriezustand als eine asynchrone und unbelastete Messung.
 <br><br>
 Dazu wurde eine neue Batterieklasse nach Vorbild von papas Batterieklassen erstellt. Sie heißt hier tmBatteryLoad und befindet sich unter Sensors/tmBattery.h <br>
-Die Aktivierrung ist oben in Option 3 dargestellt.<br>
+Die Aktivierung ist oben in Option 3 dargestellt.<br>
 Mit dieser Klasse und der Schaltung werden die Batterien bei 3V mit ca. 75mA für die kurze Zeit der Messung belastet. Anpassungen an andere Spannungen und Ströme sind natürlich leicht über die Widerstände R2/R3 möglich. Momentan geschieht das 2 mal am Tag.<br>
 `battery.init(seconds2ticks(12UL * 60 * 60), CLOCK);`<br>
 

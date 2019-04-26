@@ -3,8 +3,8 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.42
-# 2019-04-19 Tom Major (Creative Commons)
+# Version 0.43
+# 2019-04-26 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/3.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -108,7 +108,7 @@ proc main { argc argv } {
                 }
 
                 # optional icon
-                if { $ICON >= 1 && $ICON <= 21 } {
+                if { $ICON >= 1 && $ICON <= 50 } {
                     append txtOut "0x13,"
                     set iconDec [expr 127 + $ICON]
                     set iconHex [format %x $iconDec]
