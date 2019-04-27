@@ -20,7 +20,7 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 - Mit dem Script Helper kann man mit minimalem Aufwand aus HomeMatic Skripten heraus Texte an das ePaper Display senden.
 - Installation:
 ```
-    1. SSH Zugang aktivieren (Einstellungen > Systemsteuerung > Sicherheit
+    1. SSH Zugang aktivieren (Einstellungen > Systemsteuerung > Sicherheit)
     2. SSH Verbindung zur Zentrale
     3. Skript downloaden:
     wget -O /usr/local/addons/epaper42.tcl https://raw.githubusercontent.com/TomMajor/SmartHome/master/HB-Dis-EP-42BW/Script_Helper/epaper42.tcl
@@ -78,7 +78,9 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 [DisplayTest_42BW](DisplayTest_42BW)
 
 
-### Bilder
+### Aufbau
+
+*WIP*
 
 ![pic](Images/IMG4.jpg)
 
@@ -89,9 +91,60 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 ![pic](Images/IMG3.jpg)
 
 
+### Strommessung und Kalkulation der Batterielebensdauer
+
+Alle Messungen erfolgten über 20Ohm Shuntwiderstand.
+
+#### 1. Stromanteil durch Burst Detector / Wake-On-Receive (WOR)
+
+Schätzung: die Flächen in A lassen sich in B unterbringen, damit kann man für die Stromaufnahme<br>
+`190mV / 20Ohm * 1,56ms / 354ms` <br>
+ansetzen, ergibt ca. **42uA**
+
+Burst Detector - ein Puls
+
+![pic](Images/BurstDetectorPulse.png)
+
+Burst Detector - Zyklus
+
+![pic](Images/BurstDetectorZyklus.png)
+
+#### 2. Stromanteil durch Displayupdates
+
+Annahme: 2 Displayupdates pro Stunde<br>
+`150mV / 20Ohm * 12s * 2 / 3600s`<br>
+ergibt **50uA**
+
+![pic](Images/DisplayUpdate.png)
+
+#### 3. Batterielebensdauer, Alkali-Mangan, AA, 2000mAh
+
+- 2 Displayupdates pro Stunde<br>
+`2000mAh / (42uA + 50uA)`<br>
+**ca. 2,5 Jahre**
+
+- 12 Displayupdates pro Stunde<br>
+`2000mAh / (42uA + 300uA)`<br>
+**ca. 8 Monate**
+
+![pic](Images/ePaper_Stromkalkulation.png)
+
+
 ### Bootloader
 
 [Bootloader](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284)
+
+
+### Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt
+
+- SMD Bauteile 0805 (mein Standard), nicht 0603
+- Auslegung auf 2x AA NiMH Eneloop o.ä., bis 2V leersaugen lassen<br>
+  dafür Reset Baustein BU4820 oder MCP111-195<br>
+  dafür ATmega1284P @4MHz -> safe operating area @2V
+- MCP111 von hinten bestückbar, für nachträgliche Änderungen
+- CC1101 ist momentan für Alveran's Gehäusevariante von hinten verkehrt rum bestückt, beim nächsten Mal ev. gleich auf die andere Seite designen<br>
+  Notwendig da bei Alveran's Gehäusevariante nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine sind
+- Config Taster als SMD Taster von hinten bestückbar
 
 
 ### Fuses
