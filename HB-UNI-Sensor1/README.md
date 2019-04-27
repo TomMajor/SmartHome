@@ -191,3 +191,12 @@ Für einen SHT10 Sensor (Feuchte):</br>
 
 Für einen VEML6070 Sensor (UV-Index):</br>
 keine zusätzliche Library nötig.
+
+
+## Links
+
+[FHEM Forum: Selbstbau HM_WDS10_TH_O mit Luftdruckmessung](https://forum.fhem.de/index.php/topic,20620.0.html)
+
+[FHEM Forum: AskSin++ Library](https://forum.fhem.de/index.php/topic,57486.0.html)
+
+[HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
