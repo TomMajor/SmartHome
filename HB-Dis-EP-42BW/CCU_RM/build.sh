@@ -22,5 +22,6 @@ chmod +x addon/update-check.cgi
 chmod +x addon/functions
 chmod +x addon/extra
 chmod +x rc.d/*
+
 tar -zcvf ../${DEVICE}-addon.tgz *
 cd ..
