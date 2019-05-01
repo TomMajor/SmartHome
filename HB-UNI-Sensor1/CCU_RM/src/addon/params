@@ -1,6 +1,6 @@
 #############################################################
 # Versionsnummer
-ADDON_VERSION=2.02
+ADDON_VERSION=2.03
 
 # ADDON_NAME, wird verwendet für das rc-Script sowie als Unterverzeichnis der Installation /usr/local/addons/... 
 ADDON_NAME=hb-uni-sensor1

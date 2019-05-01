@@ -26,7 +26,7 @@ case "$1" in
             mount -o remount,rw /
 
             check_ccu_fw_version
-            logToFile $LOGFILE "Found firmware version $MODEL.$VERSION.$BUILD - using patchversion $PATCHVERSION"
+            logToFile $LOGFILE "Found firmware version $FW_VERSION - using patchversion $PATCHVERSION"
 
             check_monit
             logToFile $LOGFILE "Found $MONIT monit process(es)"
@@ -127,7 +127,13 @@ case "$1" in
         mount -o remount,rw /
 
         cd ${ADDON_DIR}
+
+        # run AddOn spezific uninstall script
         ./uninstall >> $LOGFILE 2>>$ERRFILE
+        
+        # copy logfiles to tmp directory because we will delete ADDON_DIR
+        cp $LOGFILE /usr/local/tmp
+        cp $ERRFILE /usr/local/tmp
 
         cd /
         rm -rf $ADDON_DIR
