@@ -1,20 +1,60 @@
 
 ### Infos und AddOn zum 4,2" ePaper Display HB-Dis-EP-42BW
 
+<br>
+
+![pic](Images/Built-up/HB-Dis-EP-42BW_1.jpg)
+
 - Die Infos hier beziehen sich auf Jeromes Projekt ePaper Display HB-Dis-EP-42BW<br>
 [Original HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
 
-- Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben - Danke an Jerome für die Unterstützung bei dieser Arbeit<br>
+- Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben.<br>
+Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
 [Original JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon)
 
+- :exclamation: Bitte entweder Jeromes JP-HB-Devices-addon oder das unten verlinkte HB-Dis-EP-42BW AddOn installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
-### CCU2/CCU3/RaspberryMatic AddOn HB-Dis-EP-42BW
+---
+### AddOn HB-Dis-EP-42BW für CCU2/CCU3/RaspberryMatic 
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addon.tgz installieren.
 
 [HB-Dis-EP-42BW AddOn](CCU_RM)
 
 
+---
+### Aufbau - Alveran's Gehäusevariante
+
+- Danke an Marco (stan23) für seine professionelle Arbeit beim Platinendesign und die Bereitstellung der Platinen. :smile:
+
+- Danke an Alveran für seine professionelle Arbeit im 3D-Druck Bereich und die Bereitstellung des Gehäuses. :smile:
+
+- Es sind nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine vorhanden, eingestellt durch die im Foto zu sehenden 2mm Spacer.
+
+- Das CC1101 Modul wird deswegen von hinten, "verkehrt herum" bestückt.
+
+![pic](Images/Built-up/Board_0.jpg)
+
+![pic](Images/Built-up/Board_Spacer_Txt.jpg)
+
+![pic](Images/Built-up/Board_LED_Detail2_Txt.jpg)
+
+![pic](Images/Built-up/Board_LED_Detail1.jpg)
+
+![pic](Images/Built-up/Board_Rahmen_1.jpg)
+
+![pic](Images/Built-up/Board_Rahmen_2.jpg)
+
+![pic](Images/Built-up/Board_Rahmen_3.jpg)
+
+![pic](Images/Built-up/Basis_1.jpg)
+
+![pic](Images/Built-up/Basis_2.jpg)
+
+![pic](Images/Built-up/HB-Dis-EP-42BW_2.jpg)
+
+
+---
 ### Script Helper
 
 - Mit dem Script Helper kann man mit minimalem Aufwand aus HomeMatic Skripten heraus Texte an das ePaper Display senden.
@@ -71,26 +111,7 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 [Script Helper epaper42.tcl](Script_Helper)
 
 
-### Displaytest
-
-- testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein
-
-[DisplayTest_42BW](DisplayTest_42BW)
-
-
-### Aufbau
-
-*WIP*
-
-![pic](Images/IMG4.jpg)
-
-![pic](Images/IMG1.jpg)
-
-![pic](Images/IMG2.jpg)
-
-![pic](Images/IMG3.jpg)
-
-
+---
 ### Strommessung und Kalkulation der Batterielebensdauer
 
 Alle Messungen erfolgten über 20Ohm Shuntwiderstand.
@@ -130,23 +151,29 @@ ergibt **50uA**
 ![pic](Images/ePaper_Stromkalkulation.png)
 
 
+---
+### Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt
+
+- SMD Bauteile 0805 (mein Standard), nicht 0603
+- Auslegung auf Akkubetrieb 2x AA NiMH Eneloop o.ä., bis 2V leersaugen lassen<br>
+  dafür Reset Baustein BU4820 oder MCP111-195<br>
+  dafür ATmega1284P @4MHz -> safe operating area @2V<br>
+  ePaper ist bis 2,3V spezifiziert und funktioniert sicherlich auch noch bis 2V
+- MCP111/BU4820 von hinten bestückbar, für nachträgliche Änderungen an der Reset-Schwelle
+- CC1101 ist momentan für Alveran's Gehäusevariante von hinten verkehrt rum bestückt, beim nächsten Mal ev. gleich auf die andere Seite designen<br>
+  Notwendig da bei Alveran's Gehäusevariante nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine sind
+- Config Taster als SMD Taster von hinten bestückbar
+- Verpolschutz in der +Leitung mit P-Kanal Mosfet im SOT-23 Package
+- Lötpads für 3mm-Zweifarb-LED besser an die Pinform anpassen so dass diese ohne Nacharbeit auf dem Board aufsetzten kann
+
+
+---
 ### Bootloader
 
 [Bootloader](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284)
 
 
-### Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt
-
-- SMD Bauteile 0805 (mein Standard), nicht 0603
-- Auslegung auf 2x AA NiMH Eneloop o.ä., bis 2V leersaugen lassen<br>
-  dafür Reset Baustein BU4820 oder MCP111-195<br>
-  dafür ATmega1284P @4MHz -> safe operating area @2V
-- MCP111 von hinten bestückbar, für nachträgliche Änderungen
-- CC1101 ist momentan für Alveran's Gehäusevariante von hinten verkehrt rum bestückt, beim nächsten Mal ev. gleich auf die andere Seite designen<br>
-  Notwendig da bei Alveran's Gehäusevariante nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine sind
-- Config Taster als SMD Taster von hinten bestückbar
-
-
+---
 ### Fuses
 
 ![pic](Images/Fuses_1284p_1.png)
@@ -154,6 +181,17 @@ ergibt **50uA**
 ![pic](Images/Fuses_1284p_2.png)
 
 
+---
+### Displaytest
+
+- testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein.
+
+![pic](Images/Displaytest.jpg)
+
+[DisplayTest_42BW](DisplayTest_42BW)
+
+
+---
 ### Analyse und Dokumentation der Änderungen für den HB-Dis-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
 
 #### 1. patchsource - Diff Analyse
