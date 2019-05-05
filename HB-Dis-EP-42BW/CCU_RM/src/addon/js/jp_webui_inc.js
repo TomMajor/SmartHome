@@ -76,11 +76,18 @@ HbStatusDisplayDialogEPaper = Class.create(StatusDisplayDialog, {
       translateKey("iconHbError"),
       translateKey("iconHbBell"),
       translateKey("iconHbCalendar"),
-      translateKey("iconHbThermometer")
+      translateKey("iconHbThermometer"),
+      translateKey("iconHbBattery"),
+      translateKey("iconHbRadiatorHorizontal"),
+      translateKey("iconHbRadiatorVertical"),
+      translateKey("iconHbBathtub"),
+      translateKey("iconHbValve"),
+      translateKey("iconHbSprinkler")
+
     ];
 
     options += "<option name='option_NotUsed' value='-1'>" + translateKey("stringTableNotUsed") + "</option>";
-    for (var loop = 0; loop < 21; loop++) {
+    for (var loop = 0; loop < 27; loop++) {
       options += "<option name='option_"+loop+"' value='"+loop+"'>" + arOptionText[loop] + "</option>";
     }
     return options;

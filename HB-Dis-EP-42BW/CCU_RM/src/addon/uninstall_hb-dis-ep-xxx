@@ -3,11 +3,7 @@
 DEVICE="HB-DIS-EP-42BW"
 DEVICE_IMG=hb-dis-ep-42bw.png
 DEVICE_THUMB=hb-dis-ep-42bw_thumb.png
-FIRMWARE_FILE=/firmware/rftypes/hb-dis-ep-42bw_e_v1_0.xml
-
-indexFile="/www/rega/pages/index.htm"
-indexFileSearch="jp_webui_inc.js"
-sed -i "/${indexFileSearch}/d" $indexFile
+FIRMWARE_FILE=/firmware/rftypes/hb-dis-ep-42bw_*.xml
 
 devdescrFile="/www/config/devdescr/DEVDB.tcl"
 devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
@@ -16,6 +12,8 @@ sed -i "s/\($devdescrSearch\)//g" $devdescrFile
 webuiFile="/www/webui/webui.js"
 sed -i "/\($DEVICE\)/d" $webuiFile
 webuiSearch="HB_EP_SHOW_LINE"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_DISPLAY_REFRESH_WAIT_TIME"
 sed -i "/\($webuiSearch\)/d" $webuiFile
 webuiSearch="HB_EP_ALIGNMENT"
 sed -i "/\($webuiSearch\)/d" $webuiFile
@@ -27,16 +25,15 @@ webuiSearch="HB_EP_ALIGN_CENTER_ICON_LEFT"
 sed -i "/\($webuiSearch\)/d" $webuiFile
 webuiSearch="HB_EP_ALIGN_LEFT"
 sed -i "/\($webuiSearch\)/d" $webuiFile
-
-#TM
-mysearch="for (var line = 0; line < 10; line++) {"
-myinsert="for (var line = 0; line < 6; line++) {"
-if [ -z "`cat $webuiFile | grep \"$myinsert\"`" ]; then
-	sed -i "s/$mysearch/$myinsert/" $webuiFile
-fi
+webuiSearch="HBTEXTLINE_1"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HBTEXTLINE_2"
+sed -i "/\($webuiSearch\)/d" $webuiFile
 
 stringtable_deFile="/www/config/stringtable_de.txt"
 stringtable_deSearch="HB_EP_SHOW_LINE"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_DISPLAY_REFRESH_WAIT_TIME"
 sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
 stringtable_deSearch="HB_EP_ALIGNMENT"
 sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
@@ -48,9 +45,15 @@ stringtable_deSearch="HB_EP_ALIGN_CENTER_ICON_LEFT"
 sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
 stringtable_deSearch="HB_EP_ALIGN_LEFT"
 sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HBTEXTLINE_1"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HBTEXTLINE_2"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
 
 translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
 translate_deSearch="stringTableHbEpShowLine"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbDisplayRefreshWaitTime"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
 translate_deSearch="stringTableHbEpAlignment"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
@@ -62,6 +65,9 @@ translate_deSearch="stringTableHbEpAlignCenterIconLeft"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
 translate_deSearch="stringTableHbEpAlignLeft"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbTextLine"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
 translate_deFile="/www/webui/js/lang/de/translate.lang.extension.js"
 translate_deSearch="iconHbGarage"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
@@ -87,8 +93,26 @@ translate_deSearch="iconHbCalendar"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
 translate_deSearch="iconHbThermometer"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbBattery"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbRadiatorHorizontal"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbRadiatorVertical"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbBathtub"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbValve"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbSprinkler"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+indexFile="/www/rega/pages/index.htm"
+indexFileSearch="jp_webui_inc.js"
+sed -i "/${indexFileSearch}/d" $indexFile
 
 rm -f $FIRMWARE_FILE
+rm -f /www/config/easymodes/HB-DIS-EP-42BW_dev_master.tcl
+rm -f /www/config/easymodes/MASTER_LANG/HB-DIS-EP-42BW_HELP.js
 rm -f /www/config/img/devices/250/$DEVICE_IMG
 rm -f /www/config/img/devices/50/$DEVICE_THUMB
 

@@ -11,6 +11,7 @@ PATCHFILE1=/www/config/ic_common.tcl
 PATCHFILE2=/www/rega/esp/functions.fn
 PATCHFILE3=/www/rega/esp/side.inc
 PATCHFILE4=/www/rega/pages/tabs/admin/views/programs.htm
+PATCHFILE5=/www/webui/webui.js
 
 check_ccu_fw_version
 BACKUP_DIR=${ADDON_DIR}/backup_${FW_VERSION}
@@ -30,6 +31,7 @@ case "$1" in
             cp -af ${PATCHFILE2} ${BACKUP_DIR} >> $LOGFILE 2>>$ERRFILE
             cp -af ${PATCHFILE3} ${BACKUP_DIR} >> $LOGFILE 2>>$ERRFILE
             cp -af ${PATCHFILE4} ${BACKUP_DIR} >> $LOGFILE 2>>$ERRFILE
+            cp -af ${PATCHFILE5} ${BACKUP_DIR} >> $LOGFILE 2>>$ERRFILE
             touch ${BACKUP_DIR}/saved
         # sonst ist es wahrscheinlich eine Update-Installation
         # in diedem Fall die Originalfiles einfach zurückholen und (weiter unten) erneut patchen
@@ -39,6 +41,7 @@ case "$1" in
             cp -af ${BACKUP_DIR}/$(basename $PATCHFILE2) $(dirname $PATCHFILE2) >> $LOGFILE 2>>$ERRFILE
             cp -af ${BACKUP_DIR}/$(basename $PATCHFILE3) $(dirname $PATCHFILE3) >> $LOGFILE 2>>$ERRFILE
             cp -af ${BACKUP_DIR}/$(basename $PATCHFILE4) $(dirname $PATCHFILE4) >> $LOGFILE 2>>$ERRFILE
+            cp -af ${BACKUP_DIR}/$(basename $PATCHFILE5) $(dirname $PATCHFILE5) >> $LOGFILE 2>>$ERRFILE
         fi
 
         # Patches
@@ -99,6 +102,7 @@ case "$1" in
             cp -af ${BACKUP_DIR}/$(basename $PATCHFILE2) $(dirname $PATCHFILE2) >> $LOGFILE 2>>$ERRFILE
             cp -af ${BACKUP_DIR}/$(basename $PATCHFILE3) $(dirname $PATCHFILE3) >> $LOGFILE 2>>$ERRFILE
             cp -af ${BACKUP_DIR}/$(basename $PATCHFILE4) $(dirname $PATCHFILE4) >> $LOGFILE 2>>$ERRFILE
+            cp -af ${BACKUP_DIR}/$(basename $PATCHFILE5) $(dirname $PATCHFILE5) >> $LOGFILE 2>>$ERRFILE
         fi
         
         # remove device_xml links

@@ -42,8 +42,32 @@ fi
 
 webuiSearchBegin="elvST[[:space:]]*=[[:space:]]*new Array();"
 
+webuiInsertParam="KEY|HBTEXTLINE_1"
+webuiInsertValue="stringTableHbTextLine"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="KEY|HBTEXTLINE_2"
+webuiInsertValue="stringTableHbTextLine"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
 webuiInsertParam="HB_EP_SHOW_LINE"
 webuiInsertValue="stringTableHbEpShowLine"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_DISPLAY_REFRESH_WAIT_TIME"
+webuiInsertValue="stringTableHbDisplayRefreshWaitTime"
 webuiInsert="\n"
 webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
 if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
@@ -90,19 +114,27 @@ if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
 	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
 fi
 
-#TM
-mysearch="for (var line = 0; line < 6; line++) {"
-myinsert="for (var line = 0; line < 10; line++) {"
-if [ -z "`cat $webuiFile | grep \"$myinsert\"`" ]; then
-	sed -i "s/$mysearch/$myinsert/" $webuiFile
-fi
-
 
 ### Edit stringtable_de.txt ###
 stringtable_deFile="/www/config/stringtable_de.txt"
 
+stringtable_deInsert="KEY|HBTEXTLINE_1\t\${stringTableHbTextLine}"
+if [ -z "`cat $stringtable_deFile | grep \"KEY|HBTEXTLINE_1"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="KEY|HBTEXTLINE_2\t\${stringTableHbTextLine}"
+if [ -z "`cat $stringtable_deFile | grep \"KEY|HBTEXTLINE_2"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
 stringtable_deInsert="HB_EP_SHOW_LINE\t\${stringTableHbEpShowLine}"
 if [ -z "`cat $stringtable_deFile | grep \"HB_EP_SHOW_LINE"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_DISPLAY_REFRESH_WAIT_TIME\t\${stringTableHbDisplayRefreshWaitTime}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_DISPLAY_REFRESH_WAIT_TIME"`" ]; then
     echo -e $stringtable_deInsert >> $stringtable_deFile
 fi
 
@@ -135,8 +167,18 @@ fi
 translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
 translate_deSearch="\"dummy\" : \"\","
 
+translate_deInsert="\n    \"stringTableHbTextLine\" : \"Fixtext Nr.\&nbsp;\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbTextLine\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
 translate_deInsert="\n    \"stringTableHbEpShowLine\" : \"Linie nach Zeile\","
 if [ -z "`cat $translate_deFile | grep \"stringTableHbEpShowLine\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbDisplayRefreshWaitTime\" : \"Refresh-Wartezeit nach Empfang\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbDisplayRefreshWaitTime\"`" ]; then
 	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
 fi
 
@@ -215,6 +257,30 @@ if [ -z "`cat $translate_deFile | grep \"iconHbCalendar\"`" ]; then
 fi
 translate_deInsert="\n    \"iconHbThermometer\":\"Thermometer\","
 if [ -z "`cat $translate_deFile | grep \"iconHbThermometer\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbBattery\":\"Batterie\","
+if [ -z "`cat $translate_deFile | grep \"iconHbBattery\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbRadiatorHorizontal\":\"Heizk%F6rper quer\","
+if [ -z "`cat $translate_deFile | grep \"iconHbRadiatorHorizontal\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbRadiatorVertical\":\"Heizk%F6rper hoch\","
+if [ -z "`cat $translate_deFile | grep \"iconHbRadiatorVertical\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbBathtub\":\"Badewanne\","
+if [ -z "`cat $translate_deFile | grep \"iconHbBathtub\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbValve\":\"Wasserhahn\","
+if [ -z "`cat $translate_deFile | grep \"iconHbValve\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+translate_deInsert="\n    \"iconHbSprinkler\":\"Sprinkler\","
+if [ -z "`cat $translate_deFile | grep \"iconHbSprinkler\"`" ]; then
 	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
 fi
 
