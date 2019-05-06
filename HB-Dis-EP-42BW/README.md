@@ -19,6 +19,8 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addon.tgz installieren.
 
+![pic](Images/AddOn_HB-Dis-EP-42BW.png)
+
 [HB-Dis-EP-42BW AddOn](CCU_RM)
 
 
@@ -32,6 +34,14 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 - Es sind nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine vorhanden, eingestellt durch die im Foto zu sehenden 2mm Spacer.
 
 - Das CC1101 Modul wird deswegen von hinten, "verkehrt herum" bestückt.
+
+- Taster mit 5mm Bauhöhe<br>
+  [THT Taster 6x6x5 mm 4 Pin Kurzhubtaster Drucktaster Print Bedrahtet 6*6*5mm](https://www.ebay.de/itm/THT-Taster-6x6x5-mm-4-Pin-Kurzhubtaster-Drucktaster-Print-Bedrahtet-6-6-5mm-/112592788992)
+
+- LED, 3 mm, bedrahtet, 3-Pin, rot/grün<br>
+  [KBT L-115WEGW](https://www.reichelt.de/led-3-mm-bedrahtet-3-pin-rot-gruen-40-mcd-60-kbt-l-115wegw-p231039.html)
+  
+- 2 Schrauben M3x20 um die Frontblende von unten zu arretieren
 
 ![pic](Images/Built-up/Board_0.jpg)
 
@@ -233,3 +243,9 @@ ergibt **50uA**
 So lange sich nur die Stelle (Zeilennummer) in der Datei ändert, hat Patch kein Problem. Da ändere ich dann auch nix. Es kommt beim Patchen nur ein Hinweis, dass der Patch an anderer Stelle applied wurde.
 Ich muss nur dann was anfassen, wenn direkt an den für mich relevanten Abschnitten was geändert wurde.
 (jp112sdl)
+
+
+---
+### Lizenz
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
