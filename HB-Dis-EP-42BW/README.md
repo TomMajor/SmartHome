@@ -1,35 +1,32 @@
 
-### Infos und AddOn zum 4,2" ePaper Display HB-Dis-EP-42BW
-
-<br>
+# Infos und AddOn zum 4,2" ePaper Display HB-Dis-EP-42BW
 
 ![pic](Images/Built-up/HB-Dis-EP-42BW_1.jpg)
 
 - Die Infos hier beziehen sich auf Jeromes Projekt ePaper Display HB-Dis-EP-42BW<br>
 [Original HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
 
+
+## AddOn HB-Dis-EP-42BW für CCU2/CCU3/RaspberryMatic 
+
 - Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben.<br>
 Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
 [Original JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon)
 
-- :exclamation: Bitte entweder Jeromes JP-HB-Devices-addon oder das unten verlinkte HB-Dis-EP-42BW AddOn installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+- Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addon.tgz installieren.
 
----
-### AddOn HB-Dis-EP-42BW für CCU2/CCU3/RaspberryMatic 
-
-Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addon.tgz installieren.
+- [HB-Dis-EP-42BW AddOn](CCU_RM)
 
 ![pic](Images/AddOn_HB-Dis-EP-42BW.png)
 
-[HB-Dis-EP-42BW AddOn](CCU_RM)
+:exclamation: Bitte entweder Jeromes JP-HB-Devices-addon oder das hier verlinkte HB-Dis-EP-42BW AddOn installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
----
-### Aufbau - Alveran's Gehäusevariante
+## Aufbau - Alveran's Gehäusevariante
 
 - Danke an Marco (stan23) für seine professionelle Arbeit beim Platinendesign und die Bereitstellung der Platinen. :smile: <br>
   Danke an Alveran für seine professionelle Arbeit im 3D-Druck Bereich und die Bereitstellung des Gehäuses. :smile: <br>
-  Danke natürlich auch an papa für seine geniale AskSinPP Library und an Jerome für seine Pionierarbeit (to boldly go where no one has gone before :dizzy: ).
+  Danke natürlich auch an papa für seine geniale AskSinPP Library und an Jerome für seine Pionierarbeit bei den Homebrew Geräten (to boldly go where no one has gone before :dizzy: ).
 
 - Es sind nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine vorhanden, eingestellt durch die im Foto zu sehenden 2mm Spacer.
 
@@ -41,7 +38,7 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 - LED, 3 mm, bedrahtet, 3-Pin, rot/grün<br>
   [KBT L-115WEGW](https://www.reichelt.de/led-3-mm-bedrahtet-3-pin-rot-gruen-40-mcd-60-kbt-l-115wegw-p231039.html)
   
-- 2 Schrauben M3x20 um die Frontblende von unten zu arretieren
+- 2 Schrauben M3x20 um die Frontblende von unten zu arretieren.
 
 ![pic](Images/Built-up/Board_0.jpg)
 
@@ -64,8 +61,7 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 ![pic](Images/Built-up/HB-Dis-EP-42BW_2.jpg)
 
 
----
-### Script Helper
+## Script Helper
 
 - Mit dem Script Helper kann man mit minimalem Aufwand aus HomeMatic Skripten heraus Texte an das ePaper Display senden.
 - Installation:
@@ -121,12 +117,11 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addo
 [Script Helper epaper42.tcl](Script_Helper)
 
 
----
-### Strommessung und Kalkulation der Batterielebensdauer
+## Strommessung und Kalkulation der Batterielebensdauer
 
 Alle Messungen erfolgten über 20Ohm Shuntwiderstand.
 
-#### 1. Stromanteil durch Burst Detector / Wake-On-Receive (WOR)
+###### 1. Stromanteil durch Burst Detector / Wake-On-Receive (WOR)
 
 Schätzung: die Flächen in A lassen sich in B unterbringen, damit kann man für die Stromaufnahme<br>
 `190mV / 20Ohm * 1,56ms / 354ms` <br>
@@ -140,7 +135,7 @@ Burst Detector - Zyklus
 
 ![pic](Images/BurstDetectorZyklus.png)
 
-#### 2. Stromanteil durch Displayupdates
+###### 2. Stromanteil durch Displayupdates
 
 Annahme: 2 Displayupdates pro Stunde<br>
 `150mV / 20Ohm * 12s * 2 / 3600s`<br>
@@ -148,7 +143,7 @@ ergibt **50uA**
 
 ![pic](Images/DisplayUpdate.png)
 
-#### 3. Batterielebensdauer, Alkali-Mangan, AA, 2000mAh
+###### 3. Batterielebensdauer, Alkali-Mangan, AA, 2000mAh
 
 - 2 Displayupdates pro Stunde<br>
 `2000mAh / (42uA + 50uA)`<br>
@@ -161,8 +156,7 @@ ergibt **50uA**
 ![pic](Images/ePaper_Stromkalkulation.png)
 
 
----
-### Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt
+## Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt
 
 - SMD Bauteile 0805 (mein Standard), nicht 0603
 - Auslegung auf Akkubetrieb 2x AA NiMH Eneloop o.ä., bis 2V leersaugen lassen<br>
@@ -177,22 +171,19 @@ ergibt **50uA**
 - Lötpads für 3mm-Zweifarb-LED besser an die Pinform anpassen so dass diese ohne Nacharbeit auf dem Board aufsetzten kann
 
 
----
-### Bootloader
+## Bootloader
 
-[Bootloader](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284)
+[Bootloader ATmega1284P](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284_RC-Osc_or_Quarz)
 
 
----
-### Fuses
+## Fuses
 
 ![pic](Images/Fuses_1284p_1.png)
 
 ![pic](Images/Fuses_1284p_2.png)
 
 
----
-### Displaytest
+## Displaytest
 
 - testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein.
 
@@ -201,10 +192,9 @@ ergibt **50uA**
 [DisplayTest_42BW](DisplayTest_42BW)
 
 
----
-### Analyse und Dokumentation der Änderungen für den HB-Dis-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
+## Analyse und Dokumentation der Änderungen für den HB-Dis-EP-42BW Anteil im JP-HB-Devices-addon - Nur für Entwickler
 
-#### 1. patchsource - Diff Analyse
+###### 1. patchsource - Diff Analyse
 
 |Dir/File|Patch Methode<br>p patch<br>s sed|Diffs|Diffs benötigt für HB-Dis-EP-42BW|
 |---|---|---|---|
@@ -222,7 +212,7 @@ ergibt **50uA**
 |/www/webui/js/lang/de/translate.lang.extension.js| s|      1|      1|
 |/www/webui/js/lang/de/translate.lang.stringtable.js| s|    1|      1 (aber nur die 5x stringTableHbEpxx Einträge)|
 
-#### 2. src - benötigte Files
+###### 2. src - benötigte Files
 
 |Dir/File|benötigt für HB-Dis-EP-42BW|
 |---|---|
@@ -245,7 +235,6 @@ Ich muss nur dann was anfassen, wenn direkt an den für mich relevanten Abschnit
 (jp112sdl)
 
 
----
-### Lizenz
+## Lizenz
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.

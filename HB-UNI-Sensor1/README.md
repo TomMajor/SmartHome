@@ -1,7 +1,5 @@
 
-# Universalsensor (HB-UNI-Sensor1)
-
-<br>
+# Universalsensor HB-UNI-Sensor1
 
 - Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
 - modifizierbar für andere Sensoren
@@ -29,33 +27,29 @@ Beispiel:<br>
 `#define SENSOR_VEML6070`<br>
 
 
----
 ## Prototyp
 
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
 
 
----
 ## Schaltung
 
 ![pic](Images/Schaltung.png)
 
 
----
 ## Aussensensor
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
 ![pic](Images/HB-UNI-Sensor1_HW2.jpg)
 
-[Projekt](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
+[Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
 
 [Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
 
 [Verringerung Ruhestrom](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom)
 
 
----
 ## Messung der Batteriespannung
 
 ![pic](Images/Batteriemessung.png)
@@ -91,7 +85,6 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 ![pic](Images/BatterySensorLoad.png)
 
 
----
 ## RaspberryMatic/CCU2/CCU3 Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
@@ -99,7 +92,6 @@ Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addo
 ![pic](Images/HB-UNI-Sensor1_Install.png)
 
 
----
 ## RaspberryMatic WebUI
 
 Der angemeldete Sensor auf der RaspberryMatic:
@@ -111,7 +103,6 @@ Der angemeldete Sensor auf der RaspberryMatic:
 ![pic](Images/HB-UNI-Sensor1_DigitalerEingang.png)
 
 
----
 ## FHEM Installation
 
 Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM neustarten.
@@ -125,7 +116,6 @@ Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM ne
 FHEM user *kpwg*
 
 
----
 ## Benutzerspezifischen Sensordaten
 
 Ab Firmware 0x13 können zwei extra Byte 'customData' in der Payload mit benutzerspezifischen Daten belegt 
@@ -155,7 +145,6 @@ Nur so werden die xml Änderungen in die Zentrale übernommen.
 ![pic](Images/HB-UNI-Sensor1_CustomData.png)
 
 
----
 ## Bewegungsmelder mit PIR AS312 am digitalen Eingang
 
 - Der Inverter mit Transistor sorgt für minimalen Ruhestrom (keine Bewegung, PIR Ausgang Low, Transistor gesperrt) und trägt außerdem durch die Entkopplung zum sicheren Betrieb bei (keine unerwünschte Auslösung des PIR während des 868MHz Sendevorgangs an die Zentrale).
@@ -172,13 +161,11 @@ Nur so werden die xml Änderungen in die Zentrale übernommen.
 <br>
 
 
----
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
 [Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 
----
 ## Benötige Libraries
 
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
@@ -207,7 +194,6 @@ Für einen VEML6070 Sensor (UV-Index):</br>
 keine zusätzliche Library nötig.
 
 
----
 ## Links
 
 [FHEM Forum: Selbstbau HM_WDS10_TH_O mit Luftdruckmessung](https://forum.fhem.de/index.php/topic,20620.0.html)
@@ -217,8 +203,6 @@ keine zusätzliche Library nötig.
 [HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
 
 
----
 ## Lizenz
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
-

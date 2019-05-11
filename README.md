@@ -1,5 +1,6 @@
 
 # SmartHome
+
 **Various SmartHome Projects, Devices, Information and Examples including AskSinPP usage**
 
 
@@ -12,6 +13,7 @@
 |:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 / 3.37.x - 3.45.7|
 
 [comment]: # (:large_blue_circle:)
+
 
 ## Universalsensor HB-UNI-Sensor1
 
@@ -128,3 +130,8 @@
 <p align="center"><img src="Images/WDT_Frequenz_small.jpg?raw=true"/></p>
 
 -> [Projektseite WDT_Frequenz](https://github.com/TomMajor/SmartHome/tree/master/Info/WDT_Frequenz)
+
+
+## Lizenz
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
