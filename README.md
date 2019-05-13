@@ -20,7 +20,7 @@
 |**Ich kann keine Garantie für Fehlerfreiheit, (umfangreichen) Support, Realisierung von individuellen Wünschen oder zeitnahe Unterstützung für neue CCU-Firmwares geben!**|
 |**Die Verwendung erfolgt auf eigene Gefahr (z.B. unerwünschte Nebeneffekte in der CCU-Firmware).**|
 
-[comment]: # (:large_blue_circle:)
+<br>
 
 
 ## Universalsensor HB-UNI-Sensor1
@@ -31,7 +31,7 @@
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
 - Der Status eines digitalen Eingangs kann mit übertragen werden.
 
-<p align="center"><img src="Images/HB-UNI-Sensor1_HW1_small.jpg?raw=true"/></p>
+<p align="center"><img src="Images/HB-UNI-Sensor1_HW3_small.jpg?raw=true"/></p>
 
 -> [Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 
@@ -143,3 +143,5 @@
 ## Lizenz
 
 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
+
+[comment]: # (:large_blue_circle:)
