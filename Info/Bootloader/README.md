@@ -4,7 +4,7 @@
 
 ## Standard Bootloader ATmega328P RC-Oszillator oder Quarz 8MHz
 
-- für RC-Oszillator oder Quarz 8MHz verwendbar, der Unterschied zwischen RC-Oszillator und Quarz steckt nur in einer Fuse
+- für RC-Oszillator oder Quarz 8MHz verwendbar, der Unterschied zwischen RC-Oszillator und Quarz steckt nur in der Fuse SUT_CKSEL, siehe Bild unten
 - Standard ATmega328P Bootloader (ATmegaBOOT), 8MHz: *ATmegaBOOT_168_atmega328_pro_8MHz.hex*
 - mit früher Watchdog-Abschaltung, damit kann man in eigenen Sketchen den WD-Reset nutzen: *ATmegaBOOT_168_atmega328_pro_8MHz_wdt.hex*
 - in einem ProMini 8MHz aus China enthaltener Bootloader: *ProMiniChina8MHz_OriginalBootloader.hex*

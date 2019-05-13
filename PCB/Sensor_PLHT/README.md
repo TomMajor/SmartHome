@@ -43,7 +43,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 ![pic](Images/Bottom.png)
 
-![pic](Images/HB-UNI-Sensor1_HW1.jpg)
+![pic](Images/HB-UNI-Sensor1_HW3.jpg)
 
 
 ## Bauelemente
@@ -132,6 +132,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 - die LED Pads als 1206 vorsehen - 0805 lässt sich auf 1206 gut auflöten, aber 1206 auf 0805 ist schon grenzwertig (kpwg)
 - ich verfolge etwas die Diskussion über GND bei der Antennen des CC1101. Um da flexibler zu sein (also eventuell die Durchkontaktierung aufbohren zum Trennen) ist es eventuell besser, sich das GND für den T1 aus einer getrennten Durchkontaktierung und nicht aus dem linken GND des CC1101 zu holen. (harvey)
 - ISP-Header zum bequemen initialen Prog. des Bootloaders - noch unklar ob im Layout machbar (TomMajor, kpwg)
+- Den CC1101 1,5mm vom Rand weg versetzen damit der Klarsichtdeckel des GAINTA G201 Gehäuses besser passt (TomMajor)
 
 
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones

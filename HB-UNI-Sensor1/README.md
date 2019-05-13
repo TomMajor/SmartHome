@@ -37,11 +37,17 @@ Beispiel:<br>
 ![pic](Images/Schaltung.png)
 
 
-## Aussensensor
+## Aufbau Aussensensor
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
 ![pic](Images/HB-UNI-Sensor1_HW2.jpg)
+
+![pic](Images/HB-UNI-Sensor1_HW3.jpg)
+
+![pic](Images/HB-UNI-Sensor1_HW4.jpg)
+
+![pic](Images/HB-UNI-Sensor1_HW5.jpg)
 
 [Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
 
@@ -161,11 +167,6 @@ Nur so werden die xml Änderungen in die Zentrale übernommen.
 <br>
 
 
-## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
-
-[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
-
-
 ## Benötige Libraries
 
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
@@ -201,6 +202,11 @@ keine zusätzliche Library nötig.
 [FHEM Forum: AskSin++ Library](https://forum.fhem.de/index.php/topic,57486.0.html)
 
 [HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
+
+
+## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+
+[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 
 ## Lizenz

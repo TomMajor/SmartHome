@@ -12,6 +12,14 @@
 |:heavy_check_mark:|HB-SEN-LJet|lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 / 3.37.x - 3.45.7|
 |:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 / 3.37.x - 3.45.7|
 
+
+## Disclaimer
+
+|Bei meinen SmartHome-Geräten und AddOn handelt es sich um reine Hobby-Projekte.|
+|---|
+|**Ich kann keine Garantie für Fehlerfreiheit, (umfangreichen) Support, Realisierung von individuellen Wünschen oder zeitnahe Unterstützung für neue CCU-Firmwares geben!**|
+|**Die Verwendung erfolgt auf eigene Gefahr (z.B. unerwünschte Nebeneffekte in der CCU-Firmware).**|
+
 [comment]: # (:large_blue_circle:)
 
 

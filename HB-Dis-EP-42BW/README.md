@@ -26,7 +26,7 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
 
 - Danke an Marco (stan23) für seine professionelle Arbeit beim Platinendesign und die Bereitstellung der Platinen. :smile: <br>
   Danke an Alveran für seine professionelle Arbeit im 3D-Druck Bereich und die Bereitstellung des Gehäuses. :smile: <br>
-  Danke natürlich auch an papa für seine geniale AskSinPP Library und an Jerome für seine Pionierarbeit bei den Homebrew Geräten (to boldly go where no one has gone before :dizzy: ).
+  Danke natürlich auch an papa für seine geniale AskSinPP Library und an Jerome für seine Pionierarbeit bei den Homebrew Geräten.
 
 - Es sind nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine vorhanden, eingestellt durch die im Foto zu sehenden 2mm Spacer.
 
