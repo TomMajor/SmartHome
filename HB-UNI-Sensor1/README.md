@@ -49,6 +49,8 @@ Beispiel:<br>
 
 ![pic](Images/HB-UNI-Sensor1_HW5.jpg)
 
+![pic](Images/HB-UNI-Sensor1_HW6.jpg)
+
 [Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
 
 [Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)

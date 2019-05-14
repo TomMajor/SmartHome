@@ -6,11 +6,11 @@
 
 ## AddOn Kompatibilität
 
-| |AddOn|Status|
-|---|---|---|
-|:heavy_check_mark:|HB-UNI-Sensor1|lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 / 3.37.x - 3.45.7|
-|:heavy_check_mark:|HB-SEN-LJet|lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 / 3.37.x - 3.45.7|
-|:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic Firmware 2.31.x - 2.45.6 / 3.37.x - 3.45.7|
+| |AddOn|Status|letzte getestete Firmware (RaspberryMatic)|
+|---|---|---|---|
+|:heavy_check_mark:|HB-UNI-Sensor1|lauffähig unter CCU / RaspberryMatic|3.45.7.20190511|
+|:heavy_check_mark:|HB-SEN-LJet|lauffähig unter CCU / RaspberryMatic|3.45.7.20190511|
+|:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic|3.45.7.20190511|
 
 
 ## Disclaimer
