@@ -3,7 +3,7 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.43
+# Version 0.44
 # 2019-04-26 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/3.0/
 # You are free to Share & Adapt under the following terms:
@@ -162,7 +162,10 @@ proc decodeSpecialChar { numHex } {
     	f6 		{ return "7C" }     # ö
     	fc 		{ return "7D" }     # ü
     	df 		{ return "7E" }     # ß
-        
+
+        28              { return "28" }     # (
+        29              { return "29" }     # )
+
     	default {
             #debugLog "Unknown: $numHex"
             return "2E" 
