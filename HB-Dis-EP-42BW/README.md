@@ -125,7 +125,7 @@ Alle Messungen erfolgten über 20Ohm Shuntwiderstand.
 
 Schätzung: die Flächen in A lassen sich in B unterbringen, damit kann man für die Stromaufnahme<br>
 `190mV / 20Ohm * 1,56ms / 354ms` <br>
-ansetzen, ergibt ca. **42uA**
+ansetzen, ergibt **42uA**
 
 Burst Detector - ein Puls
 
@@ -138,20 +138,28 @@ Burst Detector - Zyklus
 ###### 2. Stromanteil durch Displayupdates
 
 Annahme: 2 Displayupdates pro Stunde<br>
-`150mV / 20Ohm * 12s * 2 / 3600s`<br>
-ergibt **50uA**
+Die Refreshzeit des ePaper verkürzt sich etwas wenn man das define **GxGDEW042T2_PAGES** in GxGDEW042T2.h von 20 auf 3 verringert, beim ATmega1284P mit seinen 16kB RAM kann man das machen.<br>
+[Info im Forum](https://homematic-forum.de/forum/viewtopic.php?f=76&t=48153&start=330#p505853)
+<br>
 
-![pic](Images/DisplayUpdate.png)
+`20 Pages: 150mV / 20Ohm * 12s * 2 / 3600s`<br>
+ergibt **50uA**<br><br>
+`3 Pages: 150mV / 20Ohm * 9,4s * 2 / 3600s`<br>
+ergibt **39uA**
+
+![pic](Images/DisplayUpdate_Buffer20.png)
+
+![pic](Images/DisplayUpdate_Buffer3.png)
 
 ###### 3. Batterielebensdauer, Alkali-Mangan, AA, 2000mAh
 
 - 2 Displayupdates pro Stunde<br>
-`2000mAh / (42uA + 50uA)`<br>
-**ca. 2,5 Jahre**
+`2000mAh / (42uA + 39uA)`<br>
+**ca. 2,8 Jahre**
 
 - 12 Displayupdates pro Stunde<br>
-`2000mAh / (42uA + 300uA)`<br>
-**ca. 8 Monate**
+`2000mAh / (42uA + 234uA)`<br>
+**ca. 10 Monate**
 
 ![pic](Images/ePaper_Stromkalkulation.png)
 
