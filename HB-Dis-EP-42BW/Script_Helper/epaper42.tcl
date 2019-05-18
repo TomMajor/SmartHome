@@ -162,7 +162,10 @@ proc decodeSpecialChar { numHex } {
     	f6 		{ return "7C" }     # ö
     	fc 		{ return "7D" }     # ü
     	df 		{ return "7E" }     # ß
-        
+
+        28              { return "28" }     # (
+        29              { return "29" }     # )
+
     	default {
             #debugLog "Unknown: $numHex"
             return "2E" 
