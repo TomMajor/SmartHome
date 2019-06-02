@@ -73,43 +73,49 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
 ```
 - Anwendung:
 ```
-    usage: epaper42 serial /line text [icon number] [/nextline text [icon number]] ...
-    
-    Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
-    Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
-    Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
-    Die im WebUI vordefinierten Texte werden mit dem Code §xx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
-    Der 3. Parameter ist die Iconnummer oder den Parameter weglassen wenn man kein Icon in der Zeile haben will.
-    Die Iconnummer braucht nur eine Stelle bei Icons < 10.
-    CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
-    
-    Beispiel 1 - variabler Text in einer Zeile:
-    Zeigt den Text 'Test ABC ÄÖÜäöüß' in Zeile 5 mit Icon 1 auf dem ePaper mit Serial JPDISEP000 an:
-    string displayCmd = "JPDISEP000 /5 'Test ABC ÄÖÜäöüß' 1";
-    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
-    oder
-    system.Exec("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
-    
-    Beispiel 2 - variabler Text in mehreren Zeilen:
-    Zeigt 3 Zeilen Text in den Zeilen 5, 7, 10 an, dabei Zeile 5 und 10 mit Icons, 7 ohne Icon
-    string displayCmd = "JPDISEP000 /5 'Test ABC 123' 1 /7 Textzeile_7 /10 Textzeile_10 12";
-    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
-    
-    Beispiel 3 - Sensorwert
-    Zeigt die Temperatur vom Gerät UNISENS077 in Zeile 2 an
-    integer temp = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # "°C";
-    string displayCmd = "JPDISEP000 /2 'Temperatur " # temp # "'";
-    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
-    
-    Beispiel 4 - vordefinierte Texte
-    Zeigt den vordef. Text 4 in Zeile 1, den vordef. Text 19 in Zeile 9 und den vordef. Text 20 in Zeile1 10 an, Zeile 1 zusätzlich mit Icon
-    string displayCmd = "JPDISEP000 /1 §04 6 /9 §19 /10 §20";
-    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
-    
-    Beispiel 5 - variable und vordefinierte Texte gemischt in einer Zeile
-    Zeigt den vordef. Text 2 gemischt mit variablen Text in Zeile 1 an
-    string displayCmd = "JPDISEP000 /1 abcd§02efgh";
-    dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  usage: epaper42 serial /line text [icon number] [/nextline text [icon number]] ...
+  
+  * Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
+  * Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
+  * Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
+  * Die im WebUI vordefinierten Texte 1..20 werden mit dem Code @txx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
+  * Der 3. Parameter ist die Iconnummer oder einfach den Parameter weglassen wenn man kein Icon in der Zeile haben will.
+      Die Iconnummer braucht nur eine Stelle bei Icons < 10.
+  * CUxD/CMD_EXEC wie in den Bsp. braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
+  * Ab Version 0.50 kann man für Texte die x-Position angeben um z.B. eine Darstellung in Spalten zu erreichen.
+      Dies geht mit @pxx, xx gibt hier die Anfangsposition des Textes in % der Displaybreite an.
+      Das Feature x-Position ist an 2 Bedingungen geknüpft:
+      1) Die Textzeile muss in den Geräteeinstellungen auf 'linksbündig' eingestellt sein.
+      2) Der Text muss mit einem solchen x-Positionscode @pxx anfangen um den Textanfang eindeutig zu bestimmen.
+      Falls der Text x-Positionscodes enthält wird kein Icon angezeigt.
+  
+  Beispiel 1 - variabler Text in einer Zeile:
+  Zeigt den Text 'Test ABC ÄÖÜäöüß' in Zeile 5 mit Icon 1 auf dem ePaper mit Serial JPDISEP000 an:
+  string displayCmd = "JPDISEP000 /5 'Test ABC ÄÖÜäöüß' 1";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  oder
+  system.Exec("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  
+  Beispiel 2 - variabler Text in mehreren Zeilen:
+  Zeigt 3 Zeilen Text in den Zeilen 5, 7, 10 an, dabei Zeile 5 und 10 mit Icons, 7 ohne Icon
+  string displayCmd = "JPDISEP000 /5 'Test ABC 123' 1 /7 Textzeile_7 /10 Textzeile_10 12";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  
+  Beispiel 3 - Sensorwert
+  Zeigt die Temperatur vom Gerät UNISENS077 in Zeile 2 an
+  string temp = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # "°C";
+  string displayCmd = "JPDISEP000 /2 'Temperatur " # temp # "'";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  
+  Beispiel 4 - vordefinierte Texte
+  Zeigt den vordef. Text 4 in Zeile 1, den vordef. Text 19 in Zeile 9 und den vordef. Text 20 in Zeile1 10 an, Zeile 1 zusätzlich mit Icon
+  string displayCmd = "JPDISEP000 /1 @t04 6 /9 @t19 /10 @t20";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  
+  Beispiel 5 - variable und vordefinierte Texte gemischt in einer Zeile
+  Zeigt den vordef. Text 2 gemischt mit variablen Text in Zeile 1 an
+  string displayCmd = "JPDISEP000 /1 abcd@t02efgh";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 ```
 
 ![pic](Images/ScriptExamples.jpg)

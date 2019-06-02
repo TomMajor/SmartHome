@@ -3,21 +3,27 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.44
-# 2019-04-26 Tom Major (Creative Commons)
-# https://creativecommons.org/licenses/by-nc-sa/3.0/
+# Version 0.50
+# 2019-05-31 Tom Major (Creative Commons)
+# https://creativecommons.org/licenses/by-nc-sa/4.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
 #
 # usage: epaper42 serial /line text [icon number] [/nextline text [icon number]] ...
 #
-# Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
-# Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
-# Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
-# Die im WebUI vordefinierten Texte werden mit dem Code §xx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
-# Der 3. Parameter ist die Iconnummer oder den Parameter weglassen wenn man kein Icon in der Zeile haben will.
-# Die Iconnummer braucht nur eine Stelle bei Icons < 10.
-# CUxD/CMD_EXEC braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
+# * Der erste Parameter ist die Seriennummer des Displays, z.B. JPDISEP000
+# * Jede neue Zeile beginnt mit einem / gefolgt von der Zeilennummer.
+# * Danach folgt der anzuzeigende Text, enthält der Text Leerzeichen muss man den ganzen Text in '' einschliessen, andernfalls geht es auch ohne.
+# * Die im WebUI vordefinierten Texte 1..20 werden mit dem Code @txx erzeugt, wobei xx zwischen 01 und 20 liegen kann und immer 2 Stellen haben muss.
+# * Der 3. Parameter ist die Iconnummer oder einfach den Parameter weglassen wenn man kein Icon in der Zeile haben will.
+#     Die Iconnummer braucht nur eine Stelle bei Icons < 10.
+# * CUxD/CMD_EXEC wie in den Bsp. braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
+# * Ab Version 0.50 kann man für Texte die x-Position angeben um z.B. eine Darstellung in Spalten zu erreichen.
+#     Dies geht mit @pxx, xx gibt hier die Anfangsposition des Textes in % der Displaybreite an.
+#     Das Feature x-Position ist an 2 Bedingungen geknüpft:
+#     1) Die Textzeile muss in den Geräteeinstellungen auf 'linksbündig' eingestellt sein.
+#     2) Der Text muss mit einem solchen x-Positionscode @pxx anfangen um den Textanfang eindeutig zu bestimmen.
+#     Falls der Text x-Positionscodes enthält wird kein Icon angezeigt.
 #
 # Beispiel 1 - variabler Text in einer Zeile:
 # Zeigt den Text 'Test ABC ÄÖÜäöüß' in Zeile 5 mit Icon 1 auf dem ePaper mit Serial JPDISEP000 an:
@@ -39,12 +45,12 @@
 #
 # Beispiel 4 - vordefinierte Texte
 # Zeigt den vordef. Text 4 in Zeile 1, den vordef. Text 19 in Zeile 9 und den vordef. Text 20 in Zeile1 10 an, Zeile 1 zusätzlich mit Icon
-# string displayCmd = "JPDISEP000 /1 §04 6 /9 §19 /10 §20";
+# string displayCmd = "JPDISEP000 /1 @t04 6 /9 @t19 /10 @t20";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
 # Beispiel 5 - variable und vordefinierte Texte gemischt in einer Zeile
 # Zeigt den vordef. Text 2 gemischt mit variablen Text in Zeile 1 an
-# string displayCmd = "JPDISEP000 /1 abcd§02efgh";
+# string displayCmd = "JPDISEP000 /1 abcd@t02efgh";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
 # =================================================
@@ -81,29 +87,37 @@ proc main { argc argv } {
                 # fixed or variable text, can be combined in one line
                 for { set n 0 } { $n < [string length $TEXT] } { incr n } {
                     set char [string index $TEXT $n]
+                    set nextchar [string index $TEXT [expr $n + 1]]
                     scan $char "%c" numDec
                     set numHex [format %x $numDec]
-                    if { $numHex == "a7" } {	# §, code for fixed text, 2 digits required
-                        set indexFixText [string range $TEXT [expr $n + 1] [expr $n + 2]]
-                        if { [string length $indexFixText] == 2 } {
+                    # check for fixed text code @txx, 2 digits required!
+                    # pass thru all other @yxx codes!
+                    if { ($numDec == 64) && (($nextchar == "t") || ($nextchar == "c")) } {
+                        set numberStr [string range $TEXT [expr $n + 2] [expr $n + 3]]
+                        if { [string length $numberStr] == 2 } {
                             # this scan here is required to extract numbers like 08 or 09 correctly, otherwise the number is treated as octal which will result in errors
-                            scan $indexFixText "%d" textCode
-                            if { ($textCode >= 1) &&
-                                 ($textCode <= 20) } {
-                                set textDec [expr 127 + $textCode]
+                            scan $numberStr "%d" number
+                            if { ($nextchar == "t") && ($number >= 1) && ($number <= 20) } {
+                                # @t01..@t20
+                                set textDec [expr 127 + $number]
                                 set textHex [format %x $textDec]
                                 append txtOut "0x$textHex,"
+                                incr n 3
+                                continue
+                            } elseif { ($nextchar == "c") && ($number == 0) } {
+                                # @c00 -> "/"
+                                append txtOut "0x2F,"
+                                incr n 3
+                                continue
                             }
                         }
-                        incr n 2
-                    } else { # variable text
-                        # hex 30..5A, 61..7A
-                        if { ($numDec >= 48 && $numDec <= 90) ||
-                            ($numDec >= 97 && $numDec <= 122) } {
-                            append txtOut "0x$numHex,"
-                        } else {
-                            append txtOut "0x[decodeSpecialChar $numHex],"
-                        }
+                    }
+                    # variable text, hex 30..5A, 61..7A
+                    if { ($numDec >= 48 && $numDec <= 90) ||
+                         ($numDec >= 97 && $numDec <= 122) } {
+                        append txtOut "0x$numHex,"
+                    } else {
+                        append txtOut "0x[encodeSpecialChar $numHex],"
                     }
                 }
 
@@ -140,31 +154,30 @@ proc main { argc argv } {
 }
 
 # -------------------------------------
-proc decodeSpecialChar { numHex } {
+proc encodeSpecialChar { numHex } {
 	switch $numHex {
     
-    	20 		{ return "20" }     # space
-    	21 		{ return "21" }     # !
-    	25 		{ return "25" }     # %
-    	27 		{ return "27" }     # =
-    	2a 		{ return "2A" }     # *
-    	2b 		{ return "2B" }     # +
-    	2c 		{ return "2C" }     # ,
-    	2d 		{ return "2D" }     # -
-    	2e 		{ return "2E" }     # .
-    	b0 		{ return "B0" }     # °
-    	5f 		{ return "5F" }     # _
+        20      { return "20" }     # space
+        21      { return "21" }     # !
+        25      { return "25" }     # %
+        27      { return "27" }     # =
+        28      { return "28" }     # (
+        29      { return "29" }     # )
+        2a      { return "2A" }     # *
+        2b      { return "2B" }     # +
+        2c      { return "2C" }     # ,
+        2d      { return "2D" }     # -
+        2e      { return "2E" }     # .
+        b0      { return "B0" }     # °
+        5f      { return "5F" }     # _
 
-    	c4 		{ return "5B" }     # Ä
-    	d6 		{ return "23" }     # Ö
-    	dc 		{ return "24" }     # Ü
-    	e4 		{ return "7B" }     # ä
-    	f6 		{ return "7C" }     # ö
-    	fc 		{ return "7D" }     # ü
-    	df 		{ return "7E" }     # ß
-
-        28              { return "28" }     # (
-        29              { return "29" }     # )
+        c4      { return "5B" }     # Ä
+        d6      { return "23" }     # Ö
+        dc      { return "24" }     # Ü
+        e4      { return "7B" }     # ä
+        f6      { return "7C" }     # ö
+        fc      { return "7D" }     # ü
+        df      { return "7E" }     # ß
 
     	default {
             #debugLog "Unknown: $numHex"
