@@ -83,6 +83,17 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 | Messung Batteriespannung | Messung unter Last (Schutz vor "Babbling Idiot") | R2 30, R3 10, T1, R4 bestücken, SJ2 offen, R2/R3 an gewünschten Laststrom anpassen |
 
 
+## Bestellung der Platine
+
+Wer den Sensor nachbauen möchte, aber noch nie eine Platine bestellt hat:
+- Es gibt unzählige Hersteller für Leiterplatten. Früher habe ich oft in Deutschland bestellt, bei Firmen wie Beta Layout und ähnlichen. Seit ein paar Jahren ist die Direktbestellung in China ziemlich unkompliziert und preislich sehr attraktiv geworden, deswegen bestelle ich mittlerweile meistens dort.<br>
+Gute Erfahrungen habe ich z.B. mit JLCPCB gemacht, die Platinen kosten meisten nur ein paar Euro und sind innerhalb von 2-3 Wochen da.
+- Die Gerberdateien können direkt beim Anbieter hoch geladen werden und man sieht eine Vorschau wie die Platine aussehen wird.
+- Im folgenden Bild sind die Bestellparameter für die PLHT Sensor Platine zu sehen:
+
+![pic](Images/Bestellung_JLCPCB.png)
+
+
 ## Flashen
 
 ###### 1. Bootloader (nur bei Verwendung eines ATmega328P Chips)
