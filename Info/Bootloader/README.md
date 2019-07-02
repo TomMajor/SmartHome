@@ -39,6 +39,8 @@
 [Engbedded Atmel AVR® Fuse Calculator](http://www.engbedded.com/fusecalc/)
 
 
+## Beispiele für avrdude Kommandos
+
 ###### Fuses lesen
     avrdude -c stk500 -p m328p -P COM5 -b 115200 -U lfuse:r:lowfuse.hex:h -U hfuse:r:highfuse.hex:h -U efuse:r:extfuse.hex:h
 
@@ -58,7 +60,7 @@
 <br>
 
 
-## AVR ISP 6-polig
+## Pinbelegung AVR ISP 6-polig
 
 ![pic](Images/AVR_ISP.jpg)
 <br>
