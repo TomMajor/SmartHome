@@ -124,6 +124,18 @@ Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM ne
 FHEM user *kpwg*
 
 
+## Trägheit verschiedener Temperatursensoren
+
+Der Temperaturwert des BME280 reagiert träger als andere Temperatursensoren, dies liegt m.E. an der engen thermischen Kopplung zwischen aufgelötetem Chip und Platine und der daraus resultierenden thermischen Trägheit des Systems.<br>
+Temperatursensoren die nur über ihre Anschlüsse in der Luft hängen reagieren schneller.<br><br>
+Ich empfehle daher für die Temperaturmessung einen zusätzlichen DS18x20 zu verbauen und die Temperatur des BME280 zu ignorieren. Im Sketch ist das entsprechend berücksichtigt.<br>
+<br>
+Vergleich der BME280 / DS18B20 / SHT10 Temperaturwerte bei einem 6K Sprung<br>
+Quelle: FHEM user *Gernott*<br>
+*"Links war der BME280-breakout horizontal positioniert, recht vertikal über eine Kante stehend. Dort wir der Sensor offenbar besser angeströmt und reagiert dann deutlich schneller. Der SHT hing ohne breakout dünn verdrahtet im Raum und reagiert ziemlich schnell."*
+![pic](Images/Vergleich_Temperatursensoren.png)
+
+
 ## Benutzerspezifischen Sensordaten
 
 Ab Firmware 0x13 können zwei extra Byte 'customData' in der Payload mit benutzerspezifischen Daten belegt 
@@ -156,7 +168,7 @@ Nur so werden die xml Änderungen in die Zentrale übernommen.
 ## Bewegungsmelder mit PIR AS312 am digitalen Eingang
 
 - Der Inverter mit Transistor sorgt für minimalen Ruhestrom (keine Bewegung, PIR Ausgang Low, Transistor gesperrt) und trägt außerdem durch die Entkopplung zum sicheren Betrieb bei (keine unerwünschte Auslösung des PIR während des 868MHz Sendevorgangs an die Zentrale).
-- Die Bilder demonstrieren die Ideen und den konstruktiven Aufbau von user *fhemfreund*, getrimmt auf minimale Gerätegröße. Danke für den Ideenaustausch und das zur Verfügung gestellte Gerät. :smile:
+- Die Bilder demonstrieren die Ideen und den konstruktiven Aufbau von FHEM user *fhemfreund*, getrimmt auf minimale Gerätegröße. Danke für den Ideenaustausch und das zur Verfügung gestellte Gerät. :smile:
 - Mit der RTC Option beträgt der Ruhestrom inklusive PIR nur ca. 14uA und es besteht somit die Hoffnung dass die eingesetzte Batterie CR2450 möglichst lange hält.
 
 ![pic](PIR/AM312.png)

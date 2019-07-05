@@ -119,15 +119,15 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
   
   Beispiel 6 - x-Position
   Zeigt den vordef. Text 9 (Außen) bei 3% x-Position, Temperatur bei 45% x-Position, Feuchte bei 78% x-Position an
-  string tempOut = dom.GetObject('BidCos-RF.UNISENS001:1.TEMPERATURE').Value().ToString(1) # " °C";
-  string humOut = dom.GetObject('BidCos-RF.UNISENS001:1.HUMIDITY').Value().ToString(0) # " %";
+  string tempOut = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # " °C";
+  string humOut = dom.GetObject('BidCos-RF.UNISENS077:1.HUMIDITY').Value().ToString(0) # " %";
   string displayCmd = "JPDISEP000 /3 '@p03@t09@p45" # tempOut # "@p78" # humOut # "'";
   dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 ```
 
 - Das Feature x-Position ist an 2 Bedingungen geknüpft:<br>
-  1) Die Textzeile muss in den Geräteeinstellungen auf **linksbündig** eingestellt sein.<br>
-  2) Der Text muss mit einem solchen x-Positionscode @pxx **anfangen** um den Textanfang eindeutig zu bestimmen und das Feature für diese Zeile zu aktivieren.<br><br>
+  1. Die Textzeile muss in den Geräteeinstellungen auf **linksbündig** eingestellt sein.<br>
+  2. Der Text muss mit einem solchen x-Positionscode @pxx **anfangen** um den Textanfang eindeutig zu bestimmen und das Feature für diese Zeile zu aktivieren.<br><br>
 
 ![pic](Images/ScriptExamples.jpg)
 
