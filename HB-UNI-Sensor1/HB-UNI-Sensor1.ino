@@ -114,7 +114,7 @@ using namespace as;
 
 #ifdef SENSOR_DIGINPUT
 #include "Sensors/Sens_DIGINPUT.h"    // HB-UNI-Sensor1 custom sensor class
-#define DIGINPUT_PIN A0
+#define DIGINPUT_PIN A1
 Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (Interrupt event)
 #endif
 
