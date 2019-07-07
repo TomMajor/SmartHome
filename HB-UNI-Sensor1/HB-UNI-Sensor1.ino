@@ -1,4 +1,3 @@
-
 //---------------------------------------------------------
 // HB-UNI-Sensor1
 // Version 1.12
@@ -46,6 +45,7 @@
 //#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
 //#define SENSOR_VEML6070
+//#define SENSOR_VEML6075
 
 //---------------------------------------------------------
 // Über diese defines wird die Clock festgelegt
@@ -120,6 +120,10 @@ Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (I
 
 #ifdef SENSOR_VEML6070
 #include "Sensors/Sens_VEML6070.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
+#ifdef SENSOR_VEML6075
+#include "Sensors/Sens_VEML6075.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef CLOCK_SYSCLOCK
@@ -306,6 +310,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_VEML6070
     Sens_VEML6070<> veml6070;
 #endif
+#ifdef SENSOR_VEML6075
+    Sens_VEML6075 veml6075;
+#endif
 
 public:
     WeatherChannel()
@@ -414,10 +421,18 @@ public:
 
 #ifdef SENSOR_VEML6070
         veml6070.measure();
-        // Beispiel custom payload, 4bit für UV-Index
+        // Beispiel custom payload, 4bit für UV-Index (integer 0..11)
         uint8_t uvi = veml6070.uvIndex();
         customData &= 0xFFF0;
         customData |= (uvi & 0x0F);
+#endif
+
+#ifdef SENSOR_VEML6075
+        veml6075.measure();
+        // Beispiel custom payload, 8bit für UV-Index * 10 (integer 0..110, 1 Kommastelle)
+        uint8_t uvi10 = veml6075.uvIndex10();
+        customData &= 0xFF00;
+        customData |= uvi10;
 #endif
 
         batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
@@ -451,6 +466,9 @@ public:
 #endif
 #ifdef SENSOR_VEML6070
         veml6070.init();
+#endif
+#ifdef SENSOR_VEML6075
+        veml6075.init();
 #endif
         DPRINTLN(F("Sensor setup done"));
         DPRINT(F("Serial: "));

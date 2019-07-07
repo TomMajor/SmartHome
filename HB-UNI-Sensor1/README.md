@@ -25,6 +25,7 @@ Beispiel:<br>
 `#define SENSOR_SHT10`<br>
 `#define SENSOR_DIGINPUT`<br>
 `#define SENSOR_VEML6070`<br>
+`#define SENSOR_VEML6075`<br>
 
 
 ## Prototyp
@@ -207,6 +208,9 @@ Für einen SHT10 Sensor (Feuchte):</br>
 
 Für einen VEML6070 Sensor (UV-Index):</br>
 keine zusätzliche Library nötig.
+
+Für einen VEML6075 Sensor (UV-Index):</br>
+[VEML6075](https://github.com/schizobovine/VEML6075)
 
 
 ## Links

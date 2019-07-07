@@ -30,7 +30,7 @@ class Sens_BME280 : public Sensor {
 
     void measureRaw(uint16_t altitude)
     {
-        float temp(NAN), hum(NAN), pres(NAN), presNN(NAN);
+        float temp(NAN), hum(NAN), pres(NAN);
         _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa); // hPa
         _temperature = (int16_t)(temp * 10); // HB-UNI-Sensor1: C*10
         _pressure    = (uint16_t)(pres * 10); // HB-UNI-Sensor1: hPa*10
