@@ -26,6 +26,7 @@ if (!src) {
     dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("monit unmonitor hasInternet");
 }
 ```
-<br>
+
 ![pic](Images/monit_webui.png)
+
 ![pic](Images/monit_status.png)
