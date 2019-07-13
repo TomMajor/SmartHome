@@ -1,8 +1,8 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.12
-// 2019-04-09 Tom Major (Creative Commons)
-// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// Version 1.14
+// 2019-07-14 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
 // +++
@@ -40,8 +40,9 @@
 //#define SENSOR_DS18X20  // Achtung, ONEWIRE_PIN define weiter unten muss zur HW passen!
 #define SENSOR_BME280    // Achtung, finitespace BME280 Library verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
-//#define SENSOR_TSL2561    // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
 #define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_TSL2561    // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_BH1750    // Achtung, BH1750_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
 //#define SENSOR_VEML6070
@@ -96,14 +97,19 @@ using namespace as;
 #include "Sensors/Sens_BMP180.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
+#ifdef SENSOR_MAX44009
+#include "Sensors/Sens_MAX44009.h"    // HB-UNI-Sensor1 custom sensor class
+#define MAX44009_ADDR 0x4A
+#endif
+
 #ifdef SENSOR_TSL2561
 #include "Sensors/Sens_TSL2561.h"    // HB-UNI-Sensor1 custom sensor class
 #define TSL2561_ADDR TSL2561_ADDR_FLOAT
 #endif
 
-#ifdef SENSOR_MAX44009
-#include "Sensors/Sens_MAX44009.h"    // HB-UNI-Sensor1 custom sensor class
-#define MAX44009_ADDR 0x4A
+#ifdef SENSOR_BH1750
+#include "Sensors/Sens_BH1750.h"    // HB-UNI-Sensor1 custom sensor class
+#define BH1750_ADDR 0x23            // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
 #endif
 
 #ifdef SENSOR_SHT10
@@ -298,11 +304,14 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_BMP180
     Sens_BMP180 bmp180;
 #endif
+#ifdef SENSOR_MAX44009
+    Sens_MAX44009<MAX44009_ADDR> max44009;
+#endif
 #ifdef SENSOR_TSL2561
     Sens_TSL2561<TSL2561_ADDR> tsl2561;
 #endif
-#ifdef SENSOR_MAX44009
-    Sens_MAX44009<MAX44009_ADDR> max44009;
+#ifdef SENSOR_BH1750
+    Sens_BH1750<BH1750_ADDR> bh1750;
 #endif
 #ifdef SENSOR_SHT10
     Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
@@ -375,7 +384,7 @@ public:
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
         airPressure10 = 10880;    // 1088 hPa (scaling 10)
 #endif
-#if !defined(SENSOR_TSL2561) && !defined(SENSOR_MAX44009)
+#if !defined(SENSOR_MAX44009) && !defined(SENSOR_TSL2561) && !defined(SENSOR_BH1750)
         brightness100 = 8800000;    // 88000 Lux (scaling 100)
 #endif
 
@@ -406,13 +415,16 @@ public:
         humidity      = sht10.humidity();
 #endif
 
-// Entweder TSL2561 oder MAX44009 für Helligkeit, ggf. für anderen Bedarf anpassen
-#ifdef SENSOR_TSL2561
-        tsl2561.measure();
-        brightness100 = tsl2561.brightnessLux();
-#elif defined SENSOR_MAX44009
+// Entweder MAX44009 oder TSL2561 oder BH1750 für Helligkeit, ggf. für anderen Bedarf anpassen
+#ifdef SENSOR_MAX44009
         max44009.measure();
         brightness100 = max44009.brightnessLux();
+#elif defined SENSOR_TSL2561
+        tsl2561.measure();
+        brightness100 = tsl2561.brightnessLux();
+#elif defined SENSOR_BH1750
+        bh1750.measure();
+        brightness100 = bh1750.brightnessLux();
 #endif
 
 #ifdef SENSOR_DIGINPUT
@@ -449,14 +461,18 @@ public:
 #ifdef SENSOR_BMP180
         bmp180.init();
 #endif
-#ifdef SENSOR_TSL2561
-        tsl2561.init();
-#endif
 #ifdef SENSOR_MAX44009
         max44009.init();
 #endif
+#ifdef SENSOR_TSL2561
+        tsl2561.init();
+#endif
+#ifdef SENSOR_BH1750
+        bh1750.init();
+#endif
 #ifdef SENSOR_SHT10
-#if defined SENSOR_BME280 || defined SENSOR_BMP180 || defined SENSOR_TSL2561 || defined SENSOR_MAX44009
+#if defined SENSOR_BME280 || defined SENSOR_BMP180 || defined SENSOR_MAX44009 || defined SENSOR_TSL2561 || defined SENSOR_BH1750                     \
+    || defined SENSOR_VEML6070 || defined SENSOR_VEML6075
         sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
 #endif
         sht10.init();

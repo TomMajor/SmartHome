@@ -20,8 +20,9 @@ Beispiel:<br>
 `#define SENSOR_DS18X20`<br>
 `#define SENSOR_BME280`<br>
 `#define SENSOR_BMP180`<br>
-`#define SENSOR_TSL2561`<br>
 `#define SENSOR_MAX44009`<br>
+`#define SENSOR_TSL2561`<br>
+`#define SENSOR_BH1750`<br>
 `#define SENSOR_SHT10`<br>
 `#define SENSOR_DIGINPUT`<br>
 `#define SENSOR_VEML6070`<br>
@@ -197,11 +198,14 @@ Für einen BME280 Sensor (Temperatur/Druck/Feuchte):</br>
 Für einen BMP180 Sensor (Temperatur/Druck):</br>
 [BMP180](https://github.com/enjoyneering/BMP180)
 
+Für einen MAX44009 Sensor (Helligkeit in Lux):</br>
+keine zusätzliche Library nötig.
+
 Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 [TSL2561](https://github.com/adafruit/TSL2561-Arduino-Library)
 
-Für einen MAX44009 Sensor (Helligkeit in Lux):</br>
-keine zusätzliche Library nötig.
+Für einen BH1750 Sensor (Helligkeit in Lux):</br>
+[BH1750](https://github.com/hexenmeister/AS_BH1750)
 
 Für einen SHT10 Sensor (Feuchte):</br>
 [SHT10](https://github.com/spease/Sensirion)
