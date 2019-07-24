@@ -60,6 +60,25 @@ Beispiel:<br>
 [Verringerung Ruhestrom](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom)
 
 
+## Mögliche I2C Adressen der Sensoren
+
+Die I2C Adressen lassen sich (falls der Sensor das unterstützt) meisten am Sensor Breakout-Board über eine Lötbrücke einstellen und müssen zu den im Sketch definierten Adressen passen!
+
+| Sensor | Adressen (hex) | Bemerkungen |
+| --- | --- | --- |
+| DS18B20 | - | OneWire, kein I2C Sensor |
+| BME280 | 76, 77 | wählbar über Pin |
+| BMP180 | 77 | - |
+| MAX44009 | 4A, 4B | wählbar über Pin |
+| TSL2561 | 29, 39, 49 | wählbar über Pin |
+| BH1750 | 23, 5C | wählbar über Pin |
+| SHT21 | 40 | - |
+| SHT10 | - | kein I2C Sensor, kann aber die I2C Pins mitbenutzen |
+| VEML6070 | 38+39 (+0C) | beide 3x Adressen werden benötigt, 0C unklar |
+| VEML6075 | 10 | - |
+| 24AA02UID | 50..57 | kein Sensor, ggf. für später für UID vorgehalten |
+
+
 ## Messung der Batteriespannung
 
 ![pic](Images/Batteriemessung.png)
