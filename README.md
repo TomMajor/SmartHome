@@ -83,13 +83,24 @@
 -> [Projektseite BI Schutz](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection)
 
 
-## PLHT Sensor
+## PLHT Sensor Version 2.01
 
-- Redesign von Dirks/PeMue's Universalsensor-Platinen für Außen- oder Innenanwendungen
+- HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 10/2018
+- Redesign von Dirks/PeMue's Platine (FHEM)
 
 <p align="center"><img src="Images/PLHT_small.png?raw=true"/></p>
 
--> [Projektseite PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
+-> [Projektseite PLHT Sensor 2.01](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01)
+
+
+## PLHT Sensor Version i2.20
+
+- HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 07/2019
+- Weiterentwicklung vom PLHT Sensor Version 2.01 mit anderen Gehäusevarianten
+
+<p align="center"><img src="Images/PLHT_small.png?raw=true"/></p>
+
+-> [Projektseite PLHT Sensor i2.20](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20)
 
 
 ## Ruhestrom
