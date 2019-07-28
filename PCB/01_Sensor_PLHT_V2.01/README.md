@@ -1,19 +1,20 @@
 
-# PLHT Sensor Ver 2.01
+# PLHT Sensor Version 2.01
 
-Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
+- HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 10/2018
+- Redesign von Dirks/PeMue's Platine (FHEM)
 
 ## Features
 
 - Bestückung mit Arduino Pro Mini oder alternativ mit ATmega328P
 - RC- oder Quarzoszillator möglich
-- Sensoren für Temperatur (DS18x20, BME280), Luftdruck/Luftfeuchte (BME280), Helligkeit (MAX44009) bestückbar
+- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
 - diese Sensoren können als SMD mit Reflow oder Heisßluft gelötet oder auf Breakout-Boards an den zwei I2C Stiftleisten angeschlossen werden
 - andere I2C Sensoren über Breakout-Boards anschliessbar
 - Spannungsversorgung: Batterien 2 Zellen / Batterie 1 Zelle mit MAX1724 / Netzteil
 
 
-## Changelog Ver 2.01
+## Changelog Version 2.01
 
 - MAX44009 hinzugefügt
 - BMP180 entfernt (Ersatz durch BME280)
@@ -34,7 +35,7 @@ Redesign von Dirks/PeMue's Platinen für Außen- oder Innenanwendungen, 10/2018
 
 ## Schaltung
 
-[Sensor PLHT](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
+[Sensor PLHT](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01/Files/SensorPLHT_v201.pdf)
 
 
 ## Bilder
@@ -146,6 +147,7 @@ Gute Erfahrungen habe ich z.B. mit JLCPCB gemacht, die Platinen kosten meisten n
 - ~~Den CC1101 1,5mm vom Rand weg versetzen damit der Klarsichtdeckel des GAINTA G201 Gehäuses besser passt (TomMajor)~~
 - Die Platine links und rechts je 1,5mm kürzer machen damit der Klarsichtdeckel des GAINTA G201 Gehäuses besser passt (TomMajor)
 - Option für Arduino Pro Mini Modul loswerden, nur noch ATmega328P chip, damit dann besseres Layout für 3x Sensor Breakout-Boards möglich (TomMajor)
+- das Lötpad GDO2 am CC1101 kann im Platinenlayout entfernt werden da nicht benötigt (TomMajor)
 
 
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
