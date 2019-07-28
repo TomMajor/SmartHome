@@ -53,11 +53,16 @@ Beispiel:<br>
 
 ![pic](Images/HB-UNI-Sensor1_HW6.jpg)
 
-[Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT)
+[Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01)
 
-[Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT/Files/SensorPLHT_v201.pdf)
+[Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01/Files/SensorPLHT_v201.pdf)
 
 [Verringerung Ruhestrom](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom)
+
+
+## Aufbau Innensensor
+
+WIP
 
 
 ## Mögliche I2C Adressen der Sensoren
@@ -77,6 +82,11 @@ Die I2C Adressen lassen sich (falls der Sensor das unterstützt) meisten am Sens
 | VEML6070 | 38+39 (+0C) | beide 3x Adressen werden benötigt, 0C unklar |
 | VEML6075 | 10 | - |
 | 24AA02UID | 50..57 | kein Sensor, ggf. für später für UID vorgehalten |
+
+
+## Serieller Log beim Start des Sensors ( //#define NDEBUG)
+
+![pic](Images/Serial_Log.png)
 
 
 ## Messung der Batteriespannung
@@ -247,7 +257,7 @@ Für einen VEML6075 Sensor (UV-Index):</br>
 
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
-[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/Sensor_PLHT#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
+[Flashen PLHT Sensor](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01#warnung-vor-dem-flashen-von-33v-ger%C3%A4ten-mit-usbasp-klones)
 
 
 ## Lizenz

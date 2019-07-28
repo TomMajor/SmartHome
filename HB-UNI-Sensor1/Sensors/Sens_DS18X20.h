@@ -2,7 +2,7 @@
 //---------------------------------------------------------
 // Sens_DS18X20
 // 2018-08-12 Tom Major (Creative Commons)
-// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
 // +++
@@ -106,7 +106,7 @@ private:
                                        //// default is 12 bit resolution, 750 ms conversion time
             }
             _temperature = (raw * 10) / 16;
-            DPRINT("DS18x20  Temperature   : ");
+            DPRINT("DS18x20  Temperature    : ");
             DDECLN(_temperature);
         } else {
             DPRINTLN("ERROR: DS18x20 crc");
