@@ -81,7 +81,7 @@ Die I2C Adressen lassen sich (falls der Sensor das unterstützt) meisten am Sens
 | SHT10 | - | kein I2C Sensor, kann aber die I2C Pins mitbenutzen |
 | VEML6070 | 38+39 (+0C) | beide 3x Adressen werden benötigt, 0C unklar |
 | VEML6075 | 10 | - |
-| 24AA02UID | 50..57 | kein Sensor, ggf. für später für UID vorgehalten |
+| 24AA025UID | 50..57 | kein Sensor, ggf. für später für UID vorgehalten |
 
 
 ## Serieller Log beim Start des Sensors ( //#define NDEBUG)

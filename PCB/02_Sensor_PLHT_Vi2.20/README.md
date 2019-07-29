@@ -48,10 +48,10 @@
 
 - alle SMD Widerstände und Kondensatoren haben die Bauform 0805
 
-- Gehäusevariante 1 (Innen): PP042W-S / BOX-SENS-WHITE
+- Gehäusevariante 1 (Innen): PP042W-S / BOX-SENS-WHITE <br>
 [BOX-SENS-WHITE](https://www.tme.eu/de/details/box-sens-white/gehause-fur-alarmanlagen-und-sensoren/supertronic/pp042w-s)
 
-- Gehäusevariante 2 (Innen): 3D Druck, Design by Jan_von_neben_an (Schmelzerboy)
+- Gehäusevariante 2 (Innen): 3D Druck, Design by Jan_von_neben_an (Schmelzerboy) <br>
 [Gehäuse HB-UNI-Sensor1](https://www.thingiverse.com/thing:3766944)
 
 - Batteriehalter 2xAA: Keystone 2462
@@ -81,3 +81,5 @@ Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
 
 - die Befestigungslöcher der Platine für das BOX-SENS-WHITE Gehäuse müssen ca. 1mm weiter auseinander (TomMajor)
 - das Lötpad GDO2 am CC1101 kann im Platinenlayout entfernt werden da nicht benötigt (TomMajor)
+- den optionalen Miniatur-Quarz um 90° drehen damit ein 32kHz Quarz optional liegend bestückt werden kann + ggf. 2 weitere SMD Kond. für diesen 32kHz Quarz (harvey)
+- ggf. Lötpads für einen 2. DS18x20 vorsehen um einen Differenztemperatursensor zu realisieren (der 2. DS18x20 geht dann nach Extern) (harvey)
