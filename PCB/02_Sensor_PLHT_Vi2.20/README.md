@@ -54,7 +54,20 @@
 - Gehäusevariante 2 (Innen): 3D Druck, Design by Jan_von_neben_an (Schmelzerboy) <br>
 [Gehäuse HB-UNI-Sensor1](https://www.thingiverse.com/thing:3766944)
 
-- Batteriehalter 2xAA: Keystone 2462
+| Bauelement | Wert | Bauform | Bemerkungen | Beispiel Reichelt oder aliexpress |
+|---|---|---|---|---|
+| IC1 | Atmega 328P | TQFP |  | ATMEGA 328P-AU |
+| IC2 | CC1101 | SMD |  | (aliexpress) |
+| R1, R5, R6, R8, R9 | 10k | 0805 | R8 nur bei DS18X20 Einsatz | RND 0805 1 10K |
+| R7 | 1,5k | 0805 | |  RND 0805 1 1,5K |
+| C1..C7 | 100nF | 0805 | C5..C7 je nach verbauten I2C-Sensoren | X7R-G0805 100N |
+| C8 | 1uF | 0805 |  | X7R-G0805 1,0/25 |
+| LED1 | gelb | 0805 |  | KBT KP-2012SYC |
+| CONFIG1 | DTSM-3 | 3x6x2,5mm | Tactile Push Button SMD | [aliexpress](https://de.aliexpress.com/item/32672806661.html) |
+| R2..R4, T1 |  |  | Optional: Echte Batteriespannungsmessung unter Last | [Advanced Feature](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection) |
+| IC3 | MCP111T-XXX | SOT23 | Optional: uC-Supervisor | [Advanced Feature](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection) |
+| Q1 | 8 MHz | SMD | Optional: Quarz 8MHz statt int. RC-Osc. | CSTCE 8,00 |
+| BAT1 | Keystone 2462 | 2xAA Halter | oder ähnliche | - |
 
 
 ## Flashen
