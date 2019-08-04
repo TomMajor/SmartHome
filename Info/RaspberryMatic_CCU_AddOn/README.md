@@ -3,8 +3,7 @@
 
 *Nur für Entwickler, für Anwender reicht die Installation des AddOn mittels Einstellungen/Systemsteuerung/Zusatzsoftware -> z.B. Datei CCU_RM/HB-UNI-Sensor1-addon.tgz auswählen*
 <br><br>
-(C) 2018, 2019 Tom Major (Creative Commons)<br>
-[CC BY-NC-SA 3.0](https://creativecommons.org/licenses/by-nc-sa/3.0/)<br>
+(C) 2018-2019 Tom Major / Creative Commons (CC BY-NC-SA 4.0)<br>
 Danke an jp112sdl für seine wertvollen Hinweise.<br>
 
 ### Mein AddOn Konzept
@@ -158,3 +157,7 @@ machine.
 
 https://wiki.fhem.de/wiki/Homematic-Register_von_A-Z_(Namen,_Erkl%C3%A4rung)
 https://wiki.fhem.de/wiki/HomeMatic_Register_programmieren
+
+### Lizenz
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
