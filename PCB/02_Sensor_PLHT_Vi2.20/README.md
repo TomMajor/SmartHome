@@ -67,7 +67,18 @@
 | R2..R4, T1 |  |  | Optional: Echte Batteriespannungsmessung unter Last | [Advanced Feature](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection) |
 | IC3 | MCP111T-XXX | SOT23 | Optional: uC-Supervisor | [Advanced Feature](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection) |
 | Q1 | 8 MHz | SMD | Optional: Quarz 8MHz statt int. RC-Osc. | CSTCE 8,00 |
-| BAT1 | Keystone 2462 | 2xAA Halter | oder ähnliche | - |
+| BAT1 | Keystone 2462 | Halter für 2xAA | oder ähnliche | - |
+
+
+## Bestellung der Platine
+
+Wer den Sensor nachbauen möchte, aber noch nie eine Platine bestellt hat:
+- Es gibt unzählige Hersteller für Leiterplatten. Früher habe ich oft in Deutschland bestellt, bei Firmen wie Beta Layout und ähnlichen. Seit ein paar Jahren ist die Direktbestellung in China ziemlich unkompliziert und preislich sehr attraktiv geworden, deswegen bestelle ich mittlerweile meistens dort.<br>
+Gute Erfahrungen habe ich z.B. mit JLCPCB gemacht, die Platinen kosten meisten nur ein paar Euro und sind innerhalb von 2-3 Wochen da.
+- Die Gerberdateien können direkt beim Anbieter hoch geladen werden und man sieht eine Vorschau wie die Platine aussehen wird.
+- Im folgenden Bild sind die Bestellparameter für die PLHT Sensor Platine zu sehen:
+
+![pic](Images/Bestellung_JLCPCB.png)
 
 
 ## Flashen

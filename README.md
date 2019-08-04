@@ -88,7 +88,7 @@
 - HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 10/2018
 - Redesign von Dirks/PeMue's Platine (FHEM)
 
-<p align="center"><img src="Images/PLHT_small.png?raw=true"/></p>
+<p align="center"><img src="Images/PLHT_201_small.png?raw=true"/></p>
 
 -> [Projektseite PLHT Sensor 2.01](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01)
 
@@ -98,7 +98,7 @@
 - HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 07/2019
 - Weiterentwicklung vom PLHT Sensor Version 2.01 mit anderen Gehäusevarianten
 
-<p align="center"><img src="Images/PLHT_small.png?raw=true"/></p>
+<p align="center"><img src="Images/PLHT_i220_small.jpg?raw=true"/></p>
 
 -> [Projektseite PLHT Sensor i2.20](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20)
 
@@ -158,6 +158,6 @@
 
 ## Lizenz
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons Lizenzvertrag" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />Dieses Werk ist lizenziert unter einer <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Namensnennung - Nicht-kommerziell - Weitergabe unter gleichen Bedingungen 4.0 International Lizenz</a>.
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 [comment]: # (:large_blue_circle:)
