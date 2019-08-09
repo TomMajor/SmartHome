@@ -23,6 +23,7 @@ Beispiel:<br>
 `#define SENSOR_MAX44009`<br>
 `#define SENSOR_TSL2561`<br>
 `#define SENSOR_BH1750`<br>
+`#define SENSOR_SHT21`<br>
 `#define SENSOR_SHT10`<br>
 `#define SENSOR_DIGINPUT`<br>
 `#define SENSOR_VEML6070`<br>
@@ -236,7 +237,10 @@ Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 Für einen BH1750 Sensor (Helligkeit in Lux):</br>
 [BH1750](https://github.com/hexenmeister/AS_BH1750)
 
-Für einen SHT10 Sensor (Feuchte):</br>
+Für einen SHT21/Si7021 Sensor (Temperatur/Feuchte):</br>
+[SHT21](https://github.com/jayjayuk/Si7021-Humidity-And-Temperature-Sensor-Library)
+
+Für einen SHT10 Sensor (Temperatur/Feuchte):</br>
 [SHT10](https://github.com/spease/Sensirion)
 
 Für einen VEML6070 Sensor (UV-Index):</br>

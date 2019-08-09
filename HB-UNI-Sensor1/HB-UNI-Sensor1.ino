@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.14
-// 2019-07-14 Tom Major (Creative Commons)
+// Version 1.15
+// 2019-08-09 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -43,6 +43,7 @@
 #define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_TSL2561    // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_BH1750    // Achtung, BH1750_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_SHT21
 //#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
 //#define SENSOR_VEML6070
@@ -110,6 +111,10 @@ using namespace as;
 #ifdef SENSOR_BH1750
 #include "Sensors/Sens_BH1750.h"    // HB-UNI-Sensor1 custom sensor class
 #define BH1750_ADDR 0x23            // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
+#endif
+
+#ifdef SENSOR_SHT21
+#include "Sensors/Sens_SHT21.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_SHT10
@@ -313,6 +318,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_BH1750
     Sens_BH1750<BH1750_ADDR> bh1750;
 #endif
+#ifdef SENSOR_SHT21
+    Sens_SHT21 sht21;
+#endif
 #ifdef SENSOR_SHT10
     Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
 #endif
@@ -375,10 +383,10 @@ public:
     {
         // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
         // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
-#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT10)
+#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
         temperature10 = 188;    // 18.8C (scaling 10)
 #endif
-#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT10)
+#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
         humidity = 88;    // 88%
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
@@ -408,11 +416,17 @@ public:
         temperature10 = ds18x20.temperature();
 #endif
 
-// Feuchte/Temp vom SHT10 falls kein BME280 vorhanden
-#if defined(SENSOR_SHT10) && !defined(SENSOR_BME280)
+// Feuchte/Temp vom SHT21/10 falls kein BME280 vorhanden
+#ifndef SENSOR_BME280
+#ifdef SENSOR_SHT21
+        sht21.measure();
+        temperature10 = sht21.temperature();
+        humidity      = sht21.humidity();
+#elif defined SENSOR_SHT10
         sht10.measure();
         temperature10 = sht10.temperature();
         humidity      = sht10.humidity();
+#endif
 #endif
 
 // Entweder MAX44009 oder TSL2561 oder BH1750 für Helligkeit, ggf. für anderen Bedarf anpassen
@@ -469,6 +483,9 @@ public:
 #endif
 #ifdef SENSOR_BH1750
         bh1750.init();
+#endif
+#ifdef SENSOR_SHT21
+        sht21.init();
 #endif
 #ifdef SENSOR_SHT10
 #if defined SENSOR_BME280 || defined SENSOR_BMP180 || defined SENSOR_MAX44009 || defined SENSOR_TSL2561 || defined SENSOR_BH1750                     \
