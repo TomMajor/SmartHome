@@ -92,7 +92,7 @@ Gute Erfahrungen habe ich z.B. mit JLCPCB gemacht, die Platinen kosten meisten n
 - Die Gerberdateien können direkt beim Anbieter hoch geladen werden und man sieht eine Vorschau wie die Platine aussehen wird.
 - Im folgenden Bild sind die Bestellparameter für die PLHT Sensor Platine zu sehen:
 
-![pic](Images/Bestellung_JLCPCB.png)
+![pic](Images/Bestellung_JLCPCB_201.png)
 
 
 ## Flashen
