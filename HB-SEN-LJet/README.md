@@ -8,9 +8,13 @@
 ![pic](Images/LevelJet_WebUI.jpg)
 
 
-## Schaltung
+## Schaltung / Platine
 
 ![pic](Images/Blockschaltbild_HB-SEN-LJet.png)
+
+[Schaltplan](https://github.com/TomMajor/SmartHome/tree/master/PCB/03_HB-SEN-LJet/Files/HB-SEN-LJet.pdf)
+
+[Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/03_HB-SEN-LJet)
 
 
 ## Benötige Libraries
