@@ -27,8 +27,3 @@
 ## CCU2/CCU3/RaspberryMatic Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-SEN-LJet-addon.tgz installieren.
-
-
-## Leiterplatte
-
-- Platine in Arbeit
