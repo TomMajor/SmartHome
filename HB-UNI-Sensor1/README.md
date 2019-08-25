@@ -40,7 +40,7 @@ Beispiel:<br>
 ![pic](Images/Schaltung.png)
 
 
-## Aufbau Aussensensor
+## Beispiel Aufbau Aussensensor
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
@@ -58,12 +58,25 @@ Beispiel:<br>
 
 [Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01/Files/SensorPLHT_v201.pdf)
 
+
+## Beispiel Aufbau Innensensor
+
+![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_1.jpg)
+
+![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_2.jpg)
+
+![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_3.jpg)
+
+![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_4.jpg)
+
+[Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20)
+
+[Schaltung](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Files/HB-UNI-Sensor1_Vi2.20.pdf)
+
+
+## Verringerung Ruhestrom
+
 [Verringerung Ruhestrom](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom)
-
-
-## Aufbau Innensensor
-
-WIP
 
 
 ## Mögliche I2C Adressen der Sensoren
