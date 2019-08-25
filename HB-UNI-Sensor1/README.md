@@ -61,13 +61,13 @@ Beispiel:<br>
 
 ## Beispiel Aufbau Innensensor
 
-![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_1.jpg)
+![pic](/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_1.jpg)
 
-![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_2.jpg)
+![pic](/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_2.jpg)
 
-![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_3.jpg)
+![pic](/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_3.jpg)
 
-![pic](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_4.jpg)
+![pic](/PCB/02_Sensor_PLHT_Vi2.20/Images/UniSensor_HW_Vi2.20_4.jpg)
 
 [Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20)
 
