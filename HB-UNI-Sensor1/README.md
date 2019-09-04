@@ -200,12 +200,16 @@ wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt w
 Ein Beispiel für eine alternative Firmware xml-Datei, die zusätzlich den gemessenen UV-Index für den VEML6070 Sensor zur Verfügung stellt, liegt nach Installation des AddOn im Verzeichnis<br>
 `/usr/local/addons/hb-uni-sensor1/custom_firmware_bsp`
 
+HomeMatic:<br>
 Zur Aktivierung muss dieses Verzeichnis in <br>
 `custom_firmware`<br>
 umbenannt und anschließend die Zentrale neugestartet werden.
 
 Danach (und bei jeder weiteren eventuellen Änderung in der alternativen Firmware xml-Datei) muss ein bereits vorhandener HB-UNI-Sensor1 abgelernt/gelöscht und wieder neu angelernt werden!<br>
 Nur so werden die xml Änderungen in die Zentrale übernommen.
+
+FHEM:<br>
+2 auskommentierte Beispiele für den UV-Index von VEML6070 bzw. VEML6075 sind am Ende des Perl-Skripts HMConfig_UniSensor1.pm vorhanden.
 
 ![pic](Images/HB-UNI-Sensor1_CustomData.png)
 
@@ -224,6 +228,15 @@ Nur so werden die xml Änderungen in die Zentrale übernommen.
 ![pic](PIR/UniSensor_PIR4.jpg)
 
 <br>
+
+
+## Optionaler Reset-Baustein MCP111
+
+- In einigen meiner Schaltungen ist der optionale Reset-Baustein MCP111 zu sehen. Dieser hat den Vorteil eines sehr geringen Ruhestromes von < 1µA gegenüber dem integrierten Brown-out Detector (BOD) im AVR, dieser benötigt ca. 18µA (@3V).
+- Dabei verwende ich typischerweise den MCP111-240, der bei 2,32V den Reset für den AVR aktiviert. Kombiniert mit der Batteriespannungsmessung unter Last (Babbling Idiot Protection, siehe oben) ist das ein gutes Schutzkonzept gegen Dauersender durch leere Batterien oder Akkus. Ein Dauersender kann sehr schnell das gesamte Funknetz im Haus lahmlegen.
+- Die Reset-Spannung von 2,32V ergibt eine Entladeschlußspannung von 1,16V bei 2 Zellen. Aus meiner Sicht ist diese Entladeschlußspannung gleichermaßen für AA Alkaline-Zellen oder NiMH Akkus geeignet, auch wenn man im Alkaline Fall etwas Energie verschenkt.
+
+![pic](Images/Entladespannungen.png)
 
 
 ## Benötige Libraries
