@@ -50,7 +50,7 @@ sub CUL_HM_ParseUniSensor1(@){
 
         # temperature, int with scaling factor 10 from device to get one decimal place
         my $temperature =  $dTempBat & 0x7fff;
-        $temperature = ($temperature &0x4000) ? $temperature - 0x8000 : $temperature; 
+        $temperature = ($temperature &0x4000) ? $temperature - 0x8000 : $temperature;
         $temperature = sprintf('%0.1f', $temperature / 10);
 
         my $stateMsg = 'state:T: ' . $temperature;
@@ -96,6 +96,16 @@ sub CUL_HM_ParseUniSensor1(@){
         # 16bit customData, ab Firmware 0x13
         $stateMsg .= ' X: ' . $customData;
         push (@events, [$shash, 1, 'customData:' . $customData]);
+        
+        # UV-Index VEML6070
+        #my $uvindex =  $customData & 0x000F;
+        #$stateMsg .= ' U: ' . $uvindex;
+        #push (@events, [$shash, 1, 'UV-Index:' . $uvindex]);
+        
+        # UV-Index VEML6075
+        #my $uvindex = sprintf('%.1f', ($customData & 0x00FF) / 10);
+        #$stateMsg .= ' U: ' . $uvindex;
+        #push (@events, [$shash, 1, 'UV-Index:' . $uvindex]);
         
         push (@events, [$shash, 1, $stateMsg]);
     }
