@@ -124,9 +124,9 @@
 -> [Projektseite Bootloader & Fuses](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader)
 
 
-## HomeMatic Skripte und Lösungen
+## HomeMatic / RaspberryMatic Skripte und Lösungen
 
--> [Projektseite HomeMatic Skripte und Lösungen](https://github.com/TomMajor/SmartHome/tree/master/Info/Skripte)
+-> [Projektseite HomeMatic Skripte und Lösungen](https://github.com/TomMajor/SmartHome/tree/master/Info/Skripte_und_Loesungen)
 
 
 ## HomeMatic AddOn Entwicklung und Dokumentation

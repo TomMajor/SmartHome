@@ -1,0 +1,145 @@
+
+/* ------------------------------------------------------------------------- */
+/* Stellt ab RaspberryMatic Ver. 3.47.18.20190918 die alte, nicht-alphabetische Menureihenfolge wieder her */
+/* diese Datei nach /usr/local/etc/config kopieren und Permissions 0644 dafür setzen */
+/* 2019-09-26 Tom Major (Creative Commons) */
+/* https://creativecommons.org/licenses/by-nc-sa/4.0 */
+/* You are free to Share and Adapt under the following terms: */
+/* Give Credit, NonCommercial, ShareAlike */
+/* +++ Credits: ptweety, jmaus */
+/* ------------------------------------------------------------------------- */
+
+active                  #3678c9
+attention               red
+activeBackground        #f0f0f0
+background              #192c6e
+
+contentBackground       #ffffff
+
+backgroundStart         #89989b
+backgroundEnd           #ffffff
+
+black                   #000000
+clickable               #89989b
+inactiveBackground      #bcc7cb
+okSignal                #00c300
+warnSignal              #ffff00
+white                   white
+
+inactiveButton          #c0c0c0
+
+channelHighlight        #cc6600
+channelBackground       #ffffff
+channelBorder           #5c7287
+
+inherit                 inherit
+transparent             transparent
+windowText              WindowText
+
+blue                    #000066
+gray                    #999999
+testActive              #ffff00
+testOk                  #00ff00
+red                     red 
+progressbarHighlight    #003366
+progressbarBackground   #999999
+progressbarText         #ffffff
+gray                    gray
+darkgray                darkgray
+profile                 #e0e0e0
+profileActive           #99ccff
+grayText                GrayText
+textColorA              white
+textColorB              black
+
+navBarSeparator         #bcc7cb
+
+mainMenuBackground      #ebf1f2
+subMenuBackground       #ebf1f2
+subMenuHighlight        #89989b
+
+messagesBackground      #ebf1f2
+logoutButton            #ebf1f2
+
+programEven             #bcc7cb
+programOdd              "#ebf1f2; }
+
+/* ------------------------------------------------------------------------- */
+/* Menu 'Status und Bedienung' */
+
+#menuControlPage_SUBMENU #submenuDevices,
+#tblStatus #btnChns_container { order: 1; }
+
+#menuControlPage_SUBMENU #submenuRooms,
+#tblStatus #btnRooms_container { order: 2; }
+
+#menuControlPage_SUBMENU #submenuFunction,
+#tblStatus #btnFunctions_container { order: 3; }
+
+#menuControlPage_SUBMENU #submenuDiagramListPage,
+#btnDiagramList_container { order: 4; }
+
+#menuControlPage_SUBMENU #submenuFavorites,
+#tblStatus #btnFavs_container { order: 5; }
+
+#menuControlPage_SUBMENU #submenuPrograms,
+#tblStatus #btnProgs_container { order: 6; }
+
+#menuControlPage_SUBMENU #submenuSysVar,
+#tblStatus #btnSysVar_container { order: 7; }
+
+#menuControlPage_SUBMENU #submenuSysProtocol,
+#tblStatus #tdSysProc_container { order: 8; }
+
+/* ------------------------------------------------------------------------- */
+/* Menu 'Programme und Verknüpfungen' */
+
+#menuProgramsLinksPage_SUBMENU #submenuDirectLinks,
+#tblProgramsLinks #btnDirectDeviceLinks_container { order: 1; }
+
+#menuProgramsLinksPage_SUBMENU #submenuProgramsLinks,
+#tblProgramsLinks #btnCreateProgramsAndLinks_container { order: 2; }
+
+/* ------------------------------------------------------------------------- */
+/* Menu 'Einstellungen' */
+
+#menuSettingsPage_SUBMENU #submenuDeviceInbox,
+#tblSettings #btnSettingsDeviceInBox_container { order: 1; }
+
+#menuSettingsPage_SUBMENU #submenuDevices, 
+#tblSettings #btnSettingsDevices_container { order: 2; }
+
+#menuSettingsPage_SUBMENU #submenuRooms,
+#tblSettings #btnSettingsRooms_container { order: 3; }
+
+#menuSettingsPage_SUBMENU #submenuFunction,
+#tblSettings #btnSettingsFunctions_container { order: 4; }
+
+#menuSettingsPage_SUBMENU #submenuCreateDiagram,
+#tblSettings #btnSettingsDiagrams_container { order: 5; }
+
+#menuSettingsPage_SUBMENU #submenuCreateGroups,
+#tblSettings #btnSettingsGroups_container { order: 6; }
+
+#menuSettingsPage_SUBMENU #submenuDeviceFirmwareInformation,
+#tblSettings #submenuDeviceFirmwareInformation_container { order: 7; }
+
+#menuSettingsPage_SUBMENU #submenuUserManagement,
+#tblSettings #btnSettingsUserAdministration_container { order: 8; }
+
+#menuSettingsPage_SUBMENU #submenuSysVar,
+#tblSettings #btnSettingsSysVar_container { order: 9; }
+
+#menuSettingsPage_SUBMENU #submenuFavorites,
+#tblSettings #btnSettingsFavorites_container { order: 10; }
+
+#menuSettingsPage_SUBMENU #submenuSysControl,
+#tblSettings #btnSettingsSystemConfig_container { order: 11; }
+
+"
+
+deviceListRowHighlight  #89989b
+borderColor             #f0f0f0
+
+shutterOpeningDegree    #89989b
+link                    #0101FF

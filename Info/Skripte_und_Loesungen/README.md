@@ -1,8 +1,17 @@
 
-# HomeMatic Skripte und Lösungen
+# HomeMatic / RaspberryMatic Skripte und Lösungen
 
 
-## 01 "No internet connection detected" - Überwachung deaktivieren
+## Wiederherstellung der alten, nicht-alphabetische Menureihenfolge ab RaspberryMatic Ver. 3.47.18.20190918
+
+Die Datei [color.map](https://github.com/TomMajor/SmartHome/tree/master/Info/Skripte_und_Loesungen/Files/color.map) nach /usr/local/etc/config kopieren und Permissions 0644 dafür setzen.<br>
+Danach den Browsercache löschen.<br>
+Referenzen:<br>
+[706](https://github.com/jens-maus/RaspberryMatic/issues/706)<br>
+[709](https://github.com/jens-maus/RaspberryMatic/pull/709)<br>
+
+
+## "No internet connection detected" - Überwachung deaktivieren (obsolet ab RaspberryMatic Ver. 3.47.18.20190918) 
 
 - Die Überwachung der Internetverbindung mittels monit hat in RaspberryMatic ab Version 3.45.5.20190330 Einzug gehalten.
 - mein Router wird nachts automatisch ausgeschaltet, deswegen kann ich den dadurch entstehenen Alarm gar nicht brauchen da er unter Umständen andere und wichtigere Alarme auf meinem ePaper "überdeckt" (Anzahl der Servicemeldungen und Alarme als Dezimalzahlen unten rechts).<br>
