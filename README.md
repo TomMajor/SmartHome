@@ -8,9 +8,9 @@
 
 | |AddOn|Status|letzte getestete Firmware (RaspberryMatic)|
 |---|---|---|---|
-|:heavy_check_mark:|HB-UNI-Sensor1|lauffähig unter CCU / RaspberryMatic|3.45.7.20190511|
-|:heavy_check_mark:|HB-SEN-LJet|lauffähig unter CCU / RaspberryMatic|3.45.7.20190511|
-|:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic|3.45.7.20190511|
+|:heavy_check_mark:|HB-UNI-Sensor1|lauffähig unter CCU / RaspberryMatic|3.47.18.20190918|
+|:heavy_check_mark:|HB-SEN-LJet|lauffähig unter CCU / RaspberryMatic|3.47.18.20190918|
+|:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic|3.47.18.20190918|
 
 
 ## Disclaimer

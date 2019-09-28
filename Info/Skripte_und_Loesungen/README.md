@@ -21,6 +21,9 @@
 #### ab RaspberryMatic Ver. 3.47.18.20190918
 
 - Eine leere Datei /usr/local/etc/config/internetCheckDisabled anlegen und die Permissions 0644 dafür setzen.
+- Die Änderung wird sofort wirksam.
+
+![pic](Images/monit_status_new.png)
 
 #### vor RaspberryMatic Ver. 3.47.18.20190918
 
@@ -47,4 +50,20 @@ if (!src) {
 
 ![pic](Images/monit_webui.png)
 
-![pic](Images/monit_status.png)
+![pic](Images/monit_status_old.png)
+
+
+## Verstecktes Config-Tool dauerhaft zum Systemsteuerungs-Menu hinzufügen
+
+- SSH Konsole öffnen und folgendes Kommando ausführen:<br>
+``` echo CP_DEVCONFIG=1 >> /etc/config/tweaks ```
+
+![pic](Images/devconfig1.png)
+
+![pic](Images/devconfig2.png)
+
+- Um z.B. die in der CCU vorhandene Konfiguration neu an ein Gerät zu übertragen:<br>
+``` DevConfig -> Device List -> Gerät anklicken -> MAINTENANCE -> Restore Config ```
+- Um eine Konfiguration an ein nicht dauerhaft empfangsbereites Gerät zu übertragen (Fernbedienung, Sensor usw.) ist zuerst der Anlernmodus des Gerätes zu aktivieren und danach *Restore Config* auszuwählen.
+- Referenzen:<br>
+[HomeMatic-Forum](https://homematic-forum.de/forum/viewtopic.php?f=31&t=26624)<br>
