@@ -3,8 +3,8 @@
 # =================================================
 # epaper42.tcl
 # HB-Dis-EP-42BW script helper
-# Version 0.50
-# 2019-05-31 Tom Major (Creative Commons)
+# Version 0.52
+# 2019-10-02 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/4.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -20,9 +20,10 @@
 # * CUxD/CMD_EXEC wie in den Bsp. braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
 # * Ab Version 0.50 kann man für Texte die x-Position angeben um z.B. eine Darstellung in Spalten zu erreichen.
 #     Dies geht mit @pxx, xx gibt hier die Anfangsposition des Textes in % der Displaybreite an.
+#     Das gleiche bewirkt @fxx, nur dann in Farbe falls es ein (3-)Farben-Display ist.
 #     Das Feature x-Position ist an 2 Bedingungen geknüpft:
 #     1) Die Textzeile muss in den Geräteeinstellungen auf 'linksbündig' eingestellt sein.
-#     2) Der Text muss mit einem solchen x-Positionscode @pxx anfangen um den Textanfang eindeutig zu bestimmen.
+#     2) Der Text muss mit einem solchen x-Positionscode @pxx (oder @fxx) anfangen um den Textanfang eindeutig zu bestimmen.
 #     Falls der Text x-Positionscodes enthält wird kein Icon angezeigt.
 #
 # Beispiel 1 - variabler Text in einer Zeile:
@@ -51,6 +52,24 @@
 # Beispiel 5 - variable und vordefinierte Texte gemischt in einer Zeile
 # Zeigt den vordef. Text 2 gemischt mit variablen Text in Zeile 1 an
 # string displayCmd = "JPDISEP000 /1 abcd@t02efgh";
+# dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+#
+# Beispiel 6 - x-Position
+# Zeigt den vordef. Text 9 (Außen) bei 3% x-Position, Temperatur bei 45% x-Position, Feuchte bei 78% x-Position an
+# string tempOut = dom.GetObject('BidCos-RF.UNISENS077:1.TEMPERATURE').Value().ToString(1) # " °C";
+# string humOut = dom.GetObject('BidCos-RF.UNISENS077:1.HUMIDITY').Value().ToString(0) # " %";
+# string displayCmd = "JPDISEP000 /3 '@p03@t09@p45" # tempOut # "@p78" # humOut # "'";
+# dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+#
+# Beispiel 7.1 - Farbe zeilenweise
+# Zeigt den Text in Zeile 2 in Normalfarbe, den Text in Zeile 3 in Rot
+# string displayCmd = "JPDISEP000 /2 'Eine normale Zeile' /3 '@fzEine rote Zeile'";
+# dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+#
+# Beispiel 7.2 - Farbe mit x-Position
+# Zeigt den Text "Garage" in Zeile 2 und 3 bei 3% x-Position in Normalfarbe
+# und bei 50% x-Position wird "Auf" in Rot und "Zu" in Normalfarbe dargestellt
+# string displayCmd = "JPDISEP000 /2 '@p03Garage@f50Auf' /3 '@p03Garage@p50Zu'";
 # dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 #
 # =================================================
@@ -82,7 +101,13 @@ proc main { argc argv } {
 
                 #debugLog "<$LINE><$TEXT><$ICON>"
 
-                set txtOut "0x12,"
+                # test for color code @fz (line-wise), only for 3-color ePapers
+                if { [string first "@fz" $TEXT] == 0 } {
+                    set TEXT [string replace $TEXT 0 2]
+                    set txtOut "0x16,"
+                } else {
+                    set txtOut "0x12,"
+                }
 
                 # fixed or variable text, can be combined in one line
                 for { set n 0 } { $n < [string length $TEXT] } { incr n } {
@@ -90,7 +115,9 @@ proc main { argc argv } {
                     set nextchar [string index $TEXT [expr $n + 1]]
                     scan $char "%c" numDec
                     set numHex [format %x $numDec]
-                    # check for fixed text code @txx, 2 digits required!
+                    # check for
+                    # 1) fixed text code @txx, 2 digits required, or
+                    # 2) special codes with @cxx syntax
                     # pass thru all other @yxx codes!
                     if { ($numDec == 64) && (($nextchar == "t") || ($nextchar == "c")) } {
                         set numberStr [string range $TEXT [expr $n + 2] [expr $n + 3]]

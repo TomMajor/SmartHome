@@ -84,9 +84,10 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
   * CUxD/CMD_EXEC wie in den Bsp. braucht man dabei nicht zwingend. Man kann das auch mit system.Exec() aufrufen.
   * Ab Version 0.50 kann man für Texte die x-Position angeben um z.B. eine Darstellung in Spalten zu erreichen.
       Dies geht mit @pxx, xx gibt hier die Anfangsposition des Textes in % der Displaybreite an.
+      Das gleiche bewirkt @fxx, nur dann in Farbe falls es ein (3-)Farben-Display ist.
       Das Feature x-Position ist an 2 Bedingungen geknüpft:
       1) Die Textzeile muss in den Geräteeinstellungen auf 'linksbündig' eingestellt sein.
-      2) Der Text muss mit einem solchen x-Positionscode @pxx anfangen um den Textanfang eindeutig zu bestimmen.
+      2) Der Text muss mit einem solchen x-Positionscode @pxx (oder @fxx) anfangen um den Textanfang eindeutig zu bestimmen.
       Falls der Text x-Positionscodes enthält wird kein Icon angezeigt.
   
   Beispiel 1 - variabler Text in einer Zeile:
@@ -123,15 +124,28 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
   string humOut = dom.GetObject('BidCos-RF.UNISENS077:1.HUMIDITY').Value().ToString(0) # " %";
   string displayCmd = "JPDISEP000 /3 '@p03@t09@p45" # tempOut # "@p78" # humOut # "'";
   dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  
+  Beispiel 7.1 - Farbe zeilenweise
+  Zeigt den Text in Zeile 2 in Normalfarbe, den Text in Zeile 3 in Rot
+  string displayCmd = "JPDISEP000 /2 'Eine normale Zeile' /3 '@fzEine rote Zeile'";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
+  
+  Beispiel 7.2 - Farbe mit x-Position
+  Zeigt den Text "Garage" in Zeile 2 und 3 bei 3% x-Position in Normalfarbe
+  und bei 50% x-Position wird "Auf" in Rot und "Zu" in Normalfarbe dargestellt
+  string displayCmd = "JPDISEP000 /2 '@p03Garage@f50Auf' /3 '@p03Garage@p50Zu'";
+  dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
 ```
 
 - Das Feature x-Position ist an 2 Bedingungen geknüpft:<br>
   1. Die Textzeile muss in den Geräteeinstellungen auf **linksbündig** eingestellt sein.<br>
-  2. Der Text muss mit einem solchen x-Positionscode @pxx **anfangen** um den Textanfang eindeutig zu bestimmen und das Feature für diese Zeile zu aktivieren.<br><br>
+  2. Der Text muss mit einem solchen x-Positionscode @pxx (oder @fxx) **anfangen** um den Textanfang eindeutig zu bestimmen und das Feature für diese Zeile zu aktivieren.<br><br>
 
 ![pic](Images/ScriptExamples.jpg)
 
 ![pic](Images/ScriptExamples2.jpg)
+
+![pic](Images/ScriptExamples3.jpg)
 
 [Script Helper epaper42.tcl](Script_Helper)
 
