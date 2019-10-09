@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.15
-// 2019-08-09 Tom Major (Creative Commons)
+// Version 1.16
+// 2019-10-09 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -10,18 +10,15 @@
 //---------------------------------------------------------
 
 //---------------------------------------------------------
-// !! NDEBUG should be defined when the sensor development and testing ist done
-// and the device moves to serious operation mode With BME280 and TSL2561
-// activated, this saves 2k Flash and 560 Bytes RAM (especially the RAM savings
-// are important for stability / dynamic memory allocation etc.) This will get
-// rid of the Arduino warning "Low memory available, stability problems may
-// occur."
+// !! NDEBUG sollte aktiviert werden wenn die Sensorentwicklung und die Tests abgeschlossen sind und das Gerät in den 'Produktionsmodus' geht.
+// Zum Beispiel bei aktiviertem BME280 und MAX44009 werden damit ca. 2,6 KBytes Flash und 100 Bytes RAM eingespart.
+// Insbesondere die RAM-Einsparungen sind wichtig für die Stabilität / dynamische Speicherzuweisungen etc.
+// Dies beseitigt dann auch die mögliche Arduino-Warnung 'Low memory available, stability problems may occur'.
 //
 //#define NDEBUG
 
 //---------------------------------------------------------
 // define this to read the device id, serial and device type from bootloader section
-//
 // #define USE_OTA_BOOTLOADER
 
 #define EI_NOTEXTERNAL
@@ -31,53 +28,20 @@
 #include <MultiChannelDevice.h>
 #include <Register.h>
 #include "Sensors/tmBattery.h"
-#include "DeviceID.h"
 
 //---------------------------------------------------------
-// Über diese defines werden die real angeschlossenen Sensoren aktiviert.
-// Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
-//
-//#define SENSOR_DS18X20  // Achtung, ONEWIRE_PIN define weiter unten muss zur HW passen!
-#define SENSOR_BME280    // Achtung, finitespace BME280 Library verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
-//#define SENSOR_BMP180
-#define SENSOR_MAX44009    // Achtung, MAX44009_ADDR define weiter unten muss zur HW passen!
-//#define SENSOR_TSL2561    // Achtung, TSL2561_ADDR define weiter unten muss zur HW passen!
-//#define SENSOR_BH1750    // Achtung, BH1750_ADDR define weiter unten muss zur HW passen!
-//#define SENSOR_SHT21
-//#define SENSOR_SHT10  // Achtung, SHT10_DATAPIN/SHT10_CLKPIN define weiter unten muss zur HW passen!
-//#define SENSOR_DIGINPUT   // Achtung, DIGINPUT_PIN define weiter unten muss zur HW passen!
-//#define SENSOR_VEML6070
-//#define SENSOR_VEML6075
+// Alle Device Parameter werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
+// Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren. Die
+// konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
+// - Device ID und Device Serial
+// - Aktivierung der verwendeten Sensoren
+// - Pin Definitionen Allgemein
+// - Pin und Address Definitionen der Sensoren
+// - Clock Definition
+// - Schaltungsvariante und Pins für Batteriespannungsmessung
+// - Schwellwerte für Batteriespannungsmessung
+#include "Cfg/Device_Example.h"
 
-//---------------------------------------------------------
-// Über diese defines wird die Clock festgelegt
-// CLOCK_SYSCLOCK: 8MHz Quarz an XTAL oder 8MHz int. RC-Oszillator, Sleep Strom ca. 4uA
-// CLOCK_RTC:      8MHz int. RC-Oszillator, 32.768kHz Quarz an XTAL, Sleep Strom ca. 1uA
-#define CLOCK_SYSCLOCK
-//#define CLOCK_RTC
-
-//---------------------------------------------------------
-// Schwellwerte für Batteriespannungsmessung
-#define BAT_VOLT_LOW 21         // 2.1V
-#define BAT_VOLT_CRITICAL 19    // 1.9V
-
-//---------------------------------------------------------
-// Optionen für Batteriespannungsmessung, siehe README
-//------------
-// 1) Standard: tmBattery, UBatt = Betriebsspannung AVR
-#define BAT_SENSOR tmBattery
-//------------
-// 2) für StepUp/StepDown: tmBatteryResDiv, sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700
-//#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>
-//------------
-// 3) Echte Batteriespannungsmessung unter Last, siehe README und Thema "Babbling Idiot Protection"
-// tmBatteryLoad: sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung
-//#define BAT_SENSOR tmBatteryLoad<A0, 9, 4000, 200>
-
-//---------------------------------------------------------
-// Pin definitions
-#define CONFIG_BUTTON_PIN 8
-#define LED_PIN 4
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 6
@@ -87,7 +51,6 @@ using namespace as;
 
 #ifdef SENSOR_DS18X20
 #include "Sensors/Sens_DS18X20.h"    // HB-UNI-Sensor1 custom sensor class
-#define ONEWIRE_PIN 3
 #endif
 
 #ifdef SENSOR_BME280
@@ -100,17 +63,14 @@ using namespace as;
 
 #ifdef SENSOR_MAX44009
 #include "Sensors/Sens_MAX44009.h"    // HB-UNI-Sensor1 custom sensor class
-#define MAX44009_ADDR 0x4A
 #endif
 
 #ifdef SENSOR_TSL2561
 #include "Sensors/Sens_TSL2561.h"    // HB-UNI-Sensor1 custom sensor class
-#define TSL2561_ADDR TSL2561_ADDR_FLOAT
 #endif
 
 #ifdef SENSOR_BH1750
 #include "Sensors/Sens_BH1750.h"    // HB-UNI-Sensor1 custom sensor class
-#define BH1750_ADDR 0x23            // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
 #endif
 
 #ifdef SENSOR_SHT21
@@ -119,14 +79,11 @@ using namespace as;
 
 #ifdef SENSOR_SHT10
 #include "Sensors/Sens_SHT10.h"    // HB-UNI-Sensor1 custom sensor class
-#define SHT10_DATAPIN A4
-#define SHT10_CLKPIN A5
 #endif
 
 #ifdef SENSOR_DIGINPUT
 #include "Sensors/Sens_DIGINPUT.h"    // HB-UNI-Sensor1 custom sensor class
-#define DIGINPUT_PIN A1
-Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (Interrupt event)
+Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global sein (Interrupt event)
 #endif
 
 #ifdef SENSOR_VEML6070
@@ -150,8 +107,9 @@ Sens_DIGINPUT digitalInput;    // muss wegen Verwendung in loop() global sein (I
 #endif
 
 // define all device properties
-// Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
-// Device ID und Device Serial werden aus der Datei "DeviceID.h" geholt um mehrere Geräte ohne Änderung des Sketches flashen zu können
+// Bei mehreren Geräten des gleichen Typs (HB-UNI-Sensor1) muss Device ID und Device Serial unterschiedlich sein!
+// Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
+// Sketches flashen zu können.
 const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_ID,        // Device ID
     cDEVICE_SERIAL,    // Device Serial
