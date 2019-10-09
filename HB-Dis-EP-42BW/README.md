@@ -130,7 +130,7 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
   string displayCmd = "JPDISEP000 /2 'Eine normale Zeile' /3 '@fzEine rote Zeile'";
   dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmd);
   
-  Beispiel 7.2 - Farbe mit x-Position
+  Beispiel 7.2 - Farbe mit x-Position / spaltenweise
   Zeigt den Text "Garage" in Zeile 2 und 3 bei 3% x-Position in Normalfarbe
   und bei 50% x-Position wird "Auf" in Rot und "Zu" in Normalfarbe dargestellt
   string displayCmd = "JPDISEP000 /2 '@p03Garage@f50Auf' /3 '@p03Garage@p50Zu'";
