@@ -481,7 +481,7 @@ public:
 
     void configChanged()
     {
-        // DPRINTLN("Config changed: List1");
+        // DPRINTLN(F("Config changed: List1"));
     }
 
     uint8_t status() const { return 0; }
@@ -501,27 +501,27 @@ public:
     virtual void configChanged()
     {
         TSDevice::configChanged();
-        DPRINTLN("Config Changed: List0");
+        DPRINTLN(F("Config Changed: List0"));
 
         uint8_t ledMode = this->getList0().ledMode();
-        DPRINT("ledMode: ");
+        DPRINT(F("ledMode: "));
         DDECLN(ledMode);
 
         uint8_t lowBatLimit = this->getList0().lowBatLimit();
-        DPRINT("lowBatLimit: ");
+        DPRINT(F("lowBatLimit: "));
         DDECLN(lowBatLimit);
         battery().low(lowBatLimit);
 
         uint8_t txDevTryMax = this->getList0().transmitDevTryMax();
-        DPRINT("transmitDevTryMax: ");
+        DPRINT(F("transmitDevTryMax: "));
         DDECLN(txDevTryMax);
 
         uint16_t updCycle = this->getList0().updIntervall();
-        DPRINT("updCycle: ");
+        DPRINT(F("updCycle: "));
         DDECLN(updCycle);
 
         uint16_t altitude = this->getList0().altitude();
-        DPRINT("altitude: ");
+        DPRINT(F("altitude: "));
         DDECLN(altitude);
     }
 };
