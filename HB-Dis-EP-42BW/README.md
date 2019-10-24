@@ -150,6 +150,125 @@ Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
 [Script Helper epaper42.tcl](Script_Helper)
 
 
+## HomeMatic-Skript: Nur die geänderten Zeilen an das Display senden (DutyCycle sparen)
+
+- in meinem zyklischen Skript für das Display-Update berechne ich<br>
+  1) alle Zeileninhalte die ich aktuell haben will und danach<br>
+  2) gibt es einen Teil der diese mit den aktuellen Zeileninhalt auf dem Display abgleicht und nur die Zeilen sendet die sich geändert haben.<br>
+  Der aktuelle Displayinhalt wird dabei in der Systemvariablen *EPAPER.Lines* gespeichert.
+
+![pic](Images/EPAPER.Lines.png)
+
+- die aktuell erzeugten Strings für die einzelnen Zeilen 2..10 müssen in den Skriptvariablen line2..line10 aufgebaut werden, z.B. für Zeile 3:
+
+```
+  ! Temp/Feuchte außen
+  string tempOut = dom.GetObject('BidCos-RF.UNISENS010:1.TEMPERATURE').Value().ToString(1) # " °C";
+  string humOut = dom.GetObject('BidCos-RF.UNISENS010:1.HUMIDITY').Value().ToString(0) # " %";
+  string line3 = "/3 '@p03@t09@p45" # tempOut # "@p78" # humOut # "'";
+```
+
+- Zeile 1 wird bei mir nur um Mitternacht mit dem Datum geschrieben und ist deshalb hier in der Logik nicht enthalten.
+
+- Danach sorgt der folgende generische Teil im Skript dafür dass nur die geänderten Zeilen gesendet werden.
+
+- Außerdem wird darin berücksichtigt dass aufgrund von Beschränkungen beim Senden in der Zentrale nicht alles 10 Zeilen in einem Funktelegramm untergebracht werden können falls sich alle Zeilen geändert haben sollten, deswegen wird immer in zwei Funktelegramme unterteilt.
+
+- Durch Beschränkungen im Sprachumfang von HomeMatic-Skript ist der Code etwas länger als man sonst z.B. in C++ oder Python dafür brauchen würde. :crying_cat_face:
+
+```
+  ! Um DutyRate zu sparen nur die Zeilen übertragen die sich geändert haben
+  string lastLines = dom.GetObject("EPAPER.Lines").Value();
+  string index;
+  string linesDoNotUpdate = "";
+  foreach (index, lastLines) {
+      if (index.Substr(0, 2) == "/2") {
+          if (index == line2) {
+              linesDoNotUpdate = linesDoNotUpdate # "L02";
+          }
+      } elseif (index.Substr(0, 2) == "/3") {
+          if (index == line3) {
+              linesDoNotUpdate = linesDoNotUpdate # "L03";
+          }
+      } elseif (index.Substr(0, 2) == "/4") {
+          if (index == line4) {
+              linesDoNotUpdate = linesDoNotUpdate # "L04";
+          }
+      } elseif (index.Substr(0, 2) == "/5") {
+          if (index == line5) {
+              linesDoNotUpdate = linesDoNotUpdate # "L05";
+          }
+      } elseif (index.Substr(0, 2) == "/6") {
+          if (index == line6) {
+              linesDoNotUpdate = linesDoNotUpdate # "L06";
+          }
+      } elseif (index.Substr(0, 2) == "/7") {
+          if (index == line7) {
+              linesDoNotUpdate = linesDoNotUpdate # "L07";
+          }
+      } elseif (index.Substr(0, 2) == "/8") {
+          if (index == line8) {
+              linesDoNotUpdate = linesDoNotUpdate # "L08";
+          }
+      } elseif (index.Substr(0, 2) == "/9") {
+          if (index == line9) {
+              linesDoNotUpdate = linesDoNotUpdate # "L09";
+          }
+      } elseif (index.Substr(0, 3) == "/10") {
+          if (index == line10) {
+              linesDoNotUpdate = linesDoNotUpdate # "L10";
+          }
+      }
+  }
+  
+  ! Wegen einem Limit bei der RF Übertragung in der CCU kann man nicht alle 10 in einem Funktelegramm übertragen.
+  ! Deswegen wird hier die Übertragung immer in 2 Funktelegramme aufgeteilt.
+  string displayCmdA = "JPDISEP000";
+  string displayCmdB = "JPDISEP000";
+  integer iChangedLinesA = 0;
+  integer iChangedLinesB = 0;
+  
+  if (linesDoNotUpdate.Find("L02") < 0) {
+      displayCmdA = displayCmdA # " " # line2;  iChangedLinesA = iChangedLinesA + 1;
+  }
+  if (linesDoNotUpdate.Find("L03") < 0) {
+      displayCmdA = displayCmdA # " " # line3;  iChangedLinesA = iChangedLinesA + 1;
+  }
+  if (linesDoNotUpdate.Find("L04") < 0) {
+      displayCmdA = displayCmdA # " " # line4;  iChangedLinesA = iChangedLinesA + 1;
+  }
+  if (linesDoNotUpdate.Find("L05") < 0) {
+      displayCmdA = displayCmdA # " " # line5;  iChangedLinesA = iChangedLinesA + 1;
+  }
+  if (linesDoNotUpdate.Find("L06") < 0) {
+      displayCmdB = displayCmdB # " " # line6;  iChangedLinesB = iChangedLinesB + 1;
+  }
+  if (linesDoNotUpdate.Find("L07") < 0) {
+      displayCmdB = displayCmdB # " " # line7;  iChangedLinesB = iChangedLinesB + 1;
+  }
+  if (linesDoNotUpdate.Find("L08") < 0) {
+      displayCmdB = displayCmdB # " " # line8;  iChangedLinesB = iChangedLinesB + 1;
+  }
+  if (linesDoNotUpdate.Find("L09") < 0) {
+      displayCmdB = displayCmdB # " " # line9;  iChangedLinesB = iChangedLinesB + 1;
+  }
+  if (linesDoNotUpdate.Find("L10") < 0) {
+      displayCmdB = displayCmdB # " " # line10; iChangedLinesB = iChangedLinesB + 1;
+  }
+  
+  if (iChangedLinesA > 0) {
+      dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmdA);
+  }
+  if (iChangedLinesB > 0) {
+      dom.GetObject("CUxD.CUX2801001:1.CMD_EXEC").State("tclsh /usr/local/addons/epaper42.tcl " # displayCmdB);
+  }
+  
+  ! Für nächsten Vergleich speichern, Tab Seperator für for_each loop benötigt
+  string currentLines = line2 # "\t" # line3 # "\t" # line4 # "\t" # line5 # "\t" # line6 # "\t" # line7 # "\t" # line8 # "\t" # line9 # "\t" # line10;
+  dom.GetObject("EPAPER.Lines").State(currentLines);
+```
+
+
 ## Strommessung und Kalkulation der Batterielebensdauer
 
 Alle Messungen erfolgten über 20Ohm Shuntwiderstand.
