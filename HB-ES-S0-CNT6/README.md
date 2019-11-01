@@ -131,7 +131,7 @@ Die Impulse/kWh sind im Datenblatt des S0-Stromzählers vermerkt bzw. auch auf d
 `system.Exec(`<br>
 ersetzen.
 
-#### Factory Reset
+## Factory Reset
 
 Über die serielle Schnittstelle des Arduino Pro Mini (FTDI-Adapter) können alle Zähler auf Null rückgesetzt werden (inklusive der EEPROM Speicherplätze).<br>
 Dazu muss das Kommando *FACTORY_RESET* gesendet werden, es kommt eine Rückfrage zur Sicherheit, diese muss dann innerhalb von 10 sec mit *YES* bestätigt werden.
@@ -156,4 +156,9 @@ Dazu muss das Kommando *FACTORY_RESET* gesendet werden, es kommt eine Rückfrage
 
 Dies ist eine Kurzanleitung für erfahrene AVR/Arduino/HomeMatic/RaspberryMatic Benutzer. :smile_cat:<br>
 Bei weiteren Fragen zum Projekt bitte diesen Thread benutzen:<br>
-[HomeMatic Forum: HB-ES-S0-CNT6](https://homematic-forum.de/forum/viewforum.php?f=76)
+[HomeMatic Forum: HB-ES-S0-CNT6](https://homematic-forum.de/forum/viewtopic.php?f=76&t=54164)
+
+
+## Lizenz
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
