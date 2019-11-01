@@ -1,0 +1,14 @@
+! ---------------------------------------------------------
+! STROM.Update1.hms
+!
+! HomeMatic Skript für HB-ES-S0-CNT6
+! Version 0.22
+! 2019-09-03 Tom Major (Creative Commons)
+! https://creativecommons.org/licenses/by-nc-sa/4.0/
+! You are free to Share & Adapt under the following terms:
+! Give Credit, NonCommercial, ShareAlike
+! ---------------------------------------------------------
+
+! ---------------------------------------------------------
+! neue Counterwerte vom Zähler holen
+dom.GetObject("CUxD.CUX2801001:3.CMD_EXEC").State("tclsh /usr/local/addons/update_HB-ES-S0-CNT6.tcl");

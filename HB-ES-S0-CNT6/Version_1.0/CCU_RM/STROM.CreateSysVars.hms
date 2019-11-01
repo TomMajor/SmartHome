@@ -1,0 +1,141 @@
+! ---------------------------------------------------------
+! STROM.CreateSysVars.hms
+!
+! HomeMatic Skript für HB-ES-S0-CNT6 (Erzeugen der Systemvariablen)
+! Version 0.20
+! 2019-08-30 Tom Major (Creative Commons)
+! https://creativecommons.org/licenses/by-nc-sa/4.0/
+! You are free to Share & Adapt under the following terms:
+! Give Credit, NonCommercial, ShareAlike
+!
+! Nur einmal durchführen: Erzeugen der Systemvariablen
+! Beschreibung siehe STROM.Update.hms
+! ---------------------------------------------------------
+
+! =========================================================
+! START benutzerspezifische Konfiguration
+! Kanalanzahl, Bereich 1..6
+integer CHANNEL_COUNT = 5;
+! ENDE benutzerspezifische Konfiguration
+! =========================================================
+
+! ---------------------------------------------------------
+! Channel 1..6 Systemvariablen erzeugen
+integer idx = 0;
+while (idx < 24) {
+
+    string svName = "";
+    boolean bVisible = false;
+    string unit = "";
+    
+    integer channel = (idx % 6) + 1;       ! 1..6
+    if (channel <= CHANNEL_COUNT) {
+    
+        if (idx < 6) {
+            svName = "STROM.Cnt" # channel.ToString();
+        } elseif (idx < 12) {
+            svName = "STROM.LastCnt" # channel.ToString();
+        } elseif (idx < 18) {
+            svName = "STROM.Counter" # channel.ToString();
+            bVisible = true;
+            unit = "kWh";
+        } elseif (idx < 24) {
+            svName = "STROM.Power" # channel.ToString();
+            bVisible = true;
+            unit = "Watt";
+        }
+        
+        object svObj = dom.GetObject(svName);
+        if (svObj) {
+            dom.DeleteObject(svObj.ID());
+            WriteLine("Deleted: " # svName);
+        }
+        
+        object svObj = dom.GetObject(svName);
+        if (!svObj) {
+            object svObjects = dom.GetObject(ID_SYSTEM_VARIABLES);
+            svObj = dom.CreateObject(OT_VARDP);
+            svObjects.Add(svObj.ID());
+    
+            svObj.Name(svName);   
+            svObj.ValueType(ivtFloat);
+            svObj.ValueSubType(istGeneric);
+            svObj.ValueMin(0);
+            svObj.ValueMax(2147000000);
+            svObj.State(0);
+            
+            ! svObj.DPInfo("Beschreibung");
+            if (unit.Length() > 0) {
+                svObj.ValueUnit(unit);
+            }
+            svObj.Internal(false);
+            svObj.Visible(bVisible);
+            svObj.DPArchive(false);
+            WriteLine("Created: " # svName);
+        }
+    }
+    idx = idx + 1; 
+}
+
+! ---------------------------------------------------------
+! Extra Systemvariablen erzeugen
+integer idx = 0;
+while (idx < 3) {
+
+    string svName = "";
+    boolean bVisible = false;
+    string unit = "";
+    
+    if (idx == 0) {
+        svName = "STROM.LastCalcTime";
+    } if (idx == 1) {
+        svName = "STROM.ErrCnt";
+        bVisible = true;
+    } if (idx == 2) {
+        svName = "STROM.ErrMsg";
+        bVisible = true;
+    }
+    
+    object svObj = dom.GetObject(svName);
+    if (svObj) {
+        dom.DeleteObject(svObj.ID());
+        WriteLine("Deleted: " # svName);
+    }
+    
+    object svObj = dom.GetObject(svName);
+    if (!svObj) {
+        object svObjects = dom.GetObject(ID_SYSTEM_VARIABLES);
+        svObj = dom.CreateObject(OT_VARDP);
+        svObjects.Add(svObj.ID());
+
+        svObj.Name(svName);   
+        if (idx <= 1) {                         ! STROM.LastCalcTime, STROM.ErrCnt
+            svObj.ValueType(ivtFloat);
+            svObj.ValueSubType(istGeneric);
+            svObj.ValueMin(0);
+            svObj.ValueMax(2147000000);
+            svObj.State(0);
+        } else {                                ! STROM.ErrMsg
+            svObj.ValueType(ivtString);
+            svObj.ValueSubType(istChar8859);
+            svObj.State("");
+        }
+        
+        ! svObj.DPInfo("Beschreibung");
+        if (unit.Length() > 0) {
+            svObj.ValueUnit(unit);
+        }
+        svObj.Internal(false);
+        svObj.Visible(bVisible);
+        svObj.DPArchive(false);
+        WriteLine("Created: " # svName);
+    }
+
+    idx = idx + 1; 
+}
+
+! ---------------------------------------------------------
+! Update Rega usw.
+! https://homematic-forum.de/forum/viewtopic.php?t=45380
+! 0 - Alle
+dom.RTUpdate(0);
