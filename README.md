@@ -36,16 +36,6 @@
 -> [Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 
 
-## Wassermelder HB-SEC-WDS-2
-
-- Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
-- Demonstriert die Verwendung vom 'ThreeStateSensor' device type aus der AskSinPP Bibliothek mit einer anpassbaren Messroutine, in diesem Fall die Leitfähigkeitsmessung mit dem integrierten ADC
-
-<p align="center"><img src="Images/Prototyp_Wassermelder_small.jpg?raw=true"/></p>
-
--> [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
-
-
 ## Füllstandsanzeige Öltank/Wassertank HB-SEN-LJet
 
 - Kopplung der Projet LevelJET Ultraschall-Füllstandsanzeige mit HomeMatic für Rotex-Öltanks
@@ -63,6 +53,28 @@
 <p align="center"><img src="Images/EP42_small.jpg?raw=true"/></p>
 
 -> [Projektseite HB-DIS-EP-42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW)
+
+
+## 6fach S0-Stromzähler HB-ES-S0-CNT6
+
+- Integration von Wechselstromzähler mit S0-Ausgang in HomeMatic/RaspberryMatic
+- Anbindung an die Zentrale über Ethernet
+- anpassbare Kanalanzahl für die Auswertung in der Zentrale, es sind max. 6 HW-Kanäle vorhanden
+- Alle Zählerstände werden 1x pro Stunde im EEPROM abgelegt und gehen bei einem Stromausfall nicht verloren
+
+<p align="center"><img src="Images/HB-ES-S0-CNT6_small.jpg?raw=true"/></p>
+
+-> [Projektseite HB-ES-S0-CNT6](https://github.com/TomMajor/SmartHome/tree/master/HB-ES-S0-CNT6)
+
+
+## Wassermelder HB-SEC-WDS-2
+
+- Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
+- Demonstriert die Verwendung vom 'ThreeStateSensor' device type aus der AskSinPP Bibliothek mit einer anpassbaren Messroutine, in diesem Fall die Leitfähigkeitsmessung mit dem integrierten ADC
+
+<p align="center"><img src="Images/Prototyp_Wassermelder_small.jpg?raw=true"/></p>
+
+-> [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
 
 
 ## 3-Kanal Kontakt-Interface für Öffner und Schließerkontake HB-SCI-3-FM

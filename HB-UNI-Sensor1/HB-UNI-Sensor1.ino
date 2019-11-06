@@ -310,8 +310,8 @@ public:
 #ifdef SENSOR_DIGINPUT
         digitalInput.disableINT();    // digitalInput Interrupt abschalten, dieser könnte beim Senden ausgelöst werden (bei PIR aufgetreten)
 #endif
-        uint8_t msgcnt = device().nextcount();
         measure();
+        uint8_t msgcnt = device().nextcount();
         msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(), customData);
         device().sendPeerEvent(msg, *this);
         // reactivate for next measure
