@@ -1,0 +1,1 @@
+C:\Program\Arduino\hardware\tools\avr/bin/avrdude -CC:\Program\Arduino\hardware\tools\avr/etc/avrdude.conf -v -V -patmega328p -carduino -PCOM6 -b57600 -D -Uflash:w:c:\Tmp\arduino_build_932149/HB-UNI-Sensor-Heizung.ino.hex:i
