@@ -1,7 +1,7 @@
 
 //---------------------------------------------------------
 // HB-SEN-LevelJet
-// Version 1.02
+// Version 1.03
 // 2019-04-21 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/3.0/
 // You are free to Share & Adapt under the following terms:
@@ -30,7 +30,7 @@
 
 //---------------------------------------------------------
 // Pin definitions
-#define CONFIG_BUTTON_PIN A2
+#define CONFIG_BUTTON_PIN 5
 #define LED_PIN 7
 
 // number of available peers per channel
