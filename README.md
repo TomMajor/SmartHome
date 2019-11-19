@@ -29,7 +29,7 @@
 - modifizierbar für andere Sensoren
 - konfigurierbares Sendeintervall über WebUI
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
-- Der Status eines digitalen Eingangs kann mit übertragen werden.
+- Der Status eines digitalen Eingangs kann mit übertragen werden
 
 <p align="center"><img src="Images/HB-UNI-Sensor1_HW3_small.jpg?raw=true"/></p>
 
@@ -65,6 +65,17 @@
 <p align="center"><img src="Images/HB-ES-S0-CNT6_small.jpg?raw=true"/></p>
 
 -> [Projektseite HB-ES-S0-CNT6](https://github.com/TomMajor/SmartHome/tree/master/HB-ES-S0-CNT6)
+
+
+## HB-UNI-Sensor-Heizung
+- Der HB-UNI-Sensor-Heizung ist ein vom Universalsensor/HB-UNI-Sensor1 abgeleitetes Gerät
+- Es ist ein Schwellwertschalter, der bei Unter- und Überschreitung eines bestimmten Sensorwertes möglichst zeitnah ein Telegramm an die Zentrale sendet
+- Die hier dargestellte Konfiguration ist für die kontaktlose Überwachung einer LED (Brenner), dabei wird die Helligkeit mittels eines MAX44009 gemessen
+- Natürlich sind auch andere Messwerte wie Temperatur oder Luftfeuchtigkeit zur Auslösung bei einem bestimmten Schwellwert möglich
+
+<p align="center"><img src="Images/HB-UNI-Sensor-Heizung_small.jpg?raw=true"/></p>
+
+-> [Projektseite HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
 
 
 ## Wassermelder HB-SEC-WDS-2
