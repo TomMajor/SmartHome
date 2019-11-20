@@ -42,14 +42,14 @@
 `#define LIGHT_THRESHOLD 75         // Schwellwert Lux`
 
 
-## Schaltung
+## Schaltplan
 
-[Schaltung](PCB/Files/HB-UNI-Sensor-Heizung_V2.pdf)
+[:arrow_right: Schaltplan](PCB/Files/HB-UNI-Sensor-Heizung_V2.pdf)
 
 
-## Platine / Gerber
+## Platine
 
-[PCB](PCB)
+[:arrow_right: PCB Gerber](PCB)
 
 ![pic](Images/HB-UNI-Sensor-Heizung_PCB.png)
 

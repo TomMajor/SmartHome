@@ -24,22 +24,22 @@
 
 - Falls man die Peiltabelle nicht benutzen möchte und die Konfiguration der Tankform über das LevelJET-Gerät reicht (bei einfachen geometrischen Tankformen) setzt man den zweiten Parameter auf false und bekommt dann das vom LevelJET berechnete Volumen direkt ohne eigene Peiltabelle.
 
-- Falls man die Peiltabelle für komplexe Tankformen benutzen möchte muss man diese in *src/Peiltabelle.h* an den eigenen Bedarf anpassen (Tabelle Liter <-> cm)
+- Falls man die Peiltabelle für komplexe Tankformen benutzen möchte muss man diese in *src/Peiltabelle.h* an den eigenen Bedarf anpassen (Tabelle Liter <-> cm). Der zweite Parameter bleibt dann auf true.
 
 - Die Tankanzahl in *src/Leveljet.h* an den eigenen Bedarf anpassen:<br>
 `const uint16_t cTANK_ANZAHL = 4;`
 
 
-## Schaltung
+## Schaltplan
 
 ![pic](Images/HB-SEN-LJet_Blockschaltbild.png)
 
-[Schaltung](PCB/Files/HB-SEN-LJet.pdf)
+[:arrow_right: Schaltplan](PCB/Files/HB-SEN-LJet.pdf)
 
 
-## Platine / Gerber
+## Platine
 
-[PCB](PCB)
+[:arrow_right: PCB Gerber](PCB)
 
 ![pic](Images/HB-SEN-LJet_PCB.png)
 
