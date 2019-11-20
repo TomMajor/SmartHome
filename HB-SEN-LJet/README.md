@@ -5,16 +5,65 @@
 - Anpassung an beliebige Tankformen durch Einsatz einer Peiltabelle möglich
 - Volumenberechnung erfolgt Millimetergenau aus der Füllhöhe (Interpolation des Volumens zwischen den cm-Stützstellen)
 
+
+## Bilder
+
 ![pic](Images/LevelJet_WebUI.jpg)
 
+![pic](Images/HB-SEN-LJet_1.jpg)
 
-## Schaltung / Platine
+![pic](Images/HB-SEN-LJet_2.jpg)
 
-![pic](Images/Blockschaltbild_HB-SEN-LJet.png)
 
-[Schaltplan](https://github.com/TomMajor/SmartHome/tree/master/PCB/03_HB-SEN-LJet/Files/HB-SEN-LJet.pdf)
+## Konfiguration
 
-[Platine](https://github.com/TomMajor/SmartHome/tree/master/PCB/03_HB-SEN-LJet)
+- Das ist die aktuelle Standardeinstellung in *HB-SEN-LJet.ino*:<br>
+`LEVELJET<true, true> leveljet;    // Pegel in mm, benutze Peiltabelle`
+
+- Es gibt LevelJET-Geräte die den Pegel in cm ausgeben, in diesem Fall den ersten Parameter auf false setzen.
+
+- Falls man die Peiltabelle nicht benutzen möchte und die Konfiguration der Tankform über das LevelJET-Gerät reicht (bei einfachen geometrischen Tankformen) setzt man den zweiten Parameter auf false und bekommt dann das vom LevelJET berechnete Volumen direkt ohne eigene Peiltabelle.
+
+- Falls man die Peiltabelle für komplexe Tankformen benutzen möchte muss man diese in *src/Peiltabelle.h* an den eigenen Bedarf anpassen (Tabelle Liter <-> cm)
+
+- Die Tankanzahl in *src/Leveljet.h* an den eigenen Bedarf anpassen:<br>
+`const uint16_t cTANK_ANZAHL = 4;`
+
+
+## Schaltung
+
+![pic](Images/HB-SEN-LJet_Blockschaltbild.png)
+
+[Schaltung](PCB/Files/HB-SEN-LJet.pdf)
+
+
+## Platine / Gerber
+
+[PCB](PCB)
+
+![pic](Images/HB-SEN-LJet_PCB.png)
+
+![pic](Images/HB-SEN-LJet_PCB_Bestellung.png)
+
+
+## Aufbau / Stückliste
+
+- alle SMD Widerstände und Kondensatoren haben die Bauform 0805 (außer die 1u und 100u Kondensatoren)
+- Gehäuse: BOPLA EG-1230
+- Bauelementewerte siehe Schaltplan, keine extra Stückliste vorhanden
+
+
+## Hinweise
+
+- :exclamation: Beim Flashen über einen FTDI-Adapter an K6 muss der Daten-Eingang vom LevelJET (K1, pin 6) an +5V oder +3,3V gelegt werden damit seriell geflasht werden kann! (der AVR-Pin PD0/RXD braucht High-Pegel).<br>
+  Der LevelJET selbst muss beim Flashen von der Schaltung getrennt werden!
+- Zur Geschichte: Die Füllstandsmessung mit LevelJET lief schon viele Jahre mit RFM69 und jeelink Anbindung an FHEM und sie war in dem oben genannten BOPLA Gehäuse verbaut.<br>
+  Bei der Umstellung des Systems nach HomeMatic habe ich bequemerweise das Gehäuse an der Wand weiterverwendet und nur die Platine dafür neu designed. Ohne diese Randbedingung kann man die Platine natürlich kleiner machen.
+
+
+## CCU2/CCU3/RaspberryMatic Installation
+
+Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-SEN-LJet-addon.tgz installieren.
 
 
 ## Benötige Libraries
@@ -22,11 +71,6 @@
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
 [EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
 [Low-Power](https://github.com/rocketscream/Low-Power)
-
-
-## CCU2/CCU3/RaspberryMatic Installation
-
-Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-SEN-LJet-addon.tgz installieren.
 
 
 ## Lizenz
