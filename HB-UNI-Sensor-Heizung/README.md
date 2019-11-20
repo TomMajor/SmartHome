@@ -13,6 +13,23 @@
 - Es wurde eine Platine entwickelt die einen Arduino Pro Mini 8MHz benutzt (bei dem die Maßnahmen zur [Ruhestromverringerung](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom) angewendet wurden) - da ich nicht immer Lust habe den AVR als TQFP32 zu löten :smiley_cat:
 
 
+## Bilder
+
+![pic](Images/HB-UNI-Sensor-Heizung_01.jpg)
+
+![pic](Images/HB-UNI-Sensor-Heizung_02.jpg)
+
+![pic](Images/HB-UNI-Sensor-Heizung_03.jpg)
+
+![pic](Images/HB-UNI-Sensor-Heizung_04.jpg)
+
+![pic](Images/HB-UNI-Sensor-Heizung_05.jpg)
+
+![pic](Images/HB-UNI-Sensor-Heizung_06.jpg)
+
+![pic](Images/1551KTBU.png)
+
+
 ## Konfiguration
 
 - Wie oft soll gemessen werden?<br>
@@ -30,30 +47,13 @@
 [Schaltung](PCB/Files/HB-UNI-Sensor-Heizung_V2.pdf)
 
 
-## Aufbau
-
-![pic](Images/HB-UNI-Sensor-Heizung_01.jpg)
-
-![pic](Images/HB-UNI-Sensor-Heizung_02.jpg)
-
-![pic](Images/HB-UNI-Sensor-Heizung_03.jpg)
-
-![pic](Images/HB-UNI-Sensor-Heizung_04.jpg)
-
-![pic](Images/HB-UNI-Sensor-Heizung_05.jpg)
-
-![pic](Images/HB-UNI-Sensor-Heizung_06.jpg)
-
-![pic](Images/1551KTBU.png)
-
-
-## Platine / Gerberdateien
+## Platine / Gerber
 
 [PCB](PCB)
 
-![pic](PCB/Images/HB-UNI-Sensor-Heizung_PCB.png)
+![pic](Images/HB-UNI-Sensor-Heizung_PCB.png)
 
-![pic](PCB/Images/Bestellung_JLCPCB_HB-UNI-Sensor-Heizung.png)
+![pic](Images/HB-UNI-Sensor-Heizung_Bestellung.png)
 
 
 ## Aufbau / Stückliste
