@@ -68,8 +68,9 @@ Dazu die Platine auf eine wärmefeste Unterlage legen (damit sich die erhitzen P
 Den CC1101 auflegen, leicht andrücken, die Pogo-Pins ausrichten und anlöten.<br>
 Dann mit den inneren Pins weitermachen, durch das leichte Andrücken des CC1101 beim Anlöten eines jeden Pins sollten sich diese automatisch auf die Löcher in den CC1101 Pads ausgerichten.
 
-![pic](Images/Aufbau.jpg)
+![pic](Images/HB-CC1101-Testbench_Aufbau.jpg)
 
+#### Stückliste
 
 | Anzahl	| Name	    | Wert	            | Gehäuse       | Bemerkungen |
 |---|---|---|---|---|
