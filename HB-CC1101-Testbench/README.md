@@ -63,10 +63,11 @@ Er funktioniert gut, ich bin aber sicher dass ein findiger Konstrukteur eine fü
 
 - Wichtig bei anderen  Pogo-Pins wäre dass sie bei den 2mm Padabstand des CC1101 nicht aneinander stoßen, andererseits dürfen sie nicht zu dünn sein, damit sie nicht durch die Löcher in den CC1101 Pads durchrutschen.
 
-- Aus eigener Erfahrung würde ich beim Aufbau unbedingt mit den Pogo-Pins beginnen, sonst kann es später fummelig werden.<br>
-Dazu die Platine auf eine wärmefeste Unterlage legen (damit sich die erhitzen Pogo-Pins nicht unten einbrennen) und mit den äußeren Pogo-Pins anfangen.<br>
-Den CC1101 auflegen, leicht andrücken, die Pogo-Pins ausrichten und anlöten.<br>
-Dann mit den inneren Pins weitermachen, durch das leichte Andrücken des CC1101 beim Anlöten eines jeden Pins sollten sich diese automatisch auf die Löcher in den CC1101 Pads ausgerichten.
+- Aus eigener Erfahrung würde ich beim Aufbau unbedingt mit den Pogo-Pins beginnen, sonst kann es später fummelig werden.
+  - Dazu die Platine **auf eine wärmefeste Unterlage legen** (damit sich die erhitzen Pogo-Pins beim Einlöten nicht unten einbrennen) und mit den äußeren Pogo-Pins anfangen.
+  - Einen CC1101 auflegen, leicht andrücken, die Pogo-Pins ausrichten und einlöten.
+  - Dann mit den inneren Pins weitermachen, dazu beim Einlöten eines jeden Pins den CC1101 leicht Andrücken damit sich die Pins automatisch auf die Löcher in den CC1101 Pads ausrichten.
+  - Fehler in der Ausrichtung der Pins am Besten sofort bei jedem Pin korrigieren, nicht erst am Ende wenn alle Pins eingelötet sind.
 
 ![pic](Images/HB-CC1101-Testbench_Aufbau.jpg)
 
@@ -74,7 +75,24 @@ Dann mit den inneren Pins weitermachen, durch das leichte Andrücken des CC1101 
 
 | Anzahl	| Name	    | Wert	            | Gehäuse       | Bemerkungen |
 |---|---|---|---|---|
-|**TODO**|||||
+|| **CC1101 Frequenz Tester** ||||
+| 1 | K4   | Stiftleiste 1x2  | 2,54mm | Power/Strommessung Teil B |
+| 1 | IC3  | Arduino Pro Mini | | 3,3V / 8MHz Version |
+| 1 | R5   | 1,5k             | 805	| |
+| 1 | R6   | 10k              | 805	| |
+| 1 | C7   | 100n             | 805	| |
+| 1 | C6   | 1µ               | 805	| |
+| 1 | LED2 | rot              | 805	| |
+| 1 | ANT  | CC1101 Antenne   | | |
+|| **Arduino Pro Mini Ruhestrom Tester / ISP / I2C** ||||
+| 1 | K3   | Stiftleiste 1x2  | 2,54mm | Power/Strommessung Teil A |
+| 1 | R1   | 1,5k             | 805	| |
+| 2 | R3, R4 | 10k              | 805	| I2C pull-up |
+| 1 | C5   | 100n             | 805	| |
+| 1 | LED1 | rot              | 805	| |
+| 1 | SV1  | Stiftleiste 1x4  | 2,54mm | I2C |
+|| **3V Spannungsquelle aus einer Zelle** ||||
+|| TODO ||||
 
 
 ## Benötige Libraries
