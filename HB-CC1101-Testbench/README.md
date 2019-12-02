@@ -78,22 +78,22 @@ Er funktioniert gut, ich bin aber sicher dass ein findiger Konstrukteur eine fü
 || **CC1101 Frequenz Tester** ||||
 | 1 | K4   | Stiftleiste 1x2  | 2,54mm | Power/Strommessung Teil B |
 | 1 | IC3  | Arduino Pro Mini | | 3,3V / 8MHz Version |
-| 1 | R5   | 1,5k             | 805	| |
-| 1 | R6   | 10k              | 805	| |
-| 1 | C7   | 100n             | 805	| |
-| 1 | C6   | 1µ               | 805	| |
-| 1 | LED2 | KP2012SURC       | 805	| |
+| 1 | R5   | 1,5k             | 0805	| |
+| 1 | R6   | 10k              | 0805	| |
+| 1 | C7   | 100n             | 0805	| |
+| 1 | C6   | 1µ               | 0805	| |
+| 1 | LED2 | KP2012SURC       | 0805	| |
 | 1 | ANT  | CC1101 Antenne   | | |
 || **Arduino Pro Mini Ruhestrom Tester / ISP / I2C** ||||
 | 1 | K3   | Stiftleiste 1x2  | 2,54mm | Power/Strommessung Teil A |
-| 1 | R1   | 1,5k             | 805	| |
-| 2 | R3, R4 | 10k              | 805	| I2C pull-up |
-| 1 | C5   | 100n             | 805	| |
-| 1 | LED1 | KP2012SURC       | 805	| |
+| 1 | R1   | 1,5k             | 0805	| |
+| 2 | R3, R4 | 10k              | 0805	| I2C pull-up |
+| 1 | C5   | 100n             | 0805	| |
+| 1 | LED1 | KP2012SURC       | 0805	| |
 | 1 | SV1  | Stiftleiste 1x4  | 2,54mm | I2C |
 || **3V Spannungsquelle aus einer Zelle** ||||
 | 1 | K1   | Stiftleiste 1x2  | 2,54mm | Power/Strommessung Alles |
-| 2 | C1, C1   | 10µ          | 805	| |
+| 2 | C1, C1   | 10µ          | 0805	| |
 | 2 | C3, C4   | 47µ          | bedrahtet, C4 optional | |
 | 1 | L1   | 10µ              | | LQH43CN100K03L |
 | 1 | IC2  | MAX1724EZK30     | | auch MAX1724EZK33 möglich |
