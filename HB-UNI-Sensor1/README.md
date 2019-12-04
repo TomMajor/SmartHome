@@ -16,10 +16,10 @@
   - [Aufbau](#aufbau)
   - [Flashen](#flashen)
   - [Changelog](#changelog)
-  - [Verbesserungen für's nächste Redesign](#verbesserungen-für's-nächste-redesign)
+  - [Verbesserungen für's nächste Redesign](##verbesserungen-fürs-nächste-redesign)
   - [Bestellung der Platine](#bestellung-der-platine)
 - Installation
-  - [RaspberryMatic/CCU Installation](#raspberrymatic/ccu-installation)
+  - [RaspberryMatic/CCU Installation](##raspberrymaticccu-installation)
   - [RaspberryMatic WebUI](#raspberrymatic-webui)
   - [FHEM Installation](#fhem-installation)
   - [Serieller Log beim Start des Sensors](#serieller-log-beim-start-des-sensors)
@@ -28,7 +28,7 @@
   - [Benutzerspezifische Sensordaten](#benutzerspezifische-sensordaten)
   - [Optionaler Reset-Baustein MCP111](#optionaler-reset-baustein-mcp111)
   - [Bewegungsmelder mit PIR AS312 am digitalen Eingang](#bewegungsmelder-mit-pir-as312-am-digitalen-eingang)
-  - [Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones](#warnung-vor-dem-flashen-von-3,3v-geräten-mit-usbasp-klones)
+  - [Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones](#exclamation-warnung-vor-dem-flashen-von-33v-geräten-mit-usbasp-klones)
 - Links, Bibliotheken und Lizenz
   - [Links](#links)
   - [Benötige Libraries](#benötige-libraries)
@@ -129,7 +129,7 @@ Beispiel:<br>
 
 ## Gerber
 
-[:arrow_right: PCB Gerber](PCB)
+[:arrow_right: PCB Gerber](PCB/Gerber)
 
 
 ## Mögliche I2C Adressen der Sensoren

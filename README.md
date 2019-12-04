@@ -30,8 +30,12 @@
 - konfigurierbares Sendeintervall über WebUI
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
 - Der Status eines digitalen Eingangs kann mit übertragen werden
+- Variante 1: PLHT Sensor Version 2.01
+- Variante 2: PLHT Sensor Version i2.20
 
 <p align="center"><img src="Images/HB-UNI-Sensor1_HW3_small.jpg?raw=true"/></p>
+
+<p align="center"><img src="Images/PLHT_i220_small.jpg?raw=true"/></p>
 
 -> [Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 
@@ -104,26 +108,6 @@
 <p align="center"><img src="Images/BI_small.jpg?raw=true"/></p>
 
 -> [Projektseite BI Schutz](https://github.com/TomMajor/SmartHome/tree/master/Info/Babbling%20Idiot%20Protection)
-
-
-## PLHT Sensor Version 2.01
-
-- HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 10/2018
-- Redesign von Dirks/PeMue's Platine (FHEM)
-
-<p align="center"><img src="Images/PLHT_201_small.png?raw=true"/></p>
-
--> [Projektseite PLHT Sensor 2.01](https://github.com/TomMajor/SmartHome/tree/master/PCB/01_Sensor_PLHT_V2.01)
-
-
-## PLHT Sensor Version i2.20
-
-- HB-UNI-Sensor1 für Außen- oder Innenanwendungen, 07/2019
-- Weiterentwicklung vom PLHT Sensor Version 2.01 mit anderen Gehäusevarianten
-
-<p align="center"><img src="Images/PLHT_i220_small.jpg?raw=true"/></p>
-
--> [Projektseite PLHT Sensor i2.20](https://github.com/TomMajor/SmartHome/tree/master/PCB/02_Sensor_PLHT_Vi2.20)
 
 
 ## Ruhestrom
