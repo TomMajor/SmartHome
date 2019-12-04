@@ -16,10 +16,10 @@
   - [Aufbau](#aufbau)
   - [Flashen](#flashen)
   - [Changelog](#changelog)
-  - [Verbesserungen für's nächste Redesign](##verbesserungen-fürs-nächste-redesign)
+  - [Verbesserungen für's nächste Redesign](#verbesserungen-fürs-nächste-redesign)
   - [Bestellung der Platine](#bestellung-der-platine)
 - Installation
-  - [RaspberryMatic/CCU Installation](##raspberrymaticccu-installation)
+  - [RaspberryMatic/CCU Installation](#raspberrymaticccu-installation)
   - [RaspberryMatic WebUI](#raspberrymatic-webui)
   - [FHEM Installation](#fhem-installation)
   - [Serieller Log beim Start des Sensors](#serieller-log-beim-start-des-sensors)
