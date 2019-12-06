@@ -38,7 +38,7 @@
 ## Features
 
 - Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor
-- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
+- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
 - modifizierbar für andere Sensoren
 - Bestückung mit Arduino Pro Mini oder alternativ mit ATmega328P
 - RC- oder Quarzoszillator möglich
@@ -62,6 +62,7 @@ Beispiel:<br>
 `#define SENSOR_MAX44009`<br>
 `#define SENSOR_TSL2561`<br>
 `#define SENSOR_BH1750`<br>
+`#define SENSOR_SHT31`<br>
 `#define SENSOR_SHT21`<br>
 `#define SENSOR_SHT10`<br>
 `#define SENSOR_DIGINPUT`<br>
@@ -144,6 +145,7 @@ Die I2C Adressen lassen sich (falls der Sensor das unterstützt) meisten am Sens
 | MAX44009 | 4A, 4B | wählbar über Pin |
 | TSL2561 | 29, 39, 49 | wählbar über Pin |
 | BH1750 | 23, 5C | wählbar über Pin |
+| SHT31 | 44, 45 | wählbar über Pin |
 | SHT21 | 40 | - |
 | SHT10 | - | kein I2C Sensor, kann aber die I2C Pins mitbenutzen |
 | VEML6070 | 38+39 (+0C) | beide 3x Adressen werden benötigt, 0C unklar |
@@ -341,7 +343,7 @@ Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
 - HB-UNI-Sensor1 für für Außen- oder Innenanwendungen, 07/2019
 - Weiterentwicklung vom PLHT Sensor Version 2.01 mit anderen Gehäusevarianten
 - Bestückung mit ATmega328P, RC-Oszillator als Standard
-- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
+- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
 - 5x I2C Stiftleisten vorhanden, damit können bis zu 5 I2C Sensoren auf Breakout-Boards parallel bestückt werden
 - 1-Wire Temperatursensor DS18x20 bestückbar
 - Spannungsversorgung: Batterien/Akku 2 AA-Zellen
@@ -543,6 +545,9 @@ Für einen TSL2561 Sensor (Helligkeit in Lux):</br>
 
 Für einen BH1750 Sensor (Helligkeit in Lux):</br>
 [BH1750](https://github.com/hexenmeister/AS_BH1750)
+
+Für einen SHT31 Sensor (Temperatur/Feuchte):</br>
+[SHT31](https://github.com/adafruit/Adafruit_SHT31)
 
 Für einen SHT21/Si7021 Sensor (Temperatur/Feuchte):</br>
 [SHT21](https://github.com/jayjayuk/Si7021-Humidity-And-Temperature-Sensor-Library)

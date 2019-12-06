@@ -32,6 +32,7 @@
 //#define SENSOR_MAX44009   // MAX44009_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_TSL2561    // TSL2561_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_BH1750     // BH1750_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_SHT31      // SHT31_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT21
 //#define SENSOR_SHT10      // SHT10_DATAPIN / SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // DIGINPUT_PIN define weiter unten muss zur HW passen!
@@ -51,6 +52,7 @@
 //#define MAX44009_ADDR     0x4A
 //#define TSL2561_ADDR      TSL2561_ADDR_FLOAT
 //#define BH1750_ADDR       0x23    // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
+//#define SHT31_ADDR        0x44    // by default its 0x44, you can also adjust the sensor for 0x45 and then pass that value in
 //#define SHT10_DATAPIN     A4
 //#define SHT10_CLKPIN      A5
 //#define DIGINPUT_PIN      A1

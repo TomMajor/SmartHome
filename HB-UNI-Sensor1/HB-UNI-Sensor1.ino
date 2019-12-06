@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.16
+// Version 1.17
 // 2019-10-09 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -71,6 +71,10 @@ using namespace as;
 
 #ifdef SENSOR_BH1750
 #include "Sensors/Sens_BH1750.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
+#ifdef SENSOR_SHT31
+#include "Sensors/Sens_SHT31.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
 #ifdef SENSOR_SHT21
@@ -276,6 +280,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_BH1750
     Sens_BH1750<BH1750_ADDR> bh1750;
 #endif
+#ifdef SENSOR_SHT31
+    Sens_SHT31<SHT31_ADDR> sht31;
+#endif
 #ifdef SENSOR_SHT21
     Sens_SHT21 sht21;
 #endif
@@ -341,10 +348,11 @@ public:
     {
         // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
         // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
-#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
+#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21)               \
+    && !defined(SENSOR_SHT10)
         temperature10 = 188;    // 18.8C (scaling 10)
 #endif
-#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
+#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
         humidity = 88;    // 88%
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
@@ -374,9 +382,13 @@ public:
         temperature10 = ds18x20.temperature();
 #endif
 
-// Feuchte/Temp vom SHT21/10 falls kein BME280 vorhanden
+// Feuchte/Temp vom SHT31/21/10 falls kein BME280 vorhanden
 #ifndef SENSOR_BME280
-#ifdef SENSOR_SHT21
+#ifdef SENSOR_SHT31
+        sht31.measure();
+        temperature10 = sht31.temperature();
+        humidity      = sht31.humidity();
+#elif defined SENSOR_SHT21
         sht21.measure();
         temperature10 = sht21.temperature();
         humidity      = sht21.humidity();
@@ -441,6 +453,9 @@ public:
 #endif
 #ifdef SENSOR_BH1750
         bh1750.init();
+#endif
+#ifdef SENSOR_SHT31
+        sht31.init();
 #endif
 #ifdef SENSOR_SHT21
         sht21.init();
