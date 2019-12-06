@@ -50,9 +50,9 @@
 -> [Projektseite HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 
 
-## Infos und AddOn zum 4,2" ePaper Display HB-DIS-EP-42BW
+## Script Helper, Infos und reduced AddOn zum 4,2" ePaper Display HB-DIS-EP-42BW von Jerome/jp112sdl
 
-- Sketch für DisplayTest, AddOn, Fuses, Bootloader
+- Script Helper, Aufbau, AddOn, Fuses, Bootloader, DisplayTest
 
 <p align="center"><img src="Images/EP42_small.jpg?raw=true"/></p>
 
@@ -72,6 +72,7 @@
 
 
 ## HB-UNI-Sensor-Heizung
+
 - Der HB-UNI-Sensor-Heizung ist ein vom Universalsensor/HB-UNI-Sensor1 abgeleitetes Gerät
 - Es ist ein Schwellwertschalter, der bei Unter- und Überschreitung eines bestimmten Sensorwertes möglichst zeitnah ein Telegramm an die Zentrale sendet
 - Die hier dargestellte Konfiguration ist für die kontaktlose Überwachung einer LED (Brenner), dabei wird die Helligkeit mittels eines MAX44009 gemessen
@@ -80,6 +81,20 @@
 <p align="center"><img src="Images/HB-UNI-Sensor-Heizung_small.jpg?raw=true"/></p>
 
 -> [Projektseite HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
+
+
+## HB-CC1101-Testbench
+
+- Testbench für CC1101 Frequenztests (Projektziel)
+- Zusätzlich:
+  - 3V Spannungsquelle für Testaufbauten (aus einer Zelle)
+  - Arduino Pro Mini Ruhestrom Tester
+  - Arduino Pro Mini ISP Programmierung
+  - I2C Connector für Breakout-Board Tests
+
+<p align="center"><img src="Images/HB-CC1101-Testbench_small.jpg?raw=true"/></p>
+
+-> [Projektseite HB-CC1101-Testbench](https://github.com/TomMajor/SmartHome/tree/master/HB-CC1101-Testbench)
 
 
 ## Wassermelder HB-SEC-WDS-2
