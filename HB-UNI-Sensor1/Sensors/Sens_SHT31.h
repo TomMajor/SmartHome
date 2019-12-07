@@ -41,7 +41,6 @@ public:
             if (_sht31.begin(I2C_ADDR) == true) {
                 _present = true;
                 DPRINTLN(F("SHT31 found"));
-                //              _si7021.setHumidityRes(12);    // Humidity = 12-bit / Temperature = 14-bit
                 _sht31.heater(false);    // Turn heater off
                 return true;
             }
