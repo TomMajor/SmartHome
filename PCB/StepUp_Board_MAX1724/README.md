@@ -54,6 +54,20 @@ Insofern ist der Unterschied im Stromverbrauch nur eine Vermutung bis man nicht 
 - Mouser macht nach meinen Erfahrungen nur Spaß wenn man über dem Mindestbestellwert von ca. 50€ kommt, sonst fallen hohe Versand-/Zollkosten an.
 - Farnell und Mouser versenden wahnsinning schnell, ist teilweise am nächsten Tag bereits da.
 
+###### :exclamation: MAX1724: Warnung vor Fakes bei Ali
+
+Bei einem Supportfall für den HB-UNI-Sensor1 im FHEM Forum für user *vbs* stellte sich heraus, das er "minderwertige" bzw. gefakte MAX1724 von Ali bekommen hatte.<br>
+Die hatten erst mal im Leerlauf unauffällig ihre 3,3V erzeugt, aber sobald es ans Senden ging brach die Spannung ein (bei Vin 2,5V oder kleiner).<br>
+Danach hat er bei RS in DE bestellt und alles bestens.<br>
+Es sind auch Unterschiede bei der Beschriftung zu sehen, alle Details zum Thema hier:<br>
+[Fehlerhafte MAX1724 Bausteine](https://forum.fhem.de/index.php/topic,100165.0.html)<br>
+Nach den Messungen von user *vbs* im FHEM HM_WDS10_TH_O thread müsste das als Test reichen für die Fakes:<br>
+MAX1724 mit 3,3V Vout, Vin 2,5V, Rlast 48 Ohm, beim Fake bricht da Vout ein, für den Original kein Problem.<br>
+
+![pic](Images/MAX1724_Original.jpg)
+
+![pic](Images/MAX1724_Good_Bad.jpg)
+
 
 ## Lizenz
 
