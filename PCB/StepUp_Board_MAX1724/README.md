@@ -41,6 +41,15 @@
 | 1 | R1   | 100k             | 0805	| optional, für AskSinPP Batteriespannungsmessung |
 | 1 | R2   | 470k             | 0805	| optional, für AskSinPP Batteriespannungsmessung |
 
+###### Bezugsquellen LQH43CN100K03L und MAX1724
+
+- [Conrad](https://www.conrad.de), [TME](https://www.tme.eu/de), [RS privat](https://www.rsonline-privat.de), [Mouser](https://www.mouser.de) - **alle auch für Privatkunden**
+- [Farnell](https://de.farnell.com) - **nur gewerbliche Kunden**
+
+Bei Farnell finde ich die parametrische Suche genial, z.B.<br>
+"*liste mir alle P-Kanal Mosfet im SOT-23 Gehäuse mit einer Ugs von >= 20V und sortiere sie aufsteigend nach ihrem Rdson-Widerstand.*"<br>
+Mouser macht nach meinen Erfahrungen nur Spaß wenn man über dem Mindestbestellwert von ca. 50€ kommt, sonst fallen hohe Versand-/Zollkosten an.
+
 
 ## Lizenz
 
