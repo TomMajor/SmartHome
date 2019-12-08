@@ -41,14 +41,18 @@
 | 1 | R1   | 100k             | 0805	| optional, für AskSinPP Batteriespannungsmessung |
 | 1 | R2   | 470k             | 0805	| optional, für AskSinPP Batteriespannungsmessung |
 
-###### Bezugsquellen LQH43CN100K03L und MAX1724
+- Ob man beim MAX1724 die 3,0V oder die 3,3V Version verwendet (bzw. beschaffen kann :crying_cat_face:) wäre für mich gleichwertig.<br>
+Ich würde auf einen **kleinen** erhöhten Stromverbrauch wegen der höheren Vout-Vin Differenz bei der 3,3V Version tippen, aber anderseits steigt der Wirkungsgrad mit erhöhter Vout, siehe Diagramme im Datenblatt.<br>
+Insofern ist der Unterschied im Stromverbrauch nur eine Vermutung bis man nicht selber vergleichsweise gemessen hat (und das ist nicht ganz einfach wegen dem discontinuous control scheme des MAX1724).
+
+###### Hinweise zur Beschaffung LQH43CN100K03L und MAX1724
 
 - [Conrad](https://www.conrad.de), [TME](https://www.tme.eu/de), [RS privat](https://www.rsonline-privat.de), [Mouser](https://www.mouser.de) - **alle auch für Privatkunden**
 - [Farnell](https://de.farnell.com) - **nur gewerbliche Kunden**
-
-Bei Farnell finde ich die parametrische Suche genial, z.B.<br>
-"*liste mir alle P-Kanal Mosfet im SOT-23 Gehäuse mit einer Ugs von >= 20V und sortiere sie aufsteigend nach ihrem Rdson-Widerstand.*"<br>
-Mouser macht nach meinen Erfahrungen nur Spaß wenn man über dem Mindestbestellwert von ca. 50€ kommt, sonst fallen hohe Versand-/Zollkosten an.
+- Bei Farnell finde ich die parametrische Suche genial, z.B.<br>
+"*liste mir alle P-Kanal Mosfet im SOT-23 Gehäuse mit einer Ugs von >= 20V und sortiere sie aufsteigend nach ihrem Rdson-Widerstand.*"
+- Mouser macht nach meinen Erfahrungen nur Spaß wenn man über dem Mindestbestellwert von ca. 50€ kommt, sonst fallen hohe Versand-/Zollkosten an.
+- Farnell und Mouser versenden wahnsinning schnell, ist teilweise am nächsten Tag bereits da.
 
 
 ## Lizenz
