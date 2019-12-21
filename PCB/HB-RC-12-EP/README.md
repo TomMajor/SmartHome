@@ -7,9 +7,9 @@
 
 ## Bilder
 
-![pic](Images/Preview1_Top.png)
+![pic](Images/HB-RC-12-EP_Top_V10.png)
 
-![pic](Images/Preview1_Bottom.png)
+![pic](Images/HB-RC-12-EP_Bottom_V10.png)
 
 
 ## Schaltplan
