@@ -82,7 +82,7 @@
 | 1 | R1	            | 30	            | 0805          | Optional (Batt.messung unter Last) |
 | 1 | R2	            | 10	            | 0805          | Optional (Batt.messung unter Last) |
 | 1 | R3	            | 4,7k	            | 0805          | Optional (Batt.messung unter Last) |
-| 1 | T1	            | IRML6344          | SOT23-3       | Optional (Batt.messung unter Last) |
+| 1 | T1	            | IRLML6344         | SOT23-3       | Optional (Batt.messung unter Last) |
 |   |                   |                   |               | |
 | 1 | R10	            | 100k	            | 0805          | Optional (Verpolschutz) |
 | 1 | T2	            | DMG3415U	        | SOT23-3       | Optional (Verpolschutz) |
