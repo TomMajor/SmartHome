@@ -16,7 +16,7 @@
 #include <SPI.h>
 #include "LowPower.h"
 
-const int ledPin = 4;
+const int ledPin = 9;
 
 void setup() 
 {
