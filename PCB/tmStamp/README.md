@@ -35,6 +35,10 @@ Features:
 
 ![pic](Images/tmStamp_05.jpg)
 
+![pic](Images/tmStamp_Top.png)
+
+![pic](Images/tmStamp_Bottom.png)
+
 
 ## Schaltplan
 
@@ -44,16 +48,55 @@ Features:
 ## Platine
 
 [:arrow_right: PCB Gerber](Gerber)
-<br>**WIP**
 
 
 ## Aufbau / Stückliste
 
-| Anzahl	| Name	    | Wert	            | Gehäuse       | Bemerkungen |
+| Anzahl    | Name      | Wert              | Gehäuse       | Bemerkungen |
 |---|---|---|---|---|
-**WIP**
+| 1 | R2                | 10k               | 0805          | |
+| 1 | R3                | 1,5k              | 0805          | |
+| 1 | C1                | 100n              | 0805          | |
+| 1 | C2                | 1µ                | 0805          | |
+| 1 | SW1               | DTSM-3            | SMD           | |
+| 1 | LED1	            | gelb	            | 0805          | |
+| 1 | IC1	            | Arduino Pro Mini  | -             | 3,3V / 8MHz Version |
+| 1 | IC2	            | CC1101	        | -             | |
+| 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
+|   |                   |                   |               | |
+| 2 | R4, R5            | 10k               | 0805          | Optional (I2C pull-up Widerstände) |
+|   |                   |                   |               | |
+| 1 | R10               | 100k              | 0805          | Optional (Verpolschutz) |
+| 1 | T2                | DMG3415U          | SOT23-3       | Optional (Verpolschutz) |
+|   |                   |                   |               | |
+| 1 | L1	            | 10µ -> LQH43CN100K03L | SMD       | Optional (StepUp-Wandler zur Versorgung aus einer Zelle) |
+| 2 | C4, C5	        | 10µ	            | 0805          | Optional (StepUp-Wandler zur Versorgung aus einer Zelle) |
+| 1 | C6	            | 22µ/16V           | ELKO_C        | Optional (StepUp-Wandler zur Versorgung aus einer Zelle) |
+| 1 | IC3	            | MAX1724EZK30 oder MAX1724EZK33 | SOT23-5 | Optional (StepUp-Wandler zur Versorgung aus einer Zelle) |
+|   |                   |                   |               | |
+| 1 | R6	            | 30	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | R7	            | 10	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | R8	            | 4,7k	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | T1	            | IRLML6344         | SOT23-3       | Optional (Echte Batt.messung unter Last) |
+|   |                   |                   |               | |
+| 1 | IC4	            | MCP111T-240	    | SOT23-3       | Optional (BI-Protection) |
+|   |                   |                   |               | |
+| 1 | R9	            | 10k	            | TO92          | Optional (Temperaturmessung) |
+| 1 | IC5	            | DS18B20	        | TO92          | Optional (Temperaturmessung) |
 
 **Achtung: Wenn der DC-DC/StepUp Wandler MAX1724 nicht benutzt wird muss S2 gebrückt werden!**
+
+R1 war als der Standard pull-up Widerstand für die Resetleitung des AVR vorgesehen.<br>
+Da der Arduino Pro Mini den bereits On-Board hat braucht er nicht bestückt werden.
+
+WIP: Bemerkung über Länge der Pfostenleiste.
+
+![pic](Images/tmStamp_Aufbau.jpg)
+
+
+## Verbesserungen für's nächste Redesign
+
+- R1 entfernen
 
 
 ## Lizenz
