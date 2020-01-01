@@ -151,7 +151,7 @@ case "$1" in
 	info)
 		echo "Info: <b>$DEVICE Addon</b><br>"
 		echo "Info: <b>CCU2/3, RaspberryMatic</b><br>"
-		echo "Info: (c) 2018-2019 TomMajor<br>"
+		echo "Info: (c) 2018-2020 TomMajor<br>"
 		echo "Info: ${ADDON_INFO_LINK}"
 		echo "Version: $(cat ${ADDON_DIR}/VERSION)"
 		echo "Name: $DEVICE"

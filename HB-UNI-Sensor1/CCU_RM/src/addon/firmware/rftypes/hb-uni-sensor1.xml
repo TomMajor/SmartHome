@@ -81,9 +81,7 @@
       <paramset type="MASTER" id="HB-UNI-Sensor1_master" />
       <paramset type="VALUES" id="HB-UNI-Sensor1_values">
         <parameter id="TEMPERATURE" operations="read,event">
-          <logical type="float" min="-50.0" max="120.0" unit="°C">
-            <special_value id="NO_SENSOR" value="-99.0" />
-          </logical>
+          <logical type="float" min="-50.0" max="120.0" unit="°C" />
           <physical type="integer" interface="command" value_id="TEMPERATURE">
             <event frame="WEATHER_EVENT" />
           </physical>
@@ -93,9 +91,7 @@
           </description>
         </parameter>
         <parameter id="AIR_PRESSURE" operations="read,event">
-          <logical type="float" min="500.0" max="1100.0" unit="hPa">
-            <special_value id="NO_SENSOR" value="0.0" />
-          </logical>
+          <logical type="float" min="500.0" max="1100.0" unit="hPa" />
           <physical type="integer" interface="command" value_id="AIR_PRESSURE">
             <event frame="WEATHER_EVENT" />
           </physical>
@@ -105,9 +101,7 @@
           </description>
         </parameter>
         <parameter id="HUMIDITY" operations="read,event">
-          <logical type="integer" min="1" max="99" unit="%">
-            <special_value id="NO_SENSOR" value="0" />
-          </logical>
+          <logical type="integer" min="0" max="100" unit="%" />
           <physical type="integer" interface="command" value_id="HUMIDITY">
             <event frame="WEATHER_EVENT" />
           </physical>
