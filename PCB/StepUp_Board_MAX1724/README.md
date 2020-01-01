@@ -65,15 +65,11 @@ Es sind auch Unterschiede bei der Beschriftung zu sehen, alle Details zum Thema 
 Nach den Messungen von user *vbs* im Thread [Selbstbau HM_WDS10_TH_O mit Luftdruckmessung](https://forum.fhem.de/index.php/topic,20620.msg930511.html#msg930511) müsste das als Test reichen um die Fakes zu identifizieren:<br>
 MAX1724 mit Vout = 3,3V, Vin = 2,5V, Rlast = 48 Ohm, beim Fake-Chip bricht da Vout ein, für den Original-Chip kein Problem.<br>
 
-<figure>
-  <img src="Images/MAX1724_Original.jpg"/>
-  <figcaption>MAX1724 Original (direkt von Maxim), 3,0V Version (Markierung ADQI)</figcaption>
-</figure>
-<br>
-<figure>
-  <img src="Images/MAX1724_Good_Bad.jpg"/>
-  <figcaption>MAX1724 Good-Bad, 3,3V Version (Markierung ADQJ), Quelle: FHEM user vbs</figcaption>
-</figure>
+![pic](Images/MAX1724_Original.jpg)<br>
+<font size="-1">MAX1724 Original (direkt von Maxim), 3,0V Version (Markierung ADQI)</font>
+
+![pic](Images/MAX1724_Good_Bad.jpg)<br>
+<font size="-1">MAX1724 Good-Bad, 3,3V Version (Markierung ADQJ), Quelle: FHEM user vbs</font>
 
 
 ## Lizenz
