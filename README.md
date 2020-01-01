@@ -8,9 +8,11 @@
 
 | |AddOn|Status|letzte getestete Firmware (RaspberryMatic)|
 |---|---|---|---|
-|:heavy_check_mark:|HB-UNI-Sensor1|lauffähig unter CCU / RaspberryMatic|3.47.18.20190918|
+|:heavy_check_mark:|HB-UNI-Sensor1|lauffähig unter CCU / RaspberryMatic|3.47.18.20191225|
 |:heavy_check_mark:|HB-SEN-LJet|lauffähig unter CCU / RaspberryMatic|3.47.18.20190918|
 |:heavy_check_mark:|HB-DIS-EP-42BW|lauffähig unter CCU / RaspberryMatic|3.47.18.20190918|
+
+-> [AddOn Change Log](https://github.com/TomMajor/SmartHome/tree/master/Info/AddOn_Projekte)
 
 
 ## Disclaimer
@@ -157,7 +159,7 @@
 
 <p align="center"><img src="Images/AddOn_small.jpg?raw=true"/></p>
 
--> [Projektseite HomeMatic AddOn Entwicklung und Dokumentation](https://github.com/TomMajor/SmartHome/tree/master/Info/RaspberryMatic_CCU_AddOn)
+-> [Projektseite HomeMatic AddOn Entwicklung und Dokumentation](https://github.com/TomMajor/SmartHome/tree/master/Info/AddOn_Infos)
 
 
 ## SensorTest_Lux
