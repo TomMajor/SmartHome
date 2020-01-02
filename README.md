@@ -73,6 +73,16 @@
 -> [Projektseite HB-ES-S0-CNT6](https://github.com/TomMajor/SmartHome/tree/master/HB-ES-S0-CNT6)
 
 
+## tmStamp
+
+- Einsatz eines Arduino Pro Mini um nicht immer den ATmega328P als SMD TQFP32 löten zu müssen
+- Es wurde ein Kompromiss angestrebt zwischen einerseits minimalen Abmessungen (Pro Mini und CC1101 als Stack übereinander) und andererseits zusätzlichen Optionen um das Board möglichst universell einsetzen zu können
+
+<p align="center"><img src="Images/tmStamp_small.jpg?raw=true"/></p>
+
+-> [Projektseite tmStamp](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp)
+
+
 ## HB-UNI-Sensor-Heizung
 
 - Der HB-UNI-Sensor-Heizung ist ein vom Universalsensor/HB-UNI-Sensor1 abgeleitetes Gerät

@@ -93,10 +93,14 @@ WIP: Bemerkung über Länge der Pfostenleiste.
 
 ![pic](Images/tmStamp_Aufbau.jpg)
 
+![pic](Images/tmStamp_Bestellung.png)
+
 
 ## Verbesserungen für's nächste Redesign
 
 - R1 entfernen
+- Die 3 Pad-Löcher auf der Antennenseite des CC1101 haben im Gegensatz zur SPI-Seite ein 2,54mm Raster (SPI-Seite hat 2mm).<br>
+Ich habe jedoch dort den gleichen Bohrlochdurchmesser von 0,7mm wie für die SPI-Seite verwendet. Dadurch passen nur die Pins eines 2mm Pfostensteckers, nicht die eines 2,54mm Pfostensteckers. Eventuell diese 3 Löcher auf 0,9mm vergrößern.
 
 
 ## Lizenz
