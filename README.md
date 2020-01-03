@@ -75,6 +75,7 @@
 
 ## tmStamp
 
+- Universelles AskSinPP Board
 - Einsatz eines Arduino Pro Mini um nicht immer den ATmega328P als SMD TQFP32 löten zu müssen
 - Es wurde ein Kompromiss angestrebt zwischen einerseits minimalen Abmessungen (Pro Mini und CC1101 als Stack übereinander) und andererseits zusätzlichen Optionen um das Board möglichst universell einsetzen zu können
 
@@ -188,6 +189,13 @@
 <p align="center"><img src="Images/WDT_Frequenz_small.jpg?raw=true"/></p>
 
 -> [Projektseite WDT_Frequenz](https://github.com/TomMajor/SmartHome/tree/master/Info/WDT_Frequenz)
+
+
+## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+
+- :exclamation: AVR und CC1101 können bei 3,3V durch Einsatz eines USBasp Klones zerstört werden :exclamation:
+
+-> [Warnung](https://github.com/TomMajor/SmartHome/tree/master/Info/Warnung_Flashen_33_USBasp_Klones)
 
 
 ## Lizenz
