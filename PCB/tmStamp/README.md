@@ -42,7 +42,9 @@ Features:
 
 ## Schaltplan
 
-[:arrow_right: tmStamp V1.0](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp/Files/tmStamp_V10.pdf)
+[:arrow_right: tmStamp V1.00](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp/Files/tmStamp_v100.pdf)
+
+[:arrow_right: tmStamp V1.01](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp/Files/tmStamp_v101.pdf)
 
 
 ## Platine
@@ -86,9 +88,6 @@ Features:
 
 **Achtung: Wenn der DC-DC/StepUp Wandler MAX1724 nicht benutzt wird muss S2 gebrückt werden!**
 
-R1 war als der Standard pull-up Widerstand für die Resetleitung des AVR vorgesehen.<br>
-Da der Arduino Pro Mini den bereits On-Board hat braucht er nicht bestückt werden.
-
 WIP: Bemerkung über Länge der Pfostenleiste.
 
 ![pic](Images/tmStamp_Aufbau.jpg)
@@ -98,9 +97,19 @@ WIP: Bemerkung über Länge der Pfostenleiste.
 
 ## Verbesserungen für's nächste Redesign
 
-- R1 entfernen
-- Die 3 Pad-Löcher auf der Antennenseite des CC1101 haben im Gegensatz zur SPI-Seite ein 2,54mm Raster (SPI-Seite hat 2mm).<br>
-Ich habe jedoch dort den gleichen Bohrlochdurchmesser von 0,7mm wie für die SPI-Seite verwendet. Dadurch passen nur die Pins eines 2mm Pfostensteckers, nicht die eines 2,54mm Pfostensteckers. Eventuell diese 3 Löcher auf 0,9mm vergrößern.
+###### Version 1.00
+
+- R1 entfernen<br>
+R1 war als der Standard pull-up Widerstand für die Resetleitung des AVR vorgesehen.<br>
+Da der Arduino Pro Mini den bereits On-Board hat braucht er nicht bestückt werden.
+- Die 3 Pad-Löcher auf der Antennenseite des CC1101 haben im Gegensatz zur SPI-Seite ein 2,54mm Raster (die SPI-Seite hat 2mm) - dies wurde beachtet.<br>
+Allerdings habe ich dort den gleichen Bohrlochdurchmesser von 0,7mm wie für die SPI-Seite verwendet. Dadurch passen nur die Pins eines 2mm Pfostensteckers, nicht die eines 2,54mm Pfostensteckers. Eventuell diese 3 Löcher auf 0,9mm vergrößern.
+
+###### Version 1.01
+
+- Beide Verbesserungen aus V1.00 wurden gemacht.
+- Züsätzlich ein Loch in Nähe des CC1101 Antennenpads gesetzt um bei Bedarf auch einen Draht von unten direkt in das Antennenpad einlöten zu können.<br>
+Die Antenne direkt von oben in das CC1101-Modul einzulöten geht natürlich auch.
 
 
 ## Lizenz
