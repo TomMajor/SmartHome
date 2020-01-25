@@ -65,6 +65,7 @@ Features:
 | 1 | IC1	            | Arduino Pro Mini  | -             | 3,3V / 8MHz Version |
 | 1 | IC2	            | CC1101	        | -             | |
 | 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
+| 3 | Stiftleisten | 1x11pol., 1x3pol., 1x2pol.| RM 2,54    | Empfehlung: Gesamthöhe 9,5mm, siehe unten |
 |   |                   |                   |               | |
 | 2 | R4, R5            | 10k               | 0805          | Optional (I2C pull-up Widerstände) |
 |   |                   |                   |               | |
@@ -88,9 +89,18 @@ Features:
 
 **Achtung: Wenn der DC-DC/StepUp Wandler MAX1724 nicht benutzt wird muss S2 gebrückt werden!**
 
-WIP: Bemerkung über Länge der Pfostenleiste.
+- beim Auflöten des CC1101 Moduls lasse ich gern darunter etwas Luft um es gegebenenfalls besser wieder runter zubekommen. Im Bild habe ich dafür eine Platine mit **1mm Dicke** beim Einlöten dazwischengelegt.
 
-![pic](Images/tmStamp_Aufbau.jpg)
+- Stiftleisten zum Einlöten des Arduino Pro Mini:<br>
+Diese haben normalerweise eine Höhe von 12,5mm. Ideal für eine geringere Bauhöhe wären aus meiner Sicht 9,5mm - zufällig hatte ich davon ein paar da, diese lagen Break-Out Boards aus China bei.<br>
+Wenn jemand eine direkte Bezugsquelle für 9,5mm Stiftleisten hat kann ich diese gerne hier aufnehmen.<br>
+Oder man nimmt die normalen mit 12,5mm Höhe, belässt die Höhe wie sie ist bzw. kürzt die Stiftleisten.
+
+![pic](Images/tmStamp_Aufbau_01.jpg)
+
+![pic](Images/tmStamp_Aufbau_02.jpg)
+
+![pic](Images/Stiftleisten.jpg)
 
 ![pic](Images/tmStamp_Bestellung.png)
 
