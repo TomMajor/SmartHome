@@ -25,6 +25,8 @@ Genauso gut kann man den Pro Mini über den FTDI Adapter versorgen oder am Power
 
 ## Bilder
 
+###### Prototyp
+
 ![pic](Images/HB-CC1101-Testbench_1.jpg)
 
 ![pic](Images/HB-CC1101-Testbench_2.jpg)
@@ -34,6 +36,12 @@ Genauso gut kann man den Pro Mini über den FTDI Adapter versorgen oder am Power
 ![pic](Images/HB-CC1101-Testbench_4.jpg)
 
 ![pic](Images/HB-CC1101-Testbench_5.png)
+
+###### Variante mit erweitertem CC1101-Halter von *rih*
+
+![pic](Images/Testbench1_rih.jpg)
+
+![pic](Images/Testbench2_rih.jpg)
 
 
 ## Schaltplan
@@ -52,9 +60,14 @@ Genauso gut kann man den Pro Mini über den FTDI Adapter versorgen oder am Power
 
 - Der CC1101 Halter war eine schnelle Idee von mir, den *Jan_von_neben_an* dankenswerterweise umgesetzt hat.<br>
 Er funktioniert gut, ich bin aber sicher dass ein findiger Konstrukteur eine für den CC1101 Wechsel schnellere Lösung (Schnell-Klemmvorrichtung o.ä.) bauen könnte.<br>
-
-- Momentan muss man den CC1101 auf die Pogo-Pins auflegen, dann den Halter auf den CC1011 und dann die 2 Schrauben ein paar wenige Umdrehungen eindrehen.<br>
 [:arrow_right: Halter by Schmelzerboy](https://www.thingiverse.com/thing:4002846)
+
+- Momentan muss man den CC1101 auf die Pogo-Pins auflegen, dann den Halter auf den CC1011 und dann die 2 Schrauben ein paar wenige Umdrehungen eindrehen.
+
+- neben dem ursprünglichen Halter von *Jan_von_neben_an* gibt es mittlerweile eine erweiterte Variante von *rih*, siehe Bilder oben.
+
+- Die STL-Dateien für beide Varianten sind hier abgelegt:<br>
+[:arrow_right: STL-Dateien](3D_Druck)
 
 - Die Pogo-Pins **P75-E2** für die Testbench haben einen kleinen Kegel an der Spitze:<br>
 ![pic](Images/Pogo_pin_P75_E2.png)
