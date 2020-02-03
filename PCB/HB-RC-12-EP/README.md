@@ -7,6 +7,8 @@
 
 ## Bilder
 
+![pic](Images/HB-RC-12-EP_Dimensions.png)
+
 ![pic](Images/HB-RC-12-EP_Top_V10.png)
 
 ![pic](Images/HB-RC-12-EP_Bottom_V10.png)

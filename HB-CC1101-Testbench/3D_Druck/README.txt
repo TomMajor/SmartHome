@@ -16,3 +16,4 @@ Thumbscrews:
 vertical-adj-z-endstop-holder-thumbscrew.stl
 Creator: LittleDangerous
 https://www.thingiverse.com/thing:23858
+(Thumbscrews here are part of a bigger project, click on "Thing Files" to see them)
