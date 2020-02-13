@@ -32,7 +32,31 @@
 
 ## Aufbau / Stückliste
 
-- ** WIP / kommt bald **
+| Anzahl    | Name      | Wert              | Gehäuse       | Bemerkungen |
+|---|---|---|---|---|
+| 2 | R1, R3            | 10k               | 0805          | |
+| 2 | R2, R9            | 1,5k              | 0805          | R9 erst ab V1.01 im Layout vorhanden |
+| 1 | R7                | 100k              | 0805          | |
+| 5 | C1, C4, C5, C6, C7| 100n              | 0805          | |
+| 2 | C2, C3            | 1µ                | 0805          | |
+| 1 | T2                | IRLML2244         | SOT23-3       | |
+| 1 | IC1	            | ATMEGA1284P-AU    | TQFP44        | 3,3V / 8MHz Version |
+| 1 | IC2	            | CC1101	        | -             | |
+| 1 | LED1	            | grün	            | 0805          | |
+| 1 | LED2	            | rot	            | 0805          | LED2 erst ab V1.01 im Layout vorhanden |
+| 12| SW1-12            | DTSM-3            | SMD           | |
+| 1 | SW13              |                   | SMD           | DTSM-3 verkehrt herum auflöten oder anderer Taster bzw. Lösung |
+| 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
+| 1 | K1                | 1x8pol. gewinkelt | RM 2,0 mm     | Reichelt: SL 1X10W 2,00 |
+|   |                   |                   |               | |
+| 1 | Q1	            | CSTCE8	        |SMD            | Optional (Resonator statt int. AVR RC-Osc.) |
+|   |                   |                   |               | |
+| 1 | R4	            | 30	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | R5	            | 10	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | R6	            | 4,7k	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | T1	            | IRLML6344         | SOT23-3       | Optional (Echte Batt.messung unter Last) |
+|   |                   |                   |               | |
+| 1 | IC3	            | MCP111T-240	    | SOT23-3       | Optional (BI-Protection) |
 
 
 ## Links
