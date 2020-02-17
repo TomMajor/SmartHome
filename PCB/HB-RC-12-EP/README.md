@@ -1,11 +1,13 @@
 
 # HB-RC-12-EP Board
 
-- Ein Board für Jeromes [HB-RC-12-EP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=50160) Projekt, eine 12 Kanal Fernbedienung mit ePaper.
-- Es gibt 2 Varianten für das Gehäuse (3D-Druck), von *Alveran* und *der-pw*
+- Ein Board für Jeromes [HB-RC-12-EP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=50160) Projekt, eine 12 Kanal Fernbedienung mit ePaper-Display.
+- Es gibt momentan 2 Varianten für das Gehäuse (3D-Druck), von *Alveran* und *der-pw*
 
 
 ## Bilder
+
+[comment]: ![pic](Images/HB-RC-12-EP_1.jpg)
 
 ![pic](Images/HB-RC-12-EP_Dimensions.png)
 
@@ -13,11 +15,21 @@
 
 ![pic](Images/HB-RC-12-EP_Bottom_V10.png)
 
-![pic](Images/HB-RC-12-EP_Alveran.jpg)
+###### Gehäusevariante von der-pw
 
 ![pic](Images/HB-RC-12-EP_derpw1.jpg)
 
 ![pic](Images/HB-RC-12-EP_derpw2.jpg)
+
+[:arrow_right: Gehäuse 3D-Druck Variante der-pw](https://www.thingiverse.com/thing:4145186)
+
+[:arrow_right: Aufbauanleitung](https://www.thingiverse.com/download:7679656)
+
+###### Gehäusevariante von Alvaran
+
+![pic](Images/HB-RC-12-EP_Alveran.jpg)
+
+[:arrow_right: Gehäuse 3D-Druck Variante Alvaran](https://github.com/Alveran81/HB-RC-12-EP/tree/master/STL)
 
 
 ## Schaltplan
