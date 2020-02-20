@@ -23,7 +23,7 @@
 
 [:arrow_right: Gehäuse 3D-Druck Variante der-pw](https://www.thingiverse.com/thing:4145186)
 
-[:arrow_right: Aufbauanleitung](https://www.thingiverse.com/download:7679656)
+[:arrow_right: Aufbauanleitung Variante der-pw](https://cdn.thingiverse.com/assets/88/70/7e/3d/6d/Aufbauanleitung_YA_HB-RC-12-EP_Case.pdf)
 
 ###### Gehäusevariante von Alvaran
 
@@ -41,6 +41,9 @@
 
 [:arrow_right: PCB Gerber](Gerber)
 
+Achtung, die Platine hier ist für die 2,9"-ePaper Variante mit 2mm Raster am Stecker.<br>
+Es gibt mittlerweile auch eine Variante dieses ePapers-Moduls mit 2,54mm Stecker-Raster, siehe den unten verlinkten Thread.
+
 
 ## Aufbau / Stückliste
 
@@ -56,7 +59,7 @@
 | 1 | IC2	            | CC1101	        | -             | |
 | 1 | LED1	            | grün	            | 0805          | |
 | 1 | LED2	            | rot	            | 0805          | LED2 erst ab V1.01 im Layout vorhanden |
-| 12| SW1-12            | DTSM-3            | SMD           | |
+| 12| SW1-12            | DTSM-3            | SMD           | [z.B. AliExpress 3X6X2,5mm](https://de.aliexpress.com/item/32672806661.html) |
 | 1 | SW13              |                   | SMD           | DTSM-3 verkehrt herum auflöten oder anderer Taster bzw. Lösung |
 | 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
 | 1 | K1                | 1x8pol. gewinkelt | RM 2,0 mm     | Reichelt: SL 1X10W 2,00 |
