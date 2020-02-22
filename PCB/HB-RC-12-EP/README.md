@@ -34,7 +34,7 @@
 
 ## Schaltplan
 
-[:arrow_right: HB-RC-12-EP Board](https://github.com/TomMajor/SmartHome/tree/master/PCB/HB-RC-12-EP/Files/HB-RC-12-EP.pdf)
+[:arrow_right: HB-RC-12-EP Board](https://github.com/TomMajor/SmartHome/tree/master/PCB/HB-RC-12-EP/Files/HB-RC-12-EP_V101.pdf)
 
 
 ## Platine
