@@ -55,11 +55,11 @@ Es gibt mittlerweile auch eine Variante dieses ePapers-Moduls mit 2,54mm Stecker
 | 5 | C1, C4, C5, C6, C7| 100n              | 0805          | |
 | 2 | C2, C3            | 1µ                | 0805          | |
 | 1 | T2                | IRLML2244         | SOT23-3       | |
-| 1 | IC1	            | ATMEGA1284P-AU    | TQFP44        | 3,3V / 8MHz Version |
+| 1 | IC1	            | ATMEGA1284P-AU    | TQFP44        | |
 | 1 | IC2	            | CC1101	        | -             | |
 | 1 | LED1	            | grün	            | 0805          | |
 | 1 | LED2	            | rot	            | 0805          | LED2 erst ab V1.01 im Layout vorhanden |
-| 12| SW1-12            | DTSM-3            | SMD           | [z.B. AliExpress 3X6X2,5mm](https://de.aliexpress.com/item/32672806661.html) |
+| 12| SW1-12            | DTSM-3            | SMD           | 3x6x2,5mm, [z.B. AliExpress](https://de.aliexpress.com/item/32672806661.html) |
 | 1 | SW13              |                   | SMD           | DTSM-3 verkehrt herum auflöten oder anderer Taster bzw. Lösung |
 | 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
 | 1 | K1                | 1x8pol. gewinkelt | RM 2,0 mm     | Reichelt: SL 1X10W 2,00 |
