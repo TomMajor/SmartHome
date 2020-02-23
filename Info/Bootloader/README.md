@@ -30,11 +30,16 @@
 
 ## Bootloader ATmega1284P RC-Oszillator oder Quarz 8MHz
 
-- Standard ATmega1284P Bootloader, 8MHz, für HB-DIS-EP-42BW
+- Standard ATmega1284P Bootloader, 8MHz, z.B. für die HB-DIS-EP-42BW und HB-RC-12-EP Projekte
+- Die MightyCore Lib gibt unterschiedliche Baudraten für 8MHz RC-Oszillator bzw. 8MHz Quarz vor, ich empfehle dies zu berücksichtigen um das Flash-Erlebnis angenehmer zu gestalten :smiley_cat:
 
 -> [ATmega1284P Bootloader (RC-Oszillator oder Quarz 8MHz)](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284_RC-Osc_or_Quarz)
 
-![pic](mega1284_RC-Osc_or_Quarz/fuses_1284.png)
+###### Fuses für 8MHz RC-Oszillator - Bootloader Version mit 38400 Baud benutzen
+![pic](mega1284_RC-Osc_or_Quarz/fuses_1284_RC.png)
+
+###### Fuses für 8MHz Quarz - Bootloader Version mit 57600 Baud benutzen
+![pic](mega1284_RC-Osc_or_Quarz/fuses_1284_Quarz.png)
 
 
 ## Atmel AVR Fuse Calculator
