@@ -85,6 +85,17 @@ Es gibt mittlerweile auch eine Variante dieses ePapers-Moduls mit 2,54mm Stecker
 | 1 | IC3	            | MCP111T-240	    | SOT23-3       | Optional (BI-Protection) |
 
 
+## Displaytest
+
+[:arrow_right: Displaytest](ePaper29_DisplayTest)
+
+Mit dem Displaytest kann das Display auf korrekte Funktion bzw. Anschluß getestet werden.<br>
+Außerdem wird am Displayrand ein Rahmen gezeichnet um es beim Einbau ins Gehäuse ggf. besser ausrichten zu können.<br>
+Weiterhin werden die beiden LED zyklisch durch die Zustände aus/rot/grün/orange durchgeschaltet.<br>
+
+![pic](Images/remote_displaytest.jpg)
+
+
 ## Links
 
 [HomeMatic Forum: HB-RC-12-EP - 12 Kanal Fernbedienung mit ePaper](https://homematic-forum.de/forum/viewtopic.php?f=76&t=50160)

@@ -1,10 +1,10 @@
 //---------------------------------------------------------
-// ePaper29_Test
-// 2019-11-14 Tom Major Creative Commons
+// ePaper29_DisplayTest
+// 2020-03-14 Tom Major Creative Commons
 // 2019-04-03 jp112sdl Creative Commons
 //---------------------------------------------------------
 
-// MightyCore 1284P, STANDARD pinout, 8MHz
+// MightyCore 1284P, STANDARD pinout, 8MHz int. RC-Osc.
 
 //---------------------------------------------------------
 #include <GxEPD.h>
@@ -14,12 +14,15 @@
 #include "U8G2_FONTS_GFX.h"
 
 //---------------------------------------------------------
-#define GxRST_PIN 14     // PD6
-#define GxBUSY_PIN 11    // PD3
-#define GxDC_PIN 12      // PD4
-#define GxCS_PIN 18      // PC2
+#define GxRST_PIN     22 // PC6
+#define GxBUSY_PIN    23 // PC7
+#define GxDC_PIN      21 // PC5
+#define GxCS_PIN      20 // PC4
 
-//#define DISPLAY_ROTATE 1    // 0 = 0° , 1 = 90°, 2 = 180°, 3 = 270°
+#define LED_PIN_1          19   // PC3
+#define LED_PIN_2          10   // TomMajor PCB 1.00, LED2 on INT0
+
+#define DISPLAY_ROTATE 0    // 0 = 0° , 1 = 90°, 2 = 180°, 3 = 270°
 
 GxIO_Class  io(SPI, GxCS_PIN, GxDC_PIN, GxRST_PIN);
 GxEPD_Class display(io, GxRST_PIN, GxBUSY_PIN);
@@ -30,6 +33,11 @@ U8G2_FONTS_GFX        u8g2Fonts(display);
 //---------------------------------------------------------
 void setup()
 {
+    pinMode(LED_PIN_1, OUTPUT);
+    pinMode(LED_PIN_2, OUTPUT);
+    digitalWrite(LED_PIN_1, LOW);
+    digitalWrite(LED_PIN_2, LOW);
+
     display.init(57600);
     display.drawPaged(initDisplay);
 }
@@ -37,14 +45,28 @@ void setup()
 //---------------------------------------------------------
 void loop()
 {
-    delay(100);
+    digitalWrite(LED_PIN_1, HIGH);
+    digitalWrite(LED_PIN_2, LOW);
+    delay(500); // green
+
+    digitalWrite(LED_PIN_1, LOW);
+    digitalWrite(LED_PIN_2, HIGH);
+    delay(500); // red
+
+    digitalWrite(LED_PIN_1, HIGH);
+    digitalWrite(LED_PIN_2, HIGH);
+    delay(500); // orange
+
+    digitalWrite(LED_PIN_1, LOW);
+    digitalWrite(LED_PIN_2, LOW);
+    delay(500); // off
 }
 
 //---------------------------------------------------------
 void initDisplay()
 {
     u8g2_for_adafruit_gfx.begin(display);
-    //    display.setRotation(DISPLAY_ROTATE);
+    display.setRotation(DISPLAY_ROTATE);
     u8g2Fonts.setFontMode(1);
     //    u8g2Fonts.setFontDirection(0);
     u8g2Fonts.setForegroundColor(GxEPD_BLACK);
