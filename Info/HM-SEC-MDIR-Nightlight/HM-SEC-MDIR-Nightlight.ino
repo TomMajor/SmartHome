@@ -12,8 +12,9 @@
 #include <AskSinPP.h>
 #include <LowPower.h>
 // uncomment the following 2 lines if you have a TSL2561 connected at address 0x29
-//#include <Wire.h>
-//#include <sensors/Tsl2561.h>
+// der BH1750 geht auch
+#include <Wire.h>
+#include <sensors/Tsl2561.h>
 
 #include <MultiChannelDevice.h>
 #include <Motion.h>
