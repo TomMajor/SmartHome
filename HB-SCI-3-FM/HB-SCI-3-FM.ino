@@ -1,8 +1,8 @@
-
 //---------------------------------------------------------
 // HB-SCI-3-FM
-// 2018-10-26 Tom Major (Creative Commons)
-// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// Version 1.01
+// (C) 2018-2020 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
 // +++
@@ -15,6 +15,10 @@
 #include <LowPower.h>
 #include <Register.h>
 #include <ThreeState.h>
+
+//---------------------------------------------------------
+// sample time / wakeup interval
+#define SAMPLE_TIME_SEC 1    // 1 Sekunde ist default in AskSinPP class Position, file Sensors.h
 
 //---------------------------------------------------------
 // Battery definitions
@@ -98,11 +102,11 @@ public:
 };
 
 // --------------------------------------------------------
-class OnePinPosition : public Position {
+class ONEPinPosition : public Position {
     uint8_t m_SensePin;
 
 public:
-    OnePinPosition()
+    ONEPinPosition()
         : m_SensePin(0)
     {
         _present = true;
@@ -124,14 +128,14 @@ public:
         }
     }
 
-    uint32_t interval() { return seconds2ticks(1); }    // alle 1sec messen (default für Klasse 'Position', nur bei Änderungen relevant)
+    uint32_t interval() { return seconds2ticks(SAMPLE_TIME_SEC); }    // alle xx Sekunden aufwachen/messen
 };
 
 // --------------------------------------------------------
 template <class HALTYPE, class List0Type, class List1Type, class List4Type, int PEERCOUNT>
-class OnePinChannel : public ThreeStateGenericChannel<OnePinPosition, HALTYPE, List0Type, List1Type, List4Type, PEERCOUNT> {
+class OnePinChannel : public ThreeStateGenericChannel<ONEPinPosition, HALTYPE, List0Type, List1Type, List4Type, PEERCOUNT> {
 public:
-    typedef ThreeStateGenericChannel<OnePinPosition, HALTYPE, List0Type, List1Type, List4Type, PEERCOUNT> BaseChannel;
+    typedef ThreeStateGenericChannel<ONEPinPosition, HALTYPE, List0Type, List1Type, List4Type, PEERCOUNT> BaseChannel;
 
     OnePinChannel()
         : BaseChannel() {};
