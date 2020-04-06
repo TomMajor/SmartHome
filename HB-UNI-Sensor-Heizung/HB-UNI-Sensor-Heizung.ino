@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor-Heizung (ein modifizierter HB-UNI-Sensor1)
-// Version 1.00
-// 2019-10-22 Tom Major (Creative Commons)
+// Version 1.01
+// (C) 2019-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -354,7 +354,11 @@ public:
             uint8_t msgcnt = device().nextcount();
             msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(),
                      customData);
-            device().sendPeerEvent(msg, *this);
+            if (msg.flags() & Message::BCAST) {
+                device().broadcastEvent(msg, *this);
+            } else {
+                device().sendPeerEvent(msg, *this);
+            }
         }
         // ========================================
         // reactivate for next measure

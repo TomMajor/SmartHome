@@ -95,6 +95,9 @@ public:
         clock.add(*this);
     }
 
+    void setIdle() {}
+    void unsetIdle() {}
+
 protected:
     uint16_t measure(uint16_t preDelayTime)
     {
