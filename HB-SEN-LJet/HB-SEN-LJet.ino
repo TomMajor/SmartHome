@@ -1,9 +1,8 @@
-
 //---------------------------------------------------------
 // HB-SEN-LevelJet
-// Version 1.03
-// 2019-04-21 Tom Major (Creative Commons)
-// https://creativecommons.org/licenses/by-nc-sa/3.0/
+// Version 1.04
+// (C) 2019-2020 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
 // +++
@@ -122,10 +121,14 @@ public:
 
     virtual void trigger(AlarmClock& clock)
     {
-        uint8_t msgcnt = device().nextcount();
         measure();
+        uint8_t msgcnt = device().nextcount();
         msg.init(msgcnt, percent, levelMM, volumeLiter);
-        device().sendPeerEvent(msg, *this);
+        if (msg.flags() & Message::BCAST) {
+            device().broadcastEvent(msg, *this);
+        } else {
+            device().sendPeerEvent(msg, *this);
+        }
         // reactivate for next measure
         uint16_t updCycle = this->device().getList0().updIntervall();
         set(seconds2ticks(updCycle));
