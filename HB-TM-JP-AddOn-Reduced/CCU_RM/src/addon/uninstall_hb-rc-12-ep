@@ -1,0 +1,124 @@
+#!/bin/sh
+
+DEVICE="HB-RC-12-EP-C"
+DEVICE_IMG=hb-rc-12-ep-c.png
+DEVICE_THUMB=hb-rc-12-ep-c_thumb.png
+FIRMWARE_FILE=/firmware/rftypes/hb-rc-12-ep-*.xml
+
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "; sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+
+webuiFile="/www/webui/webui.js"; sed -i "/\($DEVICE\)/d" $webuiFile
+
+webuiSearch="HB_EP_TEXT_BOLD"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_TEXT_COLORED"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_ICON_COLORED"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_ICON_NUM"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_NOTUSED"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_OFF"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_ON"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_OPEN"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_CLOSED"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_ERROR"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_OK"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_INFO"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_NEWMESSAGE"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_SERVICEMESSAGE"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBGARAGE"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBSHUTTER"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBSHUTTERUP"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBSHUTTERDOWN"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBUP"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBDOWN"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBSNOWFLAKE"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBWARNING"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBERROR"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBBELL"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBCALENDAR"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HBTHERMOMETER"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_CH_DIR_ARROW"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM01"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM02"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM03"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM04"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM05"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM06"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM07"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM08"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM09"; sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="ICON_HB_CUSTOM10"; sed -i "/\($webuiSearch\)/d" $webuiFile
+
+stringtable_deFile="/www/config/stringtable_de.txt"
+stringtable_deSearch="HB_EP_TEXT_BOLD"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_TEXT_COLORED"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_ICON_COLORED"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_ICON_NUM"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_NOTUSED"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_OFF"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_ON"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_OPEN"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_CLOSED"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_ERROR"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_OK"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_INFO"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_NEWMESSAGE"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_SERVICEMESSAGE"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBGARAGE"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBSHUTTER"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBSHUTTERUP"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBSHUTTERDOWN"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBUP"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBDOWN"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBSNOWFLAKE"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBWARNING"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBERROR"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBBELL"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBCALENDAR"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HBTHERMOMETER"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_CH_DIR_ARROW"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM01"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM02"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM03"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM04"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM05"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM06"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM07"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM08"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM09"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="ICON_HB_CUSTOM10"; sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+translate_deSearch="stringTableHbEpTextColored"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpTextBold"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpIconColored"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom01"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom02"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom03"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom04"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom05"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom06"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom07"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom08"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom09"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCustom10"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deFile="/www/webui/js/lang/de/translate.lang.extension.js"
+translate_deSearch="iconChDirArrow"; sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+rm -f $FIRMWARE_FILE
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+DEVICE="HB-RC-12-EP-BW"
+DEVICE_IMG=hb-rc-12-ep-bw.png
+DEVICE_THUMB=hb-rc-12-ep-bw_thumb.png
+FIRMWARE_FILE=/firmware/rftypes/hb-rc-ep-bw.xml
+
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "; sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+
+webuiFile="/www/webui/webui.js"; sed -i "/\($DEVICE\)/d" $webuiFile
+
+rm -f $FIRMWARE_FILE
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB

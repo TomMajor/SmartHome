@@ -1,0 +1,50 @@
+--- ./patchsource/www/webui/webui.js.orig
++++ ./patchsource/www/webui/webui.js
+@@ -13664,7 +13664,7 @@
+   // Check each line if the free text mode is active.
+   // If yes switch on the appropriate text input field
+   // and set the variable freeTextActive to true
+-  for (var line = 0; line < 6; line++) {
++  for (var line = 0; line < 10; line++) {
+     var jLine = jQuery("#textSelect_" + line),
+     jCellFreeText = jQuery("#cellFreeText_"+line);
+ 
+@@ -13680,7 +13680,7 @@
+   // If at least one line has an active free text mode
+   // we have to activate the placeholder for the other lines and the header (color and icon are moving up)
+   if (freeTextActive) {
+-    for (var line = 0; line < 6; line++) {
++    for (var line = 0; line < 10; line++) {
+       var jLine = jQuery("#textSelect_" + line),
+       jPlaceHolder = jQuery("#placeHolder_"+line);
+ 
+@@ -13692,7 +13692,7 @@
+     }
+   } else {
+     jHeadFreeText.hide().css("display", "none");
+-    for (var line = 0; line < 6; line++) {
++    for (var line = 0; line < 10; line++) {
+       jQuery("#placeHolder_"+line).hide().css("display", "none");
+     }
+   }
+@@ -23560,6 +23560,12 @@
+         this.setWidth(400);
+         this.setFile( "/pages/msg/setOUCFMMode.htm" );
+         break;
++        case ID_SET_HBOUCFM_MODE:
++        this.setTitle( translateKey("dialogEnterValue") /*"Wert eingeben" */);
++        this.addToPostBody( 'string type = "'+this.type+'";' );
++        this.setWidth(400);
++        this.setFile( "/pages/msg/setHBOUCFMMode.htm" );
++        break;
+         case ID_SET_STATUS_DISPLAY:
+         this.setTitle( translateKey("dialogEnterValue") /*"Wert eingeben" */);
+         this.addToPostBody( 'string type = "'+this.type+'";' );
+@@ -24365,6 +24371,7 @@
+ ID_EDIT_SYSVAR           = 1021;
+ ID_CHOOSE_LED            = 1022;
+ ID_SET_OUCFM_MODE        = 1023;
++ID_SET_HBOUCFM_MODE      = 1923;
+ ID_SET_STATUS_DISPLAY    = 1024;
+ ID_BIDCOS_INTERFACE = 1025;
+ 

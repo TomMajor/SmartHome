@@ -1,0 +1,182 @@
+#!/bin/sh
+
+DEVICE="HB-DIS-EP-42BW"
+DEVICE_IMG=hb-dis-ep-42bw.png
+DEVICE_THUMB=hb-dis-ep-42bw_thumb.png
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+
+webuiFile="/www/webui/webui.js"
+sed -i "/\($DEVICE\)/d" $webuiFile
+
+DEVICE="HB-DIS-EP-42BW-MAINS"
+DEVICE_IMG=hb-dis-ep-42bw-mains.png
+DEVICE_THUMB=hb-dis-ep-42bw-mains_thumb.png
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+
+webuiFile="/www/webui/webui.js"
+sed -i "/\($DEVICE\)/d" $webuiFile
+
+DEVICE="HB-DIS-EP-75BW"
+DEVICE_IMG=hb-dis-ep-75bw.png
+DEVICE_THUMB=hb-dis-ep-75bw_thumb.png
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+
+webuiFile="/www/webui/webui.js"
+sed -i "/\($DEVICE\)/d" $webuiFile
+
+DEVICE="HB-DIS-EP-75BW-MAINS"
+DEVICE_IMG=hb-dis-ep-75bw-mains.png
+DEVICE_THUMB=hb-dis-ep-75bw-mains_thumb.png
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+
+webuiFile="/www/webui/webui.js"
+sed -i "/\($DEVICE\)/d" $webuiFile
+
+webuiSearch="HB_EP_SHOW_LINE"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_SHOW_GRID"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_DISPLAY_REFRESH_WAIT_TIME"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_CRITICAL_BAT_LIMIT"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_ALIGNMENT"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_ALIGN_RIGHT"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_ALIGN_CENTER_ICON_RIGHT"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_ALIGN_CENTER_ICON_LEFT"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HB_EP_ALIGN_LEFT"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HBTEXTLINE_1"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HBTEXTLINE_2"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HBTEXTLINE_3"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+webuiSearch="HBTEXTLINE_4"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+stringtable_deFile="/www/config/stringtable_de.txt"
+stringtable_deSearch="HB_EP_SHOW_LINE"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_SHOW_GRID"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_DISPLAY_REFRESH_WAIT_TIME"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_CRITICAL_BAT_LIMIT"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_ALIGNMENT"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_ALIGN_RIGHT"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_ALIGN_CENTER_ICON_RIGHT"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_ALIGN_CENTER_ICON_LEFT"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HB_EP_ALIGN_LEFT"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HBTEXTLINE_1"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HBTEXTLINE_2"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HBTEXTLINE_3"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+stringtable_deSearch="HBTEXTLINE_4"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+translate_deSearch="stringTableHbEpShowLine"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpShowGrid"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbDisplayRefreshWaitTime"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbCriticalBatLimit"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpAlignment"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpAlignRight"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpAlignCenterIconRight"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpAlignCenterIconLeft"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbEpAlignLeft"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbTextLine"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="stringTableHbIconOverview"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deFile="/www/webui/js/lang/de/translate.lang.extension.js"
+translate_deSearch="iconHbGarage"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbShutter"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbShutterUp"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbShutterDown"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbUp"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbDown"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbSnowflake"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbWarning"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbError"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbBell"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbCalendar"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbThermometer"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbBattery"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbRadiatorHorizontal"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbRadiatorVertical"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbBathtub"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbValve"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+translate_deSearch="iconHbSprinkler"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+indexFile="/www/rega/pages/index.htm"
+indexFileSearch="jp_webui_inc.js"
+sed -i "/${indexFileSearch}/d" $indexFile
+
+FIRMWARE_FILE=/firmware/rftypes/hb-dis-ep-*.xml
+rm -f $FIRMWARE_FILE
+rm -rf /www/ise/img/icons_hb_dis_ep_75bw
+rm -f /www/config/easymodes/HB-DIS-EP-42BW_dev_master.tcl
+rm -f /www/config/easymodes/HB-DIS-EP-75BW_dev_master.tcl
+rm -f /www/config/easymodes/MASTER_LANG/HB-DIS-EP-42BW_HELP.js
+rm -f /www/config/easymodes/MASTER_LANG/HB-DIS-EP-75BW_HELP.js

@@ -1,0 +1,52 @@
+--- ./patchsource/www/rega/pages/tabs/admin/views/programs.htm.orig
++++ ./patchsource/www/rega/pages/tabs/admin/views/programs.htm
+@@ -94,6 +94,19 @@
+       ReloadSingleDestination(sdid);
+     };
+   };  
++  
++  // MP3 HB Funkgong
++  ChangeHBOUCFMValue = function(sdid)
++  {
++    iseSingleDestination.reload = false;
++    dlgResult = "";
++    CreatePopup(ID_SET_HBOUCFM_MODE, "X:"+sdid);
++    PopupClose = function()
++    {
++      dlgPopup.hide();
++      ReloadSingleDestination(sdid);
++    };
++  };
+ 
+   // Heating thermostate
+   SetPartyMode = function(elm) {
+@@ -154,6 +167,9 @@
+       case "ACOUSTIC_DIS-EP":
+         elm = jQuery("#ePaperAcousticDisplay" + regaDialogID);
+         break;
++      case "DIS-EP42BW":
++        elm = jQuery("#setHbStatusDisplayEPaper" + regaDialogID);
++        break;
+     }
+ 
+     jQuery(elm).prop("disabled", true);
+@@ -192,6 +208,19 @@
+             inputElm.change();
+           }
+         }, "html");
++      } else if (mode == "DIS-EP42BW") {
++         statusDisplayDialog = new HbStatusDisplayDialogEPaper(translateKey("statusDisplayDialogTitle"), htmlContent, jQuery(inputElm).val(), function (result) {
++          jQuery(elm).prop("disabled", false);
++          if (result == 1) {
++            conInfo("SetStatusDisplay: Yes pressed");
++            var inputElm = jQuery(elm).prev();
++            var cfgString = this.getConfigString();
++            conInfo(cfgString);
++            inputElm.val(cfgString); //.change();
++            encodeStringStatusDisplay(inputElm.prop("id"),false, '0x7e');
++            inputElm.change();
++          }
++        }, "html");
+       } else if (mode == "ACOUSTIC_DIS-EP") {
+         statusDisplayDialog = new StatusDisplayDialogAcousticEPaper(translateKey("statusDisplayDialogTitle"), htmlContent, jQuery(inputElm).val(), function (result) {
+           if (result == this.RESULT_YES) {

@@ -1,0 +1,277 @@
+#!/bin/sh
+# WebUI icon used from http://icons8.com
+
+ADDON_NAME=`basename "$0"`
+
+ADDON_DIR=/usr/local/addons/${ADDON_NAME}
+PATCH_DIR=${ADDON_DIR}/patch
+WWW_DIR=/etc/config/addons/www/${ADDON_NAME}
+LOG_DIR=${ADDON_DIR}/log
+GLOBAL_LOGFILE=$LOG_DIR/inst.log
+GLOBAL_ERRFILE=$LOG_DIR/inst.err
+PATCH_REVOKE_ERRFILE=$ADDON_DIR/log/revoke.err
+FIRMWARE_DIR=/firmware/rftypes
+CUSTOMIZED_FIRMWARE_DIR=${ADDON_DIR}/customized_firmware
+RC_DIR=/usr/local/etc/config/rc.d
+CK_FIRMWARE_FILE=${FIRMWARE_DIR}/hb-dis-ep-42bw_e_v1_0.xml
+
+PATCHVERSION=0
+check_ccu_fw_version()
+{
+ model=`grep VERSION /boot/VERSION   | awk -F'[=.]' {'print $2'}`
+ version=`grep VERSION /boot/VERSION | awk -F'[=.]' {'print $3'}`
+ build=`grep VERSION /boot/VERSION   | awk -F'[=.]' {'print $4'}`
+ bdate=`grep VERSION /boot/VERSION   | awk -F'[=.]' {'print $5'}`
+
+ if [ $model -ge 2 ] && [ $version -ge 45 ]; then
+  PATCHVERSION=2
+ else
+  PATCHVERSION=1
+ fi
+ 
+ echo "Found firmware version $model.$version.$build - using patchversion $PATCHVERSION" | tee -a $GLOBAL_LOGFILE
+}
+
+MONIT=0
+check_monit()
+{
+  MONIT=`ps -ef|grep \/usr\/bin\/monit|grep -v grep|wc -l`
+  echo "Found $MONIT monit process(es)" | tee -a $GLOBAL_LOGFILE
+}
+
+REGA=0
+check_rega()
+{
+  REGA=`ps -ef|grep \/bin\/ReGaHss|grep -v grep|wc -l`
+  echo "Found $REGA ReGaHss process(es)" | tee -a $GLOBAL_LOGFILE
+}
+
+RFD=0
+check_rfd()
+{
+  RFD=`ps -ef|grep \/bin\/rfd|grep -v grep|wc -l`
+  echo "Found $RFD rfd process(es)" | tee -a $GLOBAL_LOGFILE
+}
+
+case "$1" in
+    ""|init|start)
+      if [ ! -f ${ADDON_DIR}/installed ] || [ ! -f ${CK_FIRMWARE_FILE} ]; then       
+        echo "Starting complete installation within '$1' $(date +"%d.%m.%Y %H:%M:%S")" | tee $GLOBAL_LOGFILE
+        cp /dev/null $GLOBAL_ERRFILE
+        cp /dev/null $PATCH_REVOKE_ERRFILE
+
+        mount -o remount,rw /
+        
+        #### Check if monit process exists
+        check_monit       
+        if [ $MONIT -ge 1 ]; then
+          echo "Stopping monitoring service for ReGaHss and RFD" | tee -a $GLOBAL_LOGFILE
+          /usr/bin/monit unmonitor ReGaHss
+          /usr/bin/monit unmonitor rfd
+        fi
+      
+        check_rega
+        if [ $REGA -ge 1 ]; then
+          /etc/init.d/S70ReGaHss stop | tee -a $GLOBAL_LOGFILE
+        fi
+        check_rfd
+        if [ $RFD -ge 1 ]; then
+          /etc/init.d/S61rfd stop | tee -a $GLOBAL_LOGFILE
+		fi
+	    	
+        cd ${ADDON_DIR}
+        cp -ar www/* /www/
+        chown root:root /www/config/img/devices/250/hb-*
+        chmod 755 /www/config/img/devices/250/hb-*
+        chown root:root /www/config/img/devices/50/hb-*
+        chmod 755 /www/config/img/devices/50/hb-*
+        chown root:root /www/ise/img/icons_hm_dis_ep_wm55/24/*
+        chmod 755 /www/ise/img/icons_hm_dis_ep_wm55/24/*
+        
+        ### Patch some files ###
+        check_ccu_fw_version
+        ./patchworker install ${ADDON_NAME} ${PATCHVERSION} $model.$version.$build.$bdate
+
+        cd /www
+
+#		########################	REVOKE  	######################
+#        echo "######## REVOKE COMMON APPLIED PATCHES ########" | tee -a $GLOBAL_LOGFILE
+#        patchsubdir=common
+#        for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
+#          echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#          patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
+#        done
+#        
+#        echo "######## REVOKE VERSION DEPENDEND PATCHES ########" | tee -a $GLOBAL_LOGFILE
+#        if [ $PATCHVERSION -le 1 ]; then
+#          patchsubdir=le_343
+#        else
+#          patchsubdir=ge_345
+#        fi
+#        for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
+#          echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#          patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
+#        done
+#        
+#        
+#        ########################	APPLY   	######################
+#        echo "######## APPLY COMMON PATCHES ########" | tee -a $GLOBAL_LOGFILE
+#        patchsubdir=common
+#        for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
+#          echo "### Applying $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#          patch -N -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE
+#          echo "- done" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#        done
+#        
+#        echo "######## APPLY VERSION DEPENDEND PATCHES ########" | tee -a $GLOBAL_LOGFILE
+#        if [ $PATCHVERSION -le 1 ]; then
+#          patchsubdir=le_343
+#        else
+#          patchsubdir=ge_345
+#        fi
+#      
+#        for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
+#          echo "Applying $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#          patch -N -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE
+#          echo "- done" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#        done
+#         
+#        [[ -f ./config/ic_common.tcl.orig ]] && rm ./config/ic_common.tcl.orig
+#        [[ -f ./rega/esp/side.inc.orig ]] && rm ./rega/esp/side.inc.orig
+#        [[ -f ./rega/esp/functions.fn.orig ]] && rm ./rega/esp/functions.fn.orig
+#        [[ -f ./rega/pages/tabs/admin/views/programs.htm.orig ]] && rm ./rega/pages/tabs/admin/views/programs.htm.orig
+#        [[ -f ./rega/esp/datapointconfigurator.fn.orig ]] && rm ./rega/esp/datapointconfigurator.fn.orig
+#        [[ -f ./webui/webui.js.orig ]] && rm ./webui/webui.js.orig
+
+        ### Create Symlink to include own js file
+        echo "(Re-)Creating symlinks for jp_webui_inc.js..." | tee -a $GLOBAL_LOGFILE
+        [[ ! -f /www/webui/js/extern/jp_webui_inc.js ]] && ln -s ${ADDON_DIR}/js/jp_webui_inc.js /www/webui/js/extern/jp_webui_inc.js
+	    	    
+        cd ${ADDON_DIR}
+        echo "Running scripts..." | tee -a $GLOBAL_LOGFILE
+        for f in ${ADDON_DIR}/install_* ; do echo "  - $(basename $f)" | tee -a $GLOBAL_LOGFILE; ./$(basename $f) >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE; done
+
+	    echo "Copying customized firmware files..." | tee -a $GLOBAL_LOGFILE
+        cp ${CUSTOMIZED_FIRMWARE_DIR}/* ${ADDON_DIR}${FIRMWARE_DIR}/
+
+        echo "(Re-)Creating symlinks for firmware files..." | tee -a $GLOBAL_LOGFILE
+        for f in ${ADDON_DIR}${FIRMWARE_DIR}/* ; do rm -f ${FIRMWARE_DIR}/$(basename $f); ln -s $f ${FIRMWARE_DIR}/$(basename $f); echo "  - $(basename $f)"; done
+
+        sync
+        mount -o remount,ro /
+        touch ${ADDON_DIR}/installed
+
+        if [ $RFD -ge 1 ]; then
+          /etc/init.d/S61rfd start | tee -a $GLOBAL_LOGFILE
+		fi		    
+        if [ $REGA -ge 1 ]; then
+          /etc/init.d/S70ReGaHss start | tee -a $GLOBAL_LOGFILE
+        fi
+        if [ $MONIT -ge 1 ]; then
+          echo "Starting monitoring service for ReGaHss and RFD" | tee -a $GLOBAL_LOGFILE
+          /usr/bin/monit monitor ReGaHss
+          /usr/bin/monit monitor rfd
+        fi
+        echo "Installation done." | tee -a $GLOBAL_LOGFILE
+      else
+        echo "Checking for subsequent customized firmware files..."
+        changed=0
+	
+        for f in ${ADDON_DIR}${FIRMWARE_DIR}/* ; do
+	      $(cmp -s ${CUSTOMIZED_FIRMWARE_DIR}/$(basename $f) $f)
+          rc=$?
+          if [ $rc -eq 1 ]; then
+            echo "Difference detected for $(basename $f). Copying..."
+            cp ${CUSTOMIZED_FIRMWARE_DIR}/$(basename $f) $f
+            let changed++
+          fi
+        done
+
+        if [ $changed -gt 0 ]; then
+          echo "$changed Firmware file(s) changed" | tee -a $GLOBAL_LOGFILE
+          check_rfd
+          if [ $RFD -ge 1 ]; then
+            echo " - restarting RFD"
+            /etc/init.d/S61rfd restart | tee -a $GLOBAL_LOGFILE
+		  fi
+        else
+          echo "Nothing changed - nothing to do"
+        fi
+
+      fi
+    ;;
+
+    stop)
+      echo "Nothing to stop..."
+    ;;
+
+    uninstall)
+      mount -o remount,rw /
+		
+      cd ${ADDON_DIR}
+      echo "Running scripts..."    
+      for f in ${ADDON_DIR}/uninstall_* ; do echo "  - $(basename $f)"; ./$(basename $f) > $GLOBAL_LOGFILE 2>$GLOBAL_ERRFILE; done
+      
+      check_ccu_fw_version
+      ./patchworker uninstall ${ADDON_NAME} ${PATCHVERSION} $model.$version.$build.$bdate
+
+      cd /www
+
+#      echo "######## REVOKE COMMON PATCHES ########"
+#      patchsubdir=common
+#      for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
+#        echo "Rejecting $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE
+#        patch -R -p3 -i $patchfile
+#      done
+#      
+#      echo "######## REVOKE VERSION DEPENDEND PATCHES ########"
+#      if [ $PATCHVERSION -le 1 ]; then
+#        patchsubdir=le_343
+#      else
+#        patchsubdir=ge_345
+#      fi
+#     
+#      for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
+#        echo "Rejecting $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE
+#        patch -R -p3 -i $patchfile
+#      done
+#
+#      [[ -f ./webui/webui.js.orig ]] && rm ./webui/webui.js.orig
+#      [[ -f ./rega/esp/datapointconfigurator.fn.orig ]] && rm ./rega/esp/datapointconfigurator.fn.orig
+#      [[ -f ./rega/esp/functions.fn.orig ]] && rm ./rega/esp/functions.fn.orig
+#      [[ -f ./rega/esp/side.inc.orig ]] && rm ./rega/esp/side.inc.orig
+#      [[ -f ./rega/pages/tabs/admin/views/programs.htm.orig ]] && rm ./rega/pages/tabs/admin/views/programs.htm.orig
+#      [[ -f ./config/ic_common.tcl.orig ]] && rm ./config/ic_common.tcl.orig
+      [[ -f ./webui/js/extern/jp_webui_inc.js ]] && rm ./webui/js/extern/jp_webui_inc.js
+  		    		    		
+      cd /
+      rm -rf $ADDON_DIR
+      rm -rf $WWW_DIR
+      rm -f ${RC_DIR}/${ADDON_NAME}
+      sync
+      mount -o remount,ro /
+    ;;
+  
+    restart|reload)
+      # Operations to stop and start (restart) the addon
+    ;;
+
+    info)
+	  echo "Info: <b>HB-TM-JP AddOn Reduced</b><br>"
+	  echo "Info: <b>CCU2/3, RaspberryMatic</b><br>"
+	  echo "Info: (c) 2018-2020 jp112sdl<br>(c) 2019-2020 TomMajor (Reduced-Repack)<br>"
+	  echo "Info: <a href='https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced'>Projekt auf Github</a>"
+	  echo "Version: $(cat ${ADDON_DIR}/VERSION)"
+	  echo "Name: HB-TM-JP AddOn Reduced"
+	  echo "Operations: uninstall"
+      echo "Update: /addons/${ADDON_NAME}/update-check.cgi"
+    ;;
+	
+    *)
+      echo "Usage: $ADDON_NAME {start|info|uninstall}" >&2
+      exit 1
+    ;;
+
+esac
+
+exit $?

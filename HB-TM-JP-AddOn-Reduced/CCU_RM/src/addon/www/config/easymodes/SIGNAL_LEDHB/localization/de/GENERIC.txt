@@ -1,0 +1,18 @@
+"signal_count" : "BPM (Geschwindigkeit)",
+"signal_intens" : "Helligkeit",
+"signal_led_chime_active" : "LED aktiv",
+"signal_led_chime_non_active" : "LED nicht aktiv",
+"signal_led_chime_on" : "LED ein",
+"signal_led_chime_off" : "LED aus",
+"signal_kind" : "LED Farbe",
+"signal_option_red" : "Rot",
+"signal_option_green" : "Gr&uuml;n",
+"signal_option_orange" : "Orange",
+"signal_option_yellow" : "Gelb",
+"signal_option_blue" : "Blau",
+"signal_option_purple" : "Violett",
+"signal_option_cyan" : "T&uuml;rkis",
+"signal_option_white" : "Wei&szlig;",
+
+"button_inactive" : "Taste deaktiviert",
+

@@ -1,0 +1,112 @@
+#!/bin/sh
+
+DEVICE="HB-OU-MP3-LED"
+DEVICE_IMG=hb-ou-mp3-led.png
+DEVICE_THUMB=hb-ou-mp3-led_thumb.png
+DEVICE_DESC="MP3 Player with adressable LED"
+
+### Edit DEVDB.tcl ###
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="array[[:space:]]*set[[:space:]]*DEV_PATHS[[:space:]]*{"
+
+devdescrInsert="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+
+if [ -z "`cat $devdescrFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($devdescrSearch\)/\1$devdescrInsert/g" $devdescrFile
+fi
+
+### Edit webui.js ###
+webuiFile="/www/webui/webui.js"
+
+webuiSearchBegin="DEV_HIGHLIGHT[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsert="\n"
+webuiInsert="${webuiInsert}DEV_LIST.push('$DEVICE');\n"
+webuiInsert="${webuiInsert}DEV_DESCRIPTION['$DEVICE']='$DEVICE_DESC';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['50'] = '\/config\/img\/devices\/50\/$DEVICE_THUMB';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['250'] = '\/config\/img\/devices\/250\/$DEVICE_IMG';"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_circle'] = [4, 0.8079999999999999, 0.656, 0.118, 0.112];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_1'] = [6, 0.748, 0.712, 0.776, 0.712, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_2'] = [6, 0.776, 0.632, 0.8, 0.652, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_3'] = [6, 0.86, 0.6, 0.86, 0.628, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_4'] = [6, 0.94, 0.628, 0.92, 0.648, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_5'] = [6, 0.944, 0.712, 0.976, 0.712, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_6'] = [6, 0.8, 0.772, 0.784, 0.792, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_7'] = [6, 0.86, 0.796, 0.86, 0.8240000000000001, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['Light_beam_8'] = [6, 0.92, 0.772, 0.94, 0.792, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['1'] = [5, 'Light_circle', 'Light_beam_1', 'Light_beam_2', 'Light_beam_3', 'Light_beam_4', 'Light_beam_5', 'Light_beam_6', 'Light_beam_7', 'Light_beam_8'];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_1'] = [6, 0.764, 0.12, 0.792, 0.12, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_2'] = [6, 0.792, 0.12, 0.792, 0.2599999999999999, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_3'] = [6, 0.764, 0.2599999999999999, 0.792, 0.2599999999999999, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_4'] = [6, 0.764, 0.12, 0.764, 0.2599999999999999, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_5'] = [6, 0.792, 0.12, 0.836, 0.07599999999999996, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_6'] = [6, 0.836, 0.07599999999999996, 0.836, 0.30399999999999994, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_7'] = [6, 0.792, 0.2599999999999999, 0.836, 0.30399999999999994, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_beam_1'] = [6, 0.87, 0.1439999999999999, 0.952, 0.07599999999999996, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_beam_2'] = [6, 0.87, 0.19199999999999995, 0.952, 0.19199999999999995, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['SP_beam_3'] = [6, 0.87, 0.24, 0.952, 0.30399999999999994, 0.016];\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE']['2'] = [5, 'SP_1', 'SP_2', 'SP_3', 'SP_4', 'SP_5', 'SP_6', 'SP_7', 'SP_beam_1', 'SP_beam_2', 'SP_beam_3'];"
+
+
+if [ -z "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+
+
+webuiSearchBegin="elvST[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsertParam="SIGNAL_LED|HB_LED_COUNT"
+webuiInsertValue="stringTableHbLedCount"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="HB_INTERRUPT_RUNNING"
+webuiInsertValue="stringTableHbInterruptRunning"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+
+### Edit stringtable_de.txt ###
+stringtable_deFile="/www/config/stringtable_de.txt"
+
+stringtable_deInsert="SIGNAL_LED|HB_LED_COUNT\t\${stringTableHbLedCount}"
+if [ -z "`cat $stringtable_deFile | grep \"SIGNAL_LED|HB_LED_COUNT"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="HB_INTERRUPT_RUNNING\t\${stringTableHbInterruptRunning}"
+if [ -z "`cat $stringtable_deFile | grep \"HB_INTERRUPT_RUNNING"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+### Edit translate.lang.stringtable.js ###
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+translate_deSearch="\"dummy\" : \"\","
+
+translate_deInsert="\n    \"stringTableHbLedCount\" : \"Anzahl LEDs\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbLedCount\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableHbInterruptRunning\" : \"laufende Aktion unterbrechen\","
+if [ -z "`cat $translate_deFile | grep \"stringTableHbInterruptRunning\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+### Edit translate.lang.extension.js
+translate_deFile="/www/webui/js/lang/de/translate.lang.extension.js"
+
+translate_deSearch="\"iconServiceMessage\":\"Servicemeldung\","
+translate_deInsert="\n    \"lblHbIterations\":\"Anzahl der Durchl%E4ufe\","
+if [ -z "`cat $translate_deFile | grep \"lblHbIterations\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi

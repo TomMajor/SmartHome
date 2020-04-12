@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<device version="1" supports_aes="true">
+  <supported_types>
+    <type name="HB Wireless 4.2 inch bw e-Paper Status Display with push button, mains powered" id="HB-DIS-EP-42BW-MAINS" updatable="false" priority="2">
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x11"/>
+      <parameter index="10.0" size="2.0" const_value="0xF353"/>
+    </type>
+  </supported_types>
+  <paramset type="MASTER" id="HB-DIS-EP-42BW_dev_master">
+    <parameter id="DISPLAY_INVERTING">
+      <logical type="boolean" default="false"/>
+      <physical type="integer" interface="config" list="0" index="6.0" size="0.1"/>
+    </parameter>
+    <parameter id="HB_DISPLAY_REFRESH_WAIT_TIME">
+      <logical type="float" min="0.0" max="25.5" default="5.0" unit="s"/>
+      <physical type="integer" interface="config" list="0" index="7.0" size="1"/>
+      <conversion type="float_integer_scale" factor="10"/>
+    </parameter>
+    <parameter id="DEVICE_LED_MODE">
+      <logical type="option">
+        <option id="OFF"/>
+        <option id="ON" default="true"/>
+      </logical>
+      <physical type="integer" interface="config" list="0" index="5.6" size="0.2"/>
+      <conversion type="integer_integer_map">
+        <value_map device_value="0x00" parameter_value="0"/>
+        <value_map device_value="0x01" parameter_value="1"/>
+      </conversion>
+    </parameter>
+    <parameter id="POWERUP_ACTION">
+      <logical type="option">
+        <option id="POWERUP_OFF" default="true"/>
+        <option id="PRESS_SHORT"/>
+        <option id="PRESS_LONG"/>     
+      </logical>
+      <physical type="integer" interface="config" list="0" index="52.0" size="0.2"/>
+    </parameter>
+    <parameter id="KEY_TRANSCEIVER">
+      <logical type="option">
+        <option id="1" default="true"/>
+        <option id="2"/>
+        <option id="3"/>     
+        <option id="4"/>     
+        <option id="5"/>     
+        <option id="6"/>     
+        <option id="7"/>     
+        <option id="8"/>     
+        <option id="9"/>     
+        <option id="10"/>     
+      </logical>
+      <physical type="integer" interface="config" list="0" index="52.2" size="0.4"/>
+    </parameter>
+  </paramset>
+  <channels>
+    <channel index="0" type="MAINTENANCE" ui_flags="internal" class="maintenance" count="1">
+      <paramset type="MASTER" id="maint_ch_master"/>
+      <paramset type="VALUES" id="maint_ch_values">
+        <parameter id="UNREACH" operations="read,event" ui_flags="service">
+          <logical type="boolean"/>
+          <physical type="integer" interface="internal" value_id="UNREACH"/>
+        </parameter>
+        <parameter id="STICKY_UNREACH" operations="read,write,event" ui_flags="service,sticky">
+          <logical type="boolean"/>
+          <physical type="integer" interface="internal" value_id="STICKY_UNREACH"/>
+        </parameter>
+        <parameter id="CONFIG_PENDING" operations="read,event" ui_flags="service">
+          <logical type="boolean"/>
+          <physical type="integer" interface="internal" value_id="CONFIG_PENDING"/>
+        </parameter>
+        <parameter id="AES_KEY" operations="read" ui_flags="invisible">
+          <logical type="integer" min="0" max="127"/>
+          <physical type="integer" interface="internal" value_id="AES_KEY"/>
+        </parameter>
+        <parameter id="RSSI_DEVICE" operations="read,event">
+          <logical type="integer"/>
+          <physical type="integer" interface="internal" value_id="RSSI_DEVICE"/>
+        </parameter>
+        <parameter id="RSSI_PEER" operations="read,event">
+          <logical type="integer"/>
+          <physical type="integer" interface="internal" value_id="RSSI_PEER"/>
+        </parameter>
+        <parameter id="DEVICE_IN_BOOTLOADER" operations="read,event" ui_flags="service">
+          <logical type="boolean"/>
+          <physical type="integer" interface="internal" value_id="DEVICE_IN_BOOTLOADER"/>
+        </parameter>
+        <parameter id="UPDATE_PENDING" operations="read,event" ui_flags="service">
+          <logical type="boolean"/>
+          <physical type="integer" interface="internal" value_id="UPDATE_PENDING"/>
+        </parameter>
+      </paramset>
+    </channel>
+    <channel autoregister="true" index="1" type="KEY" count="10" pair_function="BA" function="A" paired="true" aes_default="false">
+      <link_roles>
+        <source name="SWITCH"/>
+        <source name="KEYMATIC"/>
+        <source name="WINMATIC"/>
+        <source name="REMOTECONTROL_RECEIVER"/>
+      </link_roles>
+      <paramset type="MASTER" id="remote_ch_master">
+        <subset ref="key_paramset"/>
+      </paramset>
+      <paramset type="VALUES" id="remote_ch_values">
+        <subset ref="key_valueset"/>
+      </paramset>
+      <paramset type="LINK" id="remote_ch_link">
+        <subset ref="key_linkset"/>
+      </paramset>
+    </channel>
+    <channel autoregister="true" index="11" type="KEY" count="1" function="A" paired="false" aes_default="false">
+      <link_roles/>
+      <paramset type="MASTER" id="remotestatus_ch_master"/>
+      <paramset type="VALUES" id="remotestatus_ch_values">
+        <subset ref="key_valueset_2"/>
+      </paramset>
+    </channel>
+  </channels>
+  <frames>
+    <frame id="KEY_EVENT_SHORT" direction="from_device" allowed_receivers="CENTRAL,BROADCAST,OTHER" event="true" type="0x40" channel_field="9:0.6">
+      <parameter type="integer" index="9.6" size="0.1" const_value="0"/>
+      <parameter type="integer" index="10.0" size="1.0" param="COUNTER"/>
+      <parameter type="integer" index="10.0" size="1.0" param="TEST_COUNTER"/>
+    </frame>
+    <frame id="KEY_EVENT_LONG" direction="from_device" allowed_receivers="CENTRAL,BROADCAST,OTHER" event="true" type="0x40" channel_field="9:0.6">
+      <parameter type="integer" index="9.6" size="0.1" const_value="1"/>
+      <parameter type="integer" index="10.0" size="1.0" param="COUNTER"/>
+      <parameter type="integer" index="10.0" size="1.0" param="TEST_COUNTER"/>
+    </frame>
+    <frame id="KEY_EVENT_LONG_BIDI" direction="from_device" allowed_receivers="CENTRAL,BROADCAST,OTHER" event="true" type="0x40" channel_field="9:0.6">
+      <parameter type="integer" index="1.5" size="0.1" const_value="1"/>
+      <parameter type="integer" index="9.6" size="0.1" const_value="1"/>
+      <parameter type="integer" index="10.0" size="1.0" param="COUNTER"/>
+      <parameter type="integer" index="10.0" size="1.0" param="TEST_COUNTER"/>
+    </frame>
+    <frame id="KEY_SIM_SHORT" direction="from_device" type="0x40" channel_field="9:0.6">
+      <parameter type="integer" index="9.6" size="0.1" const_value="0"/>
+      <parameter type="integer" index="9.7" size="0.1" const_value="0"/>
+      <parameter type="integer" index="10.0" size="1.0" param="SIM_COUNTER"/>
+    </frame>
+    <frame id="KEY_SIM_LONG" direction="from_device" type="0x40" channel_field="9:0.6">
+      <parameter type="integer" index="9.6" size="0.1" const_value="1"/>
+      <parameter type="integer" index="9.7" size="0.1" const_value="0"/>
+      <parameter type="integer" index="10.0" size="1.0" param="SIM_COUNTER"/>
+    </frame>
+  </frames>
+  <paramset_defs>
+    <paramset id="key_valueset">
+      <parameter id="PRESS_SHORT" operations="write,event" loopback="true" control="BUTTON.SHORT" burst_suppression="0">
+        <logical type="action"/>
+        <physical type="integer" interface="command" value_id="COUNTER">
+          <event frame="KEY_EVENT_SHORT" auth_violate_policy="reject"/>
+          <set request="KEY_SIM_SHORT"/>
+        </physical>
+        <conversion type="action_key_counter" sim_counter="SIM_COUNTER"/>
+      </parameter>
+      <parameter id="PRESS_LONG" operations="write,event" loopback="true" control="BUTTON.LONG">
+        <logical type="action"/>
+        <physical type="integer" interface="command" value_id="COUNTER">
+          <event frame="KEY_EVENT_LONG" auth_violate_policy="reject"/>
+          <set request="KEY_SIM_LONG"/>
+        </physical>
+        <conversion type="action_key_counter" sim_counter="SIM_COUNTER"/>
+      </parameter>
+      <parameter id="PRESS_LONG_RELEASE" operations="event" ui_flags="internal" burst_suppression="0">
+        <logical type="action"/>
+        <physical type="integer" interface="command" value_id="COUNTER">
+          <event frame="KEY_EVENT_LONG_BIDI" auth_violate_policy="reject"/>
+        </physical>
+      </parameter>
+      <parameter id="PRESS_CONT" operations="event" ui_flags="internal" burst_suppression="0">
+        <logical type="action"/>
+        <physical type="integer" interface="command" value_id="COUNTER">
+          <event frame="KEY_EVENT_LONG" auth_violate_policy="reject"/>
+        </physical>
+        <conversion type="action_key_same_counter" sim_counter="SIM_CONT_COUNTER"/>
+      </parameter>
+      <parameter id="INSTALL_TEST" operations="event" ui_flags="internal">
+        <logical type="action"/>
+        <physical type="integer" interface="command" value_id="TEST_COUNTER">
+          <event frame="KEY_EVENT_SHORT"/>
+          <event frame="KEY_EVENT_LONG"/>
+        </physical>
+      </parameter>
+    </paramset>
+    <paramset id="key_paramset">
+      <parameter id="AES_ACTIVE" ui_flags="internal">
+        <logical type="boolean" default="false"/>
+        <physical type="boolean" interface="internal" value_id="AES"/>
+      </parameter>
+      <parameter id="LONG_PRESS_TIME">
+        <logical type="float" min="0.3" max="1.8" default="0.4" unit="s"/>
+        <physical type="integer" interface="config" list="1" index="4.4" size="0.4"/>
+        <conversion type="float_integer_scale" factor="10" offset="-0.3"/>
+      </parameter>
+      <parameter id="DBL_PRESS_TIME">
+        <logical type="float" min="0.0" max="1.5" default="0.0" unit="s"/>
+        <physical type="integer" interface="config" list="1" index="9.0" size="0.4"/>
+        <conversion type="float_integer_scale" factor="10" offset="0.0"/>
+      </parameter>
+      <parameter id="HB_EP_SHOW_LINE">
+        <logical type="boolean" default="false"/>
+        <physical type="integer" interface="config" list="1" index="144.0" size="0.1"/>
+      </parameter>
+      <parameter id="HB_EP_ALIGNMENT">
+        <logical type="option">
+         <option id="HB_EP_ALIGN_RIGHT" default="true" />                                                                                              
+         <option id="HB_EP_ALIGN_CENTER_ICON_RIGHT" />                                                                                                            
+         <option id="HB_EP_ALIGN_CENTER_ICON_LEFT" />                                                                                                            
+         <option id="HB_EP_ALIGN_LEFT" />  
+        </logical>
+        <physical type="integer" interface="config" list="1" index="145.0" size="1"/>
+        <conversion type="option_integer">
+         <value_map device_value="0x00" parameter_value="0"/>
+         <value_map device_value="0x01" parameter_value="1"/>
+         <value_map device_value="0x03" parameter_value="2"/>
+         <value_map device_value="0x02" parameter_value="3"/>
+        </conversion>
+      </parameter>
+      <parameter id="HBTEXTLINE_1">
+        <logical type="string"/>
+        <physical type="string" interface="config_string" list="1" index="54" size="16"/>
+      </parameter>
+      <parameter id="HBTEXTLINE_2">
+        <logical type="string"/>
+        <physical type="string" interface="config_string" list="1" index="70" size="16"/>
+      </parameter>
+    </paramset>
+    <paramset id="key_linkset">
+      <parameter id="PEER_NEEDS_BURST">
+        <logical type="boolean" default="false"/>
+        <physical type="integer" interface="config" list="4" index="1.0" size="0.1"/>
+      </parameter>
+      <parameter id="EXPECT_AES">
+        <logical type="boolean" default="false"/>
+        <physical type="integer" interface="config" list="4" index="1.7" size="0.1"/>
+      </parameter>
+      <enforce id="EXPECT_AES" value="$PEER.AES"/>
+    </paramset>
+    <paramset id="key_valueset_2">
+      <parameter id="SUBMIT" operations="write" control="NONE">
+        <logical type="string"/>
+        <physical type="string" interface="multiframe_command" value_id="SUBMIT_VALUE">
+          <multiframe_command_frame max_frames="12" direction="to_device" type="0x11" subtype="0x80" subtype_index="9" channel_field="10.0" payload_index="11" send_immidiately="true" wakeup_on_immidiate_send_failure="false"/>
+        </physical>
+        <conversion type="hexstring_bytearray"/>
+      </parameter>
+    </paramset>
+  </paramset_defs>
+</device>
