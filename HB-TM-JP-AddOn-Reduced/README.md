@@ -31,7 +31,7 @@ Die Zentrale startet sich danach automatisch neu.
 
 ## Details zur Reduzierung
 
-[:arrow_right: RTF Dokument](Docs/stripdown.rtf)
+[:arrow_right: Konzept](Docs/stripdown.pdf)
 
 [:arrow_right: rc.d Diffs](Docs/diff_rc.d.pdf)
 
