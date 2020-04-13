@@ -33,6 +33,7 @@ sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
 
 rm -f /www/config/easymodes/signal_hbchime_ch_link.tcl
 rm -f /www/config/easymodes/signal_hbled_ch_link.tcl
+rm -f /www/rega/pages/msg/setHBOUCFMMode.htm
 rm -rf /www/config/easymodes/SIGNAL_CHIMEHB
 rm -rf /www/config/easymodes/SIGNAL_LEDHB
 
