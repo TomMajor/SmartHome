@@ -16,7 +16,7 @@ Dieser Changelog wird erst seit 2020 geführt, Änderungen vorher sind nur im gi
 
 ###### HB-SEN-LJet
 
-- *altuell keine Änderungen*
+- *aktuell keine Änderungen*
 
 
 ###### HB-TM-JP-AddOn-Reduced
