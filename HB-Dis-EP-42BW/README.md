@@ -7,19 +7,13 @@
 [Original HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
 
 
-## AddOn HB-Dis-EP-42BW für CCU2/CCU3/RaspberryMatic 
+## AddOn für CCU2/CCU3/RaspberryMatic 
 
-- Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein seperates AddOn nur für das ePaper Projekt zu haben.<br>
-Danke an Jerome für die Unterstützung bei dieser Arbeit.<br>
-[Original JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon)
+- meine Version des HB-Dis-EP-42BW ePaper Addon aus dem Jahr 2019 (Stripdown aus Jeromes JP-HB-Devices-addon nur für das ePaper) wurde eingestellt.
 
-- Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/hb-dis-ep-42bw-addon.tgz installieren.
+- Dafür kommt jetzt bei mir die neue und erweiterte Version [HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced) zum Einsatz, die nebem dem HB-Dis-EP-42BW ePaper Gerät auch noch die Geräte HB-RC-12-EP und HB-OU-MP3-LED kann.
 
-- [HB-Dis-EP-42BW AddOn](CCU_RM)
-
-![pic](Images/AddOn_HB-Dis-EP-42BW.png)
-
-:exclamation: Bitte entweder Jeromes JP-HB-Devices-addon oder das hier verlinkte HB-Dis-EP-42BW AddOn installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+:exclamation: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
 ## Aufbau - Alveran's Gehäusevariante
