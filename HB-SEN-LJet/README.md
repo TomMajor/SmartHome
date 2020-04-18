@@ -55,7 +55,7 @@
 
 ## Hinweise
 
-- :exclamation: Beim Flashen über einen FTDI-Adapter an K6 muss der Daten-Eingang vom LevelJET (K1, pin 6) an +5V oder +3,3V gelegt werden damit seriell geflasht werden kann! (der AVR-Pin PD0/RXD braucht High-Pegel).<br>
+- :warning: Beim Flashen über einen FTDI-Adapter an K6 muss der Daten-Eingang vom LevelJET (K1, pin 6) an +5V oder +3,3V gelegt werden damit seriell geflasht werden kann! (der AVR-Pin PD0/RXD braucht High-Pegel).<br>
   Der LevelJET selbst muss beim Flashen von der Schaltung getrennt werden!
 - Zur Geschichte: Die Füllstandsmessung mit LevelJET lief schon viele Jahre mit RFM69 und jeelink Anbindung an FHEM und sie war in dem oben genannten BOPLA Gehäuse verbaut.<br>
   Bei der Umstellung des Systems nach HomeMatic habe ich bequemerweise das Gehäuse an der Wand weiterverwendet und nur die Platine dafür neu designed. Ohne diese Randbedingung kann man die Platine natürlich kleiner machen.

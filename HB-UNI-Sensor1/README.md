@@ -504,7 +504,7 @@ FHEM:<br>
 ![pic](Images/UniSensor_PIR3.jpg)
 
 
-## :exclamation: Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
+## :warning: Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
 [:arrow_right: Warnung](https://github.com/TomMajor/SmartHome/tree/master/Info/Warnung_Flashen_33_USBasp_Klones)
 

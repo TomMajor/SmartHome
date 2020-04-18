@@ -55,7 +55,7 @@ In der Praxis spielt der Unterschied vermutlich keine Rolle.
 - Mouser macht nach meinen Erfahrungen nur Spaß wenn man über den Mindestbestellwert von ca. 50€ kommt, sonst fallen hohe Versand-/Zollkosten an.
 - Farnell und Mouser versenden wahnsinning schnell, ist teilweise am nächsten Tag bereits da.
 
-###### :exclamation: MAX1724: Warnung vor Fakes bei Ali
+###### :warning: MAX1724: Warnung vor Fakes bei Ali
 
 Bei einem Supportfall für den HB-UNI-Sensor1 im FHEM Forum für user *vbs* stellte sich heraus, das er "minderwertige" bzw. gefakte MAX1724 von Ali bekommen hatte.<br>
 Die hatten im Leerlauf erst mal unauffällig ihre 3,3V erzeugt, aber sobald es ans Senden ging brach die Spannung ein (bei Vin 2,5V oder kleiner).<br>

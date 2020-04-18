@@ -206,7 +206,7 @@
 
 ## Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
-- :exclamation: AVR und CC1101 können bei 3,3V durch Einsatz eines USBasp Klones zerstört werden :exclamation:
+- :warning: AVR und CC1101 können bei 3,3V durch Einsatz eines USBasp Klones zerstört werden :warning:
 
 -> [Warnung](https://github.com/TomMajor/SmartHome/tree/master/Info/Warnung_Flashen_33_USBasp_Klones)
 

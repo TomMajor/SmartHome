@@ -26,7 +26,7 @@ Die Zentrale startet sich danach automatisch neu.
 
 ![pic](Images/HB-TM-JP-AddOn-Reduced.png)
 
-:exclamation: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das hier behandelte HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+:warning: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das hier behandelte HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
 ## Details zur Reduzierung

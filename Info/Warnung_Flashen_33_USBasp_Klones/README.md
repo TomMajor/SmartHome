@@ -1,7 +1,7 @@
 
 # Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
 
-:exclamation: AVR und CC1101 können bei 3,3V durch Einsatz eines USBasp Klones zerstört werden :exclamation:
+:warning: AVR und CC1101 können bei 3,3V durch Einsatz eines USBasp Klones zerstört werden :warning:
 
 Die weit verbreiteten und billigen (1€) USBasp Klones haben einen Jumper zur 3,3V / 5V Umschaltung.<br>
 Leider ist diese Umschaltung nur für die Versorgung des (Programmier-)Ziels zuständig, nicht für die Betriebsspannung des Controllers auf dem USBasp!<br><br>

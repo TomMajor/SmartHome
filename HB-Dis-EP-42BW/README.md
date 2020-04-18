@@ -13,7 +13,7 @@
 
 - Dafür kommt jetzt bei mir die neue und erweiterte Version [HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced) zum Einsatz, die nebem dem HB-Dis-EP-42BW ePaper Gerät auch noch die Geräte HB-RC-12-EP und HB-OU-MP3-LED kann.
 
-:exclamation: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+:warning: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
 ## Aufbau - Alveran's Gehäusevariante
