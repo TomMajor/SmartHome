@@ -45,13 +45,27 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 |---|---|---|---|---|
 | - | R1                | (10k)             | (0805)        | nicht bestücken, das Levelshifter-Board hat bereits pull-ups an jedem Kanal |
 | 1 | R2                | 1k                | 0805          | |
-| 2 | R3,R4             | 3,3k              | 0805          | |
-| 4 | R5-R8             | 10k               | 0805          | |
-| 1 | IC4               | 4-fach I2C Levelshifter | 2x6     | [Beispiel bei ebay](https://www.ebay.de/itm/162352091615) |
-| 2 | R9,R10            | tbd               | 0805          | Optional: Lastschaltung für USB-Powerbank |
+| 1 | R3                | 3,3k              | 0805          | |
+| 1 | R12               | -                 | 0805          | :warning: nicht bestücken (nur falls man IC3 nicht einsetzt und man weiß was man tut) |
+| 1 | C1                | 10µ               | 0805          | |
+| 1 | C2                | 1µ                | 0805          | |
+| 1 | IC1	            | Arduino Nano	    | -             | [Beispiel ebay](https://www.ebay.de/itm/Nano-ATmega328-V3-1-Board-CH340-USB-Chip-Arduino-Kompatibel/252742123829) |
+| 1 | IC2	            | CC1101	        | -             | |
+| 1 | IC3	            | MCP 1754-3302CB   | SOT23-3       | [Beispiel Reichelt](https://www.reichelt.de/ldo-regler-fest-150ma-3-3-v-sot-23-3-mcp-1754-3302cb-p137296.html) |
+| 1 | IC4               | 4-fach I2C Levelshifter | 2x6     | [Beispiel ebay](https://www.ebay.de/itm/162352091615) |
+| 1 | LED1	            | gelb	            | 0805          | |
+| 1 | D1	            | BAT 54J NXP	    | -             | [Beispiel Reichelt](https://www.reichelt.de/schottkydiode-30-v-0-2-a-sod-323f-bat-54j-nxp-p219408.html) |
+| 1 | L1	            | BLM21PG 300	    | 0805          | [Beispiel Reichelt](https://www.reichelt.de/emi-suppression-filter-smd0805-blm21-30-ohm-blm21pg-300-p89685.html) |
+|   |                   |                   |               | |
+| 2 | R9,R10            | tbd               | 0805          | Optional: Lastschaltung für USB-Powerbank, auf gewünschten Laststrom auslegen |
 | 1 | R11               | 4,7k              | 0805          | Optional: Lastschaltung für USB-Powerbank |
-
-**WIP**
+| 1 | T3	            | IRLML6344         | SOT23-3       | Optional: Lastschaltung für USB-Powerbank |
+|   |                   |                   |               | |
+| 4 | K1                | OLED SSD1306 0,91" 128x32 | -     | Optional: BI-Wünschelrute |
+| 4 | R5-R8             | 10k               | 0805          | Optional: BI-Wünschelrute |
+| 2 | T1,T2             | BSS138            | SOT23-3       | Optional: BI-Wünschelrute |
+| 1 | R4                | 3,3k              | 0805          | Optional: BI-Wünschelrute |
+| 1 | LED2	            | gelb	            | 0805          | Optional: BI-Wünschelrute |
 
 
 ## Links
