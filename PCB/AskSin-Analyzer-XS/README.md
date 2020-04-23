@@ -46,7 +46,7 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 | - | R1                | (10k)             | (0805)        | nicht bestücken, das Levelshifter-Board hat bereits pull-ups an jedem Kanal |
 | 1 | R2                | 1k                | 0805          | |
 | 1 | R3                | 3,3k              | 0805          | |
-| 1 | R12               | -                 | 0805          | :warning: nicht bestücken (nur falls man IC3 nicht einsetzt und man weiß was man tut) |
+| 1 | R12               | -                 | 0805          | :warning: nicht bestücken (nur falls man IC3 nicht einsetzen will und man weiß was man tut, siehe unten) |
 | 1 | C1                | 10µ               | 0805          | |
 | 1 | C2                | 1µ                | 0805          | |
 | 1 | IC1	            | Arduino Nano	    | -             | [Beispiel ebay](https://www.ebay.de/itm/Nano-ATmega328-V3-1-Board-CH340-USB-Chip-Arduino-Kompatibel/252742123829) |
@@ -68,11 +68,29 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 | 1 | LED2	            | gelb	            | 0805          | Optional: BI-Wünschelrute |
 
 
+## Zusätzlicher 3,3V Spannungsregler (LDO)
+
+- Ich habe einen SOT-23 LDO für die 3,3V Versorgung des CC1101 vorgesehen da mir der verfügbare Ausgangsstrom des CH340C etwas wenig vorkommt.<br>
+siehe auch diese interessante [Messung](http://actrl.cz/blog/index.php/2016/arduino-nano-ch340-schematics-and-details/)
+
+- Für den CC1101 Empfangsmodus mag es auch mit den internen 3,3V vom CH340C gehen, falls man die Platine ggf. im Rahmen eines anderen Projekts auch zum Senden einsetzen will finde ich es sauberer etwas mehr Strom auf der 3,3V Schiene zu haben.
+
+- Und meines Erachtens noch wichtiger, der zusätzliche LDO hat weiterhin den Vorteil dass er Störungen auf der 5V Schiene von der PC Seite stark unterdrückt.<br>
+Da wir hier eine Art HF-Empfangs- und Messgerät bauen kann das nur von Vorteil sein.<br>
+Aus dem gleichen Grund ist weiterhin der Pi-Filter (C-L-C) vor dem CC1101 vorgesehen.
+
+- Wer glaubt das alles nicht zu brauchen kann IC3, L1, C1 weglassen und für R12 einen 0-Ohm Widerstand bzw. eine Lötbrücke bestücken, dann werden die internen 3,3V des CH340C verwendet.
+
+
 ## Links
 
 [HomeMatic Forum: AskSin Analyzer XS - Der Analyzer als Desktop-App ohne ESP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=56395)
 
 [HomeMatic Forum: AskSinAnalyzer-Sniffer mit Display (BI-Wünschelrute)](https://homematic-forum.de/forum/viewtopic.php?f=76&t=56881)
+
+[AN10441 Level shifting techniques in I2C-bus design](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer-XS/Files/AN10441.pdf)
+
+[AN97055 Bi-directional level shifter for I2C-bus and other systems](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer-XS/Files/AN97055.pdf)
 
 
 ## Lizenz
