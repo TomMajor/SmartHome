@@ -3,20 +3,20 @@
 
 ## Was ist das?
 
-- Ein Stripdown von Jeromes [JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon) zur Unterstützung nur dieser 3 Projekte/Geräte:
+- Ein Stripdown von Jérômes [JP-HB-Devices-addon](https://github.com/jp112sdl/JP-HB-Devices-addon) zur Unterstützung nur dieser 3 Projekte/Geräte:
   - [HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW) (4,2" ePaper Display)
   - [HB-RC-12-EP](https://github.com/jp112sdl/HB-RC-12-EP) (12 Kanal Fernbedienung mit ePaper)
   - [HB-OU-MP3-LED](https://github.com/jp112sdl/HB-OU-MP3-LED) (Funkgong mit MP3-Wiedergabe und LED-Signalisierung)
   - außerdem ist mein [Script Helper](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW#script-helper) für das 4,2" ePaper Display enthalten.<br><br>
 
-- Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jeromes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein separates AddOn nur für die genannten Geräte zu haben.<br><br>
-Vielen Dank an Jerome für die Unterstützung bei dieser Arbeit. :thumbsup: <br>
+- Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jérômes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein separates AddOn nur für die genannten Geräte zu haben.<br><br>
+Vielen Dank an Jérôme für die Unterstützung bei dieser Arbeit. :thumbsup: <br>
 
 
 ## Warum?
 
-Ich habe vollstes Vertrauen in Jeromes Modifikationen und Patches für seine vielen Selbstbau-Projekte!<br>
-Da ich zur Zeit nur wenige davon aktiv einsetze und ich anderseits gern das Gefühl hätte, noch ungefähr zu wissen was man beim AddOn tun muss und außerdem unabhängig von Jeromes AddOn sein möchte falls er mal den Support für neuere Versionen der RM/CCU Firmware einstellen *sollte* hätte ich gern ein Strip-down des JP-HB-Devices-addon - nur für die von mir genutzen Geräte daraus.
+Ich habe vollstes Vertrauen in Jérômes Modifikationen und Patches für seine vielen Selbstbau-Projekte!<br>
+Da ich zur Zeit nur wenige davon aktiv einsetze und ich anderseits gern das Gefühl hätte, noch ungefähr zu wissen was man beim AddOn tun muss und außerdem unabhängig von Jérômes AddOn sein möchte falls er mal den Support für neuere Versionen der RM/CCU Firmware einstellen *sollte* hätte ich gern ein Strip-down des JP-HB-Devices-addon - nur für die von mir genutzen Geräte daraus.
 
 
 ## Installation
@@ -26,7 +26,7 @@ Die Zentrale startet sich danach automatisch neu.
 
 ![pic](Images/HB-TM-JP-AddOn-Reduced.png)
 
-:warning: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das hier behandelte HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+:warning: Achtung, bitte entweder nur Jérômes JP-HB-Devices-addon oder das hier behandelte HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
 ## Details zur Reduzierung
