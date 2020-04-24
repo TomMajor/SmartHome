@@ -31,7 +31,9 @@ Die Zentrale startet sich danach automatisch neu.
 
 ## Details zur Reduzierung
 
-[:arrow_right: Konzept](Docs/stripdown.pdf)
+[:arrow_right: AddOn Know how](Docs)
+
+[:arrow_right: Konzept HB-TM-JP-AddOn-Reduced](Docs/stripdown.pdf)
 
 [:arrow_right: rc.d Diffs](Docs/diff_rc.d.pdf)
 

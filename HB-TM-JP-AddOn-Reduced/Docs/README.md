@@ -9,28 +9,28 @@ Vielen Dank an Jérôme für seine wertvollen Vorlagen und Hinweise. :thumbsup: 
 
 ## Patch Konzepte
 
-###### Mein Patch Konzept
+#### Mein Patch Konzept
 
 - Hinweis: ${BACKUP_DIR} ist z.B. ${ADDON_DIR}/backup_3.51.6.20200229
 
 - folgende Fälle sind möglich:
 
-- 1) Installation des AddOn
+- A) Installation des AddOn
   - Merkmal: ${BACKUP_DIR}/saved existiert nicht
   - die zu patchenden CCU-Originaldateien nach ${BACKUP_DIR} sichern
   - Datei ${BACKUP_DIR}/saved anlegen
   - Patches anwenden (die Original Patches von Jérôme soweit für die ausgewählten 3 Geräte nötig)
 <br><br>
-- 2) Update der RaspberryMatic Firmware, AddOn ist installiert
+- B) Update der RaspberryMatic Firmware, AddOn ist installiert
   - Merkmal: ${BACKUP_DIR}/saved existiert nicht (gemeint ist für den neuen Firmware String, für den alten ggf. schon)
   - weiter wie 1)
 <br><br>
-- 3) Update des AddOn ('Drüber'-Installation)
+- C) Update des AddOn ('Drüber'-Installation)
   - Merkmal: ${BACKUP_DIR}/saved existiert
   - die gesicherten CCU-Originaldateien aus ${BACKUP_DIR} wiederherstellen
   - Patches erneut anwenden
 <br><br>
-- 4) Deinstallation AddOn
+- D) Deinstallation AddOn
   - Merkmal: n/a
   - die gesicherten CCU-Originaldateien aus ${BACKUP_DIR} wiederherstellen
 <br><br>
@@ -39,28 +39,34 @@ Vielen Dank an Jérôme für seine wertvollen Vorlagen und Hinweise. :thumbsup: 
 
 - Jérômes Anmerkungen:
 ```
-So wollte ich es anfangs mal machen. Aber irgendwelche Addons (war es HVL von THKL?) modifizieren u.U. die selben Files. 
-Wenn man dann seine eigenen Addon-Backup-Files wieder zurückspielt, gehen andere User-(AddOn)-Modifikationen möglicherweise verloren.
+So wollte ich es anfangs mal machen. Aber irgendwelche Addons (war es HVL von THKL?) modifizieren u.U. die
+selben Files. 
+Wenn man dann seine eigenen Addon-Backup-Files wieder zurückspielt, gehen andere User-(AddOn)-Modifikationen
+möglicherweise verloren.
 Vielleicht denke ich da zu abstrakt und es wäre völlig egal. Aber die Möglichkeit bestünde.
 Nur das war der Grund, weshalb ich immer nur meinen Teil De-Patchen wollte.
-Die Variante mit den Backup-Files ist natürlich viel viel schneller und hängt letztendlich auch an der SD-Kartengeschwindigkeit. Andererseits erfolgt das ganze Gepatche ja auch nur 1x (z.B. nach einem CCU-FW-Update) und nicht bei jedem Hochfahren.
+Die Variante mit den Backup-Files ist natürlich viel viel schneller und hängt letztendlich auch an der SD-
+Kartengeschwindigkeit. Andererseits erfolgt das ganze Gepatche ja auch nur 1x (z.B. nach einem CCU-FW-Update)
+und nicht bei jedem Hochfahren.
 In einer VM macht das wesentlich mehr Spaß. Da ist der Kram in 1-2 Sekunden durch :-) 
 ```
 
-###### Jérômes Patch Konzept
+#### Jérômes Patch Konzept
 
 - Jérôme pflegt einen revoke Ordner, in dem die ganze History seiner Patches, die in der Vergangenheit jemals gemacht wurden, enthalten ist.
 
 - Dieser revoke Ordner ist einerseits für die Deinstallation des AddOn, andererseits auch für eine Addon 'Drüber'-Installation:
 ```
-Angenommen der Kunde kommt von Version 2.19 und geht auf 2.20. In der ic_common.tcl hat sich eine weitere Änderung zum Patchen ergeben.
-Damit der neue Patch angewendet werden kann, muss die CCU-Originaldatei beim Kunden existieren, denn die Patches beziehen sich immer auf die Originaldatei und nicht auf die bereits gepatchte Vorgängerversion.
+Angenommen der Kunde kommt von Version 2.19 und geht auf 2.20. In der ic_common.tcl hat sich eine weitere
+Änderung zum Patchen ergeben.
+Damit der neue Patch angewendet werden kann, muss die CCU-Originaldatei beim Kunden existieren, denn die
+Patches beziehen sich immer auf die Originaldatei und nicht auf die bereits gepatchte Vorgängerversion.
 Das geht nur, wenn man alle möglichen vorherigen Patches zurückfährt. 
 Die meisten werden fehlschlagen, aber ich weiß nie, von welcher Version jemand kommt.
 Daher werden erstmal vorsichtshalber alle Patches, die es für eine Datei mal gab, zurückgefahren.
 ```
 
-###### Patchen
+#### Patchen
 
 - Nur der Vollständigkeit noch mal gesagt:<br>
 So lange sich nur die Stelle (Zeilennummer) in der CCU-Originaldatei ändert, hat Patch kein Problem. Da ändere ich dann auch nix.<br>
@@ -71,7 +77,7 @@ Ich muss nur dann was anfassen, wenn direkt an den für mich relevanten Abschnit
 
 ## Diverse Informationen
 
-###### AddOn Konzept Dateien
+#### AddOn Konzept - Dateien
 
 - Der update_script kopiert lediglich beim Runterfahren erstmal die Addon-Inhalte ins /usr/local.<br>
 An dieser Datei muss man eigentlich nie was ändern.
@@ -83,7 +89,7 @@ Hier ist die zentrale Baustelle, wenn es CCU FW Updates gibt
 Auch hier muss über CCU-FW-Generationen hinweg nichts geändert werden.<br>
   *jp112sdl*
 
-###### AddOn Installation von der Kommandozeile
+#### AddOn Installation von der Kommandozeile
 
     # Das Addon nach /tmp kopieren. Dann über SSH:
     cd /tmp
@@ -94,19 +100,19 @@ Auch hier muss über CCU-FW-Generationen hinweg nichts geändert werden.<br>
 Der Unterschied zum RM restart ist, dass hier jetzt die Prozesse ReGaHss und RFD neu gestartet werden.<br>
 Das fällt beim Ausführen zur Bootzeit weg, weil das rc-Skript vor dem Starten der anderen Prozesse ausgeführt wird.
 
-###### Warum kann man nicht die gesamte Installation im update_script erledigen?
+#### Warum kann man nicht die gesamte Installation im update_script erledigen?
 
 - Bei einer CCU2 und CCU3 findet das installieren des Addons via update_script in einer chroot Umgebung statt. Es ist zwar über Umwege auch da möglich am read-only rootfs Änderungen vorzunehmen. Gewollt ist es da allerdings nicht.<br>
   *jmaus*
 
-###### RaspberryMatic rc.d Skript 'init' Zweig
+#### RaspberryMatic rc.d Skript 'init' Zweig
 
 - Beim Hochfahren gibt es mit RaspberryMatic die Möglichkeit Dinge die ein Addon VOR ausführen des ReGaHss, rfd, etc. Dienstes erledigen muss in einen "init" Zweig des Addon rc Skriptes zu stecken.<br>
 Das nutzt z.B. CUxD damit es VOR dem start von ReGaHss&Co einige Dinge erledigen kann (siehe https://github.com/jens-maus/cuxd/blob/master/ccu3/rc.d/cuxdaemon#L61).<br>
 Damit sollte es dann z.B. möglich sein das du die Dinge die du VOR ReGaHss erledigen musst in dem "init" Zweig deines rc Skriptes abhandelst und damit eigentlich nicht mehr selbst ReGaHss stoppen/starten musst (was eben vermieden werden sollte).<br>
   *jmaus*
 
-###### Custom devices sind nach RM firmware update weg (befinden sich aber im Posteingang)
+#### Custom devices sind nach RM firmware update weg (befinden sich aber im Posteingang)
 
 - Das Problem ist Folgendes, nach einem Firmware-Update fährt das System erstmal unmodifiziert hoch, ..., rfd startet, ReGaHss startet.<br>
 Danach erst werden die Addon-Skripts ausgeführt, somit auch dein rc.d/hb-uni-sensor1.<br>
@@ -116,7 +122,7 @@ Sie dürften auch aus allen Programmen rausfliegen. Bin mir aber nicht 100% sich
 Aus diesem Grund halte ich vor der Installation meines Addons die beiden Dienste an und starte sie erst zum Schluss wieder.<br>
   *jp112sdl*
 
-###### neues xml testen:
+#### neues xml testen:
 
     mount -o remount,rw /
     # restart_rm nach /root kopieren
@@ -127,7 +133,7 @@ Aus diesem Grund halte ich vor der Installation meines Addons die beiden Dienste
     grep "\sro[\s,]" /proc/mounts
     /root/restart_rm
 
-###### HB-UNI-Sensor1-addon.tgz bauen:
+#### HB-UNI-Sensor1-addon.tgz bauen:
 
     # ggf. xml in (Repo)/CCU_RM/src/addon/firmware/rftypes anpassen
     # (Repo)CCU_RM/src/addon/params prüfen/anpassen, Versionsnummer erhöhen
@@ -138,7 +144,7 @@ Aus diesem Grund halte ich vor der Installation meines Addons die beiden Dienste
     # /usr/local/tmp/CCU_RM nach <Repo> zurückkopieren
     # durch build.sh geänderte Dateien: HB-UNI-Sensor1-addon.tgz, VERSION, update-check.cgi
 
-###### Script restart_rm
+#### Script restart_rm
 
     #!/bin/sh
     echo
@@ -181,7 +187,7 @@ So können dann nach wie vor auch Geräte mit altem FW-Stand wieder korrekt ange
 
 ## custom HomeMatic data types
 
-** :warning: Achtung: obsolete, nicht mehr verwendet, da der geänderte Datentyp zwar in der Zentrale aber nicht in Systemen wie ioBroker funktioniert**
+:warning: **Achtung: obsolete, nicht mehr verwendet, da der geänderte Datentyp zwar in der Zentrale aber nicht in Systemen wie ioBroker funktioniert**
 
 - Beispiel 'Digitaler Eingang'
 
