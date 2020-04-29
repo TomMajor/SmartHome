@@ -12,6 +12,8 @@
 - Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jérômes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein separates AddOn nur für die genannten Geräte zu haben.<br><br>
 Vielen Dank an Jérôme für die Unterstützung bei dieser Arbeit. :thumbsup: <br>
 
+[comment]: # (rc.d filename: hb-tm-jp-addon-reduced, github name: HB-TM-JP-AddOn-Reduced, info name: HB-TM-JP AddOn Reduced)
+
 
 ## Warum?
 

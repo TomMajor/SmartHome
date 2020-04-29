@@ -56,6 +56,7 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 | 1 | LED1	            | gelb	            | 0805          | |
 | 1 | D1	            | BAT 54J NXP	    | -             | [Beispiel Reichelt](https://www.reichelt.de/schottkydiode-30-v-0-2-a-sod-323f-bat-54j-nxp-p219408.html) |
 | 1 | L1	            | BLM21PG 300	    | 0805          | [Beispiel Reichelt](https://www.reichelt.de/emi-suppression-filter-smd0805-blm21-30-ohm-blm21pg-300-p89685.html) |
+| 1 | Bu1               | -                 | SMA           | [Beispiel Reichelt](https://www.reichelt.de/sma-steckverbinder-buchse-print-pin-vergoldet-sma-bu-p-p18174.html) |
 |   |                   |                   |               | |
 | 2 | R9,R10            | tbd               | 0805          | Optional: Lastschaltung für USB-Powerbank, auf gewünschten Laststrom auslegen |
 | 1 | R11               | 4,7k              | 0805          | Optional: Lastschaltung für USB-Powerbank |

@@ -57,8 +57,8 @@ In einer VM macht das wesentlich mehr Spaß. Da ist der Kram in 1-2 Sekunden dur
 
 - Dieser revoke Ordner ist einerseits für die Deinstallation des AddOn, andererseits auch für eine Addon 'Drüber'-Installation:
 ```
-Angenommen der Kunde kommt von Version 2.19 und geht auf 2.20. In der ic_common.tcl hat sich eine weitere
-Änderung zum Patchen ergeben.
+Angenommen der Kunde kommt von AddOn Version 2.19 und geht auf 2.20. In der ic_common.tcl hat sich eine
+weitere Änderung zum Patchen ergeben.
 Damit der neue Patch angewendet werden kann, muss die CCU-Originaldatei beim Kunden existieren, denn die
 Patches beziehen sich immer auf die Originaldatei und nicht auf die bereits gepatchte Vorgängerversion.
 Das geht nur, wenn man alle möglichen vorherigen Patches zurückfährt. 
@@ -187,7 +187,7 @@ So können dann nach wie vor auch Geräte mit altem FW-Stand wieder korrekt ange
 
 ## custom HomeMatic data types
 
-:warning: **Achtung: obsolete, nicht mehr verwendet, da der geänderte Datentyp zwar in der Zentrale aber nicht in Systemen wie ioBroker funktioniert**
+:warning: **Achtung: für mich obsolete, nicht mehr verwendet, da der geänderte Datentyp zwar in der Zentrale aber nicht in Systemen wie ioBroker funktioniert**
 
 - Beispiel 'Digitaler Eingang'
 
@@ -210,6 +210,9 @@ Ein Abschnitt im install bzw. uninstall Script sorgt für die Änderungen, diese
     # Ersetzen in:
     /www/webui/js/lang/de/translate.lang.diagram.js
     "diagramValueTypeILLUMINATION": "Digitaler Eingang",
+
+In diesem Beispiel wird *stringTableWeatherIllumination* nur für den Datenpunkt *ILLUMINATION* übersetzt falls der Kanal vom Typ *WEATHER* ist.<br>
+Ohne das vorangestellte *WEATHER|* würden alle Kanaltypen mit Datenpunkt *ILLUMINATION* mit *stringTableWeatherIllumination* übersetzt werden.
 
 
 ## Die Registerklassen (Listen) eines HomeMatic-Gerätes
