@@ -3,24 +3,24 @@
 
 ![pic](Images/Built-up/HB-Dis-EP-42BW_1.jpg)
 
-- Die Infos hier beziehen sich auf Jeromes Projekt ePaper Display HB-Dis-EP-42BW<br>
+- Die Infos hier beziehen sich auf Jérômes Projekt ePaper Display HB-Dis-EP-42BW<br>
 [Original HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
 
 
 ## AddOn für CCU2/CCU3/RaspberryMatic 
 
-- meine Version des HB-Dis-EP-42BW ePaper Addon aus dem Jahr 2019 (Stripdown aus Jeromes JP-HB-Devices-addon nur für das ePaper) wurde eingestellt.
+- meine Version des HB-Dis-EP-42BW ePaper Addon aus dem Jahr 2019 (Stripdown aus Jérômes JP-HB-Devices-addon nur für das ePaper) wurde eingestellt.
 
 - Dafür kommt jetzt bei mir die neue und erweiterte Version [HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced) zum Einsatz, die nebem dem HB-Dis-EP-42BW ePaper Gerät auch noch die Geräte HB-RC-12-EP und HB-OU-MP3-LED kann.
 
-:warning: Achtung, bitte entweder nur Jeromes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+:warning: Achtung, bitte entweder nur Jérômes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
 ## Aufbau - Alveran's Gehäusevariante
 
 - Danke an Marco (stan23) für seine professionelle Arbeit beim Platinendesign und die Bereitstellung der Platinen. :smile: <br>
   Danke an Alveran für seine professionelle Arbeit im 3D-Druck Bereich und die Bereitstellung des Gehäuses. :smile: <br>
-  Danke natürlich auch an papa für seine geniale AskSinPP Library und an Jerome für seine Pionierarbeit bei den Homebrew Geräten.
+  Danke natürlich auch an papa für seine geniale AskSinPP Library und an Jérôme für seine Pionierarbeit bei den Homebrew Geräten.
 
 - Es sind nur 2mm Abstand zwischen Displayboard und ATmega1284P-Platine vorhanden, eingestellt durch die im Foto zu sehenden 2mm Spacer.
 

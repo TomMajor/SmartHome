@@ -111,7 +111,7 @@ Maßnahme C würde da noch mal eins drauf setzen und den CC1101 ebenfalls abscha
 
 ## Update April 2020
 
-- [Jerome](https://github.com/jp112sdl) ist es gelungen, einen Babbling Idiot reproduzierbar nachzustellen, das ist großartig und ein guter Erkenntnisgewinn :thumbsup:.
+- [Jérôme](https://github.com/jp112sdl) ist es gelungen, einen Babbling Idiot reproduzierbar nachzustellen, das ist großartig und ein guter Erkenntnisgewinn :thumbsup:.
 
 - er hat dafür einen Pro Mini und seinen Sketch für die 1-Kanal-Fernbedienung [HM-RC-P1](https://github.com/jp112sdl/Beispiel_AskSinPP) hergenommen und konnte mit folgenden Parametern ein "BI-Simulator-Setup" aufbauen:
   - die Fuse des internen Brown-Out Detectors (BOD) im AVR auf 1.8V gesetzt
@@ -131,7 +131,7 @@ Maßnahme C würde da noch mal eins drauf setzen und den CC1101 ebenfalls abscha
 
 - Ohne aktivierten BOD konnte der BI im "BI-Simulator-Setup" nicht so einfach reproduziert werden, was aber IMHO nicht heißt dass er dann nicht vorkommen kann, je nachdem bei welcher Spannung der AVR aussteigt aber der CC1101 weiterläuft.
 
-- Danke an Jerome für die Ideen und Arbeiten am BI-Simulator-Setup und die zur Verfügung gestellten Bilder.
+- Danke an Jérôme für die Ideen und Arbeiten am BI-Simulator-Setup und die zur Verfügung gestellten Bilder.
 
 ![pic](Images/BI_HM-RC-P1.jpg)
 *BI-Simulator-Setup*

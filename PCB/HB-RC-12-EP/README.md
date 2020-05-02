@@ -1,7 +1,7 @@
 
 # HB-RC-12-EP Board
 
-- Ein Board für Jeromes [HB-RC-12-EP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=50160) Projekt, eine 12 Kanal Fernbedienung mit ePaper-Display.
+- Ein Board für Jérômes [HB-RC-12-EP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=50160) Projekt, eine 12 Kanal Fernbedienung mit ePaper-Display.
 - Es gibt momentan 2 Varianten für das Gehäuse (3D-Druck), von *Alveran* und *der-pw*
 
 
