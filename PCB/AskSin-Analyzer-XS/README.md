@@ -16,15 +16,13 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 
 ## Bilder
 
-![pic](Images/AnalyzerXS_pcb1.png)
+![pic](Images/AnalyzerXS_pcb1.jpg)
 
 ![pic](Images/AnalyzerXS_pcb2.png)
 
 ![pic](Images/AnalyzerXS_pcb3.png)
 
-![pic](Images/BI-Wuenschelrute.jpg)
-
-![pic](Images/oled-module.jpg)
+![pic](Images/AnalyzerXS_pcb4.png)
 
 
 ## Schaltplan
@@ -36,10 +34,62 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 
 [:arrow_right: PCB Gerber](Gerber)
 
-**WIP**
+
+## Aufbau
+
+- Zuerst die SMD Bauelemente auf der Oberseite und das Levelshifter-Board bestücken
+- auf dem Bild fehlen noch IC3 und D1, diese auch bestücken.
+- :warning: Achtung, beim Levelshifter-Board auf die Lage achten, in der oberen Reihe ist das **HV** pin, in der unteren das **LV** pin
+
+![pic](Images/asksin-analyzer-xs-build1.jpg)
+
+- dann den CC1101 bestücken
+
+![pic](Images/asksin-analyzer-xs-build2.jpg)
+
+- dann die Stiftleisten (RM 2,54) für den Arduino Nano bestücken (1x5, 1x3, 2x2 pol.)
+
+![pic](Images/asksin-analyzer-xs-build3.jpg)
+
+- dann den Arduino Nano einlöten
+
+![pic](Images/asksin-analyzer-xs-build4.jpg)
+
+- zum Schluss die SMA-Buchse bestücken und eine Drahtbrücke von Arduino D2 nach Anschluss **2** auf der Platine löten
+
+![pic](Images/asksin-analyzer-xs-build5.jpg)
+
+- die Unterseite (Optional: BI-Wünschelrute mit OLED, Lastschaltung für USB-Powerbank) kann zunächst komplett unbestückt bleiben
+
+![pic](Images/asksin-analyzer-xs-build6.jpg)
+
+- das fertige Gerät
+
+![pic](Images/asksin-analyzer-xs-build7.jpg)
+
+- Bei einem Arduino Nano Clone mit CH340 muss man ggf. in der Arduino-IDE **(Arduino Nano / ATmega328P (Old Bootloader)** einstellen bevor man flashen kann
+
+![pic](Images/asksin-analyzer-xs-flashen.png)
+
+- dann den [Frequenztest](https://github.com/pa-pa/AskSinPP/tree/master/examples/FreqTest) auf den Arduino Nano flashen und ausführen
+- dabei folgende Änderung vornehmen:<br>
+`#define LED_PIN 4`
+<br>ändern zu<br>
+`#define LED_PIN 8`
+
+![pic](Images/asksin-analyzer-xs-freqtest.png)
+
+- dann den (AskSinSniffer328P)[https://github.com/jp112sdl/AskSinAnalyzer/tree/master/AskSinSniffer328P] auf den Arduino Nano flashen
+- dabei folgende Änderung vornehmen:<br>
+`typedef AskSin<StatusLed<4>, NoBattery, Radio<LibSPI<10>, 2>> HalType;`
+<br>ändern zu<br>
+`typedef AskSin<StatusLed<8>, NoBattery, Radio<LibSPI<10>, 2>> HalType;`
+- die (AskSinAnalyzerXS Applikation)[https://github.com/psi-4ward/AskSinAnalyzerXS/releases] downloaden und dort den seriellen Port des Arduino Nano einstellen, Fertig.
+
+![pic](Images/asksin-analyzer-xs-application.png)
 
 
-## Aufbau / Stückliste
+## Stückliste
 
 | Anzahl    | Name      | Wert              | Gehäuse       | Bemerkungen |
 |---|---|---|---|---|
@@ -57,6 +107,7 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 | 1 | D1	            | BAT 54J NXP	    | -             | [Beispiel Reichelt](https://www.reichelt.de/schottkydiode-30-v-0-2-a-sod-323f-bat-54j-nxp-p219408.html) |
 | 1 | L1	            | BLM21PG 300	    | 0805          | [Beispiel Reichelt](https://www.reichelt.de/emi-suppression-filter-smd0805-blm21-30-ohm-blm21pg-300-p89685.html) |
 | 1 | Bu1               | -                 | SMA           | [Beispiel Reichelt](https://www.reichelt.de/sma-steckverbinder-buchse-print-pin-vergoldet-sma-bu-p-p18174.html) |
+| 4 | Pfostenleiste     | 1x5, 1x3, 2x2 pol. | RM 2,54      | |
 |   |                   |                   |               | |
 | 2 | R9,R10            | tbd               | 0805          | Optional: Lastschaltung für USB-Powerbank, auf gewünschten Laststrom auslegen |
 | 1 | R11               | 4,7k              | 0805          | Optional: Lastschaltung für USB-Powerbank |
@@ -81,6 +132,11 @@ Da wir hier eine Art HF-Empfangs- und Messgerät bauen kann das nur von Vorteil 
 Aus dem gleichen Grund ist weiterhin der Pi-Filter (C-L-C) vor dem CC1101 vorgesehen.
 
 - Wer glaubt das alles nicht zu brauchen kann IC3, L1, C1 weglassen und für R12 einen 0-Ohm Widerstand bzw. eine Lötbrücke bestücken, dann werden die internen 3,3V des CH340C verwendet.
+
+
+## Prototypenaufbau BI-Wünschelrute (der-pw)
+
+![pic](Images/BI-Wuenschelrute.jpg)
 
 
 ## Links
