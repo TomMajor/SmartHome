@@ -39,6 +39,7 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 
 - Zuerst die SMD Bauelemente auf der Oberseite und das Levelshifter-Board bestücken
 - auf dem Bild fehlen noch IC3 und D1, diese auch bestücken.
+- die Katode (Strich auf dem Gehäuse) von D1 muss nach oben zeigen, zum Lötpad **2** hin
 - :warning: Achtung, beim Levelshifter-Board auf die Lage achten, in der oberen Reihe ist das **HV** pin, in der unteren das **LV** pin
 
 ![pic](Images/asksin-analyzer-xs-build1.jpg)
@@ -79,12 +80,12 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 
 ![pic](Images/asksin-analyzer-xs-freqtest.png)
 
-- dann den (AskSinSniffer328P)[https://github.com/jp112sdl/AskSinAnalyzer/tree/master/AskSinSniffer328P] auf den Arduino Nano flashen
+- dann den [AskSinSniffer328P](https://github.com/jp112sdl/AskSinAnalyzer/tree/master/AskSinSniffer328P) auf den Arduino Nano flashen
 - dabei folgende Änderung vornehmen:<br>
 `typedef AskSin<StatusLed<4>, NoBattery, Radio<LibSPI<10>, 2>> HalType;`
 <br>ändern zu<br>
 `typedef AskSin<StatusLed<8>, NoBattery, Radio<LibSPI<10>, 2>> HalType;`
-- die (AskSinAnalyzerXS Applikation)[https://github.com/psi-4ward/AskSinAnalyzerXS/releases] downloaden und dort den seriellen Port des Arduino Nano einstellen, Fertig.
+- die [AskSinAnalyzerXS Applikation](https://github.com/psi-4ward/AskSinAnalyzerXS/releases) downloaden und dort den seriellen Port des Arduino Nano einstellen, Fertig.
 
 ![pic](Images/asksin-analyzer-xs-application.png)
 
@@ -131,7 +132,11 @@ siehe auch diese interessante [Messung](http://actrl.cz/blog/index.php/2016/ardu
 Da wir hier eine Art HF-Empfangs- und Messgerät bauen kann das nur von Vorteil sein.<br>
 Aus dem gleichen Grund ist weiterhin der Pi-Filter (C-L-C) vor dem CC1101 vorgesehen.
 
-- Wer glaubt das alles nicht zu brauchen kann IC3, L1, C1 weglassen und für R12 einen 0-Ohm Widerstand bzw. eine Lötbrücke bestücken, dann werden die internen 3,3V des CH340C verwendet.
+- Wer glaubt den zusätzlichen 3,3V Spannungsregler nicht zu brauchen kann IC3, L1, C1 weglassen und für R12 einen 0-Ohm Widerstand bzw. eine Lötbrücke bestücken, dann werden die internen 3,3V des CH340C verwendet.
+
+- Und was macht die Schaltung mit R2/D1?<br>
+Das GDO0 Pin am CC1101 arbeitet nur in eine Richtung, zum AVR hin, muss aber genau so die 3,3/5V Pegel berücksichtigen.<br>
+Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein Sketch auf dem Arduino ist der D2 auf 5V Ausgang setzt, bleibt der CC1101 heil da dieser Pegel über R2/D1 begrenzt wird.
 
 
 ## Prototypenaufbau BI-Wünschelrute (der-pw)
