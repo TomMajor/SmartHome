@@ -97,7 +97,7 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 | - | R1                | (10k)             | (0805)        | nicht bestücken, das Levelshifter-Board hat bereits pull-ups an jedem Kanal |
 | 1 | R2                | 1k                | 0805          | |
 | 1 | R3                | 3,3k              | 0805          | |
-| 1 | R12               | -                 | 0805          | :warning: nicht bestücken (nur falls man IC3 nicht einsetzen will und man weiß was man tut, siehe unten) |
+| 1 | R12               | -                 | 0603          | :warning: nicht bestücken (nur falls man IC3 nicht einsetzen will und man weiß was man tut, siehe unten) |
 | 1 | C1                | 10µ               | 0805          | |
 | 1 | C2                | 1µ                | 0805          | |
 | 1 | IC1	            | Arduino Nano	    | -             | [Beispiel ebay](https://www.ebay.de/itm/Nano-ATmega328-V3-1-Board-CH340-USB-Chip-Arduino-Kompatibel/252742123829) |
@@ -124,7 +124,9 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 ## Zusätzlicher 3,3V Spannungsregler (LDO)
 
 - Ich habe einen SOT-23 LDO für die 3,3V Versorgung des CC1101 vorgesehen da mir der verfügbare Ausgangsstrom des CH340C etwas wenig vorkommt.<br>
-siehe auch diese interessante [Messung](http://actrl.cz/blog/index.php/2016/arduino-nano-ch340-schematics-and-details/)
+siehe auch diese [Infos](http://actrl.cz/blog/index.php/2016/arduino-nano-ch340-schematics-and-details/)
+
+<p align="center"><img src="Images/Nano_CH340_3V3_Output.jpg?raw=true"/></p>
 
 - Für den CC1101 Empfangsmodus mag es auch mit den internen 3,3V vom CH340C gehen, falls man die Platine ggf. im Rahmen eines anderen Projekts auch zum Senden einsetzen will finde ich es sauberer etwas mehr Strom auf der 3,3V Schiene zu haben.
 
