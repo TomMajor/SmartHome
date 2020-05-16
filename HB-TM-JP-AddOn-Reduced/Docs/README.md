@@ -215,6 +215,181 @@ In diesem Beispiel wird *stringTableWeatherIllumination* nur für den Datenpunkt
 Ohne das vorangestellte *WEATHER|* würden alle Kanaltypen mit Datenpunkt *ILLUMINATION* mit *stringTableWeatherIllumination* übersetzt werden.
 
 
+## Die Liste der internen Datentypen von HomeMatic (TEMPERATURE, AIR_PRESSURE, VALVE_STATE usw.) die man in einem Diagramm verwenden kann
+
+In /www/webui/js/lang/en/translate.lang.diagram.js findet man die Datentypen die in Diagrammen verwendet werden können (dort mit diagramValueTypeXXXXXX gekennzeichnet):
+```
+ENERGY_COUNTER
+IEC_ENERGY_COUNTER
+GAS_ENERGY_COUNTER
+POWER
+IEC_POWER
+GAS_POWER
+CURRENT
+VOLTAGE
+FREQUENCY
+TEMPERATURE
+HUMIDITY
+BRIGHTNESS
+ILLUMINATION
+LUX
+WIND_SPEED
+WIND_DIRECTION
+RAINING
+RAIN_COUNTER
+SET_TEMPERATURE
+SET_POINT_TEMPERATURE
+ACTUAL_TEMPERATURE
+VALVE_STATE
+FILLING_LEVEL
+LEVEL
+AIR_PRESSURE
+SUNSHINEDURATION
+SUNSHINE_THRESHOLD_OVERRUN
+WIND_DIR
+HIGHEST_ILLUMINATION
+CURRENT_ILLUMINATION
+LOWEST_ILLUMINATION
+AVERAGE_ILLUMINATION
+```
+
+
+## Die Liste aller internen Datentypen von HomeMatic (TEMPERATURE, UNREACH, ERROR usw.)
+
+Alle vorhandenen internen Datentypen kann man aus den Firmware xmls extrahieren (*jp112sdl*):
+```
+xmllint --format /firmware/rftypes/*.xml|grep "operations=\"read,event\"" | awk -F "id=" '{print $2}' | awk -F " " '{print $1}' | sort | uniq
+```
+
+```
+"ACTUAL_HUMIDITY"
+"ACTUAL_TEMPERATURE"
+"ADJUSTING_COMMAND"
+"ADJUSTING_DATA"
+"AIR_PRESSURE"
+"BATTERY_STATE"
+"BOOST_STATE"
+"BOOST_TIME"
+"BOOT"
+"BRIGHTNESS"
+"COMMUNICATION_REPORTING"
+"CONFIG_PENDING"
+"CONTROL_MODE"
+"COUNTERREADING1"
+"COUNTERREADING10"
+"COUNTERREADING2"
+"COUNTERREADING3"
+"COUNTERREADING4"
+"COUNTERREADING5"
+"COUNTERREADING6"
+"COUNTERREADING7"
+"COUNTERREADING8"
+"COUNTERREADING9"
+"CURRENT"
+"DECISION_VALUE"
+"DEVICE_IN_BOOTLOADER"
+"DIRECTION"
+"DIRECTION_SLATS"
+"DUTYCYCLE"
+"ENERGY_COUNTER"
+"ERROR"
+"ERROR_ALARM_TEST"
+"ERROR_BATTERY"
+"ERROR_M1"
+"ERROR_M2"
+"ERROR_M3"
+"ERROR_OVERHEAT"
+"ERROR_OVERLOAD"
+"ERROR_POWER"
+"ERROR_REDUCED"
+"ERROR_SABOTAGE"
+"ERROR_SMOKE_CHAMBER"
+"ERR_DETECT_EIA485_SERVICE"
+"ERR_TTCU_INTERNAL_TEST"
+"ERR_TTCU_LOCK_ROLLERS_SHORTED"
+"ERR_TTCU_MAGNET_ERROR"
+"ERR_TTCU_POWER_ONTIME_EXCEEDED"
+"ERR_TTCU_SENSOR_STRIP_DISCONNECTED"
+"ERR_TTCU_SENSOR_STRIP_SHORTED"
+"ERR_TTCU_STOP_AFTER_10_CLOSING_TRIES"
+"ERR_TTCU_TURN_TILT_ACT_ALLOY_MOSFET"
+"ERR_TTCU_TURN_TILT_ACT_ASYNCHRON"
+"ERR_TTCU_TURN_TILT_ACT_BLOCKED"
+"ERR_TTCU_TURN_TILT_ACT_CONTACT_PROBLEM"
+"ERR_TTCU_TURN_TILT_ACT_NO_SPEED_SIGNAL"
+"ERR_TTCU_TURN_TILT_ACT_OVERCURRENT"
+"ERR_TTCU_TURN_TILT_ACT_SHORTED"
+"ERR_TTCU_WRONG_VOLTAGE_POLARITY"
+"ERR_TTM_INTERNAL"
+"ERR_TTM_OVERVOLT"
+"ERR_TTM_UNDERVOLT"
+"ERR_WINDOW_NOT_FOUND"
+"ERR_WIN_STAY_IN_INITIAL_OPERATION"
+"FAULT_REPORTING"
+"FILLING_LEVEL"
+"FREE_TO_USE"
+"FREQUENCY"
+"GAS_ENERGY_COUNTER"
+"GAS_POWER"
+"HUMIDITY"
+"IEC_ENERGY_COUNTER"
+"IEC_POWER"
+"LEVEL"
+"LEVEL_REAL"
+"LOWBAT"
+"LOWBAT_REPORTING"
+"LOWBAT_SENSOR"
+"LUX"
+"MOTION"
+"POWER"
+"RAINING"
+"RAIN_COUNTER"
+"RSSI"
+"RSSI_DEVICE"
+"RSSI_PEER"
+"STATE"
+"STATE_UNCERTAIN"
+"STATUS"
+"SUNSHINEDURATION"
+"TEMPERATURE"
+"TIPTRONIC_STATE"
+"UNREACH"
+"UPDATE_PENDING"
+"VALVE_STATE"
+"VOLTAGE"
+"WINDOW_OPEN_REPORTING"
+"WINDOW_STATE"
+"WINDOW_TYPE"
+"WIND_DIRECTION"
+"WIND_DIRECTION_RANGE"
+"WIND_SPEED"
+"WIN_RELEASE"
+"WORKING"
+"WORKING_SLATS"
+```
+
+
+## Spezielle Datentypen (Servicemeldungen)
+
+- Wie ein Datentyp im WebUI angezeigt wird, hängt hauptsächlich von *control="..."* ab.
+  - Bei **NONE** steht einfach nur der **Bezeichner: Wert** dann in der WebUI (graues Feld bei *Status und Bedienung/Geräte*)
+  - Bei **SWITCH.STATE** bekommt man einen EIN-AUS-Button.
+  - Bei **BUTTON.SHORT** einen Taster "kurzer Tastendruck".
+
+- "ERROR" ist ein interner Datentyp (*ui_flags="service"*), der Servicemeldungen generiert (z.B. Sabotage bei Fensterkontakten).
+
+- Beispiel für "ERROR" Verwendung: Jérômes Katzenklappen-Projekt mit Magnetwinkelsensor, seine Hinweise dazu:
+  - dort wird der ERROR-State genutzt, um bestimmte Fehlermeldungen des Magnetwinkelsensors zu übertragen, Magnetabstand zu dicht, zu nah, genereller Sensorfehler usw.
+  - In der XML sieht das so aus: [Link](https://github.com/jp112sdl/JP-HB-Devices-addon/blob/master/src/addon/firmware/rftypes/hb-uni-sen-pf-sc.xml#L179-L192)
+  - Nicht zu vergessen, "ERROR" auch im [Frame](https://github.com/jp112sdl/JP-HB-Devices-addon/blob/master/src/addon/firmware/rftypes/hb-uni-sen-pf-sc.xml#L30-L39) zu berücksichtigen!
+  - Und auch die [Übersetzungen](https://github.com/jp112sdl/JP-HB-Devices-addon/blob/master/src/addon/install_hb-uni-sen-pf-sc) nicht vergessen.
+  - Im Sketch mache ich das so, dass ich [alle 5 Sekunden den Fehlerstatus des AS5600 auslese](https://github.com/jp112sdl/HB-UNI-Sen-PF-SC/blob/master/HB-UNI-Sen-PF-SC.ino#L165-L170).
+  - Wenn sich der Status ändert, wird ein [INFO-Telegram mit dem gesetzten ERROR-Flag gesendet](https://github.com/jp112sdl/HB-UNI-Sen-PF-SC/blob/master/HB-UNI-Sen-PF-SC.ino#L205-L229).
+  - Ich bin erst viel zu spät auf diese Möglichkeit gestoßen, sonst hätte ich das in anderen Projekten schon für die Übertragung von Fehlern genutzt.
+  - Beim HB-UNI-Sensor1 könnte man damit übertragen, ob eine Sensorinitialisierung fehlgeschlagen ist. Dann sieht der Anwender sofort, wenn was nicht stimmt.
+  - P.S.: Wenn man aber den Aufwand gering halten möchte (ohne custom Error Message), kann man auch alles mit "ERROR" aus dem [Fensterkontakt](https://github.com/AskSinPP/asksinpp.de/blob/master/rftypes/xmls/rf_sc.xml) rüberholen und dann einfach das [Sabotage-Bit](https://github.com/pa-pa/AskSinPP/blob/master/ContactState.h#L71-L75) setzen wenn ein Fehler auftritt.
+
+
 ## Die Registerklassen (Listen) eines HomeMatic-Gerätes
 
 Gerätebezogene Register<br>
