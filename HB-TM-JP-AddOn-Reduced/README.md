@@ -31,6 +31,12 @@ Die Zentrale startet sich danach automatisch neu.
 :warning: Achtung, bitte entweder nur Jérômes JP-HB-Devices-addon oder das hier behandelte HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
+## Change Log
+
+- 2.11 - 12.04.2020
+  - erste öffentliche Version, dieses AddOn ersetzt mit erweitertem Funktionsumfang mein altes HB-Dis-EP-42BW AddOn.
+
+
 ## Details zur Reduzierung
 
 [:arrow_right: AddOn Know how](Docs)

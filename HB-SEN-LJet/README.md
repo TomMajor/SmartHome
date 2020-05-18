@@ -63,7 +63,7 @@
 
 ## CCU2/CCU3/RaspberryMatic Installation
 
-Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-SEN-LJet-addon.tgz installieren.
+Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-devices-addon.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn/CCU_RM) installieren.
 
 
 ## Benötige Libraries

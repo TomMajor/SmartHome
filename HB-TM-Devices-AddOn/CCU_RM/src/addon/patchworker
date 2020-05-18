@@ -1,0 +1,38 @@
+#!/bin/sh
+#
+# $1 install/uninstall
+# $2 ADDON_NAME
+# $3 PATCHVERSION
+# $4 FW_VERSION
+
+ADDON_NAME=$2
+PATCHVERSION=$3
+FW_VERSION=$4
+
+ADDON_DIR=/usr/local/addons/${ADDON_NAME}
+LOG_DIR=${ADDON_DIR}/log
+LOGFILE=$LOG_DIR/inst.log
+ERRFILE=$LOG_DIR/inst.err
+BACKUP_DIR=${ADDON_DIR}/backup_${FW_VERSION}
+
+case "$1" in
+    install)
+    
+        echo "patchworker ($1) ($2) ($3) ($4)" | tee -a $LOGFILE
+        
+        # at current, nothing to patch for hb-tm-devices-addon
+    
+    ;;
+    
+    uninstall)
+    
+        echo "patchworker ($1) ($2) ($3) ($4)" | tee -a $LOGFILE
+
+        # at current, nothing to patch for hb-tm-devices-addon
+        
+    ;;
+    
+    *)
+    ;;
+    
+esac

@@ -8,11 +8,8 @@
 
 | |AddOn|Status|letzte getestete Firmware (RaspberryMatic)|
 |---|---|---|---|
-| :heavy_check_mark: | [HB-UNI-Sensor1](HB-UNI-Sensor1)                 | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
-| :heavy_check_mark: | [HB-SEN-LJet](HB-SEN-LJet)                       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
+| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
 | :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
-
--> [AddOn Change Log](https://github.com/TomMajor/SmartHome/tree/master/Info/AddOn_Projekte)
 
 
 ## Disclaimer

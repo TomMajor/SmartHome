@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
+  <supported_types>
+    <type name="HB-UNI-Sensor1" id="HB-UNI-Sensor1" updatable="true">
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
+      <parameter index="10.0" size="2.0" const_value="0xF103" />
+    </type>
+  </supported_types>
+  <paramset type="MASTER" id="hm_uni_sen_dev_master">
+    <parameter id="DEVICE_LED_MODE">
+      <logical type="option">
+        <option id="OFF" />
+        <option id="ON" default="true" />
+      </logical>
+      <physical type="integer" interface="config" list="0" index="5.6" size="0.2" />
+      <conversion type="integer_integer_map">
+        <value_map device_value="0x00" parameter_value="0" />
+        <value_map device_value="0x01" parameter_value="1" />
+      </conversion>
+    </parameter>
+    <parameter id="LOW_BAT_LIMIT">
+      <logical type="float" min="0.9" max="5.0" default="2.2" unit="V" />
+      <physical type="integer" interface="config" list="0" index="18" size="1" />
+      <conversion type="float_integer_scale" factor="10" />
+    </parameter>
+    <parameter id="TRANSMIT_DEV_TRY_MAX">
+      <logical type="integer" min="1" max="10" default="6" />
+      <physical type="integer" interface="config" list="0" index="20" size="1" />
+    </parameter>
+    <parameter id="Sendeintervall">
+      <logical type="integer" min="60" max="43200" default="600" unit="s" />
+      <physical type="integer" interface="config" list="0" index="32" size="2" />
+    </parameter>
+    <parameter id="Hoehe ueber NN">
+      <logical type="integer" min="0" max="10000" default="0" unit="m" />
+      <physical type="integer" interface="config" list="0" index="34" size="2" />
+    </parameter>
+  </paramset>
+  <channels>
+    <channel index="0" type="MAINTENANCE" ui_flags="internal" class="maintenance" count="1">
+      <paramset type="MASTER" id="maint_ch_master" />
+      <paramset type="VALUES" id="maint_ch_values">
+        <parameter id="UNREACH" operations="read,event" ui_flags="service">
+          <logical type="boolean" />
+          <physical type="integer" interface="internal" value_id="UNREACH" />
+        </parameter>
+        <parameter id="STICKY_UNREACH" operations="read,write,event" ui_flags="service,sticky">
+          <logical type="boolean" />
+          <physical type="integer" interface="internal" value_id="STICKY_UNREACH" />
+        </parameter>
+        <parameter id="CONFIG_PENDING" operations="read,event" ui_flags="service">
+          <logical type="boolean" />
+          <physical type="integer" interface="internal" value_id="CONFIG_PENDING" />
+        </parameter>
+        <parameter id="LOWBAT" operations="read,event" ui_flags="service">
+          <logical type="boolean" />
+          <physical type="integer" interface="internal" value_id="LOWBAT" />
+        </parameter>
+        <parameter id="RSSI_DEVICE" operations="read,event">
+          <logical type="integer" />
+          <physical type="integer" interface="internal" value_id="RSSI_DEVICE" />
+        </parameter>
+        <parameter id="RSSI_PEER" operations="read,event">
+          <logical type="integer" />
+          <physical type="integer" interface="internal" value_id="RSSI_PEER" />
+        </parameter>
+        <parameter id="DEVICE_IN_BOOTLOADER" operations="read,event" ui_flags="service">
+          <logical type="boolean" />
+          <physical type="integer" interface="internal" value_id="DEVICE_IN_BOOTLOADER" />
+        </parameter>
+        <parameter id="UPDATE_PENDING" operations="read,event" ui_flags="service">
+          <logical type="boolean" />
+          <physical type="integer" interface="internal" value_id="UPDATE_PENDING" />
+        </parameter>
+      </paramset>
+    </channel>
+    <channel index="1" type="WEATHER" autoregister="true">
+      <link_roles>
+        <source name="WEATHER_TH" />
+      </link_roles>
+      <paramset type="MASTER" id="HB-UNI-Sensor1_master" />
+      <paramset type="VALUES" id="HB-UNI-Sensor1_values">
+        <parameter id="TEMPERATURE" operations="read,event">
+          <logical type="float" min="-50.0" max="120.0" unit="°C" />
+          <physical type="integer" interface="command" value_id="TEMPERATURE">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+          <conversion type="float_integer_scale" factor="10.0" />
+          <description>
+            <field id="AutoconfRoles" value="WEATHER" />
+          </description>
+        </parameter>
+        <parameter id="AIR_PRESSURE" operations="read,event">
+          <logical type="float" min="500.0" max="1100.0" unit="hPa" />
+          <physical type="integer" interface="command" value_id="AIR_PRESSURE">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+          <conversion type="float_integer_scale" factor="10.0" />
+          <description>
+            <field id="AutoconfRoles" value="WEATHER" />
+          </description>
+        </parameter>
+        <parameter id="HUMIDITY" operations="read,event">
+          <logical type="integer" min="0" max="100" unit="%" />
+          <physical type="integer" interface="command" value_id="HUMIDITY">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+          <description>
+            <field id="AutoconfRoles" value="WEATHER" />
+          </description>
+        </parameter>
+        <parameter id="LUX" operations="read,event">
+          <logical type="float" min="0.00" max="200000.00" unit="Lux" />
+          <physical type="integer" interface="command" value_id="LUX" no_init="true">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+          <conversion type="float_integer_scale" factor="100.0" />
+        </parameter>
+        <parameter id="VALVE_STATE" operations="read,event">
+          <logical type="integer" min="0" max="99" />
+          <physical type="integer" interface="command" value_id="VALVE_STATE" no_init="true">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+        </parameter>
+        <parameter id="OPERATING_VOLTAGE" operations="read,event">
+          <logical type="float" min="0.5" max="5.5" unit="V" />
+          <physical type="integer" interface="command" value_id="OPERATING_VOLTAGE">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+          <conversion type="float_integer_scale" factor="1000.0" />
+        </parameter>
+        <parameter id="UV-Index" operations="read,event">
+          <logical type="integer" min="0" max="11" />
+          <physical type="integer" interface="command" value_id="UV-Index" no_init="true">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+        </parameter>
+      </paramset>  
+      <paramset type="LINK" id="HB-UNI-Sensor1_link"></paramset>
+    </channel>
+  </channels>
+  <frames>
+    <frame id="WEATHER_EVENT" direction="from_device" event="true" fixed_channel="1" type="0x70">
+      <parameter type="integer" signed="true"  index="9"  size="1.7" param="TEMPERATURE" />
+      <parameter type="integer" index="11" size="2.0" param="AIR_PRESSURE" />
+      <parameter type="integer" index="13" size="1.0" param="HUMIDITY" />
+      <parameter type="integer" index="14" size="4.0" param="LUX" />
+      <parameter type="integer" index="18" size="1.0" param="VALVE_STATE" />
+      <parameter type="integer" index="19" size="2.0" param="OPERATING_VOLTAGE" />
+      <parameter type="integer" index="22" size="0.4" param="UV-Index" />
+    </frame>
+  </frames>
+  <paramset_defs></paramset_defs>
+</device>

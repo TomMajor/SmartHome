@@ -1,7 +1,7 @@
 
 # Dokumentation der AddOn-Entwicklung (für HB-TM-JP-AddOn-Reduced und allgemein)
 
-*Nur für Entwickler, für Anwender reicht die Installation des AddOn mittels Einstellungen/Systemsteuerung/Zusatzsoftware -> z.B. Datei CCU_RM/hb-tm-jp-addon-reduced.tgz auswählen*
+*Nur für Entwickler, für Anwender reicht die Installation des AddOn mittels Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-jp-addon-reduced.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced/CCU_RM) auswählen*
 <br><br>
 (C) 2018-2020 Tom Major / Creative Commons (CC BY-NC-SA 4.0)<br>
 Vielen Dank an Jérôme für seine wertvollen Vorlagen und Hinweise. :thumbsup: <br>

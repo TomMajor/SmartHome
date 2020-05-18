@@ -394,7 +394,7 @@ Gute Erfahrungen habe ich z.B. mit JLCPCB gemacht, die Platinen kosten meisten n
 
 ## RaspberryMatic/CCU Installation
 
-Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei CCU_RM/HB-UNI-Sensor1-addon.tgz installieren.
+Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-devices-addon.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn/CCU_RM) installieren.
 
 ![pic](Images/HB-UNI-Sensor1_Install.png)
 
