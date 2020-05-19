@@ -26,5 +26,5 @@ Andererseits könnte man mit dem verbauten 8MHz Resonator mit der Betriebsspannu
 > can be programmed in order to divide the internal frequency by 8. It must be ensured that the
 > resulting divided clock meets the frequency specification of the device.
 
-- Man könnte so z.B. einen 16MHz Arduino Pro Mini sicher für 3,3V/8MHz Betrieb und Quarzgenauigkeit (gegenüber der ungenaueren internen 8MHz RC-Clock) verwenden indem man die CKDIV8 Fuse programmiert (für den sicheren Start-Up) und dann zur Laufzeit (möglichst früh, z.B. in einem modifizierten [Bootloader](https://github.com/TomMajor/SmartHome/blob/master/Info/Bootloader/mega328_RC-Osc_with_Calibration/ATmegaBOOT_168.c#L280)) das Clock Prescaler Register CLKPR auf Teiler 2 einstellt um wieder die 8MHz zu erhalten, siehe auch<br>
-[Sicherer Betrieb eins 16MHz atmel328P bei 3.3V](https://homematic-forum.de/forum/viewtopic.php?f=76&t=58776).
+- Man könnte so z.B. einen 16MHz Arduino Pro Mini sicher für 3,3V/8MHz Betrieb und Quarzgenauigkeit (gegenüber der ungenaueren internen 8MHz RC-Clock) verwenden indem man die CKDIV8 Fuse programmiert (für den sicheren Start-Up) und dann zur Laufzeit (möglichst früh, z.B. in einem modifizierten [Bootloader](https://github.com/TomMajor/SmartHome/blob/master/Info/Bootloader/mega328_RC-Osc_with_Calibration/ATmegaBOOT_168.c#L280)) das Clock Prescaler Register CLKPR auf Teiler 2 einstellt um wieder die 8MHz zu erhalten.<br>
+Siehe auch dieser Thread [Sicherer Betrieb eins 16MHz atmel328P bei 3.3V](https://homematic-forum.de/forum/viewtopic.php?f=76&t=58776).
