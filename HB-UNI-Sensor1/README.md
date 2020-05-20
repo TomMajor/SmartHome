@@ -450,7 +450,7 @@ Ab Firmware 0x13 können zwei extra Byte 'customData' in der Payload mit benutze
 und mit einer alternativen Firmware xml-Datei der RaspberryMatic/CCU2/CCU3-Zentrale bzw. mit dem Perl-Skript FHEM zur Verfügung gestellt werden.
 
 Diese alternative Firmware xml-Datei muss für die Behandlung von 'customData' angepasst werden und im Verzeichnis<br>
-`/usr/local/addons/hb-uni-sensor1/custom_firmware`<br>
+`/usr/local/addons/hb-uni-sensor1/customized_firmware`<br>
 liegen.
 
 Das AddOn Skript sorgt dann dafür, dass die alternativen Firmware xml-Dateien bei Aktionen wie
@@ -461,11 +461,11 @@ Das AddOn Skript sorgt dann dafür, dass die alternativen Firmware xml-Dateien b
 wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt werden.
 
 Ein Beispiel für eine alternative Firmware xml-Datei, die zusätzlich den gemessenen UV-Index für den VEML6070 Sensor zur Verfügung stellt, liegt nach Installation des AddOn im Verzeichnis<br>
-`/usr/local/addons/hb-uni-sensor1/custom_firmware_bsp`
+`/usr/local/addons/hb-uni-sensor1/customized_firmware_bsp`
 
 HomeMatic:<br>
 Zur Aktivierung muss dieses Verzeichnis in <br>
-`custom_firmware`<br>
+`customized_firmware`<br>
 umbenannt und anschließend die Zentrale neugestartet werden.
 
 Danach (und bei jeder weiteren eventuellen Änderung in der alternativen Firmware xml-Datei) muss ein bereits vorhandener HB-UNI-Sensor1 abgelernt/gelöscht und wieder neu angelernt werden!<br>
