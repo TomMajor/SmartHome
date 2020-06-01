@@ -66,6 +66,11 @@
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-devices-addon.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn/CCU_RM) installieren.
 
 
+## Links
+
+[HomeMatic Forum: HB-SEN-LJet - Aufbau](https://homematic-forum.de/forum/viewtopic.php?f=76&t=49512)
+
+
 ## Benötige Libraries
 
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
