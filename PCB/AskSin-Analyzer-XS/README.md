@@ -146,6 +146,12 @@ Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein 
 ![pic](Images/BI-Wuenschelrute.jpg)
 
 
+## Gehäuse
+
+* [XS-Board Case von Psi](https://github.com/psi-4ward/AskSin-Analyzer-XS-Board-Case/blob/master/README.md)  
+  [![XS-Board Case von Psi](./Images/XS-Board_Psi-CaseTop.jpg)](https://github.com/psi-4ward/AskSin-Analyzer-XS-Board-Case/blob/master/README.md)
+
+
 ## Links
 
 [HomeMatic Forum: AskSin Analyzer XS - Der Analyzer als Desktop-App ohne ESP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=56395)
