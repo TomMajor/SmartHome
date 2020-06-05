@@ -141,9 +141,15 @@ Das GDO0 Pin am CC1101 arbeitet nur in eine Richtung, zum AVR hin, muss aber gen
 Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein Sketch auf dem Arduino ist der D2 auf 5V Ausgang setzt, bleibt der CC1101 heil da dieser Pegel über R2/D1 begrenzt wird.
 
 
-## Prototypenaufbau BI-Wünschelrute (der-pw)
+## Gehäuse
 
-![pic](Images/BI-Wuenschelrute.jpg)
+- Gehäusevariante von Psi
+
+![pic](Images/Psi_Case1.jpg)
+
+![pic](Images/Psi_Case2.jpg)
+
+[:arrow_right: Gehäuse 3D-Druck Variante von Psi](https://github.com/psi-4ward/AskSin-Analyzer-XS-Board-Case)
 
 
 ## Links
