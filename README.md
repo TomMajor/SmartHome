@@ -19,7 +19,14 @@
 |**Ich kann keine Garantie für Fehlerfreiheit, (umfangreichen) Support, Realisierung von individuellen Wünschen oder zeitnahe Unterstützung für neue CCU-Firmwares geben!**|
 |**Die Verwendung erfolgt auf eigene Gefahr (z.B. unerwünschte Nebeneffekte in der CCU-Firmware).**|
 
-<br>
+
+## :warning: KEIN Support über Private Nachrichten
+
+- im Forum können auch andere Leute helfen
+- eventuell muss ich das gleiche mehrmals schreiben
+- andere Benutzer mit dem gleichen Problem sehen die Antworten nicht
+
+Bei Fragen oder Problemen also bitte in den entsprechenden Threads im HomeMatic Forum oder im FHEM Forum fragen.
 
 
 ## Universalsensor HB-UNI-Sensor1
