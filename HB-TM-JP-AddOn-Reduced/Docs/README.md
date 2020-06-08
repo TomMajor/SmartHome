@@ -127,22 +127,21 @@ Aus diesem Grund halte ich vor der Installation meines Addons die beiden Dienste
     mount -o remount,rw /
     # restart_rm nach /root kopieren
     chmod 700 restart_rm
-    # neues xml nach /firmware/rftypes kopieren
+    # neues xml nach /usr/local/addons/hb-tm-devices-addon/firmware/rftypes kopieren (SymLink existiert aus /firmware/rftypes)
     mount -o remount,ro /
     # ro status testen mit:
     grep "\sro[\s,]" /proc/mounts
     /root/restart_rm
 
-#### HB-UNI-Sensor1-addon.tgz bauen:
+#### hb-tm-devices-addon.tgz bauen:
 
     # ggf. xml in (Repo)/CCU_RM/src/addon/firmware/rftypes anpassen
-    # (Repo)CCU_RM/src/addon/params prüfen/anpassen, Versionsnummer erhöhen
-    # (Repo)CCU_RM nach /usr/local/tmp kopieren
-    cd /usr/local/tmp/CCU_RM
+    # (Repo)CCU_RM/src/addon/VERSION, Versionsnummer erhöhen
+    # (Repo)CCU_RM nach /tmp kopieren
+    cd /tmp/CCU_RM
     chmod +x build.sh
     ./build.sh
-    # /usr/local/tmp/CCU_RM nach <Repo> zurückkopieren
-    # durch build.sh geänderte Dateien: HB-UNI-Sensor1-addon.tgz, VERSION, update-check.cgi
+    # hb-tm-devices-addon.tgz nach <Repo> zurückkopieren
 
 #### Script restart_rm
 

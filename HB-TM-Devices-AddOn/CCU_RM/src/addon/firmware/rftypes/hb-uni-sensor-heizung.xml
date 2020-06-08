@@ -95,9 +95,9 @@
             <event frame="WEATHER_EVENT" />
           </physical>
         </parameter>
-        <parameter id="ERROR" operations="read,event">
+        <parameter id="Stoerung" operations="read,event">
           <logical type="integer" min="0" max="99" />
-          <physical type="integer" interface="command" value_id="ERROR" no_init="true">
+          <physical type="integer" interface="command" value_id="Stoerung" no_init="true">
             <event frame="WEATHER_EVENT" />
           </physical>
         </parameter>
@@ -117,7 +117,7 @@
       <parameter type="integer" signed="true"  index="9"  size="1.7" param="TEMPERATURE" />
       <parameter type="integer" index="11" size="4.0" param="LUX" />
       <parameter type="integer" index="15" size="1.0" param="VALVE_STATE" />
-      <parameter type="integer" index="16" size="1.0" param="ERROR" />
+      <parameter type="integer" index="16" size="1.0" param="Stoerung" />
       <parameter type="integer" index="17" size="2.0" param="OPERATING_VOLTAGE" />
     </frame>
   </frames>
