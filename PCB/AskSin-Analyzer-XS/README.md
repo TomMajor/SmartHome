@@ -80,11 +80,7 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 
 ![pic](Images/asksin-analyzer-xs-freqtest.png)
 
-- dann den [AskSinSniffer328P](https://github.com/jp112sdl/AskSinAnalyzer/tree/master/AskSinSniffer328P) auf den Arduino Nano flashen
-- dabei folgende Änderung vornehmen:<br>
-`typedef AskSin<StatusLed<4>, NoBattery, Radio<LibSPI<10>, 2>> HalType;`
-<br>ändern zu<br>
-`typedef AskSin<StatusLed<8>, NoBattery, Radio<LibSPI<10>, 2>> HalType;`
+- dann den [AskSin-Sniffer](https://github.com/psi-4ward/AskSinAnalyzer-Sniffer) auf den Arduino Nano flashen  
 - die [AskSinAnalyzerXS Applikation](https://github.com/psi-4ward/AskSinAnalyzerXS/releases) downloaden und dort den seriellen Port des Arduino Nano einstellen, Fertig.
 
 ![pic](Images/asksin-analyzer-xs-application.png)
