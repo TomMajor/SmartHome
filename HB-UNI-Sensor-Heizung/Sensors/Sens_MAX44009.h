@@ -27,7 +27,7 @@ public:
     {
     }
 
-    bool init()
+    bool init(uint8_t ConfigurationReg = 0)
     {
         Wire.begin();
         uint8_t i = 10;
@@ -36,9 +36,14 @@ public:
             if (Wire.endTransmission() == 0) {
                 _present = true;
                 Wire.beginTransmission(I2C_ADDR);
-                // set continuous mode 800ms (lowest possible supply current), automatic mode (autorange for timing and gain)
                 Wire.write(0x02);
-                Wire.write(0x03);
+                if (ConfigurationReg == 0) {
+                    // set continuous mode 800ms (lowest possible supply current), automatic mode (autorange for timing and gain)
+                    Wire.write(0x03);
+                } else {
+                    // user-defined configuration
+                    Wire.write(ConfigurationReg);
+                }
                 Wire.endTransmission();
                 DPRINTLN(F("MAX44009 found"));
                 return true;
@@ -73,8 +78,8 @@ public:
                     int   mant        = ((data[0] & 0x0F) << 4) | (data[1] & 0x0F);
                     float lux         = pow(2, expo) * mant * 0.045;
                     _brightnessLux100 = (uint32_t)floor(100.0 * lux + 0.5);
-                    DPRINT(F("MAX44009 Brightness x100: "));
-                    DDECLN(_brightnessLux100);
+                    // DPRINT(F("MAX44009 Brightness x100: "));
+                    // DDECLN(_brightnessLux100);
                     return true;
                 }
             }

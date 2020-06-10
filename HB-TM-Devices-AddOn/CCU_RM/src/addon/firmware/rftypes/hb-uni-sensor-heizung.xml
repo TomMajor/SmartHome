@@ -89,17 +89,20 @@
           </physical>
           <conversion type="float_integer_scale" factor="100.0" />
         </parameter>
-        <parameter id="VALVE_STATE" operations="read,event">
-          <logical type="integer" min="0" max="99" />
-          <physical type="integer" interface="command" value_id="VALVE_STATE" no_init="true">
+        <parameter id="STATE" operations="read,event">
+          <logical type="option">
+            <option id="Aus" />
+            <option id="An" />
+            <option id="Stoerung" />
+          </logical>
+          <physical type="integer" interface="command" value_id="STATE" no_init="true">
             <event frame="WEATHER_EVENT" />
           </physical>
-        </parameter>
-        <parameter id="Stoerung" operations="read,event">
-          <logical type="integer" min="0" max="99" />
-          <physical type="integer" interface="command" value_id="Stoerung" no_init="true">
-            <event frame="WEATHER_EVENT" />
-          </physical>
+          <conversion type="option_integer">
+            <value_map device_value="0" parameter_value="0" />
+            <value_map device_value="1" parameter_value="1" />
+            <value_map device_value="2" parameter_value="2" />
+          </conversion>
         </parameter>
         <parameter id="OPERATING_VOLTAGE" operations="read,event">
           <logical type="float" min="0.5" max="5.5" unit="V" />
@@ -116,9 +119,8 @@
     <frame id="WEATHER_EVENT" direction="from_device" event="true" fixed_channel="1" type="0x70">
       <parameter type="integer" signed="true"  index="9"  size="1.7" param="TEMPERATURE" />
       <parameter type="integer" index="11" size="4.0" param="LUX" />
-      <parameter type="integer" index="15" size="1.0" param="VALVE_STATE" />
-      <parameter type="integer" index="16" size="1.0" param="Stoerung" />
-      <parameter type="integer" index="17" size="2.0" param="OPERATING_VOLTAGE" />
+      <parameter type="integer" index="15" size="1.0" param="STATE" />
+      <parameter type="integer" index="16" size="2.0" param="OPERATING_VOLTAGE" />
     </frame>
   </frames>
   <paramset_defs></paramset_defs>

@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor-Heizung (ein modifizierter HB-UNI-Sensor1)
-// Version 1.01
+// Version 2.01
 // (C) 2019-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -30,52 +30,26 @@
 #include "Sensors/tmBattery.h"
 
 //---------------------------------------------------------
-// Alle Device Parameter werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
-// Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren. Die
-// konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
-// - Device ID und Device Serial
-// - Aktivierung der verwendeten Sensoren
-// - Pin Definitionen Allgemein
-// - Pin und Address Definitionen der Sensoren
-// - Clock Definition
-// - Schaltungsvariante und Pins für Batteriespannungsmessung
-// - Schwellwerte für Batteriespannungsmessung
-#include "Cfg/Device_Heizung.h"
+// clang-format off
+#define cDEVICE_ID          { 0xA5, 0xA5, 0xEE }
+#define cDEVICE_SERIAL      "UNISENSHZG"
 
-// ========================================
-// HB-UNI-Sensor-Heizung Sondercode
-#define MEASURE_INTERVAL 54        // 60sec (Korrekturfaktor: 0,8928, siehe WDT_Frequenz.ino)
-#define MAX_SEND_INTERVAL 12856    // 4h (14400sec, Korrekturfaktor: 0,8928), auch ohne Schwellwertänderung mindestens in diesem Intervall senden
-#define LIGHT_THRESHOLD 75         // Schwellwert Lux
-bool shouldSend(uint32_t lux, uint8_t& state)
-{
-    static bool     lastState    = false;
-    static uint16_t cycleCounter = MAX_SEND_INTERVAL / MEASURE_INTERVAL;    // nach Power-On sofort ein Telegramm senden
-    bool            bRet         = false;
+#define CONFIG_BUTTON_PIN   4
+#define LED_PIN             5
+#define ONEWIRE_PIN         A0
+#define MAX44009_ADDR       0x4A
+#define CLOCK_SYSCLOCK
+#define BAT_SENSOR          tmBatteryLoad<A3, 3, 4000, 200>
+#define BAT_VOLT_LOW        11      // 1.1V
+#define BAT_VOLT_CRITICAL   9       // 0.9V
 
-    if ((!lastState) && (lux >= LIGHT_THRESHOLD)) {
-        lastState = true;
-        state     = 1;
-        DPRINTLN(F("STATE ON"));
-        cycleCounter = 0;
-        bRet         = true;
-    } else if ((lastState) && (lux < LIGHT_THRESHOLD)) {
-        lastState = false;
-        state     = 0;
-        DPRINTLN(F("STATE OFF"));
-        cycleCounter = 0;
-        bRet         = true;
-    }
-    if (cycleCounter >= (MAX_SEND_INTERVAL / MEASURE_INTERVAL)) {
-        DPRINTLN(F("MAX INTERVAL"));
-        cycleCounter = 0;
-        bRet         = true;
-    }
+#define MEASURE_INTERVAL    54      // 60sec (Korrekturfaktor: 0,8928, siehe WDT_Frequenz.ino)
+#define CHK_ERROR_CYCLE     10      // jedes 10 Messung auf Fehler (Blinken) prüfen, hier aller 600sec
+#define MAX_SEND_INTERVAL   25712   // 8h (28800sec, Korrekturfaktor: 0,8928), auch ohne Schwellwertänderung mindestens in diesem Intervall senden
+#define LIGHT_THRESHOLD     75      // Schwellwert Lux
+// clang-format on
 
-    cycleCounter++;
-    return bRet;
-}
-// ========================================
+enum eHgzState { hzgOff = 0, hzgOn = 1, hzgStoer = 2 };
 
 // number of available peers per channel
 #define PEERS_PER_CHANNEL 6
@@ -83,50 +57,8 @@ bool shouldSend(uint32_t lux, uint8_t& state)
 // all library classes are placed in the namespace 'as'
 using namespace as;
 
-#ifdef SENSOR_DS18X20
-#include "Sensors/Sens_DS18X20.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_BME280
-#include "Sensors/Sens_BME280.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_BMP180
-#include "Sensors/Sens_BMP180.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_MAX44009
+#include "Sensors/Sens_DS18X20.h"     // HB-UNI-Sensor1 custom sensor class
 #include "Sensors/Sens_MAX44009.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_TSL2561
-#include "Sensors/Sens_TSL2561.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_BH1750
-#include "Sensors/Sens_BH1750.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_SHT21
-#include "Sensors/Sens_SHT21.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_SHT10
-#include "Sensors/Sens_SHT10.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_DIGINPUT
-#include "Sensors/Sens_DIGINPUT.h"    // HB-UNI-Sensor1 custom sensor class
-Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global sein (Interrupt event)
-#endif
-
-#ifdef SENSOR_VEML6070
-#include "Sensors/Sens_VEML6070.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
-
-#ifdef SENSOR_VEML6075
-#include "Sensors/Sens_VEML6075.h"    // HB-UNI-Sensor1 custom sensor class
-#endif
 
 #ifdef CLOCK_SYSCLOCK
 #define CLOCK sysclock
@@ -142,17 +74,15 @@ Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global 
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs (HB-UNI-Sensor1) muss Device ID und Device Serial unterschiedlich sein!
-// Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
-// Sketches flashen zu können.
 const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_ID,        // Device ID
     cDEVICE_SERIAL,    // Device Serial
-    { 0xF1, 0x03 },    // Device Model
+    { 0xF1, 0x05 },    // Device Model
     // Firmware Version
-    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x10" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
     // bei Änderungen von Payload, message layout, Datenpunkt-Typen usw. muss die Version an beiden Stellen hochgezogen werden!
-    0x13,
+    0x10,
     as::DeviceType::THSensor,    // Device Type
     { 0x01, 0x01 }               // Info Bytes
 };
@@ -182,8 +112,7 @@ public:
 
 class WeatherEventMsg : public Message {
 public:
-    void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint8_t digInputState,
-              uint16_t batteryVoltage, bool batLow, uint16_t customData)
+    void init(uint8_t msgcnt, int16_t temp, uint32_t brightness, uint8_t state, uint16_t batteryVoltage, bool batLow)
     {
 
         uint8_t t1 = (temp >> 8) & 0x7f;
@@ -199,7 +128,7 @@ public:
         if ((msgcnt % 20) == 2) {
             flags = BIDI | WKMEUP;
         }
-        Message::init(23, msgcnt, 0x70, flags, t1, t2);
+        Message::init(19, msgcnt, 0x70, flags, t1, t2);
 
         // Message Length (first byte param.): 11 + payload
         //  1 Byte payload -> length 12
@@ -224,37 +153,22 @@ public:
         // die Zentrale, dass das Geräte noch kurz auf weitere Nachrichten wartet. Die Lib setzt diese Flag für die StatusInfo-Message
         // automatisch. Außerdem bleibt nach einer Kommunikation der Empfang grundsätzlich für 500ms angeschalten.
 
-        // airPressure
-        pload[0] = (airPressure >> 8) & 0xff;
-        pload[1] = airPressure & 0xff;
-
-        // humidity
-        pload[2] = humidity;
-
         // brightness (Lux)
-        pload[3] = (brightness >> 24) & 0xff;
-        pload[4] = (brightness >> 16) & 0xff;
-        pload[5] = (brightness >> 8) & 0xff;
-        pload[6] = (brightness >> 0) & 0xff;
+        pload[0] = (brightness >> 24) & 0xff;
+        pload[1] = (brightness >> 16) & 0xff;
+        pload[2] = (brightness >> 8) & 0xff;
+        pload[3] = (brightness >> 0) & 0xff;
 
-        // digInputState
-        pload[7] = digInputState;
+        // state
+        pload[4] = state;
 
         // batteryVoltage
-        pload[8] = (batteryVoltage >> 8) & 0xff;
-        pload[9] = batteryVoltage & 0xff;
-
-        // user custom data
-        pload[10] = (customData >> 8) & 0xff;
-        pload[11] = customData & 0xff;
+        pload[5] = (batteryVoltage >> 8) & 0xff;
+        pload[6] = batteryVoltage & 0xff;
     }
 };
 
-// die "freien" Register 0x20/21 werden hier als 16bit memory für das Update
-// Intervall in Sek. benutzt siehe auch hb-uni-sensor1.xml, <parameter
-// id="Sendeintervall"> .. ausserdem werden die Register 0x22/0x23 für den
-// konf. Parameter Höhe benutzt
-DEFREGISTER(Reg0, MASTERID_REGS, DREG_LEDMODE, DREG_LOWBATLIMIT, DREG_TRANSMITTRYMAX, 0x20, 0x21, 0x22, 0x23)
+DEFREGISTER(Reg0, MASTERID_REGS, DREG_LEDMODE, DREG_LOWBATLIMIT, DREG_TRANSMITTRYMAX)
 class SensorList0 : public RegList0<Reg0> {
 public:
     SensorList0(uint16_t addr)
@@ -262,20 +176,12 @@ public:
     {
     }
 
-    bool     updIntervall(uint16_t value) const { return this->writeRegister(0x20, (value >> 8) & 0xff) && this->writeRegister(0x21, value & 0xff); }
-    uint16_t updIntervall() const { return (this->readRegister(0x20, 0) << 8) + this->readRegister(0x21, 0); }
-
-    bool     altitude(uint16_t value) const { return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff); }
-    uint16_t altitude() const { return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0); }
-
     void defaults()
     {
         clear();
         ledMode(1);
         lowBatLimit(BAT_VOLT_LOW);
         transmitDevTryMax(6);
-        updIntervall(600);
-        altitude(0);
     }
 };
 
@@ -283,59 +189,22 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 
     WeatherEventMsg msg;
 
-    int16_t  temperature10;
-    uint16_t airPressure10;
-    uint8_t  humidity;
-    uint32_t brightness100;
-    uint8_t  digInputState;
-    uint16_t customData;
-    uint16_t batteryVoltage;
-    bool     regularWakeUp;
-    uint8_t  measureTemp;
-
-#ifdef SENSOR_DS18X20
-    Sens_DS18X20 ds18x20;
-#endif
-#ifdef SENSOR_BME280
-    Sens_BME280 bme280;
-#endif
-#ifdef SENSOR_BMP180
-    Sens_BMP180 bmp180;
-#endif
-#ifdef SENSOR_MAX44009
+    int16_t                      temperature10;
+    uint32_t                     brightness100;
+    uint8_t                      hzgState;
+    uint16_t                     batteryVoltage;
+    uint8_t                      measureTemp;
+    Sens_DS18X20                 ds18x20;
     Sens_MAX44009<MAX44009_ADDR> max44009;
-#endif
-#ifdef SENSOR_TSL2561
-    Sens_TSL2561<TSL2561_ADDR> tsl2561;
-#endif
-#ifdef SENSOR_BH1750
-    Sens_BH1750<BH1750_ADDR> bh1750;
-#endif
-#ifdef SENSOR_SHT21
-    Sens_SHT21 sht21;
-#endif
-#ifdef SENSOR_SHT10
-    Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
-#endif
-#ifdef SENSOR_VEML6070
-    Sens_VEML6070<> veml6070;
-#endif
-#ifdef SENSOR_VEML6075
-    Sens_VEML6075 veml6075;
-#endif
 
 public:
     WeatherChannel()
         : Channel()
         , Alarm(seconds2ticks(60))
         , temperature10(0)
-        , airPressure10(0)
-        , humidity(0)
         , brightness100(0)
-        , digInputState(0)
-        , customData(0)
+        , hzgState(hzgOff)
         , batteryVoltage(0)
-        , regularWakeUp(true)
         , measureTemp(0)
     {
     }
@@ -343,17 +212,14 @@ public:
 
     virtual void trigger(AlarmClock& clock)
     {
-#ifdef SENSOR_DIGINPUT
-        digitalInput.disableINT();    // digitalInput Interrupt abschalten, dieser könnte beim Senden ausgelöst werden (bei PIR aufgetreten)
-#endif
         measure();
         // ========================================
         // HB-UNI-Sensor-Heizung Sondercode
-        bool bSend = shouldSend(brightness100 / 100, digInputState);
+        // der Datenpunkt hzgState zum Senden an die Zentrale wird nur in shouldSend() geändert!
+        bool bSend = shouldSend(brightness100 / 100);
         if (bSend) {
             uint8_t msgcnt = device().nextcount();
-            msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(),
-                     customData);
+            msg.init(msgcnt, temperature10, brightness100, hzgState, batteryVoltage, device().battery().low());
             if (msg.flags() & Message::BCAST) {
                 device().broadcastEvent(msg, *this);
             } else {
@@ -364,153 +230,30 @@ public:
         // reactivate for next measure
         set(seconds2ticks(MEASURE_INTERVAL));
         clock.add(*this);
-#ifdef SENSOR_DIGINPUT
-        if (regularWakeUp) {             // bei Senden nach regulären WakeUp den digitalInput Interrupt sofort wieder einschalten
-            digitalInput.enableINT();    // andernfalls erst nach Entprellen in forceSend()
-        }
-#endif
-        regularWakeUp = true;
-    }
-
-    void forceSend()
-    {
-        CLOCK.cancel(*this);
-        regularWakeUp = false;    // Verhindert enableINT in trigger()
-        trigger(CLOCK);           // Messen/Senden
-        delay(250);               // Verzögerung für wiederholtes Senden bzw. digitalInput Entprellen
-#ifdef SENSOR_DIGINPUT
-        digitalInput.enableINT();
-#endif
     }
 
     void measure()
     {
-        // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
-        // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
-#if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
-        temperature10 = 188;    // 18.8C (scaling 10)
-#endif
-#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
-        humidity = 88;    // 88%
-#endif
-#if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
-        airPressure10 = 10880;    // 1088 hPa (scaling 10)
-#endif
-#if !defined(SENSOR_MAX44009) && !defined(SENSOR_TSL2561) && !defined(SENSOR_BH1750)
-        brightness100 = 8800000;    // 88000 Lux (scaling 100)
-#endif
-
-// Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen
-#ifdef SENSOR_BME280
-        uint16_t altitude = this->device().getList0().altitude();
-        bme280.measure(altitude);
-        temperature10 = bme280.temperature();
-        airPressure10 = bme280.pressureNN();
-        humidity      = bme280.humidity();
-#elif defined SENSOR_BMP180
-        uint16_t altitude = this->device().getList0().altitude();
-        bmp180.measure(altitude);
-        temperature10 = bmp180.temperature();
-        airPressure10 = bmp180.pressureNN();
-#endif
-
-// Falls DS18X20 vorhanden, dessen Temp der BME280/BMP180 Temp vorziehen
-#ifdef SENSOR_DS18X20
         // HB-UNI-Sensor-Heizung Sondercode
         if (!(measureTemp % 16)) {    // nur alle 16min die Temp messen (Strom sparen)
             ds18x20.measure();
             temperature10 = ds18x20.temperature();
         }
         measureTemp++;
-#endif
 
-// Feuchte/Temp vom SHT21/10 falls kein BME280 vorhanden
-#ifndef SENSOR_BME280
-#ifdef SENSOR_SHT21
-        sht21.measure();
-        temperature10 = sht21.temperature();
-        humidity      = sht21.humidity();
-#elif defined SENSOR_SHT10
-        sht10.measure();
-        temperature10 = sht10.temperature();
-        humidity      = sht10.humidity();
-#endif
-#endif
-
-// Entweder MAX44009 oder TSL2561 oder BH1750 für Helligkeit, ggf. für anderen Bedarf anpassen
-#ifdef SENSOR_MAX44009
         max44009.measure();
         brightness100 = max44009.brightnessLux();
-#elif defined SENSOR_TSL2561
-        tsl2561.measure();
-        brightness100 = tsl2561.brightnessLux();
-#elif defined SENSOR_BH1750
-        bh1750.measure();
-        brightness100 = bh1750.brightnessLux();
-#endif
-
-#ifdef SENSOR_DIGINPUT
-        digInputState = digitalInput.pinState();
-#endif
-
-#ifdef SENSOR_VEML6070
-        veml6070.measure();
-        // Beispiel custom payload, 4bit für UV-Index (integer 0..11)
-        uint8_t uvi = veml6070.uvIndex();
-        customData &= 0xFFF0;
-        customData |= (uvi & 0x0F);
-#endif
-
-#ifdef SENSOR_VEML6075
-        veml6075.measure();
-        // Beispiel custom payload, 8bit für UV-Index * 10 (integer 0..110, 1 Kommastelle)
-        uint8_t uvi10 = veml6075.uvIndex10();
-        customData &= 0xFF00;
-        customData |= uvi10;
-#endif
 
         batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
     }
 
     void initSensors()
     {
-#ifdef SENSOR_DS18X20
         ds18x20.init(ONEWIRE_PIN);
-#endif
-#ifdef SENSOR_BME280
-        bme280.init();
-#endif
-#ifdef SENSOR_BMP180
-        bmp180.init();
-#endif
-#ifdef SENSOR_MAX44009
-        max44009.init();
-#endif
-#ifdef SENSOR_TSL2561
-        tsl2561.init();
-#endif
-#ifdef SENSOR_BH1750
-        bh1750.init();
-#endif
-#ifdef SENSOR_SHT21
-        sht21.init();
-#endif
-#ifdef SENSOR_SHT10
-#if defined SENSOR_BME280 || defined SENSOR_BMP180 || defined SENSOR_MAX44009 || defined SENSOR_TSL2561 || defined SENSOR_BH1750                     \
-    || defined SENSOR_VEML6070 || defined SENSOR_VEML6075
-        sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
-#endif
-        sht10.init();
-#endif
-#ifdef SENSOR_DIGINPUT
-        digitalInput.init(DIGINPUT_PIN);
-#endif
-#ifdef SENSOR_VEML6070
-        veml6070.init();
-#endif
-#ifdef SENSOR_VEML6075
-        veml6075.init();
-#endif
+        // HB-UNI-Sensor-Heizung Sondercode, max44009.init() parameter
+        // wegen Erkennung Blinken s.u.: MAX44009 Continuous mode, Manual mode, Integration Time 100msec
+        max44009.init(0xC3);
+
         DPRINTLN(F("Sensor setup done"));
         DPRINT(F("Serial: "));
         DPRINTLN(cDEVICE_SERIAL);
@@ -532,6 +275,84 @@ public:
     void configChanged()
     {
         // DPRINTLN(F("Config changed: List1"));
+    }
+
+    // HB-UNI-Sensor-Heizung Sondercode
+    bool shouldSend(uint32_t lux)
+    {
+        static uint16_t silentCounter     = MAX_SEND_INTERVAL / MEASURE_INTERVAL;    // nach Power-On sofort ein Telegramm senden
+        static uint8_t  checkErrorCounter = 0;
+        bool            changeError       = false;
+        bool            changeOnOff       = false;
+        bool            changeMaxTime     = false;
+
+        DPRINT(F("Brightness: "));
+        DDECLN(lux);
+
+        // Erkennung Blinken 10sec
+        if (checkErrorCounter >= CHK_ERROR_CYCLE) {
+            checkErrorCounter = 0;
+            uint8_t lightLast = 0, light = 0, blinkCounter = 0;
+            for (int i = 0; i < 100; i++) {    // 10sec
+                max44009.measure();
+                uint32_t luxNow = max44009.brightnessLux() / 100;
+                if (luxNow >= LIGHT_THRESHOLD) {
+                    light = 1;
+                } else {
+                    light = 0;
+                }
+                if (light != lightLast) {
+                    lightLast = light;
+                    blinkCounter++;
+                }
+                delay(100);
+            }
+            DPRINT(F("BLINK COUNT "));
+            DDECLN(blinkCounter);
+            // Buderus Blinken on/off 0,63sec/0,57sec = 16..17 Flanken in 10sec
+            // klappt nur wenn der MAX44009 eine kleinere Integration Time als seine default 800msec hat! siehe max44009.init()
+            if ((hzgState != hzgStoer) && (blinkCounter >= 8)) {
+                hzgState = hzgStoer;
+                DPRINTLN(F("ERROR ON"));
+                changeError = true;
+            } else if ((hzgState == hzgStoer) && (blinkCounter < 8)) {
+                hzgState = hzgOff;
+                DPRINTLN(F("ERROR OFF"));
+                changeError = true;
+            }
+        }
+
+        // im Fehlerfall macht der on/off State 0/1 keinen Sinn
+        if (hzgState != hzgStoer) {
+            if ((hzgState == hzgOff) && (lux >= LIGHT_THRESHOLD)) {
+                hzgState = hzgOn;
+                DPRINTLN(F("STATE ON"));
+                changeOnOff = true;
+            } else if ((hzgState == hzgOn) && (lux < LIGHT_THRESHOLD)) {
+                hzgState = hzgOff;
+                DPRINTLN(F("STATE OFF"));
+                changeOnOff = true;
+            }
+        }
+
+        // Erkennung max. Zeit ohne Sende-Telegramm erreicht, die CCU soll nicht unruhig werden
+        if (silentCounter >= (MAX_SEND_INTERVAL / MEASURE_INTERVAL)) {
+            DPRINTLN(F("MAX INTERVAL EXPIRED"));
+            changeMaxTime = true;
+        }
+
+        silentCounter++;
+        checkErrorCounter++;
+
+        // clang-format off
+        DPRINT(F("shouldSend: ")); DDEC(changeError); DPRINT(F(" ")); DDEC(changeOnOff); DPRINT(F(" ")); DDECLN(changeMaxTime);
+        // clang-format on
+
+        if (changeError || changeOnOff || changeMaxTime) {
+            silentCounter = 0;
+            return true;
+        }
+        return false;
     }
 
     uint8_t status() const { return 0; }
@@ -565,14 +386,6 @@ public:
         uint8_t txDevTryMax = this->getList0().transmitDevTryMax();
         DPRINT(F("transmitDevTryMax: "));
         DDECLN(txDevTryMax);
-
-        uint16_t updCycle = this->getList0().updIntervall();
-        DPRINT(F("updCycle: "));
-        DDECLN(updCycle);
-
-        uint16_t altitude = this->getList0().altitude();
-        DPRINT(F("altitude: "));
-        DDECLN(altitude);
     }
 };
 
@@ -592,13 +405,6 @@ void loop()
     bool worked = hal.runready();
     bool poll   = sdev.pollRadio();
     if (worked == false && poll == false) {
-#ifdef SENSOR_DIGINPUT
-        if (digitalInput.notifyEvent()) {
-            digitalInput.resetEvent();
-            DPRINTLN(F("DIGINPUT change"));
-            sdev.channel(1).forceSend();
-        }
-#endif
         // deep discharge protection
         // if we drop below critical battery level - switch off all and sleep forever
         if (hal.battery.critical()) {

@@ -11,6 +11,7 @@
 | :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
 | :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
 
+<br>
 
 ## Disclaimer
 
