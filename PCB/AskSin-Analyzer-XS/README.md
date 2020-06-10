@@ -80,7 +80,9 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 
 ![pic](Images/asksin-analyzer-xs-freqtest.png)
 
-- dann den [AskSin-Sniffer](https://github.com/psi-4ward/AskSinAnalyzer-Sniffer) auf den Arduino Nano flashen  
+- dann den [AskSin-Sniffer](https://github.com/psi-4ward/AskSinAnalyzer-Sniffer) auf den Arduino Nano flashen
+- im Sketch die LED an Pin8 aktivieren:<br>
+`#define USE_LED_PIN_8`
 - die [AskSinAnalyzerXS Applikation](https://github.com/psi-4ward/AskSinAnalyzerXS/releases) downloaden und dort den seriellen Port des Arduino Nano einstellen, Fertig.
 
 ![pic](Images/asksin-analyzer-xs-application.png)
