@@ -11,7 +11,6 @@
 | :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
 | :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
 
-<br>
 
 ## Disclaimer
 
@@ -19,6 +18,8 @@
 |---|
 |**Ich kann keine Garantie für Fehlerfreiheit, (umfangreichen) Support, Realisierung von individuellen Wünschen oder zeitnahe Unterstützung für neue CCU-Firmwares geben!**|
 |**Die Verwendung erfolgt auf eigene Gefahr (z.B. unerwünschte Nebeneffekte in der CCU-Firmware).**|
+
+<br>
 
 
 ## :warning: Kein Support über Private Nachrichten
