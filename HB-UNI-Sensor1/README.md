@@ -200,7 +200,9 @@ Das Bild zeigt den Einbruch der Batteriespannung wenn für 200ms mit 75mA belast
 
 - alle SMD Widerstände und Kondensatoren haben die Bauform 0805 (außer die Kondensatoren für den optionalen Step-up Wandler, die haben 1206).
 
-- Gehäuse mit Klarsichtdeckel: GAINTA G201C (ohne Befestigunslaschen), GAINTA G201CMF (mit Befestigunslaschen)
+- Gehäuse mit Klarsichtdeckel: [GAINTA G201C](https://www.tme.eu/de/details/g201c/universal-gehause/gainta/) (ohne Befestigunslaschen), [GAINTA G201CMF](https://www.tme.eu/de/details/g201cmf/universal-gehause/gainta/) (mit Befestigunslaschen)
+
+- Gehäusevariante [Innen, 3D Druck](3D_Druck) Design by FrankenKai (modwadd) <br>
 
 - Batteriehalter 2xAA: COMF BH-321-1A
 
