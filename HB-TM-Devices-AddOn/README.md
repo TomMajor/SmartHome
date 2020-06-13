@@ -17,7 +17,7 @@
   - in der ersten Version unterstützt das AddOn die Geräte HB-UNI-Sensor1, HB-SEN-LJet und HB-UNI-Sensor-Heizung.
   - die bisherigen separaten AddOn für diese Geräte sind dadurch hinfällig und werden nicht mehr supported.
   - :warning: bitte unbedingt vor Installation des HB-TM-Devices-AddOn die alten HB-UNI-Sensor1 AddOn und HB-SEN-LJet AddOn deinstallieren, falls vorhanden!
-  - HB-UNI-Sensor-Heizung hat ab sofort ein eigenes Device Model bekommen (0xF105) da ich im xml einen neuen Datenpunkt *Fehler* für Störungsmeldungen eingeführt habe.
+  - HB-UNI-Sensor-Heizung hat ab sofort ein eigenes Device Model bekommen (0xF105) da ich im xml einen neuen Datenpunkt *STATE* eingeführt habe.
 
 
 ## Eingestellte AddOn

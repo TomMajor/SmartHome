@@ -35,11 +35,25 @@
 - Wie oft soll gemessen werden?<br>
 `#define MEASURE_INTERVAL 54        // 60sec (Korrekturfaktor: 0,8928, siehe WDT_Frequenz.ino)`
 
+- Wie oft soll auf Störung(Blinken) uberprüft werden? (diese Prüfung hat etwas mehr Stromverbrauch, deswegen nicht jedes Mal prüfen)<br>
+`#define CHK_ERROR_CYCLE  10        // jedes 10 Messung auf Fehler (Blinken) prüfen, hier aller 600sec`
+
 - In welchem Intervall soll das Alive-Telegramm gesendet werden?<br>
-`#define MAX_SEND_INTERVAL 12856    // 4h (14400sec, Korrekturfaktor: 0,8928), auch ohne Schwellwertänderung mindestens in diesem Intervall senden`
+`#define MAX_SEND_INTERVAL 25712    // 8h (28800sec, Korrekturfaktor: 0,8928), auch ohne Schwellwertänderung mindestens in diesem Intervall senden`
 
 - Schwellwert bei dessen Unter- und Überschreitung ein Telegramm gesendet wird.<br>
 `#define LIGHT_THRESHOLD 75         // Schwellwert Lux`
+
+
+## Erweiterung 06/2020
+
+- Detektion einer Störung am Brenner, die Lampe meiner Buderus-Heizung blinkt dann und ist in diesem Fall natürlich nicht mehr für den einfachen An/Aus-Status geeignet.
+- Mit der Erweiterung in 06/2020 wird auch dieser Fall abgedeckt, der Datenpunkt *STATE* hat einen dritten Zustand *Stoerung* bekommen mit dem entsprechende Aktionen im WebUI getriggert werden können.
+- Im Rahmen dieser Änderung hat das Gerät eine eigene xml-Datei und ein eigenes DeviceModel bekommen, für den Betrieb des Gerätes muss mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) installiert sein.
+
+![pic](Images/HB-UNI-Sensor-Heizung_ccu1.png)
+
+![pic](Images/HB-UNI-Sensor-Heizung_ccu2.png)
 
 
 ## Schaltplan
