@@ -4,6 +4,7 @@
 ## Inhaltsverzeichnis
 - Allgemeines
   - [Features](#features)
+  - [Hinweise](#hinweise)
   - [Bilder](#bilder)
   - [Schaltplan](#schaltplan)
   - [Platine](#platine)
@@ -68,6 +69,15 @@ Beispiel:<br>
 `#define SENSOR_DIGINPUT`<br>
 `#define SENSOR_VEML6070`<br>
 `#define SENSOR_VEML6075`<br>
+
+
+## Hinweise
+
+- Zum Kompilieren des Sketches benötigt man alle Dateien unterhalb der Verzeichnisses *Arduino*.<br>
+  Falls man deswegen nicht hier das gesamte Repository downloaden möchte habe ich diese Dateien in [Arduino.zip](Arduino.zip) gepackt, diese Datei dann einfach in Eurem Arduino-Sketche Verzeichnis auspacken.
+  
+- Der HB-UNI-Sensor1 Sketch benötigt den master-Branch der [AskSinPP Library](https://github.com/pa-pa/AskSinPP), nicht den V4 Release-Branch wie dort angegeben.<br>
+  Grund: Verwendung der broadcastEvent() Methode.
 
 
 ## Bilder
