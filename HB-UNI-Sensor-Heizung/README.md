@@ -13,6 +13,14 @@
 - Es wurde eine Platine entwickelt die einen Arduino Pro Mini 8MHz benutzt (bei dem die Maßnahmen zur [Ruhestromverringerung](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom) angewendet wurden) - da ich nicht immer Lust habe den AVR als TQFP32 zu löten :smiley_cat:
 
 
+## Hinweise
+
+- Zum Kompilieren des Sketches benötigt man alle Dateien unterhalb der Verzeichnisses *Arduino*.<br>
+
+- Der HB-UNI-Sensor-Heizung Sketch benötigt den master-Branch der [AskSinPP Library](https://github.com/pa-pa/AskSinPP), nicht den V4 Release-Branch wie dort angegeben.<br>
+  Grund: Verwendung der broadcastEvent() Methode.
+
+
 ## Bilder
 
 ![pic](Images/HB-UNI-Sensor-Heizung_01.jpg)

@@ -19,7 +19,7 @@
 |**Ich kann keine Garantie für Fehlerfreiheit, (umfangreichen) Support, Realisierung von individuellen Wünschen oder zeitnahe Unterstützung für neue CCU-Firmwares geben!**|
 |**Die Verwendung erfolgt auf eigene Gefahr (z.B. unerwünschte Nebeneffekte in der CCU-Firmware).**|
 
-<br>
+<br><br>
 
 
 ## :warning: Kein Support über Private Nachrichten
