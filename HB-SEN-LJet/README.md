@@ -6,6 +6,14 @@
 - Volumenberechnung erfolgt Millimetergenau aus der Füllhöhe (Interpolation des Volumens zwischen den cm-Stützstellen)
 
 
+## Hinweise
+
+- Zum Kompilieren des Sketches benötigt man alle Dateien unterhalb der Verzeichnisses *Arduino*.<br>
+
+- Der HB-SEN-LJet Sketch benötigt den master-Branch der [AskSinPP Library](https://github.com/pa-pa/AskSinPP), nicht den V4 Release-Branch wie dort angegeben.<br>
+  Grund: Verwendung der broadcastEvent() Methode.
+
+
 ## Bilder
 
 ![pic](Images/LevelJet_WebUI.jpg)
