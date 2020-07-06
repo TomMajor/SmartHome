@@ -119,6 +119,9 @@ Außerdem ist für diesen Anwendungsfall eine kleine und individuell konfigurier
 | 1 | LED2	            | gelb	            | 0805          | Optional: BI-Wünschelrute |
 
 
+[Warenkorb bei Reichelt von Psi](https://www.reichelt.de/my/1731220)
+
+
 ## Zusätzlicher 3,3V Spannungsregler (LDO)
 
 - Ich habe einen SOT-23 LDO für die 3,3V Versorgung des CC1101 vorgesehen da mir der verfügbare Ausgangsstrom des CH340C etwas wenig vorkommt.<br>
