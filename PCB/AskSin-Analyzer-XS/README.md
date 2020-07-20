@@ -158,6 +158,12 @@ Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein 
 [:arrow_right: Gehäuse 3D-Druck Variante von Psi](https://github.com/psi-4ward/AskSin-Analyzer-XS-Board-Case)
 
 
+## Verbesserungen für's nächste Redesign
+
+- Die neue CC1101-Board Generation ist in 2020 etwas breiter geworden (hat jetzt volle + zusätzlich halbe thru-hole/SMD Pads), siehe [CC1101 kaufen](https://homematic-forum.de/forum/viewtopic.php?f=76&t=59315), deshalb den CC1101-Footprint für die neue Generation anpassen - die neuen passen aber dennoch drauf, nur nicht perfekt.<br>
+Außerdem ist das Rastermaß der CC1101 auf der Antennenseite jetzt 2mm (vorher 2,54mm - die SPI Seite hatte schon immer 2mm).
+
+
 ## Links
 
 [HomeMatic Forum: AskSin Analyzer XS - Der Analyzer als Desktop-App ohne ESP](https://homematic-forum.de/forum/viewtopic.php?f=76&t=56395)
