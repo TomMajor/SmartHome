@@ -111,7 +111,7 @@ Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global 
 #endif
 
 // define all device properties
-// Bei mehreren Geräten des gleichen Typs (HB-UNI-Sensor1) muss Device ID und Device Serial unterschiedlich sein!
+// Bei mehreren Geräten des gleichen Typs (HB-UNI-SensorX) muss Device ID und Device Serial unterschiedlich sein!
 // Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
 // Sketches flashen zu können.
 const struct DeviceInfo PROGMEM devinfo = {
@@ -221,7 +221,7 @@ public:
 };
 
 // die "freien" Register 0x20/21 werden hier als 16bit memory für das Update
-// Intervall in Sek. benutzt siehe auch hb-uni-sensor1.xml, <parameter
+// Intervall in Sek. benutzt siehe auch hb-uni-sensorX.xml, <parameter
 // id="Sendeintervall"> .. ausserdem werden die Register 0x22/0x23 für den
 // konf. Parameter Höhe benutzt
 DEFREGISTER(Reg0, MASTERID_REGS, DREG_LEDMODE, DREG_LOWBATLIMIT, DREG_TRANSMITTRYMAX, 0x20, 0x21, 0x22, 0x23)

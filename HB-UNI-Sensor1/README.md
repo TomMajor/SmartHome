@@ -458,35 +458,53 @@ Quelle: FHEM user *Gernott*<br>
 
 ## Benutzerspezifische Sensordaten
 
-Ab Firmware 0x13 können zwei extra Byte 'customData' in der Payload mit benutzerspezifischen Daten belegt
-und mit einer alternativen Firmware xml-Datei der RaspberryMatic/CCU2/CCU3-Zentrale bzw. mit dem Perl-Skript FHEM zur Verfügung gestellt werden.
+Ab HB-TM-Devices-AddOn Version 2.51 habe ich die Möglichkeiten für benutzerspezifischen Daten bzw. ein benutzerspezifisches Datenlayout erweitert.<br>
+Neu ab dieser Version sind 4 weitere Sensoren-Templates HB-UNI-Sensor2..5 die man nach eigen Wünschen gestalten kann.<br>
+Diese haben neue Device Model IDs bekommen (F112..F115), eigene install/uninstall-Skripte sowie eigene Firmware-xml.
 
-Diese alternative Firmware xml-Datei muss für die Behandlung von 'customData' angepasst werden und im Verzeichnis<br>
-`/usr/local/addons/hb-tm-devices-addon/customized_firmware`<br>
-liegen.
+###### Ein Benutzer, der das Datenlayout eines Sensors ändern möchte, kann dies mit folgenden Schritten erreichen:
 
-Das AddOn Skript sorgt dann dafür, dass die alternativen Firmware xml-Dateien bei Aktionen wie
+- hb-uni-sensorX.xml auf das gewünschte Datenlayout anpassen
+- dazu passend die Senderoutine im Sketch HB-UNI-SensorX.ino ändern so dass die Payload zum xml passt, im init() der WeatherEventMsg:<br>
+`    class WeatherEventMsg : public Message {`<br>
+`    public:`<br>
+`      void init() {..`<br>
+- weiterhin im Sketch HB-UNI-SensorX.ino sicherstellen das die richtige Device Model ID (F112..F115), passend zum xml, verwendet wird
+- das neue hb-uni-sensorX.xml unter<br>
+`  /usr/local/addons/hb-tm-devices-addon/customized_firmware`<br>
+  ablegen
+- Neustarten der Zentrale
+- Anlernen des neuen Sensors
+
+###### Das AddOn Skript sorgt dafür, dass die alternativen Firmware xml-Dateien bei Aktionen wie:
+
 - AddOn Update-Installation,
-- Einspielen eines RaspberryMatic/CCU2/CCU3 Backups,
-- Update der RaspberryMatic/CCU2/CCU3 Firmware
-
+- Einspielen eines RM/CCU Backups,
+- Update der RM/CCU Firmware
 wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt werden.
 
-Ein Beispiel für eine alternative Firmware xml-Datei, die zusätzlich den gemessenen UV-Index für den VEML6070 Sensor zur Verfügung stellt, liegt nach Installation des AddOn im Verzeichnis<br>
-`/usr/local/addons/hb-tm-devices-addon/customized_firmware_bsp`
+###### Ich habe dazu 2 kurze Beispiele gemacht:
 
-HomeMatic:<br>
-Zur Aktivierung muss dieses Verzeichnis in <br>
-`customized_firmware`<br>
-umbenannt und anschließend die Zentrale neugestartet werden.
+- im hb-uni-sensor2.xml ist der (oft nicht benötigte) Datenpunkt 'Ventilposition' (Digitaler Eingang) weggelassen, so dass dieser HB-UNI-Sensor2 nur 5 Datenpunkte hat.<br>
+Den Sketch (HB-UNI-Sensor2.ino) und die Payload darin braucht man dafür nicht unbedingt zu ändern.
+![pic](Images/HB-UNI-Sensor2_WebUI.png)
 
-Danach (und bei jeder weiteren eventuellen Änderung in der alternativen Firmware xml-Datei) muss ein bereits vorhandener HB-UNI-Sensor1 abgelernt/gelöscht und wieder neu angelernt werden!<br>
-Nur so werden die xml Änderungen in die Zentrale übernommen.
+- im hb-uni-sensor3.xml ist der Datenpunkt 'Ventilposition' geändert in 'Wassertemperatur' um eine Frage aus dem Forum aufzugreifen.<br>
+Dazu habe ich ein passendes HB-UNI-Sensor3.ino gemacht in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.
+![pic](Images/HB-UNI-Sensor3_WebUI.png)
+<br>
 
-FHEM:<br>
-2 auskommentierte Beispiele für den UV-Index von VEML6070 bzw. VEML6075 sind am Ende des Perl-Skripts HMConfig_UniSensor1.pm vorhanden.
+###### Außerdem noch der Hinweis das bei Änderungen am xml immer eventuell vorhandene dazugehörigen Geräte mit dieser Device Model ID in der Zentrale abgelernt/gelöscht und nach der xml Änderung wieder neu angelernt werden müssen.
 
-![pic](Images/HB-UNI-Sensor1_CustomData.png)
+###### Die verwendeten Device Model IDs:
+
+| Sensor | Device Model |
+|---|---|
+| HB-UNI-Sensor1 | 0xF103 |
+| HB-UNI-Sensor2 | 0xF112 |
+| HB-UNI-Sensor3 | 0xF113 |
+| HB-UNI-Sensor4 | 0xF114 |
+| HB-UNI-Sensor5 | 0xF115 |
 
 
 ## Optionaler Reset-Baustein MCP111
