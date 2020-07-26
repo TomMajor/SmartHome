@@ -1,0 +1,39 @@
+#!/bin/sh
+
+#------------------------------------------------------------------------------
+# in der WebUI angezeigter Gerätetyp, muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-Sensor3" id="HB-UNI-Sensor3">
+DEVICE="HB-UNI-Sensor3"
+# in der WebUI angezeigte Gerätebeschreibung
+DEVICE_DESC="Universalsensor3 (Wetterdaten)"
+# Name der Piktogramme, bestehend aus xx.png bzw. xx_thumb.png
+DEVICE_IMG=hb-uni-sensor3.png
+DEVICE_THUMB=hb-uni-sensor3_thumb.png
+FIRMWARE_FILE=/firmware/rftypes/hb-uni-sensor3*.xml
+
+#------------------------------------------------------------------------------
+# Edit DEVDB.tcl
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="array[[:space:]]*set[[:space:]]*DEV_PATHS[[:space:]]*{"
+
+devdescrInsert="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+
+if [ -z "`cat $devdescrFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($devdescrSearch\)/\1$devdescrInsert/g" $devdescrFile
+fi
+
+#------------------------------------------------------------------------------
+# Edit webui.js
+webuiFile="/www/webui/webui.js"
+webuiSearch="DEV_HIGHLIGHT[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsert="\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_LIST.push('$DEVICE');\n"
+webuiInsert="${webuiInsert}DEV_DESCRIPTION['$DEVICE']='$DEVICE_DESC';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['50'] = '\/config\/img\/devices\/50\/$DEVICE_THUMB';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['250'] = '\/config\/img\/devices\/250\/$DEVICE_IMG';"
+
+if [ -z "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($webuiSearch\)/\1$webuiInsert/g" $webuiFile
+fi

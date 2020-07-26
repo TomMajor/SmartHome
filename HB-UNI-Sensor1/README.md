@@ -464,7 +464,7 @@ Diese haben neue Device Model IDs bekommen (F112..F115), eigene install/uninstal
 
 ###### Ein Benutzer, der das Datenlayout eines Sensors ändern möchte, kann dies mit folgenden Schritten erreichen:
 
-- hb-uni-sensorX.xml auf das gewünschte Datenlayout anpassen
+- hb-uni-sensorX.xml auf das gewünschte Datenlayout anpassen, siehe Beispiele hb-uni-sensor2.xml / hb-uni-sensor3.xml
 - dazu passend die Senderoutine im Sketch HB-UNI-SensorX.ino ändern so dass die Payload zum xml passt, im init() der WeatherEventMsg:<br>
 `    class WeatherEventMsg : public Message {`<br>
 `    public:`<br>

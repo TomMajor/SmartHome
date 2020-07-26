@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
-    <type name="HB-UNI-Sensor1" id="HB-UNI-Sensor1" updatable="true">
+    <type name="HB-UNI-Sensor2" id="HB-UNI-Sensor2" updatable="true">
       <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
-      <parameter index="10.0" size="2.0" const_value="0xF103" />
+      <parameter index="10.0" size="2.0" const_value="0xF112" />
     </type>
   </supported_types>
   <paramset type="MASTER" id="hm_uni_sen_dev_master">
@@ -78,8 +78,8 @@
       <link_roles>
         <source name="WEATHER_TH" />
       </link_roles>
-      <paramset type="MASTER" id="HB-UNI-Sensor1_master" />
-      <paramset type="VALUES" id="HB-UNI-Sensor1_values">
+      <paramset type="MASTER" id="HB-UNI-Sensor2_master" />
+      <paramset type="VALUES" id="HB-UNI-Sensor2_values">
         <parameter id="TEMPERATURE" operations="read,event">
           <logical type="float" min="-50.0" max="120.0" unit="°C" />
           <physical type="integer" interface="command" value_id="TEMPERATURE">
@@ -116,12 +116,6 @@
           </physical>
           <conversion type="float_integer_scale" factor="100.0" />
         </parameter>
-        <parameter id="VALVE_STATE" operations="read,event">
-          <logical type="integer" min="0" max="99" />
-          <physical type="integer" interface="command" value_id="VALVE_STATE" no_init="true">
-            <event frame="WEATHER_EVENT" />
-          </physical>
-        </parameter>
         <parameter id="OPERATING_VOLTAGE" operations="read,event">
           <logical type="float" min="0.5" max="5.5" unit="V" />
           <physical type="integer" interface="command" value_id="OPERATING_VOLTAGE">
@@ -129,14 +123,8 @@
           </physical>
           <conversion type="float_integer_scale" factor="1000.0" />
         </parameter>
-        <parameter id="UV-Index" operations="read,event">
-          <logical type="integer" min="0" max="11" />
-          <physical type="integer" interface="command" value_id="UV-Index" no_init="true">
-            <event frame="WEATHER_EVENT" />
-          </physical>
-        </parameter>
       </paramset>  
-      <paramset type="LINK" id="HB-UNI-Sensor1_link"></paramset>
+      <paramset type="LINK" id="HB-UNI-Sensor2_link"></paramset>
     </channel>
   </channels>
   <frames>
@@ -145,9 +133,7 @@
       <parameter type="integer" index="11" size="2.0" param="AIR_PRESSURE" />
       <parameter type="integer" index="13" size="1.0" param="HUMIDITY" />
       <parameter type="integer" index="14" size="4.0" param="LUX" />
-      <parameter type="integer" index="18" size="1.0" param="VALVE_STATE" />
       <parameter type="integer" index="19" size="2.0" param="OPERATING_VOLTAGE" />
-      <parameter type="integer" index="22" size="0.4" param="UV-Index" />
     </frame>
   </frames>
   <paramset_defs></paramset_defs>
