@@ -154,9 +154,9 @@ case "$1" in
         echo "Running scripts..." | tee -a $GLOBAL_LOGFILE
         for f in ${ADDON_DIR}/install_* ; do echo "  - $(basename $f)" | tee -a $GLOBAL_LOGFILE; ./$(basename $f) >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE; done
 
-        if [ "$(ls -A $CUSTOMIZED_FIRMWARE_DIR)" ]; then
+        if [ "$(find ${CUSTOMIZED_FIRMWARE_DIR} -type f -iname '*.xml')" ]; then
           echo "Copying customized firmware files..." | tee -a $GLOBAL_LOGFILE
-          cp ${CUSTOMIZED_FIRMWARE_DIR}/* ${ADDON_DIR}${FIRMWARE_DIR}/
+          cp ${CUSTOMIZED_FIRMWARE_DIR}/*.xml ${ADDON_DIR}${FIRMWARE_DIR}/
         else
           echo "No customized firmware files found in ${CUSTOMIZED_FIRMWARE_DIR}." | tee -a $GLOBAL_LOGFILE
         fi
