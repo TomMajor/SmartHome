@@ -25,8 +25,8 @@
   - [FHEM Installation](#fhem-installation)
   - [Serieller Log beim Start des Sensors](#serieller-log-beim-start-des-sensors)
 - Diverse Infos
-  - [Trägheit verschiedener Temperatursensoren](#trägheit-verschiedener-temperatursensoren)
   - [Benutzerspezifische Sensordaten](#benutzerspezifische-sensordaten)
+  - [Trägheit verschiedener Temperatursensoren](#trägheit-verschiedener-temperatursensoren)
   - [Optionaler Reset-Baustein MCP111](#optionaler-reset-baustein-mcp111)
   - [Bewegungsmelder mit PIR AS312 am digitalen Eingang](#bewegungsmelder-mit-pir-as312-am-digitalen-eingang)
   - [Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones](#exclamation-warnung-vor-dem-flashen-von-33v-geräten-mit-usbasp-klones)
@@ -443,24 +443,11 @@ FHEM user *kpwg*
 ![pic](Images/Serial_Log.png)
 
 
-## Trägheit verschiedener Temperatursensoren
-
-Der Temperaturwert des BME280 reagiert träger als andere Temperatursensoren, dies liegt m.E. an der engen thermischen Kopplung zwischen aufgelötetem Chip und Platine und der daraus resultierenden thermischen Trägheit des Systems.<br>
-Temperatursensoren die nur über ihre Anschlüsse in der Luft hängen reagieren schneller.<br><br>
-Ich empfehle daher für die Temperaturmessung einen zusätzlichen DS18x20 zu verbauen und die Temperatur des BME280 zu ignorieren. Im Sketch ist das entsprechend berücksichtigt.<br>
-<br>
-Vergleich der BME280 / DS18B20 / SHT10 Temperaturwerte bei einem 6K Sprung<br>
-Quelle: FHEM user *Gernott*<br>
-*'Links war der BME280-breakout horizontal positioniert, recht vertikal über eine Kante stehend. Dort wir der Sensor offenbar besser angeströmt und reagiert dann deutlich schneller. Der SHT hing ohne breakout dünn verdrahtet im Raum und reagiert ziemlich schnell.'*
-
-![pic](Images/Vergleich_Temperatursensoren.png)
-
-
 ## Benutzerspezifische Sensordaten
 
 Ab HB-TM-Devices-AddOn Version 2.51 habe ich die Möglichkeiten für benutzerspezifischen Daten bzw. ein benutzerspezifisches Datenlayout erweitert.<br>
-Neu ab dieser Version sind 4 weitere Sensoren-Templates HB-UNI-Sensor2..5 die man nach eigen Wünschen gestalten kann.<br>
-Diese haben neue Device Model IDs bekommen (F112..F115), eigene install/uninstall-Skripte sowie eigene Firmware-xml.
+Neu ab dieser Version sind 5 weitere Sensoren-Templates HB-UNI-Sensor2..6 die man nach eigen Wünschen gestalten kann.<br>
+Diese haben neue Device Model IDs bekommen (F112..F116), eigene install/uninstall-Skripte sowie eigene Firmware-xml.
 
 ###### Ein Benutzer, der das Datenlayout eines Sensors ändern möchte, kann dies mit folgenden Schritten erreichen:
 
@@ -469,7 +456,7 @@ Diese haben neue Device Model IDs bekommen (F112..F115), eigene install/uninstal
 `    class WeatherEventMsg : public Message {`<br>
 `    public:`<br>
 `      void init() {..`<br>
-- weiterhin im Sketch HB-UNI-SensorX.ino sicherstellen das die richtige Device Model ID (F112..F115), passend zum xml, verwendet wird
+- weiterhin im Sketch HB-UNI-SensorX.ino sicherstellen das die richtige Device Model ID (F112..F116), passend zum xml, verwendet wird
 - das neue hb-uni-sensorX.xml unter<br>
 `  /usr/local/addons/hb-tm-devices-addon/customized_firmware`<br>
   ablegen
@@ -483,16 +470,31 @@ Diese haben neue Device Model IDs bekommen (F112..F115), eigene install/uninstal
 - Update der RM/CCU Firmware
 wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt werden.
 
-###### Ich habe dazu 2 kurze Beispiele gemacht:
+###### Ich habe dazu ein paar kurze Beispiele gemacht:
 
-- im hb-uni-sensor2.xml ist der (oft nicht benötigte) Datenpunkt 'Ventilposition' (Digitaler Eingang) weggelassen, so dass dieser HB-UNI-Sensor2 nur 5 Datenpunkte hat.<br>
+- im hb-uni-sensor2.xml
+Hier ist der (oft nicht benötigte) Datenpunkt 'Ventilposition' (Digitaler Eingang) weggelassen, so dass dieser HB-UNI-Sensor2 nur 5 Datenpunkte hat.<br>
 Den Sketch (HB-UNI-Sensor2.ino) und die Payload darin braucht man dafür nicht unbedingt zu ändern.
 ![pic](Images/HB-UNI-Sensor2_WebUI.png)
 
-- im hb-uni-sensor3.xml ist der Datenpunkt 'Ventilposition' geändert in 'Wassertemperatur' um eine Frage aus dem Forum aufzugreifen.<br>
-Dazu habe ich ein passendes HB-UNI-Sensor3.ino gemacht in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.
+- im hb-uni-sensor3.xml
+Hier ist der Datenpunkt 'Ventilposition' geändert in 'Wassertemperatur' um eine Frage aus dem Forum aufzugreifen.<br>
+Dazu habe ich ein passendes HB-UNI-Sensor3.bsp gemacht in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.
 ![pic](Images/HB-UNI-Sensor3_WebUI.png)
 <br>
+Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor3 heißen (Sketch-Name und Verzeichnisname müssen gleich sein).
+
+- hb-uni-sensor4.xml
+Ist identisch zu hb-uni-sensor2.xml, nur als Dummy vorgehalten.
+
+- hb-uni-sensor5.xml
+Ein neuer Datenpunkt für den UV-Sensor VEML6070 wurde ergänzt, der per define im Sketch unterstützt wird.
+Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
+
+- hb-uni-sensor6.xml
+Ein neuer Datenpunkt für den UV-Sensor VEML6075 wurde ergänzt, der per define im Sketch unterstützt wird.
+Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
+
 
 ###### Außerdem noch der Hinweis das bei Änderungen am xml immer eventuell vorhandene dazugehörigen Geräte mit dieser Device Model ID in der Zentrale abgelernt/gelöscht und nach der xml Änderung wieder neu angelernt werden müssen.
 
@@ -505,6 +507,20 @@ Dazu habe ich ein passendes HB-UNI-Sensor3.ino gemacht in dem nur als Beispiel d
 | HB-UNI-Sensor3 | 0xF113 |
 | HB-UNI-Sensor4 | 0xF114 |
 | HB-UNI-Sensor5 | 0xF115 |
+| HB-UNI-Sensor6 | 0xF116 |
+
+
+## Trägheit verschiedener Temperatursensoren
+
+Der Temperaturwert des BME280 reagiert träger als andere Temperatursensoren, dies liegt m.E. an der engen thermischen Kopplung zwischen aufgelötetem Chip und Platine und der daraus resultierenden thermischen Trägheit des Systems.<br>
+Temperatursensoren die nur über ihre Anschlüsse in der Luft hängen reagieren schneller.<br><br>
+Ich empfehle daher für die Temperaturmessung einen zusätzlichen DS18x20 zu verbauen und die Temperatur des BME280 zu ignorieren. Im Sketch ist das entsprechend berücksichtigt.<br>
+<br>
+Vergleich der BME280 / DS18B20 / SHT10 Temperaturwerte bei einem 6K Sprung<br>
+Quelle: FHEM user *Gernott*<br>
+*'Links war der BME280-breakout horizontal positioniert, recht vertikal über eine Kante stehend. Dort wir der Sensor offenbar besser angeströmt und reagiert dann deutlich schneller. Der SHT hing ohne breakout dünn verdrahtet im Raum und reagiert ziemlich schnell.'*
+
+![pic](Images/Vergleich_Temperatursensoren.png)
 
 
 ## Optionaler Reset-Baustein MCP111

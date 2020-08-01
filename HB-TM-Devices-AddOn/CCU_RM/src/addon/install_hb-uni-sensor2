@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #------------------------------------------------------------------------------
-# in der WebUI angezeigter Gerätetyp, muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-Sensor2" id="HB-UNI-Sensor2">
+# in der WebUI angezeigter Gerätetyp, muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-SensorX" id="HB-UNI-SensorX">
 DEVICE="HB-UNI-Sensor2"
 # in der WebUI angezeigte Gerätebeschreibung
 DEVICE_DESC="Universalsensor2 (Wetterdaten)"

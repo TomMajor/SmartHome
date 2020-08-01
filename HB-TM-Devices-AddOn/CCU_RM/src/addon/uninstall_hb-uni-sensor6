@@ -2,13 +2,13 @@
 
 #------------------------------------------------------------------------------
 # in der WebUI angezeigter Gerätetyp, muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-SensorX" id="HB-UNI-SensorX">
-DEVICE="HB-UNI-Sensor1"
+DEVICE="HB-UNI-Sensor6"
 # in der WebUI angezeigte Gerätebeschreibung
-DEVICE_DESC="Universalsensor1 (Wetterdaten)"
+DEVICE_DESC="Universalsensor6 (Wetterdaten)"
 # Name der Piktogramme, bestehend aus xx.png bzw. xx_thumb.png
-DEVICE_IMG=hb-uni-sensor1.png
-DEVICE_THUMB=hb-uni-sensor1_thumb.png
-FIRMWARE_FILE=/firmware/rftypes/hb-uni-sensor1*.xml
+DEVICE_IMG=hb-uni-sensor6.png
+DEVICE_THUMB=hb-uni-sensor6_thumb.png
+FIRMWARE_FILE=/firmware/rftypes/hb-uni-sensor6*.xml
 
 #------------------------------------------------------------------------------
 # Undo DEVDB.tcl changes
