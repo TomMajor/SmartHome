@@ -472,26 +472,26 @@ wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt w
 
 ###### Ich habe dazu ein paar kurze Beispiele gemacht:
 
-- im hb-uni-sensor2.xml
+- hb-uni-sensor2.xml<br>
 Hier ist der (oft nicht benötigte) Datenpunkt 'Ventilposition' (Digitaler Eingang) weggelassen, so dass dieser HB-UNI-Sensor2 nur 5 Datenpunkte hat.<br>
 Den Sketch (HB-UNI-Sensor2.ino) und die Payload darin braucht man dafür nicht unbedingt zu ändern.
 ![pic](Images/HB-UNI-Sensor2_WebUI.png)
 
-- im hb-uni-sensor3.xml
+- hb-uni-sensor3.xml<br>
 Hier ist der Datenpunkt 'Ventilposition' geändert in 'Wassertemperatur' um eine Frage aus dem Forum aufzugreifen.<br>
 Dazu habe ich ein passendes HB-UNI-Sensor3.bsp gemacht in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.
 ![pic](Images/HB-UNI-Sensor3_WebUI.png)
 <br>
 Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor3 heißen (Sketch-Name und Verzeichnisname müssen gleich sein).
 
-- hb-uni-sensor4.xml
+- hb-uni-sensor4.xml<br>
 Ist identisch zu hb-uni-sensor2.xml, nur als Dummy vorgehalten.
 
-- hb-uni-sensor5.xml
+- hb-uni-sensor5.xml<br>
 Ein neuer Datenpunkt für den UV-Sensor VEML6070 wurde ergänzt, der per define im Sketch unterstützt wird.
 Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
 
-- hb-uni-sensor6.xml
+- hb-uni-sensor6.xml<br>
 Ein neuer Datenpunkt für den UV-Sensor VEML6075 wurde ergänzt, der per define im Sketch unterstützt wird.
 Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
 
