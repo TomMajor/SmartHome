@@ -61,6 +61,8 @@ public:
         clock.add(*this);
     }
 
+    void update() { m_LastValue = voltage(); }
+
     uint16_t current() const { return m_LastValue; }
 
     bool critical() const

@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor3
-// Version 1.18
+// Version 1.19
 // (C) 2018-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -435,6 +435,8 @@ public:
         customData |= uvi10;
 #endif
 
+        // bei Bedarf die Batteriespannung vor der Übertragung neu messen
+        // device().battery().update();
         batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
     }
 
