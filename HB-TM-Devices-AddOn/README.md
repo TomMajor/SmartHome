@@ -5,7 +5,7 @@
 ## Unterstützte Geräte
 
 - [HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
-- [HB-UNI-Sensor2..6](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten)
+- [HB-UNI-Sensor2..6](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten) (Benutzerspezifische Sensordaten)
 - [HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 - [HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
 
@@ -14,7 +14,7 @@
 ## Change Log
 
 - 2.51 - 01.08.2020
-  - Unterstützung für [HB-UNI-Sensor2..6, Benutzerspezifische Sensordaten](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten)
+  - Unterstützung für [HB-UNI-Sensor2..6](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten) (Benutzerspezifische Sensordaten)
 
 - 2.50 - 17.05.2020
   - das neue HB-TM-Devices-AddOn orientiert sich an Jérômes JP-HB-Devices-addon und fasst die Unterstützung für meine HomeBrew-Geräte in einem AddOn zusammen.

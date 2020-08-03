@@ -8,8 +8,8 @@
 
 | |AddOn|Status|letzte getestete Firmware (RaspberryMatic)|
 |---|---|---|---|
-| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
-| :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200229 |
+| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200621 |
+| :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200621 |
 
 
 ## Disclaimer
@@ -47,7 +47,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/PLHT_i220_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
+:arrow_right: [Projektseite HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
 
 
 ## Füllstandsanzeige Öltank/Wassertank HB-SEN-LJet
@@ -57,7 +57,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/LevelJet_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
+:arrow_right: [Projektseite HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 
 
 ## Script Helper, Infos und reduced AddOn zum 4,2" ePaper Display HB-DIS-EP-42BW von Jérôme/jp112sdl
@@ -66,7 +66,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/EP42_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-DIS-EP-42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW)
+:arrow_right: [Projektseite HB-DIS-EP-42BW](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW)
 
 
 ## 6fach S0-Stromzähler HB-ES-S0-CNT6
@@ -78,7 +78,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/HB-ES-S0-CNT6_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-ES-S0-CNT6](https://github.com/TomMajor/SmartHome/tree/master/HB-ES-S0-CNT6)
+:arrow_right: [Projektseite HB-ES-S0-CNT6](https://github.com/TomMajor/SmartHome/tree/master/HB-ES-S0-CNT6)
 
 
 ## tmStamp
@@ -89,7 +89,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/tmStamp_small.jpg?raw=true"/></p>
 
--> [Projektseite tmStamp](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp)
+:arrow_right: [Projektseite tmStamp](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp)
 
 
 ## HB-UNI-Sensor-Heizung
@@ -101,7 +101,20 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/HB-UNI-Sensor-Heizung_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
+:arrow_right: [Projektseite HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
+
+
+## HB-TM-Devices-AddOn
+
+- Ein RaspberryMatic / CCU AddOn zur Unterstützung meiner Projekte/Geräte:
+  - HB-UNI-Sensor1
+  - HB-UNI-Sensor2..6 (Benutzerspezifische Sensordaten)
+  - HB-SEN-LJet
+  - HB-UNI-Sensor-Heizung
+
+<p align="center"><img src="Images/HB-TM-Devices-AddOn_small.png?raw=true"/></p>
+
+:arrow_right: [Projektseite HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn)
 
 
 ## HB-CC1101-Testbench
@@ -115,7 +128,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/HB-CC1101-Testbench_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-CC1101-Testbench](https://github.com/TomMajor/SmartHome/tree/master/HB-CC1101-Testbench)
+:arrow_right: [Projektseite HB-CC1101-Testbench](https://github.com/TomMajor/SmartHome/tree/master/HB-CC1101-Testbench)
 
 
 ## Wassermelder HB-SEC-WDS-2
@@ -125,7 +138,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/Prototyp_Wassermelder_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
+:arrow_right: [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
 
 
 ## 3-Kanal Kontakt-Interface für Öffner und Schließerkontake HB-SCI-3-FM
@@ -134,7 +147,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/HB_SCI_3_FM_small.jpg?raw=true"/></p>
 
--> [Projektseite HB-SCI-3-FM](https://github.com/TomMajor/SmartHome/tree/master/HB-SCI-3-FM)
+:arrow_right: [Projektseite HB-SCI-3-FM](https://github.com/TomMajor/SmartHome/tree/master/HB-SCI-3-FM)
 
 
 ## HB-TM-JP-AddOn-Reduced
@@ -147,7 +160,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 <p align="center"><img src="Images/HB-TM-JP-AddOn-Reduced_small.png?raw=true"/></p>
 
--> [Projektseite HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced)
+:arrow_right: [Projektseite HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced)
 
 
 ## Diverse Platinen
