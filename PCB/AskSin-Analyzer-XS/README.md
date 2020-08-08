@@ -149,7 +149,17 @@ Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein 
 
 ## Gehäuse
 
-- Gehäusevariante von Psi
+###### Gehäusevariante von Alveran
+
+![pic](Images/asksin-analyzer-xs-build8.jpg)
+
+![pic](Images/asksin-analyzer-xs-build9.jpg)
+
+![pic](Images/asksin-analyzer-xs-build10.jpg)
+
+[:arrow_right: Gehäuse 3D-Druck Variante von Alveran](3D_Druck)
+
+###### Gehäusevariante von Psi
 
 ![pic](Images/Psi_Case1.jpg)
 
@@ -162,6 +172,8 @@ Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein 
 
 - Die neue CC1101-Board Generation ist in 2020 etwas breiter geworden (hat jetzt volle + zusätzlich halbe thru-hole/SMD Pads), siehe [CC1101 kaufen](https://homematic-forum.de/forum/viewtopic.php?f=76&t=59315), deshalb den CC1101-Footprint für die neue Generation anpassen - die neuen passen aber dennoch drauf, nur nicht perfekt.<br>
 Außerdem ist das Rastermaß der CC1101 auf der Antennenseite jetzt 2mm (vorher 2,54mm - die SPI Seite hatte schon immer 2mm).
+
+- Für die Gehäusevariante von Alveran und bei Einsatz einer bedrahteten LED sollte man diese an eine andere Stelle verlegen, nicht so nah am Antennenanschluss, damit man die LED gerade einlöten kann.
 
 
 ## Links
