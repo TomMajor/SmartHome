@@ -6,6 +6,15 @@
 
 ![pic](Images/ProMini_LDO.jpg)
 
+## Arduino Pro Mini "Enhancement V2"
+
+- Es gibt eine spezielle Arduino Pro Mini Version, die "Enhancement V2 Pro Mini 3.3V/5V Adjustable 8MHz". Dort kann man mit einem Spannungsteiler am LDO die Ausgangsspannung zu 3,3V oder 5V wählen. Dieser Spannungsteiler lässt den Ruhestrom jedoch auf ca. 2,5mA anwachsen, auch mit ausgelötetem LDO.<br>
+Um wieder den Wert von ca. 4µA zu erreichen (natürlich sollte auch hier der LDO ausgelötet werden) muss entweder die Lötbrücke (A) auf beiden Seiten offen sein oder der Widerstand (B) von 470Ohm entfernt werden.
+
+![pic](Images/Enhancement_V2_Pro_Mini_3.3V_5V_Adjustable.jpg)
+
+[Enhancement V2 Pro Mini 3.3V/5V Adjustable 8MHz](https://www.tinyosshop.com/index.php?route=product/product&product_id=336)
+
 
 ## Ruhestrom mit Sensor-Boards
 
