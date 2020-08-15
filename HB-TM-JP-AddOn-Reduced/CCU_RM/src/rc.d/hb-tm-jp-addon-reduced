@@ -1,5 +1,5 @@
 #!/bin/sh
-# WebUI icon used from http://icons8.com
+# WebUI icon used from http://icons8.com 
 
 ADDON_NAME=`basename "$0"`
 
@@ -77,8 +77,8 @@ case "$1" in
         check_rfd
         if [ $RFD -ge 1 ]; then
           /etc/init.d/S61rfd stop | tee -a $GLOBAL_LOGFILE
-		fi
-	    	
+        fi
+
         cd ${ADDON_DIR}
         cp -ar www/* /www/
         chown root:root /www/config/img/devices/250/hb-*
@@ -94,25 +94,28 @@ case "$1" in
 
         cd /www
 
-#		########################	REVOKE  	######################
-#        echo "######## REVOKE COMMON APPLIED PATCHES ########" | tee -a $GLOBAL_LOGFILE
-#        patchsubdir=common
-#        for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
-#          echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
-#          patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
-#        done
-#        
-#        echo "######## REVOKE VERSION DEPENDEND PATCHES ########" | tee -a $GLOBAL_LOGFILE
-#        if [ $PATCHVERSION -le 1 ]; then
-#          patchsubdir=le_343
+#        if [ ! -f ${CK_FIRMWARE_FILE} ]; then
+#          echo "Fresh installation - revoking patches not needed." | tee -a $GLOBAL_LOGFILE
 #        else
-#          patchsubdir=ge_345
-#        fi
-#        for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
-#          echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
-#          patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
-#        done
+#          ########################	REVOKE  	######################
+#          echo "######## REVOKE COMMON APPLIED PATCHES ########" | tee -a $GLOBAL_LOGFILE
+#          patchsubdir=common
+#          for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
+#            echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#            patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
+#          done
 #        
+#          echo "######## REVOKE VERSION DEPENDEND PATCHES ########" | tee -a $GLOBAL_LOGFILE
+#          if [ $PATCHVERSION -le 1 ]; then
+#            patchsubdir=le_343
+#          else
+#            patchsubdir=ge_345
+#          fi
+#          for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
+#            echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#            patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
+#          done
+#        fi
 #        
 #        ########################	APPLY   	######################
 #        echo "######## APPLY COMMON PATCHES ########" | tee -a $GLOBAL_LOGFILE
@@ -146,13 +149,17 @@ case "$1" in
         ### Create Symlink to include own js file
         echo "(Re-)Creating symlinks for jp_webui_inc.js..." | tee -a $GLOBAL_LOGFILE
         [[ ! -f /www/webui/js/extern/jp_webui_inc.js ]] && ln -s ${ADDON_DIR}/js/jp_webui_inc.js /www/webui/js/extern/jp_webui_inc.js
-	    	    
+
         cd ${ADDON_DIR}
         echo "Running scripts..." | tee -a $GLOBAL_LOGFILE
         for f in ${ADDON_DIR}/install_* ; do echo "  - $(basename $f)" | tee -a $GLOBAL_LOGFILE; ./$(basename $f) >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE; done
 
-	    echo "Copying customized firmware files..." | tee -a $GLOBAL_LOGFILE
-        cp ${CUSTOMIZED_FIRMWARE_DIR}/* ${ADDON_DIR}${FIRMWARE_DIR}/
+        if [ "$(find ${CUSTOMIZED_FIRMWARE_DIR} -type f -iname '*.xml')" ]; then
+          echo "Copying customized firmware files..." | tee -a $GLOBAL_LOGFILE
+          cp ${CUSTOMIZED_FIRMWARE_DIR}/*.xml ${ADDON_DIR}${FIRMWARE_DIR}/
+        else
+          echo "No customized firmware files found in ${CUSTOMIZED_FIRMWARE_DIR}." | tee -a $GLOBAL_LOGFILE
+        fi
 
         echo "(Re-)Creating symlinks for firmware files..." | tee -a $GLOBAL_LOGFILE
         for f in ${ADDON_DIR}${FIRMWARE_DIR}/* ; do rm -f ${FIRMWARE_DIR}/$(basename $f); ln -s $f ${FIRMWARE_DIR}/$(basename $f); echo "  - $(basename $f)"; done
@@ -163,7 +170,7 @@ case "$1" in
 
         if [ $RFD -ge 1 ]; then
           /etc/init.d/S61rfd start | tee -a $GLOBAL_LOGFILE
-		fi		    
+        fi
         if [ $REGA -ge 1 ]; then
           /etc/init.d/S70ReGaHss start | tee -a $GLOBAL_LOGFILE
         fi
@@ -176,9 +183,9 @@ case "$1" in
       else
         echo "Checking for subsequent customized firmware files..."
         changed=0
-	
+
         for f in ${ADDON_DIR}${FIRMWARE_DIR}/* ; do
-	      $(cmp -s ${CUSTOMIZED_FIRMWARE_DIR}/$(basename $f) $f)
+          $(cmp -s ${CUSTOMIZED_FIRMWARE_DIR}/$(basename $f) $f)
           rc=$?
           if [ $rc -eq 1 ]; then
             echo "Difference detected for $(basename $f). Copying..."
@@ -191,13 +198,18 @@ case "$1" in
           echo "$changed Firmware file(s) changed" | tee -a $GLOBAL_LOGFILE
           check_rfd
           if [ $RFD -ge 1 ]; then
-            echo " - restarting RFD"
-            /etc/init.d/S61rfd restart | tee -a $GLOBAL_LOGFILE
-		  fi
+            check_monit       
+            if [ $MONIT -ge 1 ]; then
+              echo " - restarting RFD [monit]" | tee -a $GLOBAL_LOGFILE
+              /usr/bin/monit restart rfd
+            else
+              echo " - restarting RFD [init.d]" | tee -a $GLOBAL_LOGFILE
+              /etc/init.d/S61rfd restart
+            fi
+          fi
         else
           echo "Nothing changed - nothing to do"
         fi
-
       fi
     ;;
 
@@ -207,7 +219,7 @@ case "$1" in
 
     uninstall)
       mount -o remount,rw /
-		
+
       cd ${ADDON_DIR}
       echo "Running scripts..."    
       for f in ${ADDON_DIR}/uninstall_* ; do echo "  - $(basename $f)"; ./$(basename $f) > $GLOBAL_LOGFILE 2>$GLOBAL_ERRFILE; done
@@ -216,7 +228,7 @@ case "$1" in
       ./patchworker uninstall ${ADDON_NAME} ${PATCHVERSION} $model.$version.$build.$bdate
 
       cd /www
-
+      
 #      echo "######## REVOKE COMMON PATCHES ########"
 #      patchsubdir=common
 #      for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
@@ -243,7 +255,7 @@ case "$1" in
 #      [[ -f ./rega/pages/tabs/admin/views/programs.htm.orig ]] && rm ./rega/pages/tabs/admin/views/programs.htm.orig
 #      [[ -f ./config/ic_common.tcl.orig ]] && rm ./config/ic_common.tcl.orig
       [[ -f ./webui/js/extern/jp_webui_inc.js ]] && rm ./webui/js/extern/jp_webui_inc.js
-  		    		    		
+
       cd /
       rm -rf $ADDON_DIR
       rm -rf $WWW_DIR
@@ -266,7 +278,7 @@ case "$1" in
 	  echo "Operations: uninstall"
       echo "Update: /addons/${ADDON_NAME}/update-check.cgi"
     ;;
-	
+
     *)
       echo "Usage: $ADDON_NAME {start|info|uninstall}" >&2
       exit 1

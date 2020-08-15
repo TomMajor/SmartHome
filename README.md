@@ -6,10 +6,10 @@
 
 ## AddOn Kompatibilität
 
-| |AddOn|Status|letzte getestete Firmware (RaspberryMatic)|
-|---|---|---|---|
-| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200621 |
-| :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200621 |
+|  | AddOn | Version | Status | letzte getestete Firmware (RaspberryMatic) |
+|---|---|---|---|---|
+| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | 2.51 | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200621 |
+| :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | 2.12 | lauffähig unter CCU / RaspberryMatic | 3.51.6.20200621 |
 
 
 ## Disclaimer

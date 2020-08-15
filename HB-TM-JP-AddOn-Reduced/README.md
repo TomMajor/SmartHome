@@ -33,6 +33,11 @@ Die Zentrale startet sich danach automatisch neu.
 
 ## Change Log
 
+- 2.12 - 15.08.2020
+  - monit zum Restart des rfd-Dienstes benutzen
+  - verbessertes Logging
+  - Sync der neusten Änderungen aus JP-HB-Devices-addon
+
 - 2.11 - 12.04.2020
   - erste öffentliche Version, dieses AddOn ersetzt mit erweitertem Funktionsumfang mein altes HB-Dis-EP-42BW AddOn.
 

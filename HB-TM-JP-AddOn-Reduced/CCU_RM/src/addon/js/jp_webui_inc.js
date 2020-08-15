@@ -1,4 +1,56 @@
 /**
+ * ise/iseButtonsWindowHB.js
+ **/
+
+/**
+ * @fileOverview ?
+ * @author ise
+ **/
+
+/* * * * * * * * * * * * * * * * * * * * * * * *
+ * iseButtonsWindowHB                          *
+ * * * * * * * * * * * * * * * * * * * * * * * */
+
+/**
+ * @class
+ **/
+iseButtonsWindowHB = Class.create();
+
+iseButtonsWindowHB.prototype = {
+  /*
+   * id = datapoint-ID of switch
+   * initState = Creation State (0 or 1)
+   */
+  initialize: function(id, initState) {
+    this.id = id;
+    this.state = initState;
+    this.divOpenH = $(this.id + "OpenH");
+    this.divOpenV = $(this.id + "OpenV");
+    this.divClosed = $(this.id + "Closed");
+    this.divExtra = $(this.id + "Extra");
+
+    switch (initState) {
+      case 0:
+      case false:
+        ControlBtn.on(this.divClosed);
+        break;
+      case 1:
+        ControlBtn.on(this.divOpenV);
+        break;
+      case 2:
+      case true:
+        ControlBtn.on(this.divOpenH);
+        break;
+      case 3:
+        ControlBtn.on(this.divExtra);
+        break;
+      default:
+        break;
+    }
+  }
+};
+
+/**
  * ise/iseButtonsServo.js
  **/
 
@@ -225,6 +277,65 @@ iseRFIDKey.prototype = {
     }, 1);
   }
 };
+
+/**
+ * @class
+ **/
+iseIRKey = Class.create();
+
+iseIRKey.prototype = {
+  /*
+   * id = datapoint-ID of switch
+   */
+  initialize: function(id, shortId, longId, iViewOnly) {
+    this.id = id;
+    this.divShort = $(this.id + "Short");
+    this.divLong = $(this.id + "Long");
+    this.shortId = shortId;
+    this.longId = longId;
+    
+    if( this.divShort ) { ControlBtn.off(this.divShort); }
+    if( this.divLong ) { ControlBtn.off(this.divLong); }
+    
+    // Add event handlers
+    if (iViewOnly === 0)
+    {
+      if (this.divShort) {
+        this.clickShort = this.onClickShort.bindAsEventListener(this);
+        Event.observe(this.divShort, 'mousedown', this.clickShort);
+      }
+      if (this.divLong) {
+        this.clickLong = this.onClickLong.bindAsEventListener(this);
+        Event.observe(this.divLong, 'mousedown', this.clickLong);
+      }
+    }
+  },
+  
+  onClickShort: function() {
+    setDpState(this.shortId, 1);
+    ControlBtn.pushed(this.divShort);
+    $("btn" + this.shortId + "s").src = "/ise/img/ir_hold_80.png";
+    var t = this;
+    new PeriodicalExecuter(function(pe) {
+      ControlBtn.off(t.divShort);
+      $("btn" + t.shortId + "s").src = "/ise/img/ir_80.png";
+      pe.stop();
+    }, 1);
+  },
+  
+  onClickLong: function() {
+    setDpState(this.longId, 1);
+    ControlBtn.pushed(this.divLong);
+    $("btn" + this.longId + "l").src = "/ise/img/ir_hold_80.png";
+    var t = this;
+    new PeriodicalExecuter(function(pe) {
+      ControlBtn.off(t.divLong);
+      $("btn" + t.longId + "l").src = "/ise/img/ir_80.png";
+      pe.stop();
+    }, 1);
+  }
+};
+
 
 HbStatusDisplayDialogEPaper = Class.create(StatusDisplayDialog, {
 
