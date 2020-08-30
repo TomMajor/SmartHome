@@ -125,7 +125,7 @@
         </parameter>
         <parameter id="UV-Index" operations="read,event">
           <logical type="integer" min="0" max="12" />
-          <physical type="integer" interface="command" value_id="UV-Index" no_init="true">
+          <physical type="integer" interface="command" value_id="UV-Index">
             <event frame="WEATHER_EVENT" />
           </physical>
         </parameter>
