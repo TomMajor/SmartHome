@@ -13,6 +13,9 @@
 
 ## Change Log
 
+- 2.52 - 31.08.2020
+  - Bugfix HB-UNI-Sensor6, UV-Index beim Sensor VEML6075 wurde im WebUI nicht korrekt angezeigt
+
 - 2.51 - 01.08.2020
   - Unterstützung für [HB-UNI-Sensor2..6](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten) (Benutzerspezifische Sensordaten)
 
