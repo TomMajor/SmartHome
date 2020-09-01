@@ -71,8 +71,8 @@ public:
             _uva       = _veml6075.getUVA();
             _uvb       = _veml6075.getUVB();
             _uvi       = _veml6075.getUVIndex();
-            _uvIndex10 = uint8_t(_uvi * 10.0);
-            writeConf(0x11);    // integration time 100ms, device shut down
+            _uvIndex10 = uint8_t(floor(_uvi * 10.0 + 0.5));    // scaling and rounding
+            writeConf(0x11);                                   // integration time 100ms, device shut down
 
 #ifndef NDEBUG
             DPRINT(F("VEML6075 UVA            : "));
@@ -80,7 +80,7 @@ public:
             DPRINT(F("VEML6075 UVB            : "));
             DDECLN((int)_uvb);
             DPRINT(F("VEML6075 UVI            : "));
-            Serial.println(_uvi, 1);
+            Serial.println(_uvi, 2);
 #endif
             return true;
         }
