@@ -159,7 +159,7 @@ Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein 
 
 [:arrow_right: Gehäuse 3D-Druck Variante von Alveran](3D_Druck)
 
-###### Gehäusevariante von Psi
+###### Gehäusevariante von Psi (mit OLED Fenster)
 
 ![pic](Images/Psi_Case1.jpg)
 
