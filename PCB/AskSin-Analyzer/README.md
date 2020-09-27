@@ -19,23 +19,15 @@
 ![pic](Images/AskSinAnalyzer6.png)
 
 
-## Schaltplan & Platine (Marco)
+## Schaltplan, Platine und Gehäuse (Marco)
 
-[:arrow_right: AskSinAnalyzer](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files)
+[:arrow_right: AskSinAnalyzer Files Mirror](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files)
 
+[:arrow_right: AskSinAnalyzer Gehäuse Thingiverse](https://www.thingiverse.com/thing:3788587)
 
-## Aufbau (Marco)
+[:arrow_right: AskSinAnalyzer Aufbau](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files/Bauanleitung_stan23_V1.pdf)
 
-[:arrow_right: AskSinAnalyzer](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files/Bauanleitung_stan23_V1.pdf)
-
-
-## Gehäuse (Marco)
-
-[:arrow_right: AskSinAnalyzer Case](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files)
-
-[:arrow_right: AskSinAnalyzer Case](https://www.thingiverse.com/thing:3788587)
-
-[:arrow_right: AskSinAnalyzer Case Beschreibung](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files/AskSinAnalyzer_Case_stan23_Thingiverse.pdf)
+[:arrow_right: AskSinAnalyzer Hinweise Gehäuse](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files/AskSinAnalyzer_Case_stan23_Thingiverse.pdf)
 
 
 ## Software vorbereiten und flashen
@@ -64,17 +56,15 @@
 ###### ESP32 Bibliotheken installieren
 
 - Folgende 5 bzw. 8 Bibliotheken zu installieren:
-
 1. ESPAsyncWebServer
-2. AsyncTCP
-  - Achtung :heavy_exclamation_mark: unbedingt den WDT deaktivieren
-  - AsyncTCP.h: #define CONFIG_ASYNC_TCP_USE_WDT 1 auf 0 ändern
+2. AsyncTCP<br>
+   Achtung :warning: unbedingt den WDT deaktivieren<br>
+   AsyncTCP.h: #define CONFIG_ASYNC_TCP_USE_WDT 1 auf 0 ändern
 3. TimeLib
 4. ArduinoJson
 5. ESP32httpUpdate
 
 - Nur bei Einsatz des Displays notwendig:
-
 6. Adafruit_GFX
 7. Adafruit_ILI9341
 8. U8g2_for_Adafruit_GFX
@@ -103,7 +93,7 @@ Flash Log:
 
 ```
 esptool.py v2.6
-Serial port COM6
+Serial port COM3
 Connecting.....
 Chip is ESP32D0WDQ6 (revision 1)
 Features: WiFi, BT, Dual Core, 240MHz, VRef calibration in efuse, Coding Scheme None
@@ -118,24 +108,64 @@ Auto-detected Flash size: 4MB
 Compressed 8192 bytes to 47...
 
 Writing at 0x0000e000... (100 %)
-Wrote 8192 bytes (47 compressed) at 0x0000e000 in 0.0 seconds (effective 4096.0 kbit/s)...
+Wrote 8192 bytes (47 compressed) at 0x0000e000 in 0.0 seconds (effective 3855.1 kbit/s)...
 Hash of data verified.
 Compressed 17392 bytes to 11186...
 
 Writing at 0x00001000... (100 %)
-Wrote 17392 bytes (11186 compressed) at 0x00001000 in 0.1 seconds (effective 973.0 kbit/s)...
+Wrote 17392 bytes (11186 compressed) at 0x00001000 in 0.1 seconds (effective 966.2 kbit/s)...
 Hash of data verified.
-Compressed 1156608 bytes to 656927...
+Compressed 1215088 bytes to 696822...
 
 Writing at 0x00010000... (2 %)
-...
-Writing at 0x000b0000... (100 %)
-Wrote 1156608 bytes (656927 compressed) at 0x00010000 in 10.3 seconds (effective 898.3 kbit/s)...
+Writing at 0x00014000... (4 %)
+Writing at 0x00018000... (6 %)
+Writing at 0x0001c000... (9 %)
+Writing at 0x00020000... (11 %)
+Writing at 0x00024000... (13 %)
+Writing at 0x00028000... (16 %)
+Writing at 0x0002c000... (18 %)
+Writing at 0x00030000... (20 %)
+Writing at 0x00034000... (23 %)
+Writing at 0x00038000... (25 %)
+Writing at 0x0003c000... (27 %)
+Writing at 0x00040000... (30 %)
+Writing at 0x00044000... (32 %)
+Writing at 0x00048000... (34 %)
+Writing at 0x0004c000... (37 %)
+Writing at 0x00050000... (39 %)
+Writing at 0x00054000... (41 %)
+Writing at 0x00058000... (44 %)
+Writing at 0x0005c000... (46 %)
+Writing at 0x00060000... (48 %)
+Writing at 0x00064000... (51 %)
+Writing at 0x00068000... (53 %)
+Writing at 0x0006c000... (55 %)
+Writing at 0x00070000... (58 %)
+Writing at 0x00074000... (60 %)
+Writing at 0x00078000... (62 %)
+Writing at 0x0007c000... (65 %)
+Writing at 0x00080000... (67 %)
+Writing at 0x00084000... (69 %)
+Writing at 0x00088000... (72 %)
+Writing at 0x0008c000... (74 %)
+Writing at 0x00090000... (76 %)
+Writing at 0x00094000... (79 %)
+Writing at 0x00098000... (81 %)
+Writing at 0x0009c000... (83 %)
+Writing at 0x000a0000... (86 %)
+Writing at 0x000a4000... (88 %)
+Writing at 0x000a8000... (90 %)
+Writing at 0x000ac000... (93 %)
+Writing at 0x000b0000... (95 %)
+Writing at 0x000b4000... (97 %)
+Writing at 0x000b8000... (100 %)
+Wrote 1215088 bytes (696822 compressed) at 0x00010000 in 10.6 seconds (effective 915.1 kbit/s)...
 Hash of data verified.
 Compressed 3072 bytes to 128...
 
 Writing at 0x00008000... (100 %)
-Wrote 3072 bytes (128 compressed) at 0x00008000 in 0.0 seconds (effective 1536.0 kbit/s)...
+Wrote 3072 bytes (128 compressed) at 0x00008000 in 0.0 seconds (effective 1445.7 kbit/s)...
 Hash of data verified.
 
 Leaving...
@@ -145,7 +175,7 @@ Hard resetting via RTS pin...
 ###### WLAN einrichten
 
 - Wird das Gerät bei gedrückt gehaltenem Taster SW13 (der Linke wenn man von hinten drauf schaut) gestartet, leuchtet die gelbe LED dauerhaft. Dann ist der AP-Modus aktiv.<br>
-Achtung :heavy_exclamation_mark: Schalter DIP2 *Online-Modus* muss dabei aktiv sein.
+Achtung :warning: Schalter DIP2 *Online-Modus* muss dabei aktiv sein.
 
 - Im AP-Modus mit einem Handy oder Notebook zum WLAN "Analyzer-AP" verbinden und http://192.168.4.1 aufrufen.<br>
 Dort kann man dann SSID, Passwort, CCU-IP und weitere Parameter einstellen. Dann den AP-Modus beenden, nach einem Neustart verbindet sich der Analyzer mit dem eingestellten WLAN.
