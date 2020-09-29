@@ -8,6 +8,8 @@
 
 ![pic](Images/AskSinAnalyzer1.jpg)
 
+![pic](Images/AskSinAnalyzer2.jpg)
+
 ![pic](Images/AskSinAnalyzer3.jpg)
 
 ![pic](Images/AskSinAnalyzer4.jpg)
@@ -21,7 +23,7 @@
 ![pic](Images/AskSinAnalyzer8.png)
 
 
-## Schaltplan, Platine und Gehäuse (Marco)
+## Schaltplan, Platine und Gehäuse (Jérôme, Marco)
 
 [:arrow_right: AskSinAnalyzer Files Mirror](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer/Files)
 

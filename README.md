@@ -174,6 +174,15 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 -> [Projektseite PCB](https://github.com/TomMajor/SmartHome/tree/master/PCB)
 
 
+## AskSinAnalyzer Aufbau und Software
+
+- Meine Linksammlung und Hinweise zum Aufbau und Software für den AskSinAnalyzer
+
+<p align="center"><img src="Images/AskSinAnalyzer_small.jpg?raw=true"/></p>
+
+-> [Projektseite AskSinAnalyzer](https://github.com/TomMajor/SmartHome/tree/master/PCB/AskSin-Analyzer)
+
+
 ## Schutz vor "Babbling Idiot" (BI)
 
 - Betrachtungen und Lösungen zum Schutz gegen einen "Babbling Idiot" (Dauersender) im HomeMatic Netzwerk bei Selbstbaugeräten
