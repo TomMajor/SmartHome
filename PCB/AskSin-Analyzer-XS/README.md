@@ -165,7 +165,7 @@ Der AVR erkennt ab 3V sicher High-Pegel bei Vcc 5V. Falls fehlerhafterweise ein 
 
 ![pic](Images/Asselhead_Case2.jpg)
 
-[:arrow_right: Gehäuse 3D-Druck Variante von Alveran](https://www.thingiverse.com/thing:4614542)
+[:arrow_right: Gehäuse 3D-Druck Variante von Asselhead](https://www.thingiverse.com/thing:4614542)
 
 ###### Gehäusevariante von Psi (mit OLED Fenster)
 
