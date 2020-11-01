@@ -1,0 +1,157 @@
+#!/bin/sh
+
+#------------------------------------------------------------------------------
+# in der WebUI angezeigter Gerätetyp, muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-SensorX" id="HB-UNI-SensorX">
+DEVICE="HB-UNI-Sensor-Blitz"
+# in der WebUI angezeigte Gerätebeschreibung
+DEVICE_DESC="Blitzsensor"
+# Name der Piktogramme, bestehend aus xx.png bzw. xx_thumb.png
+DEVICE_IMG=hb-uni-sensor-blitz.png
+DEVICE_THUMB=hb-uni-sensor-blitz_thumb.png
+FIRMWARE_FILE=/firmware/rftypes/hb-uni-sensor-blitz*.xml
+
+#------------------------------------------------------------------------------
+# Undo DEVDB.tcl changes
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+
+if [ "`cat $devdescrFile | grep \"$DEVICE\"`" ]; then
+        sed -i "s/\($devdescrSearch\)//g" $devdescrFile
+fi
+
+#------------------------------------------------------------------------------
+# Undo webui.js changes
+webuiFile="/www/webui/webui.js"
+if [ "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
+        sed -i "/\($DEVICE\)/d" $webuiFile
+fi
+
+# --- Translations Config ---
+webuiSearch="WEATHER|CAPACITOR_INDEX"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+webuiSearch="WEATHER|INDOOR_MODE"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+webuiSearch="WEATHER|SHOW_DISTURBERS"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+webuiSearch="WEATHER|NOISE_FLOOR"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+webuiSearch="WEATHER|SPIKE_REJECTION"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+webuiSearch="WEATHER|WATCHDOG_THRESHOLD"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+webuiSearch="WEATHER|MIN_NUMBER_OF_LIGHTNINGS"
+sed -i "/\($webuiSearch\)/d" $webuiFile
+
+#------------------------------------------------------------------------------
+# remove device_xml links
+rm -f $FIRMWARE_FILE
+
+#------------------------------------------------------------------------------
+# remove image files
+rm -f /www/config/img/devices/250/$DEVICE_IMG
+rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+#------------------------------------------------------------------------------
+# Undo stringtable_de.txt
+stringtable_deFile="/www/config/stringtable_de.txt"
+
+# --- Translations Values ---
+stringtable_deSearch="WEATHER|Blitz_Zaehler"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|Blitz_Entfernung"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+# --- Translations Config ---
+stringtable_deSearch="WEATHER|CAPACITOR_INDEX"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|INDOOR_MODE"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|SHOW_DISTURBERS"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|NOISE_FLOOR"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|SPIKE_REJECTION"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|WATCHDOG_THRESHOLD"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|MIN_NUMBER_OF_LIGHTNINGS"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+#------------------------------------------------------------------------------
+# Undo German translate.lang.stringtable.js
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+
+# --- Translations Values ---
+translate_deSearch="stringTableWeather_BlitzZaehler"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_BlitzEntfernung"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+# --- Translations Config ---
+translate_deSearch="stringTableWeather_CapacitorIndex"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_IndoorMode"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_ShowDisturbers"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_NoiseFloor"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_SpikeRejection"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_WatchdogThreshold"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_MinNumberOfLightnings"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+#------------------------------------------------------------------------------
+# Undo English translate.lang.stringtable.js
+translate_enFile="/www/webui/js/lang/en/translate.lang.stringtable.js"
+
+# --- Translations Values ---
+translate_enSearch="stringTableWeather_BlitzZaehler"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_BlitzEntfernung"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+# --- Translations Config ---
+translate_enSearch="stringTableWeather_CapacitorIndex"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_IndoorMode"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_ShowDisturbers"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_NoiseFloor"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_SpikeRejection"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_WatchdogThreshold"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
+
+translate_enSearch="stringTableWeather_MinNumberOfLightnings"
+sed -i "/\(${translate_enSearch}\)/d" $translate_enFile

@@ -8,10 +8,14 @@
 - [HB-UNI-Sensor2..6](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten) (Benutzerspezifische Sensordaten)
 - [HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 - [HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
+- [HB-UNI-Sensor-Blitz](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Blitz)
 
 [comment]: # (rc.d filename: hb-tm-devices-addon, github name: HB-TM-Devices-AddOn, info name: HB-TM-Devices AddOn)
 
 ## Change Log
+
+- 2.53 - 01.11.2020
+  - Unterstützung für HB-UNI-Sensor-Blitz
 
 - 2.52 - 31.08.2020
   - Bugfix HB-UNI-Sensor6, UV-Index beim Sensor VEML6075 wurde im WebUI nicht korrekt angezeigt

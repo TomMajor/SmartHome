@@ -1,0 +1,253 @@
+#!/bin/sh
+
+#------------------------------------------------------------------------------
+# in der WebUI angezeigter Gerätetyp, muss identisch sein mit dem Firmware-XML-Tag: <type name="HB-UNI-SensorX" id="HB-UNI-SensorX">
+DEVICE="HB-UNI-Sensor-Blitz"
+# in der WebUI angezeigte Gerätebeschreibung
+DEVICE_DESC="Blitzsensor"
+# Name der Piktogramme, bestehend aus xx.png bzw. xx_thumb.png
+DEVICE_IMG=hb-uni-sensor-blitz.png
+DEVICE_THUMB=hb-uni-sensor-blitz_thumb.png
+FIRMWARE_FILE=/firmware/rftypes/hb-uni-sensor-blitz*.xml
+
+#------------------------------------------------------------------------------
+# Edit DEVDB.tcl
+devdescrFile="/www/config/devdescr/DEVDB.tcl"
+devdescrSearch="array[[:space:]]*set[[:space:]]*DEV_PATHS[[:space:]]*{"
+
+devdescrInsert="$DEVICE {{50 \/config\/img\/devices\/50\/$DEVICE_THUMB} {250 \/config\/img\/devices\/250\/$DEVICE_IMG}} "
+
+if [ -z "`cat $devdescrFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($devdescrSearch\)/\1$devdescrInsert/g" $devdescrFile
+fi
+
+#------------------------------------------------------------------------------
+# Edit webui.js
+webuiFile="/www/webui/webui.js"
+webuiSearch="DEV_HIGHLIGHT[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsert="\n"
+webuiInsert="${webuiInsert}DEV_HIGHLIGHT['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_LIST.push('$DEVICE');\n"
+webuiInsert="${webuiInsert}DEV_DESCRIPTION['$DEVICE']='$DEVICE_DESC';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE'] = new Object();\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['50'] = '\/config\/img\/devices\/50\/$DEVICE_THUMB';\n"
+webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['250'] = '\/config\/img\/devices\/250\/$DEVICE_IMG';"
+
+if [ -z "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
+	sed -i "s/\($webuiSearch\)/\1$webuiInsert/g" $webuiFile
+fi
+
+# --- Translations Config ---
+webuiSearchBegin="elvST[[:space:]]*=[[:space:]]*new Array();"
+
+webuiInsertParam="WEATHER|CAPACITOR_INDEX"
+webuiInsertValue="stringTableWeather_CapacitorIndex"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="WEATHER|INDOOR_MODE"
+webuiInsertValue="stringTableWeather_IndoorMode"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="WEATHER|SHOW_DISTURBERS"
+webuiInsertValue="stringTableWeather_ShowDisturbers"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="WEATHER|NOISE_FLOOR"
+webuiInsertValue="stringTableWeather_NoiseFloor"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="WEATHER|SPIKE_REJECTION"
+webuiInsertValue="stringTableWeather_SpikeRejection"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="WEATHER|WATCHDOG_THRESHOLD"
+webuiInsertValue="stringTableWeather_WatchdogThreshold"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+webuiInsertParam="WEATHER|MIN_NUMBER_OF_LIGHTNINGS"
+webuiInsertValue="stringTableWeather_MinNumberOfLightnings"
+webuiInsert="\n"
+webuiInsert="${webuiInsert}elvST['$webuiInsertParam'] = '\${$webuiInsertValue}';"
+if [ -z "`cat $webuiFile | grep \"$webuiInsertParam\"`" ]; then
+	sed -i "s/\($webuiSearchBegin\)/\1$webuiInsert/g" $webuiFile
+fi
+
+#------------------------------------------------------------------------------
+# Edit stringtable_de.txt
+stringtable_deFile="/www/config/stringtable_de.txt"
+
+# --- Translations Values ---
+stringtable_deInsert="WEATHER|Blitz_Zaehler\t\${stringTableWeather_BlitzZaehler}"
+if [ -z "`cat $stringtable_deFile | grep \"Blitz_Zaehler\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|Blitz_Entfernung\t\${stringTableWeather_BlitzEntfernung}"
+if [ -z "`cat $stringtable_deFile | grep \"Blitz_Entfernung\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+# --- Translations Config ---
+stringtable_deInsert="WEATHER|CAPACITOR_INDEX\t\${stringTableWeather_CapacitorIndex}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|CAPACITOR_INDEX\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|INDOOR_MODE\t\${stringTableWeather_IndoorMode}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|INDOOR_MODE\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|SHOW_DISTURBERS\t\${stringTableWeather_ShowDisturbers}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|SHOW_DISTURBERS\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|NOISE_FLOOR\t\${stringTableWeather_NoiseFloor}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|NOISE_FLOOR\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|SPIKE_REJECTION\t\${stringTableWeather_SpikeRejection}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|SPIKE_REJECTION\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|WATCHDOG_THRESHOLD\t\${stringTableWeather_WatchdogThreshold}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|WATCHDOG_THRESHOLD\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|MIN_NUMBER_OF_LIGHTNINGS\t\${stringTableWeather_MinNumberOfLightnings}"
+if [ -z "`cat $stringtable_deFile | grep \"WEATHER|MIN_NUMBER_OF_LIGHTNINGS\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+#------------------------------------------------------------------------------
+# Edit German translate.lang.stringtable.js
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+translate_deSearch="\"dummy\" : \"\","
+
+# --- Translations Values ---
+translate_deInsert="\n    \"stringTableWeather_BlitzZaehler\" : \"Blitz-Z%E4hler\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_BlitzZaehler\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_BlitzEntfernung\" : \"Blitz-Entfernung\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_BlitzEntfernung\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+# --- Translations Config ---
+translate_deInsert="\n    \"stringTableWeather_CapacitorIndex\" : \"Kapazit%E4tsindex (aus der Kalibrierung)\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_CapacitorIndex\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_IndoorMode\" : \"Standort im Innenbereich\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_IndoorMode\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_ShowDisturbers\" : \"St%F6rerkennung (nur zum Debuggen)\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_ShowDisturbers\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_NoiseFloor\" : \"Parameter Noise Floor Level\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_NoiseFloor\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_SpikeRejection\" : \"Parameter Spike Rejection\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_SpikeRejection\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_WatchdogThreshold\" : \"Parameter Watchdog Threshold\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_WatchdogThreshold\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_MinNumberOfLightnings\" : \"Parameter Min. Number of Lightnings\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_MinNumberOfLightnings\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+#------------------------------------------------------------------------------
+# Edit English translate.lang.stringtable.js
+translate_enFile="/www/webui/js/lang/en/translate.lang.stringtable.js"
+translate_enSearch="\"dummy\" : \"\","
+
+# --- Translations Values ---
+translate_enInsert="\n    \"stringTableWeather_BlitzZaehler\" : \"Lightning-Counter\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_BlitzZaehler\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_BlitzEntfernung\" : \"Lightning-Distance\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_BlitzEntfernung\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+# --- Translations Config ---
+translate_enInsert="\n    \"stringTableWeather_CapacitorIndex\" : \"Capacitor Index (from calibration)\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_CapacitorIndex\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_IndoorMode\" : \"Indoor Area\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_IndoorMode\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_ShowDisturbers\" : \"Show Disturbers (Debugging only)\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_ShowDisturbers\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_NoiseFloor\" : \"Parameter Noise Floor Level\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_NoiseFloor\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_SpikeRejection\" : \"Parameter Spike Rejection\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_SpikeRejection\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_WatchdogThreshold\" : \"Parameter Watchdog Threshold\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_WatchdogThreshold\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
+
+translate_enInsert="\n    \"stringTableWeather_MinNumberOfLightnings\" : \"Parameter Min. Number of Lightnings\","
+if [ -z "`cat $translate_enFile | grep \"stringTableWeather_MinNumberOfLightnings\"`" ]; then
+	sed -i "s/\($translate_enSearch\)/\1$translate_enInsert/g" $translate_enFile
+fi
