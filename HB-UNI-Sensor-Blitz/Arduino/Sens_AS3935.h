@@ -36,6 +36,7 @@
 
 #define AS3935_ADDR 1
 #define AS3935_INT_PIN 3
+#define CLK_TEST_FREQ_HZ 2026 // 2000
 
 // clang-format off
 
@@ -209,9 +210,13 @@ public:
             return;
         }
 
+        uint16_t measureTime = uint16_t(((float)CLK_TEST_FREQ_HZ / 2000.0 * 250.0) + 0.5);
+        DPRINT(F("Corrected measure time: "));
+        DDECLN(measureTime);
+
         char buffer[32];
         // set lco_fdiv divider to 1, which translates to 32, so we are looking for 15625Hz on irq pin
-        // and since we are counting for 100ms that translates to number 1562
+        // and since we are counting for 250ms that translates to number 3906
         writeReg(AS3935_LCO_FDIV, 1);    // Freq. divider 32
         writeReg(AS3935_DISP_LCO, 1);
 
@@ -224,7 +229,7 @@ public:
             uint16_t      currentCount = 0;
             uint8_t       prevIrq      = digitalRead(AS3935_INT_PIN);
             unsigned long startTime    = millis();
-            while ((millis() - startTime) < 100ul) {
+            while ((millis() - startTime) < measureTime) {
                 uint8_t currIrq = digitalRead(AS3935_INT_PIN);
                 if (currIrq != prevIrq) {
                     currentCount++;
@@ -232,13 +237,13 @@ public:
                 }
             }
             currentCount            = currentCount / 2u;                      // slope count to frequency
-            unsigned long frequency = (unsigned long)currentCount * 320ul;    // Freq. divider 32, measure time *10 (100ms)
-            uint16_t      currDiff  = abs(1562u - currentCount);
+            unsigned long frequency = (unsigned long)currentCount * 128ul;    // Freq. divider 32, measure time *4 (250ms)
+            uint16_t      currDiff  = abs(3906u - currentCount);
             if (currDiff < bestDiff) {
                 bestDiff = currDiff;
                 bestTune = currTune;
             }
-            sprintf(buffer, "Cap %2u %5u %3u %6lu", currTune, currentCount * 10u, currDiff, frequency);
+            sprintf(buffer, "Cap %2u %5u %3u %6lu", currTune, currentCount, currDiff, frequency);
             DPRINTLN(buffer);
         }
         delay(10);

@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor-Blitz
-// Version 1.00
+// Version 1.01
 // (C) 2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -35,7 +35,8 @@
 #define LED_PIN             4
 #define CONFIG_BUTTON_PIN   8
 #define ONEWIRE_PIN         5
-#define CALIBRATION_PIN     A0
+#define CALIBRATION_PIN1    A0
+#define CALIBRATION_PIN2    A1
 #define BAT_VOLT_LOW        23              // 2.3V
 #define BAT_VOLT_CRITICAL   20              // 2.0V
 #define UPDATE_INTERVAL_BAT (12ul * 3600)   // alle 12h Batterie messen
@@ -449,18 +450,29 @@ void setup()
     buttonISR(cfgBtn, CONFIG_BUTTON_PIN);
     sdev.initDone();
     //
-    pinMode(CALIBRATION_PIN, INPUT_PULLUP);
+    pinMode(CALIBRATION_PIN1, INPUT_PULLUP);
+    pinMode(CALIBRATION_PIN2, INPUT_PULLUP);
     delay(250);
-    if (digitalRead(CALIBRATION_PIN) == LOW) {
+    if (digitalRead(CALIBRATION_PIN1) == LOW) {
+        DPRINTLN(F("AVR FREQUENCY MEASURE MODE"));
+        pinMode(6, OUTPUT);                       // D6 = OC0A pin
+        TCCR0A = (1 << WGM01) | (1 << COM0A0);    // CTC mode, toggle OC0A pin (D6) on compare match
+        TCCR0B = (1 << CS01);                     // clock/8
+        OCR0A  = 249;                             // frequency output 2000Hz
+        for (;;) {
+        }
+    } else if (digitalRead(CALIBRATION_PIN2) == LOW) {
         DPRINTLN(F("AS3935 CALIBRATION MODE"));
         if (sdev.channel(1).as3935.init(0, 1, 0, 2, 2, 2, 0)) {
             sdev.channel(1).as3935.disableINT();
             sdev.channel(1).as3935.calibrateFreq();
         }
         DPRINTLN(F("CALIBRATION DONE"));
-        while (1) {
-            ;
+        for (;;) {
         }
+    } else {    // restore default reset state
+        pinMode(CALIBRATION_PIN1, INPUT);
+        pinMode(CALIBRATION_PIN2, INPUT);
     }
 }
 

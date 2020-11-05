@@ -59,7 +59,31 @@ Achtung, um den niedrigen Ruhestrom zu erreichen muss der Widerstand R2 auf dem 
 
 ## Abgleich
 
-*Doku in Arbeit*
+Der AS3935 sollte möglichst genau auf seine Empfangsfrequenz von 500kHz abgestimmt werden da der interne Algorithmus zur Erkennung von Blitzen darauf ausgelegt ist.<br><br>
+Im Sketch sind diese 2 Arduino Pins zur Aktivierung des Modus zur Kalibrierung definiert:<br>
+`#define CALIBRATION_PIN1 A0`<br>
+`#define CALIBRATION_PIN2 A1`<br>
+
+Diese beiden Pins müssen bei Power-On bzw. Reset wechselweise an Masse gelegt werden um in die 2 Modi zur Kalibrierung zu gelangen.
+
+1. AVR Taktfrequenz: CALIBRATION_PIN1 an Masse
+ - Im seriellen Monitor ist "AVR FREQUENCY MEASURE MODE" zu lesen.
+ - Die AVR Taktfrequenz wird heruntergeteilt an Pin 6 ausgegeben, bei exakt 8MHz Takt werden exakt 2000Hz ausgegeben.
+ - Die Frequenz möglichst genau an Pin 6 messen und in der Datei Sens_AS3935.h, Zeile 39 eintragen, in Hertz, z.B.:<br>
+   `#define CLK_TEST_FREQ_HZ 2026`
+ - Dieser Test ist nur bei Verwendung des AVR internen RC-Oszillators als Taktquelle nötig. Bei Nutzung eines 8MHz Quarzes am AVR ist die Taktfrequenz hinreichend genau, in diesem Fall 2000 eintragen:<br>
+   `#define CLK_TEST_FREQ_HZ 2000`
+ - :warning: Nach Änderung des Wertes CLK_TEST_FREQ_HZ muss der Sketch neu kompiliert und geflasht werden damit die ausgemessene Frequenz im nächsten Schritt zur Verfügung steht.
+
+![pic](Images/AS3935_Calibration1.png)
+
+2. AS3935 Empfangsfrequenz: CALIBRATION_PIN2 an Masse
+ - Im seriellen Monitor ist "AS3935 CALIBRATION MODE" zu lesen.
+ - Es werden die Sensor-internen, 16 möglichen Abtimmkapazitäten durchgeschaltet und jeweils die AS3935 Empfangsfrequenz dafür gemessen.
+ - Nach Abschluss des Durchlaufs wird der beste Kapazitätsindex im Bereich 0..15 angezeigt (der, der am Nächsten zu 500kHz liegt).
+ - Diesen Kapazitätsindex muss nach dem Anlernen des Gerätes in den Geräteeinstellungen für den HB-UNI-Sensor-Blitz eingetragen werden.
+
+![pic](Images/AS3935_Calibration2.png)
 
 
 ## Web-UI / HomeMatic-Zentrale
