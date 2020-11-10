@@ -5,7 +5,7 @@
 - Der AS3935 ist ein programmierbarer Sensor, der Blitzaktivitäten in einer Entfernung von bis zu 40 km erkennen kann. Er verwendet einen proprietären, fest verdrahteten Algorithmus, um Rauschen und künstlich verursachte Störfaktoren herauszufiltern und die Entfernung zur Gewitterfront abzuschätzen.
 - Er verfügt über programmierbare Detektionsebenen, Schwellenwerteinstellungen und Antennenabstimmung, im Gegensatz zu vielen früheren terrestrischen Blitzsensoren kann er sowohl Blitzaktivitäten von Wolke zu Boden als auch innerhalb von Wolken erfassen.
 - Alle Parameter des Chips sind über das HomeMatic WebUI konfigurierbar.
-- Pro erkanntes Blitz-Ereignis wird eine Nachricht an die Zentrale gesendet. Dabei inkrementiert jedes Ereignis den Datenpunkt 'Blitzzähler' und außerdem wird der Datenpunkt 'Blitz-Entfernung' (Entfernung zur Gewitterfront) entsprechend aktualisiert.
+- Pro erkanntes Blitzereignis wird eine Nachricht an die Zentrale gesendet. Dabei inkrementiert jedes Ereignis den Datenpunkt 'Blitzzähler' und außerdem wird der Datenpunkt 'Blitz-Entfernung' (Entfernung zur Gewitterfront) entsprechend aktualisiert.
 - Zusätzlich habe ich noch einen Temperatursensor mit DS18B20 in das Gerät integriert.
 
 
@@ -105,7 +105,52 @@ Der HB-UNI-Sensor-Blitz wird ab Version 2.53 meines [HB-TM-Devices-AddOn](https:
 
 ## Erklärung der Geräteparameter
 
-*Doku in Arbeit*
+1. Kapazitätsindex
+  - Der ermittelte Wert aus der Kalibrierung, siehe Abschnitt Abgleich oben.
+
+
+2. Standort im Innenbereich
+  - Das Analog Front-End des AS3935 wurde für zwei Umgebungen optimiert, für Innen- und Außenbereich. Für den Innenbereich den Haken setzen.
+
+
+3. Störerkennung (nur zum Debuggen)
+  - Für Testzwecke kann der AS3935 auch Interrupts auslösen, wenn eine Störquelle (kein Blitzereignis) erkannt wurde. Dies wird im seriellen Monitor ausgegeben wenn der Haken hier gesetzt wird.
+  - Eine Nachricht an die Zentrale bei einer Störung erfolgt nicht. Der Parameter ist nur für den seriellen Log relevant. Man kann mit der Option einen optimalen Standort suchen und die folgenden Parameter feintunen.
+
+
+4. Parameter Noise Floor Level
+  - Das Ausgangssignal des Analog Front-End wird auch zur Messung des Rauschens verwendet. Das Grundrauschen wird kontinuierlich mit einem Referenzwert (Rauschschwelle) verglichen.
+  - Wann immer das Grundrauschen den Referenzwert überschreitet, gibt es einen weiteren Interrupt (INT_NH) zur Information dass der AS3935 aufgrund des hohen Eingangsrauschens nicht richtig funktionieren wird.
+  - Auch dieser Interrupt ist im seriellen Monitor zu sehen.
+
+
+5. Parameter Spike Rejection
+  - Die Spike Rejection kann verwendet werden, um die Robustheit gegenüber Fehlalarmen, verursacht durch Störquellen, zu erhöhen.
+  - Standardmäßig steht der Wert auf 2.
+  - Größere Werte führen zu einer robusteren Störerunterdrückung, jedoch mit der Nachteil einer Abnahme der Detektionseffizienz.
+![pic](Images/HB-UNI-Sensor-Blitz_SREJ.png)
+
+
+6. Parameter Watchdog Threshold
+  - Der Watchdog Threshold muss bei einem Blitzereignis überwunden werden, um in den Signal-Verifikationsmodus zu gelangen.
+  - Auch dieser Wert steht standardmäßig auf 2.
+  - Ähnlich wie bei der Spike Rejection wird hier durch Erhöhung der Schwelle der AS3935 robuster gegenüber Störquellen, gleichzeitig aber auch unempfindlicher für schwächere Signale von weit entfernten Blitzereignissen.
+![pic](Images/HB-UNI-Sensor-Blitz_WDTH.png)
+
+
+7. Parameter Min. Number of Lightnings
+  - Der AS3935 kann so programmiert werden, dass er Blitzereignisse nur dann ausgibt, wenn eine Mindestanzahl dieser in einem Zeitrahmen von 15 Minuten erkannt werden.
+  - Diese Mindestanzahl von Blitzereignissen kann dabei auf 1, 5, 9 oder 16 eingestellt werden. Sobald der Schwellenwert erreicht ist, übermittelt der Blitzsensor jedes weitere erkannte Blitzereignis.
+
+
+Alle Details dazu sind ausführlicher in [Datenblatt](Files/AS3935.pdf) und [Application-Note](Files/AS3935-Application-Note-Standard-board.pdf) zu finden.
+
+
+## Links
+
+[HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
+
+[HomeMatic Forum: Vorstellung: HB-UNI-Sensor-Blitz](https://homematic-forum.de/forum/viewtopic.php?f=76&t=62249)
 
 
 ## Benötige Libraries
