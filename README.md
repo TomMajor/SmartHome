@@ -92,6 +92,17 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 :arrow_right: [Projektseite tmStamp](https://github.com/TomMajor/SmartHome/tree/master/PCB/tmStamp)
 
 
+## HB-UNI-Sensor-Blitz
+
+- Der HB-UNI-Sensor-Blitz ist ein Homebrew HomeMatic-Sensor zur Erkennung von Blitzen, basierend auf dem AS3935 Franklin-Blitzsensor IC.
+- Der AS3935 ist ein programmierbarer Sensor, der Blitzaktivitäten in einer Entfernung von bis zu 40 km erkennen kann. Er verwendet einen proprietären, fest verdrahteten Algorithmus, um Rauschen und künstlich verursachte Störfaktoren herauszufiltern und die Entfernung zur Gewitterfront abzuschätzen.
+- Alle Parameter des Chips sind über das HomeMatic WebUI konfigurierbar.
+
+<p align="center"><img src="Images/HB-UNI-Sensor-Blitz_small.png?raw=true"/></p>
+
+:arrow_right: [Projektseite HB-UNI-Sensor-Blitz](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Blitz)
+
+
 ## HB-UNI-Sensor-Heizung
 
 - Der HB-UNI-Sensor-Heizung ist ein vom Universalsensor/HB-UNI-Sensor1 abgeleitetes Gerät
