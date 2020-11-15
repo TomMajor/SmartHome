@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-SEC-WDS-2
-// Version 1.01
+// Version 1.02
 // (C) 2018-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -29,17 +29,22 @@
 #include <ThreeState.h>
 #include "tmBattery.h"
 
+// clang-format off
 //---------------------------------------------------------
-// Pin definitions
-#define CONFIG_BUTTON_PIN 5
-#define LED_PIN 6
-#define SENS1_PIN A0    // ADC sensor pin
-
-#define BAT_VOLT_LOW 11        // 1.1V
-#define BAT_VOLT_CRITICAL 9    // 0.9V
-
-// number of available peers per channel
-#define PEERS_PER_CHANNEL 8
+// User definitions
+// Pins
+#define CONFIG_BUTTON_PIN       8
+#define LED_PIN                 4
+#define SENS_PIN_WET            A3      // ADC sensor pin
+#define SENS_PIN_WATER          A2      // ADC sensor pin
+// Parameters
+#define BAT_VOLT_LOW            24      // 2.4V
+#define BAT_VOLT_CRITICAL       21      // 2.1V
+#define MEASUREMENT_INTERVAL    120     // alle 2min messen
+#define DETECTION_THRESHOLD     800     // Wasser-Erkennung, Vergleichswert ADC
+#define PEERS_PER_CHANNEL       6       // number of available peers per channel
+//---------------------------------------------------------
+// clang-format on
 
 //---------------------------------------------------------
 // Schaltungsvariante und Pins für Batteriespannungsmessung, siehe README HB-UNI-Sensor1
@@ -47,12 +52,12 @@
 // 1) Standard: tmBattery, UBatt = Betriebsspannung AVR
 #define BAT_SENSOR tmBattery
 //------------
-// 2) für StepUp/StepDown: tmBatteryResDiv, sense pin A1, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700
-//#define BAT_SENSOR tmBatteryResDiv<A1, 9, 5700>
+// 2) für StepUp/StepDown: tmBatteryResDiv, sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 470k/100k, Faktor 570k/100k*1000 = 5700
+//#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>
 //------------
 // 3) Echte Batteriespannungsmessung unter Last, siehe README und Thema "Babbling Idiot Protection"
-// tmBatteryLoad: sense pin A1, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung
-//#define BAT_SENSOR tmBatteryLoad<A1, 9, 4000, 200>
+// tmBatteryLoad: sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung
+//#define BAT_SENSOR tmBatteryLoad<A0, 9, 4000, 200>
 
 
 // all library classes are placed in the namespace 'as'
@@ -71,11 +76,9 @@ const struct DeviceInfo PROGMEM devinfo = {
 //---------------------------------------------------------
 // meine Wassermelder ADC extension
 //
-// Sensor pin 1: 4.7k nach Masse
-// Sensor pin 2: 4.7k zum ADC Eingang A0, 100k vom ADC Eingang A0 nach +3V
-//
-// Momentan sind mir nur der WASSER und TROCKEN Status wichtig, deswegen wird nur ein ADC Kanal benutzt
-// Falls der FEUCHT Status ebenfalls ben�tigt wird, einfach einen weiteren ADC Kanal nehmen und State::PosB f�r den FEUCHT Fall senden
+// Sensor pin Masse: 4.7k nach Masse
+// Sensor pin Wet:   4.7k zum ADC Eingang SENS_PIN_WET (A3), 100k vom ADC Eingang nach +3V
+// Sensor pin Water: 4.7k zum ADC Eingang SENS_PIN_WATER (A2), 100k vom ADC Eingang nach +3V
 //
 // ADC Werte mit 10mm Abstand zwischen den Sensorpins, Batteriespannung 3V:
 // offen          1023
@@ -86,80 +89,77 @@ const struct DeviceInfo PROGMEM devinfo = {
 
 //---------------------------------------------------------
 class ADCPosition : public Position {
-    uint8_t m_SensePin;
+    uint8_t m_SensePinWet, m_SensePinWater;
 
 public:
     ADCPosition()
-        : m_SensePin(0)
+        : m_SensePinWet(0)
+        , m_SensePinWater(0)
     {
         _present = true;
     }
 
-    void init(uint8_t adcpin)
+    void init(uint8_t adcPinWet, uint8_t adcPinWater)
     {
-        m_SensePin = adcpin;
-        pinMode(m_SensePin, INPUT);
-        digitalWrite(m_SensePin, LOW);    // kein pull-up
+        m_SensePinWet   = adcPinWet;
+        m_SensePinWater = adcPinWater;
+        pinMode(m_SensePinWet, INPUT);
+        digitalWrite(m_SensePinWet, LOW);    // kein pull-up
+        pinMode(m_SensePinWater, INPUT);
+        digitalWrite(m_SensePinWater, LOW);    // kein pull-up
     }
 
     void measure(__attribute__((unused)) bool async = false)
     {
-        uint8_t  samples, timeout;
-        uint16_t adc;
+        uint16_t adcWet   = measureChannel(m_SensePinWet);
+        uint16_t adcWater = measureChannel(m_SensePinWater);
 
+        DPRINT(F("ADC Wet:   "));
+        DDECLN(adcWet);
+        DPRINT(F("ADC Water: "));
+        DDECLN(adcWater);
+
+        if (adcWater < DETECTION_THRESHOLD) {
+            _position = State::PosC;
+            DPRINTLN(F("Status:    WATER"));
+        } else if (adcWet < DETECTION_THRESHOLD) {
+            _position = State::PosB;
+            DPRINTLN(F("Status:    WET"));
+        } else {
+            _position = State::PosA;
+            DPRINTLN(F("Status:    DRY"));
+        }
+    }
+
+    uint16_t measureChannel(uint8_t pin)
+    {
         // setup ADC: complete ADC init in case other modules have chamged this
         ADCSRA = 1 << ADEN | 1 << ADPS2 | 1 << ADPS1 | 1 << ADPS0;    // enable ADC, prescaler 128 = 62.5kHz ADC clock @8MHz (range 50..1000 kHz)
         ADMUX  = 1 << REFS0;                                          // AREF: AVCC with external capacitor at AREF pin
         ADCSRB = 0;
-        uint8_t channel = m_SensePin - PIN_A0;
+        uint8_t channel = pin - PIN_A0;
         ADMUX |= (channel & 0x0F);    // select channel
         delay(30);                    // load CVref 100nF, 5*Tau = 25ms
 
-        // 1x dummy read
-        ADCSRA |= 1 << ADSC;
-        timeout = 50;
-        while (ADCSRA & (1 << ADSC)) {
-            delayMicroseconds(10);
-            timeout--;
-            if (timeout == 0)
-                break;
-        }
-
-        // Mittelwert aus 4 samples
-        adc     = 0;
-        samples = 0;
-        for (uint8_t i = 0; i < 4; i++) {
+        // 1x dummy read, dann Mittelwert aus 4 samples
+        uint16_t adc = 0;
+        for (uint8_t i = 0; i < 5; i++) {
             ADCSRA |= 1 << ADSC;
-            timeout = 50;    // start ADC
+            uint8_t timeout = 50;    // start ADC
             while (ADCSRA & (1 << ADSC)) {
                 delayMicroseconds(10);
                 timeout--;
                 if (timeout == 0)
                     break;
             }
-            if (timeout > 0) {
+            if (i > 0) {
                 adc += (ADC & 0x3FF);
-                samples++;
             }
         }
-        if (samples == 4) {
-            adc = adc >> 2;
-            DPRINT("Water ADC: ");
-            DDEC(adc);
-            DPRINT(", ");
-            if (adc < 800) {
-                _position = State::PosC;
-                DPRINTLN("WATER");
-            } else {
-                _position = State::PosA;
-                DPRINTLN("DRY");
-            }
-        } else {
-            DPRINTLN("Water ADC Error");
-        }
+        return (adc >> 2);
     }
 
-    uint32_t interval() { return seconds2ticks(60); }    // alle 60sec messen
+    uint32_t interval() { return seconds2ticks(MEASUREMENT_INTERVAL); }
 };
 
 // --------------------------------------------------------
@@ -172,10 +172,10 @@ public:
         : BaseChannel() {};
     ~ADCThreeStateChannel() {}
 
-    void init(uint8_t adcpin)
+    void init(uint8_t adcpin1, uint8_t adcpin2)
     {
         BaseChannel::init();
-        BaseChannel::possens.init(adcpin);
+        BaseChannel::possens.init(adcpin1, adcpin2);
     }
 };
 
@@ -196,7 +196,7 @@ public:
     void defaults()
     {
         clear();
-        cycleInfoMsg(false);
+        cycleInfoMsg(true);
         lowBatLimit(BAT_VOLT_LOW);
         transmitDevTryMax(6);
     }
@@ -222,7 +222,35 @@ public:
 };
 
 typedef ADCThreeStateChannel<HalType, WDSList0, WDSList1, DefList4, PEERS_PER_CHANNEL> ChannelType;
-typedef ThreeStateDevice<HalType, ChannelType, 1, WDSList0>                            DevType;
+
+class DevType : public ThreeStateDevice<HalType, ChannelType, 1, WDSList0> {
+public:
+    typedef ThreeStateDevice<HalType, ChannelType, 1, WDSList0> TSDevice;
+    DevType(const DeviceInfo& info, uint16_t addr)
+        : TSDevice(info, addr)
+    {
+    }
+    virtual ~DevType() {}
+
+    virtual void configChanged()
+    {
+        TSDevice::configChanged();
+        DPRINTLN(F("Config Changed: List0"));
+
+        uint8_t cycInfo = this->getList0().cycleInfoMsg();
+        DPRINT(F("cycleInfoMsg: "));
+        DDECLN(cycInfo);
+
+        uint8_t lowBatLimit = this->getList0().lowBatLimit();
+        DPRINT(F("lowBatLimit: "));
+        DDECLN(lowBatLimit);
+        battery().low(lowBatLimit);
+
+        uint8_t txDevTryMax = this->getList0().transmitDevTryMax();
+        DPRINT(F("transmitDevTryMax: "));
+        DDECLN(txDevTryMax);
+    }
+};
 
 HalType               hal;
 DevType               sdev(devinfo, 0x20);
@@ -232,11 +260,11 @@ void setup()
 {
     DINIT(57600, ASKSIN_PLUS_PLUS_IDENTIFIER);
     sdev.init(hal);
-    sdev.channel(1).init(SENS1_PIN);
+    sdev.channel(1).init(SENS_PIN_WET, SENS_PIN_WATER);
     buttonISR(cfgBtn, CONFIG_BUTTON_PIN);
-    hal.battery.low(BAT_VOLT_LOW);                                // mit Step-up MAX1724, NiMH Akku, Low Batt Warnung ab 1.1V
-    hal.battery.critical(BAT_VOLT_CRITICAL);                      // mit Step-up MAX1724, NiMH Akku, Critical Batt ab 0.9V
-    hal.battery.init(seconds2ticks(60ul * 60 * 12), sysclock);    // 2x Batt.messung täglich
+    hal.battery.low(BAT_VOLT_LOW);
+    hal.battery.critical(BAT_VOLT_CRITICAL);
+    hal.battery.init(seconds2ticks(60ul * 60 * 24), sysclock);    // 1x Batt.messung täglich
     sdev.initDone();
 }
 
