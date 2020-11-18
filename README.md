@@ -122,6 +122,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
   - HB-UNI-Sensor2..6 (Benutzerspezifische Sensordaten)
   - HB-SEN-LJet
   - HB-UNI-Sensor-Heizung
+  - HB-UNI-Sensor-Blitz
 
 <p align="center"><img src="Images/HB-TM-Devices-AddOn_small.png?raw=true"/></p>
 
