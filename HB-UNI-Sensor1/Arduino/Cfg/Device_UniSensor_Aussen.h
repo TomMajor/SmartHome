@@ -26,7 +26,7 @@
 // Über diese defines werden die real angeschlossenen Sensoren aktiviert.
 // Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
 //
-//#define SENSOR_DS18X20    // ONEWIRE_PIN define weiter unten muss zur HW passen!
+#define SENSOR_DS18X20      // ONEWIRE_PIN define weiter unten muss zur HW passen!
 #define SENSOR_BME280       // BME280 Library (finitespace) verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
 #define SENSOR_MAX44009     // MAX44009_ADDR define weiter unten muss zur HW passen!
@@ -48,7 +48,7 @@
 
 //---------------------------------------------------------
 // Pin und Address Definitionen Sensoren
-//#define ONEWIRE_PIN       3
+#define ONEWIRE_PIN         3
 #define MAX44009_ADDR       0x4A
 //#define TSL2561_ADDR      TSL2561_ADDR_FLOAT
 //#define BH1750_ADDR       0x23    // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
@@ -82,8 +82,8 @@
 
 //---------------------------------------------------------
 // Schwellwerte für Batteriespannungsmessung
-#define BAT_VOLT_LOW        21  // 2.1V
-#define BAT_VOLT_CRITICAL   19  // 1.9V
+#define BAT_VOLT_LOW        22  // 2.2V
+#define BAT_VOLT_CRITICAL   20  // 2.0V
 
 
 #endif

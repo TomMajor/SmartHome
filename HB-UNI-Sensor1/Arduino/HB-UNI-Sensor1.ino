@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.19
+// Version 1.20
 // (C) 2018-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -15,7 +15,7 @@
 // Insbesondere die RAM-Einsparungen sind wichtig für die Stabilität / dynamische Speicherzuweisungen etc.
 // Dies beseitigt dann auch die mögliche Arduino-Warnung 'Low memory available, stability problems may occur'.
 //
-//#define NDEBUG
+#define NDEBUG
 
 //---------------------------------------------------------
 // define this to read the device id, serial and device type from bootloader section
@@ -40,7 +40,7 @@
 // - Clock Definition
 // - Schaltungsvariante und Pins für Batteriespannungsmessung
 // - Schwellwerte für Batteriespannungsmessung
-#include "Cfg/Device_Example.h"
+#include "Cfg/Device_UniSensor_Aussen.h"
 
 
 // number of available peers per channel
