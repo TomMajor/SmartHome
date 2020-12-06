@@ -1,7 +1,7 @@
-
 //---------------------------------------------------------
 // Sens_DS18X20
-// 2018-08-12 Tom Major (Creative Commons)
+// Version 1.01
+// (C) 2018-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -26,24 +26,36 @@ public:
     {
     }
 
-    void init(uint8_t pin)
+    static uint8_t init(OneWire& ow, Sens_DS18X20* devices, uint8_t maxSearchCount)
     {
-        _oneWire.begin(pin);
-        if (_oneWire.search(_addr) == 1) {
-            if (OneWire::crc8(_addr, 7) == _addr[7]) {
-                if (valid(_addr) == true) {
-                    _present = true;
-                    DPRINT("DS18x20 found: ");
-                    for (uint8_t i = 0; i < 8; i++) {
-                        DHEX(_addr[i]);
-                    }
-                    DPRINTLN("");
-                }
+        uint8_t count = 0, a[8];
+        while ((ow.search(a) == 1) && (count < maxSearchCount)) {
+            if ((OneWire::crc8(a, 7) == a[7]) && (Sens_DS18X20::valid(a) == true)) {
+                devices->init(ow, a);
+                count++;
+                devices++;
             }
         }
-        _oneWire.reset_search();
-        if (!_present) {
-            DPRINTLN("ERROR: no DS18x20 found");
+        ow.reset_search();
+        if (count) {
+            DPRINT(F("DS18x20 count: "));
+            DDECLN(count);
+        } else {
+            DPRINTLN(F("ERROR: no DS18x20 found"));
+        }
+        return count;
+    }
+
+    static bool valid(uint8_t* addr) { return *addr == 0x10 || *addr == 0x22 || *addr == 0x28; }
+
+    static void measure(Sens_DS18X20* devices, uint8_t count)
+    {
+        if (count > 0) {
+            devices->convert(true);    // this will start all DS18x20 on the same 1-wire bus
+            devices->wait();
+            for (uint8_t i = 0; i < count; i++, devices++) {
+                devices->read();
+            }
         }
     }
 
@@ -51,7 +63,7 @@ public:
     {
         _temperature = -990;
         if (_present == true) {
-            convert();
+            convert(false);
             wait();
             read();
         }
@@ -60,30 +72,45 @@ public:
     int16_t temperature() { return _temperature; }
 
 private:
-    ::OneWire _oneWire;
-    int16_t   _temperature;
-    uint8_t   _addr[8];
+    ::OneWire* _oneWire;
+    int16_t    _temperature;
+    uint8_t    _addr[8];
 
-    bool valid(uint8_t* addr) { return *addr == 0x10 || *addr == 0x28 || *addr == 0x22; }
-
-    void convert()
+    void init(OneWire& oneWire, uint8_t* addr)
     {
-        _oneWire.reset();
-        _oneWire.select(_addr);
-        _oneWire.write(0x44);    // start conversion, use ds.write(0x44,1) with parasite power on at the end
+        _oneWire = &oneWire;
+        _present = true;
+        DPRINT(F("DS18x20 found: "));
+        for (uint8_t i = 0; i < 8; i++) {
+            _addr[i] = addr[i];
+            DHEX(addr[i]);
+        }
+        DPRINTLN("");
     }
 
-    void wait() { delay(1000); }
+    void convert(bool multipleDevices)
+    {
+        _oneWire->reset();
+        if (multipleDevices) {
+            _oneWire->skip();
+        } else {
+            _oneWire->select(_addr);
+        }
+        _oneWire->write(0x44);    // start conversion, use ds.write(0x44,1) with parasite power on at the end
+    }
+
+    void wait() { delay(1050); }
 
     void read()
     {
-        _oneWire.reset();
-        _oneWire.select(_addr);
-        _oneWire.write(0xBE);    // Read Scratchpad
+        _temperature = -990;
+        _oneWire->reset();
+        _oneWire->select(_addr);
+        _oneWire->write(0xBE);    // Read Scratchpad
 
         uint8_t data[9];
         for (uint8_t i = 0; i < 9; i++) {    // we need 9 bytes
-            data[i] = _oneWire.read();
+            data[i] = _oneWire->read();
         }
 
         if (OneWire::crc8(data, 8) == data[8]) {
@@ -97,19 +124,20 @@ private:
             } else {
                 byte cfg = (data[4] & 0x60);
                 // at lower res, the low bits are undefined, so let's zero them
-                if (cfg == 0x00)
+                if (cfg == 0x00) {
                     raw = raw & ~7;    // 9 bit resolution, 93.75 ms
-                else if (cfg == 0x20)
+                } else if (cfg == 0x20) {
                     raw = raw & ~3;    // 10 bit res, 187.5 ms
-                else if (cfg == 0x40)
+                } else if (cfg == 0x40) {
                     raw = raw & ~1;    // 11 bit res, 375 ms
-                                       //// default is 12 bit resolution, 750 ms conversion time
+                }
+                // default is 12 bit resolution, 750 ms conversion time
             }
             _temperature = (raw * 10) / 16;
-            DPRINT("DS18x20  Temperature    : ");
+            DPRINT(F("DS18x20  Temperature    : "));
             DDECLN(_temperature);
         } else {
-            DPRINTLN("ERROR: DS18x20 crc");
+            DPRINTLN(F("ERROR: DS18x20 crc"));
         }
     }
 };

@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.20
+// Version 1.21
 // (C) 2018-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -15,7 +15,7 @@
 // Insbesondere die RAM-Einsparungen sind wichtig für die Stabilität / dynamische Speicherzuweisungen etc.
 // Dies beseitigt dann auch die mögliche Arduino-Warnung 'Low memory available, stability problems may occur'.
 //
-#define NDEBUG
+//#define NDEBUG
 
 //---------------------------------------------------------
 // define this to read the device id, serial and device type from bootloader section
@@ -30,7 +30,7 @@
 #include "Sensors/tmBattery.h"
 
 //---------------------------------------------------------
-// Alle Device Parameter werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
+// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
 // Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren. Die
 // konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
 // - Device ID und Device Serial
@@ -40,7 +40,7 @@
 // - Clock Definition
 // - Schaltungsvariante und Pins für Batteriespannungsmessung
 // - Schwellwerte für Batteriespannungsmessung
-#include "Cfg/Device_UniSensor_Aussen.h"
+#include "Cfg/Device_Example.h"
 
 
 // number of available peers per channel
@@ -50,6 +50,7 @@
 using namespace as;
 
 #ifdef SENSOR_DS18X20
+#include <OneWire.h>
 #include "Sensors/Sens_DS18X20.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
@@ -263,7 +264,10 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     bool     regularWakeUp;
 
 #ifdef SENSOR_DS18X20
-    Sens_DS18X20 ds18x20;
+    OneWire      oneWire;
+    Sens_DS18X20 ds18x20[DS18X20_COUNT];
+    uint8_t      ds18x20Count;
+    int16_t      temp10Array18x20[DS18X20_COUNT];
 #endif
 #ifdef SENSOR_BME280
     Sens_BME280 bme280;
@@ -308,6 +312,10 @@ public:
         , customData(0)
         , batteryVoltage(0)
         , regularWakeUp(true)
+#ifdef SENSOR_DS18X20
+        , oneWire(ONEWIRE_PIN)
+        , ds18x20Count(0)
+#endif
     {
     }
     virtual ~WeatherChannel() {}
@@ -382,8 +390,13 @@ public:
 
 // Falls DS18X20 vorhanden, dessen Temp der BME280/BMP180 Temp vorziehen
 #ifdef SENSOR_DS18X20
-        ds18x20.measure();
-        temperature10 = ds18x20.temperature();
+        Sens_DS18X20::measure(ds18x20, ds18x20Count);
+        temperature10 = ds18x20[0].temperature();
+        // Beispiel: Hier sind alle DS18B20 Temperaturen im Array falls mehrere DS18B20 an einem Pin/Bus verwendet werden
+        // Dafür muss DS18X20_COUNT in der Konfigurationsdatei angepasst werden!
+        // for (uint8_t i = 0; i < DS18X20_COUNT; i++) {
+        //    temp10Array18x20[i] = ds18x20[i].temperature();
+        //}
 #endif
 
 // Feuchte/Temp vom SHT31/21/10 falls kein BME280 vorhanden
@@ -443,7 +456,7 @@ public:
     void initSensors()
     {
 #ifdef SENSOR_DS18X20
-        ds18x20.init(ONEWIRE_PIN);
+        ds18x20Count = Sens_DS18X20::init(oneWire, ds18x20, DS18X20_COUNT);
 #endif
 #ifdef SENSOR_BME280
         bme280.init();
