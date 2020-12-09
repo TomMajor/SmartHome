@@ -264,6 +264,11 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 -> [Warnung](https://github.com/TomMajor/SmartHome/tree/master/Info/Warnung_Flashen_33_USBasp_Klones)
 
 
+## Meine RaspberryMatic Zentrale (Raspberry Pi + RPI-RF-MOD)
+
+![pic](Images/MyRaspberryMaticCCU.jpg)
+
+
 ## Lizenz
 
 **Creative Commons BY-NC-SA**<br>
