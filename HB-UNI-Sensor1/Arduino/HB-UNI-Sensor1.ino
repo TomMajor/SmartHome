@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.21
+// Version 1.22
 // (C) 2018-2020 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -21,6 +21,8 @@
 // define this to read the device id, serial and device type from bootloader section
 // #define USE_OTA_BOOTLOADER
 
+#define SENSOR_ONLY    // save some byte by exclude code for actor devices
+
 #define EI_NOTEXTERNAL
 #include <EnableInterrupt.h>
 #include <AskSinPP.h>
@@ -30,9 +32,9 @@
 #include "Sensors/tmBattery.h"
 
 //---------------------------------------------------------
-// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
-// Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren. Die
-// konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
+// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen
+// des Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren.
+// Die konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
 // - Device ID und Device Serial
 // - Aktivierung der verwendeten Sensoren
 // - Pin Definitionen Allgemein
