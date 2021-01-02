@@ -12,6 +12,21 @@
 
 [comment]: # (rc.d filename: hb-tm-devices-addon, github name: HB-TM-Devices-AddOn, info name: HB-TM-Devices AddOn)
 
+###### Die verwendeten Device Model IDs:
+
+| Sensor | Device Model |
+|---|---|
+| HB-UNI-Sensor1        | 0xF103 |
+| HB-UNI-Sensor2        | 0xF112 |
+| HB-UNI-Sensor3        | 0xF113 |
+| HB-UNI-Sensor4        | 0xF114 |
+| HB-UNI-Sensor5        | 0xF115 |
+| HB-UNI-Sensor6        | 0xF116 |
+| HB-SEN-LJet           | 0xF104 |
+| HB-UNI-Sensor-Heizung | 0xF105 |
+| HB-UNI-Sensor-Blitz   | 0xF120 |
+| HB-SEC-WDS-2          | 0xF121 |
+
 
 ## Change Log
 
@@ -27,29 +42,30 @@
 - 2.50 - 17.05.2020
   - das neue HB-TM-Devices-AddOn orientiert sich an Jérômes JP-HB-Devices-addon und fasst die Unterstützung für meine HomeBrew-Geräte in einem AddOn zusammen.
   - in der ersten Version unterstützt das AddOn die Geräte HB-UNI-Sensor1, HB-SEN-LJet und HB-UNI-Sensor-Heizung.
-  - die bisherigen separaten AddOn für diese Geräte sind dadurch hinfällig und werden nicht mehr supported.
+  - die bisherigen separaten AddOn für diese Geräte sind dadurch hinfällig und werden nicht mehr unterstützt.
   - :warning: bitte unbedingt vor Installation des HB-TM-Devices-AddOn die alten HB-UNI-Sensor1 AddOn und HB-SEN-LJet AddOn deinstallieren, falls vorhanden!
   - HB-UNI-Sensor-Heizung hat ab sofort ein eigenes Device Model bekommen (0xF105) da ich im xml einen neuen Datenpunkt *STATE* eingeführt habe.
 
 
 ## Eingestellte AddOn
 
-###### Change Log HB-UNI-Sensor1 AddOn (nicht mehr supported)
+###### Change Log HB-UNI-Sensor1 AddOn (nicht mehr unterstützt)
+
+- (2.50) - 17.05.2020
+  - :warning: Das AddOn wird nicht mehr fortgeführt. Bitte das neue **HB-TM-Devices-AddOn** verwenden.
 
 - 2.04 - 01.01.2020
   - Im xml die Einträge für `<special_value id="NO_SENSOR" value=..` entfernt (wirkungslos, Danke Jérôme).
   - Im xml den HUMIDITY Eintrag auf Bereich 0..100% geändert (% erzwingt Basis 100 in HM, Bereich 1..99% führte zu minimal falschen Kommastellen in ioBroker, Danke harvey).
 
-- (2.50) - 17.05.2020
-  - Das AddOn wird nicht mehr fortgeführt. Bitte das neue HB-TM-Devices-AddOn verwenden.
-
-###### Change Log HB-SEN-LJet AddOn (nicht mehr supported)
+###### Change Log HB-SEN-LJet AddOn (nicht mehr unterstützt)
 
 - (2.50) - 17.05.2020
-  - Das AddOn wird nicht mehr fortgeführt. Bitte das neue HB-TM-Devices-AddOn verwenden.
+  - :warning: Das AddOn wird nicht mehr fortgeführt. Bitte das neue **HB-TM-Devices-AddOn** verwenden.
 
+<br>
 
-## Ab hier Dokumentation der AddOn-Entwicklung (für HB-TM-JP-AddOn-Reduced und allgemein)
+## Ab hier allgemeine Dokumentation der HomeMatic AddOn-Entwicklung
 
 *Nur für Entwickler, für Anwender reicht die Installation des AddOn mittels Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-jp-addon-reduced.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced/CCU_RM) auswählen*
 <br><br>
