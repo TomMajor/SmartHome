@@ -2,8 +2,117 @@
 # Wassermelder (HB-SEC-WDS-2)
 
 - Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
+- für die Leitfähigkeitsmessung wird der integrierte ADC im AVR genutzt, mit im Sketch anpassbarer Messroutine
+- das Gerät ist von den Abmessungen und dem Gehäuse dem originalen HM-Sec-WDS-2 nachempfunden
+- per define *TWO_STATE / THREE_STATE* im Sketch sind zwei Modi möglich:
+  - Trocken/Wasser Erkennung (4 Elektroden, 2+2)
+  - Trocken/Feucht/Wasser Erkennung (5 Elektroden, 2+2+1)
+- per define *WDS2_STANDARD / WDS2_CUSTOM* im Sketch sind zwei Varianten möglich:
+  - HM-Sec-WDS-2 Original, keine Add-On Installation nötig
+  - HB-SEC-WDS-2,dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
+- Verpolschutz
+- (Optional) Echte Batteriespannungsmessung unter Last
+- (Optional) Reset-Baustein MCP111 (Schutz vor "Babbling Idiot")
 
-- Demonstriert die Verwendung vom 'ThreeStateSensor' device type aus der AskSinPP Bibliothek mit einer anpassbaren Messroutine, in diesem Fall die Leitfähigkeitsmessung mit dem integrierten ADC
+
+## Hinweise
+
+- Zum Kompilieren des Sketches benötigt man alle Dateien im Verzeichnis *Arduino/HB-SEC-WDS-2*.<br>
+
+- Der Sketch benötigt den master-Branch der [AskSinPP Library](https://github.com/pa-pa/AskSinPP), nicht den V4 Release-Branch wie dort angegeben.<br>
+
+- Für möglichst geringen Ruhestrom: Vor dem Einlöten des Arduino Pro Mini empfehle ich das [Entfernen des LDO und der LED](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#ruhestrom-arduino-pro-mini) sowie den [Ruhestromtest](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#%C3%BCberpr%C3%BCfung-des-avr-ruhestroms-power-down-mode)
+
+* :warning: Momentan noch in Arbeit: Variante WDS2_CUSTOM / Integration dieser in HB-TM-Devices-AddOn*
+
+
+## Bilder
+
+![pic](Images/HB-SEC-WDS-2_01.jpg)
+
+![pic](Images/HB-SEC-WDS-2_02.jpg)
+
+![pic](Images/HB-SEC-WDS-2_03.jpg)
+
+![pic](Images/HB-SEC-WDS-2_04.jpg)
+
+![pic](Images/HB-SEC-WDS-2_05.jpg)
+
+![pic](Images/HB-SEC-WDS-2_06.jpg)
+
+![pic](Images/HB-SEC-WDS-2_07.jpg)
+
+![pic](Images/HB-SEC-WDS-2_08.jpg)
+
+
+## Schaltplan
+
+[:arrow_right: HB-SEC-WDS-2 V1.00](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2/Files/HB-SEC-WDS-2_V100.pdf)
+
+
+## Platine
+
+![pic](Images/HB-SEC-WDS-2_PCB01.png)
+
+![pic](Images/HB-SEC-WDS-2_PCB02.png)
+
+[:arrow_right: PCB Gerber V1.00](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2/Files/HB-SEC-WDS-2_V100_Gerber.zip)
+
+
+## Aufbau / Stückliste
+
+* :warning: Momentan noch in Arbeit: Stückliste*
+
+| Anzahl    | Name      | Wert              | Gehäuse       | Bemerkungen |
+|---|---|---|---|---|
+| 1 | IC1	            | Arduino Pro Mini  | -             | 3,3V / 8MHz Version |
+| 1 | IC2	            | CC1101	        | -             | |
+| 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
+| 3 | Stiftleisten      | 1x11pol., 1x5pol. | RM 2,54       | zum Einlöten des Arduino Pro Mini |
+| 1 | R1                | 100k              | 0805          | Verpolschutz |
+| 1 | T1                | IRLML2244         | SOT23-3       | Verpolschutz |
+|   |                   |                   |               | |
+| 1 | R8	            | 30	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | R9	            | 10	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | R10               | 4,7k	            | 0805          | Optional (Echte Batt.messung unter Last) |
+| 1 | T2	            | IRLML6344         | SOT23-3       | Optional (Echte Batt.messung unter Last) |
+|   |                   |                   |               | |
+| 1 | IC3	            | MCP111T-240	    | SOT23-3       | Optional (BI-Protection) |
+
+[:arrow_right: Gehäuse GAINTA G203C](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2/Files/GAINTA_G203C.pdf)
+
+
+## Web-UI / HomeMatic-Zentrale
+
+Der HB-SEC-WDS-2 wird ab Version 2.54 meines [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) unterstützt.<br>
+Das ist nur bei der Variante WDS2_CUSTOM notwendig, für die Variante WDS2_STANDARD ist kein Add-On nötig.
+
+![pic](Images/HB-Sec-WDS-2_WebU.png)
+
+![pic](Images/HM-Sec-WDS-2_WebU.png)
+
+![pic](Images/HB-Sec-WDS-2_Serieller_Log.png)
+
+
+## Option: Echte Batteriezustandsmessung unter Last, um frühzeit leere Batterien zu erkennen und zu tauschen.
+
+siehe
+[HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
+Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"
+
+
+## Historischer Prototyp von 2018
+
+![pic](Images/HB-SEC-WDS-2_Prototyp_2018_01.jpg)
+
+![pic](Images/HB-SEC-WDS-2_Prototyp_2018_02.png)
+
+
+## Links
+
+[HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
+
+[HomeMatic Forum: Vorstellung: Wassermelder HB-SEC-WDS-2](https://homematic-forum.de/forum/viewtopic.php?f=76&t=xxxxx)
 
 
 ## Benötige Libraries
@@ -11,47 +120,6 @@
 [AskSinPP Library](https://github.com/pa-pa/AskSinPP)</br>
 [EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
 [Low-Power](https://github.com/rocketscream/Low-Power)
-
-
-## Schaltung
-![pic](Images/Schaltung.png)
-
-
-## Aufbau Prototyp
-
-![pic](Images/Prototyp_Wassermelder.jpg)
-
-
-## Das angemeldete Gerät im RaspberryMatic WebUI
-
-![pic](Images/WebUI.png)
-
-
-## Option 1: Step-Up Konverter zum Betrieb mit 1 Mignon AA Batterie oder Akku
-
-MAX1724 Testaufbau<br>
-Entscheidend hier sind die Eignung der Spule für den DC/DC Einsatz (DC-Nennstrom, DC-Widerstand, Güte), das Layout der Bauteile und natürlich kurze Signalwege.
-![pic](Images/MAX1724.jpg)
-
-
-Ausgangsspannung +3V @5mA, Restwelligkeit mit 10uF Keramikkondensator am Ausgang
-
-![pic](Images/step-up_output_AC_with_10u.png)
-
-Ausgangsspannung +3V @5mA, Restwelligkeit mit 10uF Keramikkondensator + 20uF Tantalelko am Ausgang
-
-![pic](Images/step-up_output_AC_with_10u_20u.png)
-
-Ausgangsspannung DC
-
-![pic](Images/step-up_output_DC.png)
-
-
-## Option 2: Echte Batteriezustandsmessung unter Last, um frühzeit leere Batterien zu erkennen und zu tauschen.
-
-siehe
-[HB-UNI-Sensor1](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1)
-Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"
 
 
 ## Lizenz
