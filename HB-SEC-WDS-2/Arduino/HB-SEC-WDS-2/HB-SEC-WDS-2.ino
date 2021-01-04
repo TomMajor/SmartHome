@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-SEC-WDS-2
-// Version 1.04
+// Version 1.05
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -85,7 +85,7 @@ public:
     void prepareSend(Message& msg)
     {
         if (msg.isSensorEvent() || msg.isInfoActuatorStatusMsg()) {
-            uint16_t batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
+            uint16_t batteryVoltage = battery.current();    // BatteryTM class, mV resolution
             msg.append(batteryVoltage);
         }
     }
@@ -253,6 +253,11 @@ public:
     {
         BaseChannel::init();
         BaseChannel::possens.init(adcpin1, adcpin2);
+#ifdef WDS2_STANDARD
+        DPRINTLN(F("Configuration: WDS2_STANDARD"));
+#elif defined WDS2_CUSTOM
+        DPRINTLN(F("Configuration: WDS2_CUSTOM"));
+#endif
     }
 };
 
