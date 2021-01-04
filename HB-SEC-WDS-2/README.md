@@ -61,16 +61,22 @@
 
 ## Aufbau / Stückliste
 
-* :warning: Momentan noch in Arbeit: Stückliste*
-
 | Anzahl    | Name      | Wert              | Gehäuse       | Bemerkungen |
 |---|---|---|---|---|
 | 1 | IC1	            | Arduino Pro Mini  | -             | 3,3V / 8MHz Version |
 | 1 | IC2	            | CC1101	        | -             | |
+| 2 | R2, R3            | 1,5k              | 0805          | |
+| 3 | R4, R6, (R12)     | 4,7k              | 0805          | |
+| 1 | R7                | 10k               | 0805          | |
+| 3 | R1, R5, (R11)     | 100k              | 0805          | |
+| 2 | C2                | 100nF             | 0805          | |
+| 2 | C1, C3            | 1uF               | 0805          | |
+| 1 | T1                | IRLML2244         | SOT23-3       | |
+| 1 | LED               | KBT L-115WEGW o.ä.| 3mm bedrahtet | [Reichelt](https://www.reichelt.de/led-3-mm-bedrahtet-3-pin-rot-gruen-40-mcd-60--kbt-l-115wegw-p231039.html) |
+| 1 | Gehäuse           | GAINTA G203C      | -             | [TME](https://www.tme.eu/de/details/g203c/universal-gehause/gainta) |
+| 1 | Taster            | TASTER 3301       | 6x6 bedrahtet | [Reichelt](https://www.reichelt.de/kurzhubtaster-6x6mm-hoehe-4-3mm-12v-vertikal-taster-3301-p27892.html) |
 | 1 | ANT1	            | 868 MHz Antenne   | -             | z.B. Drahtstück 86mm lang |
 | 3 | Stiftleisten      | 1x11pol., 1x5pol. | RM 2,54       | zum Einlöten des Arduino Pro Mini |
-| 1 | R1                | 100k              | 0805          | Verpolschutz |
-| 1 | T1                | IRLML2244         | SOT23-3       | Verpolschutz |
 |   |                   |                   |               | |
 | 1 | R8	            | 30	            | 0805          | Optional (Echte Batt.messung unter Last) |
 | 1 | R9	            | 10	            | 0805          | Optional (Echte Batt.messung unter Last) |
@@ -112,7 +118,7 @@ Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"
 
 [HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
 
-[HomeMatic Forum: Vorstellung: Wassermelder HB-SEC-WDS-2](https://homematic-forum.de/forum/viewtopic.php?f=76&t=xxxxx)
+[HomeMatic Forum: Vorstellung: Wassermelder HB-SEC-WDS-2](https://homematic-forum.de/forum/viewtopic.php?f=76&t=64212)
 
 
 ## Benötige Libraries
