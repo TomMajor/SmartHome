@@ -159,16 +159,6 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 :arrow_right: [Projektseite HB-CC1101-Testbench](https://github.com/TomMajor/SmartHome/tree/master/HB-CC1101-Testbench)
 
 
-## Wassermelder HB-SEC-WDS-2
-
-- Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
-- Demonstriert die Verwendung vom 'ThreeStateSensor' device type aus der AskSinPP Bibliothek mit einer anpassbaren Messroutine, in diesem Fall die Leitfähigkeitsmessung mit dem integrierten ADC
-
-<p align="center"><img src="Images/Prototyp_Wassermelder_small.jpg?raw=true"/></p>
-
-:arrow_right: [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
-
-
 ## 3-Kanal Kontakt-Interface für Öffner und Schließerkontake HB-SCI-3-FM
 
 - Nachbau HM-SCI-3-FM mit AskSinPP Library
