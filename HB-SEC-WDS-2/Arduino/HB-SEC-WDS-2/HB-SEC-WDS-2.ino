@@ -324,3 +324,17 @@ void loop()
         hal.activity.savePower<Sleep<>>(hal);
     }
 }
+
+/*
+SensorEventMsg 0x41
+mit msg.append(0x1234):
+<- 0E 01 A2 41 4929D3 435F5B 01 00 C8 12 34  - 243
+-> 0A 01 80 02 435F5B 4929D3 00  - 368
+waitAck: 01
+
+InfoActuatorStatusMsg 0x10 ("CYCLETIME")
+mit msg.append(0x1234):
+<- 10 02 A2 10 4929D3 435F5B 06 01 C8 00 20 12 34  - 913
+-> 0A 02 80 02 435F5B 4929D3 00  - 1038
+waitAck: 01
+*/

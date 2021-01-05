@@ -94,13 +94,29 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 ## HB-UNI-Sensor-Blitz
 
-- Der HB-UNI-Sensor-Blitz ist ein Homebrew HomeMatic-Sensor zur Erkennung von Blitzen, basierend auf dem AS3935 Franklin-Blitzsensor IC.
-- Der AS3935 ist ein programmierbarer Sensor, der Blitzaktivitäten in einer Entfernung von bis zu 40 km erkennen kann. Er verwendet einen proprietären, fest verdrahteten Algorithmus, um Rauschen und künstlich verursachte Störfaktoren herauszufiltern und die Entfernung zur Gewitterfront abzuschätzen.
-- Alle Parameter des Chips sind über das HomeMatic WebUI konfigurierbar.
+- Der HB-UNI-Sensor-Blitz ist ein Homebrew HomeMatic-Sensor zur Erkennung von Blitzen, basierend auf dem AS3935 Franklin-Blitzsensor IC
+- Der AS3935 ist ein programmierbarer Sensor, der Blitzaktivitäten in einer Entfernung von bis zu 40 km erkennen kann. Er verwendet einen proprietären, fest verdrahteten Algorithmus, um Rauschen und künstlich verursachte Störfaktoren herauszufiltern und die Entfernung zur Gewitterfront abzuschätzen
+- Alle Parameter des Chips sind über das HomeMatic WebUI konfigurierbar
 
 <p align="center"><img src="Images/HB-UNI-Sensor-Blitz_small.png?raw=true"/></p>
 
 :arrow_right: [Projektseite HB-UNI-Sensor-Blitz](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Blitz)
+
+
+## HB-SEC-WDS-2
+
+- Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
+- das Gerät ist von den Abmessungen und dem Gehäuse dem originalen HM-Sec-WDS-2 nachempfunden
+- per define im Sketch sind zwei Modi möglich:
+  - Trocken/Wasser Erkennung (4 Elektroden, 2+2)
+  - Trocken/Feucht/Wasser Erkennung (5 Elektroden, 2+2+1)
+- per define im Sketch sind zwei Varianten möglich:
+  - HM-Sec-WDS-2 Original, keine Add-On Installation nötig
+  - HB-SEC-WDS-2, dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
+
+<p align="center"><img src="Images/HB-SEC-WDS-2_small.jpg?raw=true"/></p>
+
+:arrow_right: [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
 
 
 ## HB-UNI-Sensor-Heizung

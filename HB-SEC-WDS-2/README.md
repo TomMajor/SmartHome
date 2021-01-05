@@ -9,7 +9,7 @@
   - Trocken/Feucht/Wasser Erkennung (5 Elektroden, 2+2+1)
 - per define *WDS2_STANDARD / WDS2_CUSTOM* im Sketch sind zwei Varianten möglich:
   - HM-Sec-WDS-2 Original, keine Add-On Installation nötig
-  - HB-SEC-WDS-2,dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
+  - HB-SEC-WDS-2, dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
 - Verpolschutz
 - (Optional) Echte Batteriespannungsmessung unter Last
 - (Optional) Reset-Baustein MCP111 (Schutz vor "Babbling Idiot")
