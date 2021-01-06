@@ -1,5 +1,5 @@
 //---------------------------------------------------------
-// HB-SEC-WDS-2
+// HB-Sec-WDS-2
 // Version 1.05
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/

@@ -9,6 +9,7 @@
 - [HB-SEN-LJet](https://github.com/TomMajor/SmartHome/tree/master/HB-SEN-LJet)
 - [HB-UNI-Sensor-Heizung](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Heizung)
 - [HB-UNI-Sensor-Blitz](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Blitz)
+- [HB-Sec-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-Sec-WDS-2)
 
 [comment]: # (rc.d filename: hb-tm-devices-addon, github name: HB-TM-Devices-AddOn, info name: HB-TM-Devices AddOn)
 
@@ -25,7 +26,7 @@
 | HB-SEN-LJet           | 0xF104 |
 | HB-UNI-Sensor-Heizung | 0xF105 |
 | HB-UNI-Sensor-Blitz   | 0xF120 |
-| HB-SEC-WDS-2          | 0xF121 |
+| HB-Sec-WDS-2          | 0xF121 |
 
 
 ## Change Log

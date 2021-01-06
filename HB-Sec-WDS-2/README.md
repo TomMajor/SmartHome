@@ -1,5 +1,5 @@
 
-# Wassermelder (HB-SEC-WDS-2)
+# Wassermelder (HB-Sec-WDS-2)
 
 - Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
 - für die Leitfähigkeitsmessung wird der integrierte ADC im AVR genutzt, mit im Sketch anpassbarer Messroutine
@@ -9,7 +9,7 @@
   - Trocken/Feucht/Wasser Erkennung (5 Elektroden, 2+2+1)
 - per define *WDS2_STANDARD / WDS2_CUSTOM* im Sketch sind zwei Varianten möglich:
   - HM-Sec-WDS-2 Original, keine Add-On Installation nötig
-  - HB-SEC-WDS-2, dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
+  - HB-Sec-WDS-2, dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
 - Verpolschutz
 - (Optional) Echte Batteriespannungsmessung unter Last
 - (Optional) Reset-Baustein MCP111 (Schutz vor "Babbling Idiot")
@@ -17,7 +17,7 @@
 
 ## Hinweise
 
-- Zum Kompilieren des Sketches benötigt man alle Dateien im Verzeichnis *Arduino/HB-SEC-WDS-2*.<br>
+- Zum Kompilieren des Sketches benötigt man alle Dateien im Verzeichnis *Arduino/HB-Sec-WDS-2*.<br>
 
 - Der Sketch benötigt den master-Branch der [AskSinPP Library](https://github.com/pa-pa/AskSinPP), nicht den V4 Release-Branch wie dort angegeben.<br>
 
@@ -28,35 +28,35 @@
 
 ## Bilder
 
-![pic](Images/HB-SEC-WDS-2_01.jpg)
+![pic](Images/HB-Sec-WDS-2_01.jpg)
 
-![pic](Images/HB-SEC-WDS-2_02.jpg)
+![pic](Images/HB-Sec-WDS-2_02.jpg)
 
-![pic](Images/HB-SEC-WDS-2_03.jpg)
+![pic](Images/HB-Sec-WDS-2_03.jpg)
 
-![pic](Images/HB-SEC-WDS-2_04.jpg)
+![pic](Images/HB-Sec-WDS-2_04.jpg)
 
-![pic](Images/HB-SEC-WDS-2_05.jpg)
+![pic](Images/HB-Sec-WDS-2_05.jpg)
 
-![pic](Images/HB-SEC-WDS-2_06.jpg)
+![pic](Images/HB-Sec-WDS-2_06.jpg)
 
-![pic](Images/HB-SEC-WDS-2_07.jpg)
+![pic](Images/HB-Sec-WDS-2_07.jpg)
 
-![pic](Images/HB-SEC-WDS-2_08.jpg)
+![pic](Images/HB-Sec-WDS-2_08.jpg)
 
 
 ## Schaltplan
 
-[:arrow_right: HB-SEC-WDS-2 V1.00](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2/Files/HB-SEC-WDS-2_V100.pdf)
+[:arrow_right: HB-Sec-WDS-2 V1.00](https://github.com/TomMajor/SmartHome/tree/master/HB-Sec-WDS-2/Files/HB-Sec-WDS-2_V100.pdf)
 
 
 ## Platine
 
-![pic](Images/HB-SEC-WDS-2_PCB01.png)
+![pic](Images/HB-Sec-WDS-2_PCB01.png)
 
-![pic](Images/HB-SEC-WDS-2_PCB02.png)
+![pic](Images/HB-Sec-WDS-2_PCB02.png)
 
-[:arrow_right: PCB Gerber V1.00](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2/Files/HB-SEC-WDS-2_V100_Gerber.zip)
+[:arrow_right: PCB Gerber V1.00](https://github.com/TomMajor/SmartHome/tree/master/HB-Sec-WDS-2/Files/HB-Sec-WDS-2_V100_Gerber.zip)
 
 
 ## Aufbau / Stückliste
@@ -85,12 +85,12 @@
 |   |                   |                   |               | |
 | 1 | IC3	            | MCP111T-240	    | SOT23-3       | Optional (BI-Protection) |
 
-[:arrow_right: Gehäuse GAINTA G203C](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2/Files/GAINTA_G203C.pdf)
+[:arrow_right: Gehäuse GAINTA G203C](https://github.com/TomMajor/SmartHome/tree/master/HB-Sec-WDS-2/Files/GAINTA_G203C.pdf)
 
 
 ## Web-UI / HomeMatic-Zentrale
 
-Der HB-SEC-WDS-2 wird ab Version 2.54 meines [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) unterstützt.<br>
+Der HB-Sec-WDS-2 wird ab Version 2.54 meines [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) unterstützt.<br>
 Das ist nur bei der Variante WDS2_CUSTOM notwendig, für die Variante WDS2_STANDARD ist kein Add-On nötig.
 
 ![pic](Images/HB-Sec-WDS-2_WebU.png)
@@ -109,16 +109,16 @@ Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"
 
 ## Historischer Prototyp von 2018
 
-![pic](Images/HB-SEC-WDS-2_Prototyp_2018_01.jpg)
+![pic](Images/HB-Sec-WDS-2_Prototyp_2018_01.jpg)
 
-![pic](Images/HB-SEC-WDS-2_Prototyp_2018_02.png)
+![pic](Images/HB-Sec-WDS-2_Prototyp_2018_02.png)
 
 
 ## Links
 
 [HomeMatic Forum: Hardwareentwicklung und Selbstbau von Aktoren und Sensoren](https://homematic-forum.de/forum/viewforum.php?f=76)
 
-[HomeMatic Forum: Vorstellung: Wassermelder HB-SEC-WDS-2](https://homematic-forum.de/forum/viewtopic.php?f=76&t=64212)
+[HomeMatic Forum: Vorstellung: Wassermelder HB-Sec-WDS-2](https://homematic-forum.de/forum/viewtopic.php?f=76&t=64212)
 
 
 ## Benötige Libraries

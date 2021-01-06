@@ -103,7 +103,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 :arrow_right: [Projektseite HB-UNI-Sensor-Blitz](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor-Blitz)
 
 
-## HB-SEC-WDS-2
+## HB-Sec-WDS-2
 
 - Wassermelder mit Leitfähigkeitsmessung zwischen den Elektroden
 - das Gerät ist von den Abmessungen und dem Gehäuse dem originalen HM-Sec-WDS-2 nachempfunden
@@ -112,11 +112,11 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
   - Trocken/Feucht/Wasser Erkennung (5 Elektroden, 2+2+1)
 - per define im Sketch sind zwei Varianten möglich:
   - HM-Sec-WDS-2 Original, keine Add-On Installation nötig
-  - HB-SEC-WDS-2, dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
+  - HB-Sec-WDS-2, dieser hat zusätzlich die Batteriespannung des Gerätes als Datenpunkt in der Zentrale, dafür ist mein [HB-TM-Devices-AddOn](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn) erforderlich
 
-<p align="center"><img src="Images/HB-SEC-WDS-2_small.jpg?raw=true"/></p>
+<p align="center"><img src="Images/HB-Sec-WDS-2_small.jpg?raw=true"/></p>
 
-:arrow_right: [Projektseite HB-SEC-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-SEC-WDS-2)
+:arrow_right: [Projektseite HB-Sec-WDS-2](https://github.com/TomMajor/SmartHome/tree/master/HB-Sec-WDS-2)
 
 
 ## HB-UNI-Sensor-Heizung
