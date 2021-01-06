@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-Sec-WDS-2
-// Version 1.05
+// Version 1.06
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -13,7 +13,7 @@
 //---------------------------------------------------------
 // User definitions
 // General
-#define WDS2_STANDARD                   // mögliche Varianten: WDS2_STANDARD / WDS2_CUSTOM
+#define WDS2_CUSTOM                     // mögliche Geräte: WDS2_STANDARD / WDS2_CUSTOM
 #define TWO_STATE                       // TWO_STATE: nur Status Trocken/Wasser (4 Elektroden), THREE_STATE: Status Trocken/Feucht/Wasser (5 Elektroden)
 #define MEASUREMENT_INTERVAL    60      // jede Minute messen
 // Pins
@@ -136,7 +136,7 @@ public:
 //
 // ADC Werte mit 10mm Abstand zwischen den Sensorpins, Batteriespannung 3V:
 // offen          1023
-// gebrueckt      88
+// gebrückt       88
 // Wasser         550-650
 // Mineralwasser  ca. 550
 // Sekt           ca. 500
@@ -254,9 +254,14 @@ public:
         BaseChannel::init();
         BaseChannel::possens.init(adcpin1, adcpin2);
 #ifdef WDS2_STANDARD
-        DPRINTLN(F("Configuration: WDS2_STANDARD"));
+        DPRINTLN(F("Device: WDS2_STANDARD"));
 #elif defined WDS2_CUSTOM
-        DPRINTLN(F("Configuration: WDS2_CUSTOM"));
+        DPRINTLN(F("Device: WDS2_CUSTOM"));
+#endif
+#ifdef TWO_STATE
+        DPRINTLN(F("Configuration: TWO_STATE"));
+#elif defined THREE_STATE
+        DPRINTLN(F("Configuration: THREE_STATE"));
 #endif
     }
 };
