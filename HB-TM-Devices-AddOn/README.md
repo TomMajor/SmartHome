@@ -31,6 +31,9 @@
 
 ## Change Log
 
+- 2.54 - 06.01.2021
+  - Unterstützung für HB-Sec-WDS-2
+
 - 2.53 - 01.11.2020
   - Unterstützung für HB-UNI-Sensor-Blitz
 

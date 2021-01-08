@@ -23,8 +23,6 @@
 
 - Für möglichst geringen Ruhestrom: Vor dem Einlöten des Arduino Pro Mini empfehle ich das [Entfernen des LDO und der LED](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#ruhestrom-arduino-pro-mini) sowie den [Ruhestromtest](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#%C3%BCberpr%C3%BCfung-des-avr-ruhestroms-power-down-mode)
 
-* :warning: Momentan noch in Arbeit: Variante WDS2_CUSTOM / Integration dieser in HB-TM-Devices-AddOn*
-
 
 ## Bilder
 
