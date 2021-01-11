@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-Sec-WDS-2
-// Version 1.06
+// Version 1.07
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -24,7 +24,7 @@
 #define SENS_PIN_WATER          A2      // ADC sensor pin (TWO_STATE: nicht benutzt / THREE_STATE: Wasser)
 // Parameters
 #define BAT_VOLT_LOW            24      // 2.4V
-#define BAT_VOLT_CRITICAL       21      // 2.1V
+#define BAT_VOLT_CRITICAL       22      // 2.2V
 #define DETECTION_THRESHOLD     800     // Wasser-Erkennung, Vergleichswert ADC
 #define PEERS_PER_CHANNEL       6       // number of available peers per channel
 //---------------------------------------------------------
@@ -59,8 +59,8 @@ using namespace as;
 
 // define all device properties
 const struct DeviceInfo PROGMEM devinfo = {
-    { 0x49, 0x29, 0xd3 },    // Device ID
-    "WATERCHK_1",            // Device Serial
+    { 0xA5, 0xA8, 0x01 },    // Device ID
+    "WATERCHK01",            // Device Serial
 #ifdef WDS2_STANDARD
     { 0x00, 0xb2 },    // Device Model Standard HM-SEC-WDS-2
 #elif defined WDS2_CUSTOM
