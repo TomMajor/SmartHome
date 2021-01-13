@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# fixes hm-print <-> HB-TM-JP-AddOn-Reduced patch restore problems with file /www/rega/pages/tabs/admin/views/programs.htm
+# both AddOn change and restore file programs.htm under certain circumstances
+# code parts taken from https://github.com/homematic-community/hm-print/blob/master/rc.d/programmedrucken
+# Tom Major 2021/01/13
+
+# String to include the print button in single "Programm"
+SSTRING="<td style='text-align:center; vertical-align:middle;'><div class='FooterButton CLASS04801' onclick='new HMScriptExecutor();'>\${footerBtnTestScript}</div></td>"
+RSTRING="<td style='text-align:center; vertical-align:middle;'><div class='FooterButton CLASS04801' onclick='new HMScriptExecutor();'>\${footerBtnTestScript}</div></td><td style='text-align:center; vertical-align:middle;'><div class='FooterButton' onclick='PrintPage();'>Drucken</div></td>"
+
+# String to include the functions.js for Programm/s
+SSTRINGZWO="setFooter(s);"
+RSTRINGZWO="setFooter(s); var scriptpp = document.createElement(\"script\"); scriptpp.type = \"text/javascript\"; scriptpp.src = \"/addons/print/functions.js\"; \$(\"body\").appendChild(scriptpp);"
+
+mount -o rw,remount /
+
+mv /www/rega/pages/tabs/admin/views/programs.htm /www/rega/pages/tabs/admin/views/programs.backup
+sed -e "s|$SSTRING|$RSTRING|g" "/www/rega/pages/tabs/admin/views/programs.backup" > "/www/rega/pages/tabs/admin/views/programs.tmp"
+sed -e "s|$SSTRINGZWO|$RSTRINGZWO|g" "/www/rega/pages/tabs/admin/views/programs.tmp" > "/www/rega/pages/tabs/admin/views/programs.htm"
+chmod 755 /www/rega/pages/tabs/admin/views/programs.htm
+rm -rf /www/rega/pages/tabs/admin/views/programs.tmp
+
+mount -o ro,remount /

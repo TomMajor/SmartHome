@@ -33,6 +33,10 @@ Die Zentrale startet sich danach automatisch neu.
 
 ## Change Log
 
+- 2.14 - 13.01.2021
+  - EOL Umwandlungen für zu patchende Dateien falls notwendig [add linefeed coversion d4b5302](https://github.com/jp112sdl/JP-HB-Devices-addon/commit/d4b5302f0f82deb9646847d0c7d79c4a7b3157f8)
+  - Sync der neusten Änderungen aus JP-HB-Devices-addon
+
 - 2.12 - 15.08.2020
   - monit zum Restart des rfd-Dienstes benutzen
   - verbessertes Logging

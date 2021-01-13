@@ -10,6 +10,7 @@ chmod 755 addon/uninstall_*
 chmod 755 addon/update-check.cgi
 chmod 755 addon/patchworker
 chmod 755 addon/epaper42.tcl
+chmod 755 addon/restore_hmprint
 chmod 755 rc.d/*
 #find . -name ".DS_Store" -exec rm -rf {} \;
 #find . -name "._*" -exec rm -rf {} \;

@@ -35,11 +35,10 @@
                || (ePaperAcousticDisplay != -1)
                || (rgbw_controller != -1)
                || ((jalousieActor != - 1) && (oDP.HSSID().Find("LEVEL_COMBINED") != -1))
-@@ -497,7 +511,23 @@
-                 }
-                 Write( '<input id="prgStringOptionValue'#oSD.ID()#'" onfocus="SetStatusDisplay('#oSD.ID()#',\'DIS-EP\');" type="text" class="SelectBox" size="10" value="'#iV#'" onchange="iseSingleDestination.SetValue('#oSD.ID()#',this.value,\'STRING\');" /> ' );
+@@ -506,6 +520,22 @@
+                 Write( '<input id="prgStringOptionValue'#oSD.ID()#'" onfocus="SetStatusDisplay('#oSD.ID()#',\'ACOUSTIC_DIS-EP\');" type="text" class="SelectBox" size="10" value="'#iV#'" onchange="iseSingleDestination.SetValue('#oSD.ID()#',this.value,\'STRING\');" /> ' );
                }
-+              
+ 
 +              if ((statusHbDisplayEPaperDevice != -1) || (statusHbDisplayEPaperDeviceMains != -1)) {
 +                if(iV == "1") {
 +                  ! This is the default string for 'all values not used'
@@ -47,7 +46,7 @@
 +                }
 +                Write( '<input id="prgStringOptionValue'#oSD.ID()#'" onfocus="SetStatusDisplay('#oSD.ID()#',\'DIS-EP42BW\');" type="text" class="SelectBox" size="10" value="'#iV#'" onchange="iseSingleDestination.SetValue('#oSD.ID()#',this.value,\'STRING\');" /> ' );
 +              }
- 
++
 +              if ((statusHbDisplayEPaperDevice75 != -1) || (statusHbDisplayEPaperDevice75Mains != -1)) {
 +                if(iV == "1") {
 +                  ! This is the default string for 'all values not used'
@@ -56,9 +55,9 @@
 +                Write( '<input id="prgStringOptionValue'#oSD.ID()#'" onfocus="SetStatusDisplay('#oSD.ID()#',\'DIS-EP75BW\');" type="text" class="SelectBox" size="48" value="'#iV#'" onchange="iseSingleDestination.SetValue('#oSD.ID()#',this.value,\'STRING\');" /> ' );
 +              }
 +              
-               if (ePaperAcousticDisplay != -1) {
-                 if(iV == "0") {
-                   ! This is the default string for 'all values not used'
+               if (rgbw_controller != -1) {
+ 
+                 if (iV == "0") {
 @@ -550,6 +580,11 @@
              }
  

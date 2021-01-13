@@ -7,15 +7,16 @@ ADDON_DIR=/usr/local/addons/${ADDON_NAME}
 PATCH_DIR=${ADDON_DIR}/patch
 WWW_DIR=/etc/config/addons/www/${ADDON_NAME}
 LOG_DIR=${ADDON_DIR}/log
-GLOBAL_LOGFILE=$LOG_DIR/inst.log
-GLOBAL_ERRFILE=$LOG_DIR/inst.err
-PATCH_REVOKE_ERRFILE=$ADDON_DIR/log/revoke.err
+GLOBAL_LOGFILE=${LOG_DIR}/inst.log
+GLOBAL_ERRFILE=${LOG_DIR}/inst.err
+PATCH_REVOKE_ERRFILE=${ADDON_DIR}/log/revoke.err
 FIRMWARE_DIR=/firmware/rftypes
 CUSTOMIZED_FIRMWARE_DIR=${ADDON_DIR}/customized_firmware
 RC_DIR=/usr/local/etc/config/rc.d
 CK_FIRMWARE_FILE=${FIRMWARE_DIR}/hb-dis-ep-42bw_e_v1_0.xml
 
-PATCHVERSION=0
+PATCHSUBDIR_COMMON=common
+PATCHSUBDIR_VERSION=le_343
 check_ccu_fw_version()
 {
  model=`grep VERSION /boot/VERSION   | awk -F'[=.]' {'print $2'}`
@@ -24,13 +25,24 @@ check_ccu_fw_version()
  bdate=`grep VERSION /boot/VERSION   | awk -F'[=.]' {'print $5'}`
 
  if [ $model -ge 2 ] && [ $version -ge 45 ]; then
-  PATCHVERSION=2
- else
-  PATCHVERSION=1
+  PATCHSUBDIR_VERSION=ge_345
  fi
  
- echo "Found firmware version $model.$version.$build - using patchversion $PATCHVERSION" | tee -a $GLOBAL_LOGFILE
+ echo "Found firmware version $model.$version.$build - using patch subdirectory version ${PATCHSUBDIR_VERSION}" | tee -a $GLOBAL_LOGFILE
 }
+
+#convert_lf() 
+#{
+#  filename=`sed -n '2p' $1 | sed 's/+++ .\/patchsource//g' | awk {'print $1'}`
+#  cmpresult=`unix2dos < $filename | cmp - $filename`
+#  if [ "$cmpresult" ]; then
+#    cmpresult=`dos2unix < $1 | cmp - $1`
+#    if [ "$cmpresult" ]; then
+#      echo "dos2unix conversion needed for $1" | tee -a $GLOBAL_LOGFILE
+#      dos2unix $1 | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#    fi  
+#  fi
+#}
 
 MONIT=0
 check_monit()
@@ -90,7 +102,7 @@ case "$1" in
         
         ### Patch some files ###
         check_ccu_fw_version
-        ./patchworker install ${ADDON_NAME} ${PATCHVERSION} $model.$version.$build.$bdate
+        ./patchworker install ${ADDON_NAME} ${PATCHSUBDIR_VERSION} $model.$version.$build.$bdate
 
         cd /www
 
@@ -99,42 +111,33 @@ case "$1" in
 #        else
 #          ########################	REVOKE  	######################
 #          echo "######## REVOKE COMMON APPLIED PATCHES ########" | tee -a $GLOBAL_LOGFILE
-#          patchsubdir=common
-#          for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
-#            echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#          for patchfile in `ls ${PATCH_DIR}/revoke/${PATCHSUBDIR_COMMON}/* | sort`; do 
+#            echo "### Rejecting ${PATCHSUBDIR_COMMON} patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#            convert_lf $patchfile
 #            patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
 #          done
 #        
 #          echo "######## REVOKE VERSION DEPENDEND PATCHES ########" | tee -a $GLOBAL_LOGFILE
-#          if [ $PATCHVERSION -le 1 ]; then
-#            patchsubdir=le_343
-#          else
-#            patchsubdir=ge_345
-#          fi
-#          for patchfile in `ls ${PATCH_DIR}/revoke/$patchsubdir/* | sort`; do 
-#            echo "### Rejecting $patchsubdir patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#          for patchfile in `ls ${PATCH_DIR}/revoke/${PATCHSUBDIR_VERSION}/* | sort`; do 
+#            echo "### Rejecting ${PATCHSUBDIR_VERSION} patch file $patchfile" | tee -a $GLOBAL_LOGFILE | tee -a $PATCH_REVOKE_ERRFILE
+#            convert_lf $patchfile
 #            patch -R -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$PATCH_REVOKE_ERRFILE
 #          done
 #        fi
 #        
 #        ########################	APPLY   	######################
 #        echo "######## APPLY COMMON PATCHES ########" | tee -a $GLOBAL_LOGFILE
-#        patchsubdir=common
-#        for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
-#          echo "### Applying $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#        for patchfile in ${PATCH_DIR}/${PATCHSUBDIR_COMMON}/* ; do
+#          echo "### Applying ${PATCHSUBDIR_COMMON} patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#          convert_lf $patchfile
 #          patch -N -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE
 #          echo "- done" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
 #        done
 #        
 #        echo "######## APPLY VERSION DEPENDEND PATCHES ########" | tee -a $GLOBAL_LOGFILE
-#        if [ $PATCHVERSION -le 1 ]; then
-#          patchsubdir=le_343
-#        else
-#          patchsubdir=ge_345
-#        fi
-#      
-#        for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
-#          echo "Applying $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#        for patchfile in ${PATCH_DIR}/${PATCHSUBDIR_VERSION}/* ; do
+#          echo "Applying ${PATCHSUBDIR_VERSION} patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
+#          convert_lf $patchfile
 #          patch -N -p3 -i $patchfile >> $GLOBAL_LOGFILE 2>>$GLOBAL_ERRFILE
 #          echo "- done" | tee -a $GLOBAL_LOGFILE | tee -a $GLOBAL_ERRFILE
 #        done
@@ -225,26 +228,19 @@ case "$1" in
       for f in ${ADDON_DIR}/uninstall_* ; do echo "  - $(basename $f)"; ./$(basename $f) > $GLOBAL_LOGFILE 2>$GLOBAL_ERRFILE; done
       
       check_ccu_fw_version
-      ./patchworker uninstall ${ADDON_NAME} ${PATCHVERSION} $model.$version.$build.$bdate
+      ./patchworker uninstall ${ADDON_NAME} ${PATCHSUBDIR_VERSION} $model.$version.$build.$bdate
 
       cd /www
       
 #      echo "######## REVOKE COMMON PATCHES ########"
-#      patchsubdir=common
-#      for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
-#        echo "Rejecting $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE
+#      for patchfile in ${PATCH_DIR}/${PATCHSUBDIR_COMMON}/* ; do
+#        echo "Rejecting ${PATCHSUBDIR_COMMON} patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE
 #        patch -R -p3 -i $patchfile
 #      done
 #      
 #      echo "######## REVOKE VERSION DEPENDEND PATCHES ########"
-#      if [ $PATCHVERSION -le 1 ]; then
-#        patchsubdir=le_343
-#      else
-#        patchsubdir=ge_345
-#      fi
-#     
-#      for patchfile in ${PATCH_DIR}/$patchsubdir/* ; do
-#        echo "Rejecting $patchsubdir patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE
+#      for patchfile in ${PATCH_DIR}/${PATCHSUBDIR_VERSION}/* ; do
+#        echo "Rejecting ${PATCHSUBDIR_VERSION} patch file $(basename $patchfile)" | tee -a $GLOBAL_LOGFILE
 #        patch -R -p3 -i $patchfile
 #      done
 #
@@ -257,8 +253,8 @@ case "$1" in
       [[ -f ./webui/js/extern/jp_webui_inc.js ]] && rm ./webui/js/extern/jp_webui_inc.js
 
       cd /
-      rm -rf $ADDON_DIR
-      rm -rf $WWW_DIR
+      rm -rf ${ADDON_DIR}
+      rm -rf ${WWW_DIR}
       rm -f ${RC_DIR}/${ADDON_NAME}
       sync
       mount -o remount,ro /
@@ -271,7 +267,7 @@ case "$1" in
     info)
 	  echo "Info: <b>HB-TM-JP AddOn Reduced</b><br>"
 	  echo "Info: <b>CCU2/3, RaspberryMatic</b><br>"
-	  echo "Info: (c) 2018-2020 jp112sdl<br>(c) 2019-2020 TomMajor (Reduced-Repack)<br>"
+	  echo "Info: (c) 2018-2021 jp112sdl<br>(c) 2019-2021 TomMajor (Reduced-Repack)<br>"
 	  echo "Info: <a href='https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced'>Projekt auf Github</a>"
 	  echo "Version: $(cat ${ADDON_DIR}/VERSION)"
 	  echo "Name: HB-TM-JP AddOn Reduced"

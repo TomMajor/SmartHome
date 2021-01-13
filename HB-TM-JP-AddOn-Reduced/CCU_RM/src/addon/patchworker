@@ -2,11 +2,11 @@
 #
 # $1 install/uninstall
 # $2 ADDON_NAME
-# $3 PATCHVERSION
+# $3 PATCHSUBDIR_VERSION
 # $4 FW_VERSION
 
 ADDON_NAME=$2
-PATCHVERSION=$3
+PATCHSUBDIR_VERSION=$3
 FW_VERSION=$4
 
 ADDON_DIR=/usr/local/addons/${ADDON_NAME}
@@ -20,6 +20,19 @@ PATCHFILE2=/www/config/ic_common.tcl
 PATCHFILE3=/www/webui/webui.js
 PATCHFILE4=/www/rega/pages/tabs/admin/views/programs.htm
 PATCHFILE5=/www/rega/esp/side.inc
+
+convert_lf() 
+{
+  filename=`sed -n '2p' $1 | sed 's/+++ .\/patchsource//g' | awk {'print $1'}`
+  cmpresult=`unix2dos < $filename | cmp - $filename`
+  if [ "$cmpresult" ]; then
+    cmpresult=`dos2unix < $1 | cmp - $1`
+    if [ "$cmpresult" ]; then
+      echo "dos2unix conversion needed for $1" | tee -a $LOGFILE
+      dos2unix $1 | tee -a $LOGFILE | tee -a $ERRFILE
+    fi  
+  fi
+}
 
 case "$1" in
     install)
@@ -53,22 +66,19 @@ case "$1" in
         # Patches common
         echo "Apply common patches" | tee -a $LOGFILE
         patchsubdir=common
-        for file in /usr/local/addons/${ADDON_NAME}/patch/$patchsubdir/* ; do
-            echo "Applying <$patchsubdir> patch file $(basename $file)" | tee -a $LOGFILE
-            patch -N -p3 -i $file >> $LOGFILE 2>>$ERRFILE
+        for patchfile in /usr/local/addons/${ADDON_NAME}/patch/$patchsubdir/* ; do
+            echo "Applying <$patchsubdir> patch file $(basename $patchfile)" | tee -a $LOGFILE
+            convert_lf $patchfile
+            patch -N -p3 -i $patchfile >> $LOGFILE 2>>$ERRFILE
         done
         
         # Patches firmware dependend
         echo "Apply firmware dependend patches" | tee -a $LOGFILE
-        if [ $PATCHVERSION -le 1 ]; then
-            patchsubdir=le_343
-        else
-            patchsubdir=ge_345
-        fi
-        
-        for file in /usr/local/addons/${ADDON_NAME}/patch/$patchsubdir/* ; do
-            echo "Applying <$patchsubdir> patch file $(basename $file)" | tee -a $LOGFILE
-            patch -N -p3 -i $file >> $LOGFILE 2>>$ERRFILE
+        patchsubdir=${PATCHSUBDIR_VERSION}
+        for patchfile in /usr/local/addons/${ADDON_NAME}/patch/$patchsubdir/* ; do
+            echo "Applying <$patchsubdir> patch file $(basename $patchfile)" | tee -a $LOGFILE
+            convert_lf $patchfile
+            patch -N -p3 -i $patchfile >> $LOGFILE 2>>$ERRFILE
         done
 
     ;;
