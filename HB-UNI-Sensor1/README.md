@@ -27,6 +27,7 @@
 - Diverse Infos
   - [Benutzerspezifische Sensordaten](#benutzerspezifische-sensordaten)
   - [Trägheit verschiedener Temperatursensoren](#trägheit-verschiedener-temperatursensoren)
+  - [Anschlussbelegung DS18B20](#anschlussbelegung-ds18b20)
   - [Optionaler Reset-Baustein MCP111](#optionaler-reset-baustein-mcp111)
   - [Bewegungsmelder mit PIR AS312 am digitalen Eingang](#bewegungsmelder-mit-pir-as312-am-digitalen-eingang)
   - [Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones](#exclamation-warnung-vor-dem-flashen-von-33v-geräten-mit-usbasp-klones)
@@ -39,7 +40,7 @@
 ## Features
 
 - Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor
-- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
+- Sensoren für Temperatur (DS18B20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
 - modifizierbar für andere Sensoren
 - Bestückung mit Arduino Pro Mini oder alternativ mit ATmega328P
 - RC- oder Quarzoszillator möglich
@@ -260,7 +261,7 @@ Bestückungsvarianten
 |---|---|---|---|---|
 | IC1 | Atmega 328P | TQFP |  | ATMEGA 328P-AU |
 | IC2 | CC1101 | SMD |  | (aliexpress) |
-| R1, R5, R6, R8, R9 | 10k | 0805 | R8 nur bei DS18X20 Einsatz | RND 0805 1 10K |
+| R1, R5, R6, R8, R9 | 10k | 0805 | R8 nur bei DS18B20 Einsatz | RND 0805 1 10K |
 | R7 | 1,5k | 0805 | |  RND 0805 1 1,5K |
 | C1..C7 | 100nF | 0805 | C5..C7 je nach verbauten I2C-Sensoren | X7R-G0805 100N |
 | C8 | 1uF | 0805 |  | X7R-G0805 1,0/25 |
@@ -355,9 +356,9 @@ Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
 - HB-UNI-Sensor1 für für Außen- oder Innenanwendungen, 07/2019
 - Weiterentwicklung vom PLHT Sensor Version 2.01 mit anderen Gehäusevarianten
 - Bestückung mit ATmega328P, RC-Oszillator als Standard
-- Sensoren für Temperatur (DS18x20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
+- Sensoren für Temperatur (DS18B20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
 - 5x I2C Stiftleisten vorhanden, damit können bis zu 5 I2C Sensoren auf Breakout-Boards parallel bestückt werden
-- 1-Wire Temperatursensor DS18x20 bestückbar
+- 1-Wire Temperatursensor DS18B20 bestückbar
 - Spannungsversorgung: Batterien/Akku 2 AA-Zellen
 - Die nicht benutzten Arduino Pins 3, 6, 7, A0 sind auf einem extra Steckverbinder für Erweiterungen herausgeführt (K3)
 - Option: Echte Batteriespannungsmessung unter Last (Schutz vor "Babbling Idiot")
@@ -390,7 +391,7 @@ Auch ein Arduino Uno kann zum ISP-Programmer umfunktioniert werden.
 - die Befestigungslöcher der Platine für das BOX-SENS-WHITE Gehäuse müssen ca. 1mm weiter auseinander (TomMajor)
 - das Lötpad GDO2 am CC1101 kann im Platinenlayout entfernt werden da nicht benötigt (TomMajor)
 - den optionalen Miniatur-Quarz um 90° drehen damit ein 32kHz Quarz optional liegend bestückt werden kann + ggf. 2 weitere SMD Kond. für diesen 32kHz Quarz (harvey)
-- ggf. Lötpads für einen 2. DS18x20 vorsehen um einen Differenztemperatursensor zu realisieren (der 2. DS18x20 geht dann nach Extern) (harvey)
+- ggf. Lötpads für einen 2. DS18B20 vorsehen um einen Differenztemperatursensor zu realisieren (der 2. DS18B20 geht dann nach Extern) (harvey)
 
 
 ## Bestellung der Platine
@@ -514,13 +515,18 @@ Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
 
 Der Temperaturwert des BME280 reagiert träger als andere Temperatursensoren, dies liegt m.E. an der engen thermischen Kopplung zwischen aufgelötetem Chip und Platine und der daraus resultierenden thermischen Trägheit des Systems.<br>
 Temperatursensoren die nur über ihre Anschlüsse in der Luft hängen reagieren schneller.<br><br>
-Ich empfehle daher für die Temperaturmessung einen zusätzlichen DS18x20 zu verbauen und die Temperatur des BME280 zu ignorieren. Im Sketch ist das entsprechend berücksichtigt.<br>
+Ich empfehle daher für die Temperaturmessung einen zusätzlichen DS18B20 zu verbauen und die Temperatur des BME280 zu ignorieren. Im Sketch ist das entsprechend berücksichtigt.<br>
 <br>
 Vergleich der BME280 / DS18B20 / SHT10 Temperaturwerte bei einem 6K Sprung<br>
 Quelle: FHEM user *Gernott*<br>
 *'Links war der BME280-breakout horizontal positioniert, recht vertikal über eine Kante stehend. Dort wir der Sensor offenbar besser angeströmt und reagiert dann deutlich schneller. Der SHT hing ohne breakout dünn verdrahtet im Raum und reagiert ziemlich schnell.'*
 
 ![pic](Images/Vergleich_Temperatursensoren.png)
+
+
+## Anschlussbelegung DS18B20
+
+![pic](Images/DS18B20_Pin_Assignment.jpg)
 
 
 ## Optionaler Reset-Baustein MCP111
@@ -574,7 +580,7 @@ Quelle: FHEM user *Gernott*<br>
 [EnableInterrupt](https://github.com/GreyGnome/EnableInterrupt)</br>
 [Low-Power](https://github.com/rocketscream/Low-Power)
 
-Für einen DS18x20 Sensor (Temperatur):</br>
+Für einen DS18B20 Sensor (Temperatur):</br>
 [OneWire](https://github.com/PaulStoffregen/OneWire)
 
 Für einen BME280 Sensor (Temperatur/Druck/Feuchte):</br>
