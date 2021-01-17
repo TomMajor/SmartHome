@@ -67,6 +67,8 @@ check_rfd()
 
 case "$1" in
     ""|init|start)
+      check_ccu_fw_version
+
       if [ ! -f ${ADDON_DIR}/installed ] || [ ! -f ${CK_FIRMWARE_FILE} ]; then       
         echo "Starting complete installation within '$1' $(date +"%d.%m.%Y %H:%M:%S")" | tee $GLOBAL_LOGFILE
         cp /dev/null $GLOBAL_ERRFILE
@@ -101,7 +103,6 @@ case "$1" in
         chmod 755 /www/ise/img/icons_hm_dis_ep_wm55/24/*
         
         ### Patch some files ###
-        check_ccu_fw_version
         ./patchworker install ${ADDON_NAME} ${PATCHSUBDIR_VERSION} $model.$version.$build.$bdate
 
         cd /www
@@ -184,6 +185,9 @@ case "$1" in
         fi
         echo "Installation done." | tee -a $GLOBAL_LOGFILE
       else
+        echo "Checking for accidently restored unpatched programs.htm"
+        # TODO
+
         echo "Checking for subsequent customized firmware files..."
         changed=0
 
@@ -268,7 +272,7 @@ case "$1" in
 	  echo "Info: <b>HB-TM-JP AddOn Reduced</b><br>"
 	  echo "Info: <b>CCU2/3, RaspberryMatic</b><br>"
 	  echo "Info: (c) 2018-2021 jp112sdl<br>(c) 2019-2021 TomMajor (Reduced-Repack)<br>"
-	  echo "Info: <a href='https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced'>Projekt auf Github</a>"
+	  echo "Info: <a target='_blank' href='https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced'>Projekt auf Github</a>"
 	  echo "Version: $(cat ${ADDON_DIR}/VERSION)"
 	  echo "Name: HB-TM-JP AddOn Reduced"
 	  echo "Operations: uninstall"
