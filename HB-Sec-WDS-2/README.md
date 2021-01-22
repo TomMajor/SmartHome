@@ -21,7 +21,7 @@
 
 - Der Sketch benötigt den master-Branch der [AskSinPP Library](https://github.com/pa-pa/AskSinPP), nicht den V4 Release-Branch wie dort angegeben.<br>
 
-- Für möglichst geringen Ruhestrom: Vor dem Einlöten des Arduino Pro Mini empfehle ich das [Entfernen des LDO und der LED](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#ruhestrom-arduino-pro-mini) sowie den [Ruhestromtest](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#%C3%BCberpr%C3%BCfung-des-avr-ruhestroms-power-down-mode)
+- Für möglichst geringen Ruhestrom: Vor dem Einlöten des Arduino Pro Mini empfehle ich das [Entfernen des LDO und der LED](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#ruhestrom-arduino-pro-mini) sowie den [Ruhestromtest](https://github.com/TomMajor/SmartHome/tree/master/Info/Ruhestrom#%C3%BCberpr%C3%BCfung-des-avr-ruhestroms-power-down-mode).
 
 
 ## Bilder
@@ -110,6 +110,13 @@ Abschnitt "Option3: Echte Batteriespannungsmessung unter Last"
 ![pic](Images/HB-Sec-WDS-2_Prototyp_2018_01.jpg)
 
 ![pic](Images/HB-Sec-WDS-2_Prototyp_2018_02.png)
+
+
+## FHEM
+
+- Die Variante WDS2_STANDARD wird von Hause aus in FHEM unterstützt da kompatibel zum Originalgerät.
+
+- Die Variante WDS2_CUSTOM wird Dank *Feinfingers* Arbeit ebenfalls in FHEM [unterstützt](https://github.com/pa-pa/AskSinPP/commit/b33b2b9a2efd8f13bdc24f774e4daca8e54f242c).
 
 
 ## Links
