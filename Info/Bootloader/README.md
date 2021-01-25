@@ -65,10 +65,16 @@
     avrdude -c stk500 -p m328p -P COM5 -b 115200 -e -U flash:w:C:\temp\ATmegaBOOT_168_atmega328_pro_8MHz.hex:i
 
 ![pic](Images/Flash_Bootloader.png)
-<br>
+<br><br>
 
 
 ## Pinbelegung AVR ISP 6-polig
 
 ![pic](Images/AVR_ISP.jpg)
-<br>
+<br><br>
+
+
+## Pinbelegung Atmel-ICE AVR Port
+
+![pic](Images/Atmel-ICE_SPI_Pin_Mapping.png)
+<br><br>
