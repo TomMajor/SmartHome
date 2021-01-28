@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor3
-// Version 1.19
-// (C) 2018-2020 Tom Major (Creative Commons)
+// Version 1.23
+// (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -467,10 +467,9 @@ public:
         sht21.init();
 #endif
 #ifdef SENSOR_SHT10
-#if defined SENSOR_BME280 || defined SENSOR_BMP180 || defined SENSOR_MAX44009 || defined SENSOR_TSL2561 || defined SENSOR_BH1750                     \
-    || defined SENSOR_VEML6070 || defined SENSOR_VEML6075
-        sht10.i2cEnableSharedAccess();    // falls I2C Sensoren vorhanden dies dem SHT10 mitteilen
-#endif
+        // für SHT10 immer SharedAccess aktivieren, auch ohne weitere I2C-Sensoren
+        // dies ist wichtig für den Ruhestromverbrauch um nach Ende der Messung SCL/SDA immer auf High zu haben
+        sht10.i2cEnableSharedAccess();    
         sht10.init();
 #endif
 #ifdef SENSOR_DIGINPUT
