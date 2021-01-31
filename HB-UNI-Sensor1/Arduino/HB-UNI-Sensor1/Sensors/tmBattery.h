@@ -1,7 +1,7 @@
-
 //---------------------------------------------------------
 // tmBattery
-// 2019-05-14 Tom Major (Creative Commons)
+// Version 1.00
+// (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -162,9 +162,11 @@ public:
 
     void init(uint32_t period, AlarmClock& clock)
     {
-        pinMode(ACTIVATIONPIN, INPUT);    // disable resistor divider
-        pinMode(SENSPIN, INPUT);          // input
-        digitalWrite(SENSPIN, LOW);       // pull-up off
+        pinMode(ACTIVATIONPIN, INPUT);     // disable resistor divider
+        if (SENSPIN <= A5) {               // don't call pinMode() on A6/A7, weird things may happen
+            pinMode(SENSPIN, INPUT);       // input
+            digitalWrite(SENSPIN, LOW);    // pull-up off
+        }
         tmBattery::init(period, clock);
     }
 
@@ -212,9 +214,11 @@ public:
     {
         pinMode(ACTIVATIONPIN, OUTPUT);
         digitalWrite(ACTIVATIONPIN, LOW);    // N-Channel Mosfet off
-        pinMode(SENSPIN, INPUT);             // input
-        digitalWrite(SENSPIN, LOW);          // pull-up off
-        if (m_LoadTime > 2000) {             // just for safety
+        if (SENSPIN <= A5) {                 // don't call pinMode() on A6/A7, weird things may happen
+            pinMode(SENSPIN, INPUT);         // input
+            digitalWrite(SENSPIN, LOW);      // pull-up off
+        }
+        if (m_LoadTime > 2000) {    // just for safety
             m_LoadTime = 2000;
         }
         tmBattery::init(period, clock);
@@ -245,7 +249,6 @@ private:
         }
     }
 };
-
 }
 
 #endif
