@@ -11,3 +11,9 @@ Unisensv201_case_deckelV2.zip
 Creator: modwadd
 https://github.com/modwadd
 https://homematic-forum.de/forum/viewtopic.php?f=76&t=43887&start=140#p587167
+
+----------
+3D-Druck Gehäuse für PCB Version i2.20
+HB-UNI-Sensor1_SonOfAbaddon.zip
+Creator: SonOfAbaddon
+https://www.thingiverse.com/thing:4752365

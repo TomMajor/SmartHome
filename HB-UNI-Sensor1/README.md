@@ -116,6 +116,10 @@ Beispiel:<br>
 
 ![pic](Images/UniSensor_HW_Vi2.20_5.jpg)
 
+![pic](Images/UniSensor_HW_Vi2.20_10.jpg)
+
+![pic](Images/UniSensor_HW_Vi2.20_11.jpg)
+
 
 ## Schaltplan
 
@@ -254,6 +258,9 @@ Bestückungsvarianten
 
 - Gehäusevariante 2 (Innen): 3D Druck, Design by Jan_von_neben_an (Schmelzerboy) <br>
 [Gehäuse HB-UNI-Sensor1](https://www.thingiverse.com/thing:3766944)
+
+- Gehäusevariante 3 (Innen): 3D Druck, Design by SonOfAbaddon <br>
+[Gehäuse HB-UNI-Sensor1](https://www.thingiverse.com/thing:4752365)
 
 ![pic](Images/UniSensor_HW_Vi2.20_6.jpg)
 
