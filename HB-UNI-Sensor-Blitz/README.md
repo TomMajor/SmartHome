@@ -96,6 +96,8 @@ Diese beiden Pins müssen bei Power-On bzw. Reset wechselweise an Masse gelegt w
 
 ![pic](Images/AS3935_Calibration4.jpg)
 
+![pic](Images/AS3935_Calibration3.png)
+
 
 ## Web-UI / HomeMatic-Zentrale
 
