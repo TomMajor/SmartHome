@@ -64,9 +64,10 @@ Im Sketch sind diese 2 Arduino Pins zur Aktivierung des Modus zur Kalibrierung d
 `#define CALIBRATION_PIN1 A0`<br>
 `#define CALIBRATION_PIN2 A1`<br>
 
-Diese beiden Pins müssen bei Power-On bzw. Reset wechselweise an Masse gelegt werden um in die 2 Modi zur Kalibrierung zu gelangen.
+Diese beiden Pins müssen bei Power-On bzw. Reset wechselweise an Masse gelegt werden um in die 2 Modi zur Kalibrierung zu gelangen:
 
-1. AVR Taktfrequenz: CALIBRATION_PIN1 an Masse
+###### 1. AVR Taktfrequenz: CALIBRATION_PIN1 an Masse
+
  - Im seriellen Monitor ist "AVR FREQUENCY MEASURE MODE" zu lesen.
  - Die AVR Taktfrequenz wird heruntergeteilt an Pin 6 ausgegeben, bei exakt 8MHz Takt werden exakt 2000Hz ausgegeben.
  - Die Frequenz möglichst genau an Pin 6 messen und in der Datei Sens_AS3935.h, Zeile 39 eintragen, in Hertz, z.B.:<br>
@@ -77,13 +78,23 @@ Diese beiden Pins müssen bei Power-On bzw. Reset wechselweise an Masse gelegt w
 
 ![pic](Images/AS3935_Calibration1.png)
 
-2. AS3935 Empfangsfrequenz: CALIBRATION_PIN2 an Masse
+###### 2. AS3935 Empfangsfrequenz: CALIBRATION_PIN2 an Masse
+
  - Im seriellen Monitor ist "AS3935 CALIBRATION MODE" zu lesen.
  - Es werden die Sensor-internen, 16 möglichen Abtimmkapazitäten durchgeschaltet und jeweils die AS3935 Empfangsfrequenz dafür gemessen.
  - Nach Abschluss des Durchlaufs wird der beste Kapazitätsindex im Bereich 0..15 angezeigt (der, der am Nächsten zu 500kHz liegt).
  - Diesen Kapazitätsindex muss nach dem Anlernen des Gerätes in den Geräteeinstellungen für den HB-UNI-Sensor-Blitz eingetragen werden.
 
 ![pic](Images/AS3935_Calibration2.png)
+
+###### 3. Empfangsfrequenz von 500kHz wegen Bauteiltoleranzen nicht erreicht
+
+- Bei meinem AS3935 Exemplar lag ich zunächst auch nach dem Abgleich der Empfangsfrequenz relativ weit von den empfohlenen 500kHz weg, bei 473,8kHz.
+- Im Netz hatte ich gelesen das je nach Lieferung und Bauteiltoleranzen die Parallelschaltung aus C2/1nF und C3/100pF am L-C Schwingkreis des Empfängers zu viel sein kann.
+- Also habe ich mal testweise C3/100pF entfernt. Tatsächlich brachte dann ein erneuter Abgleich 492,8kHz, was besser zur Empfehlung passt.
+- Der im Chip implementierte Algorithmus zur Blitzerkennung ist für 500kHz Empfangsfrequenz optimiert.
+
+![pic](Images/AS3935_Calibration4.jpg)
 
 
 ## Web-UI / HomeMatic-Zentrale

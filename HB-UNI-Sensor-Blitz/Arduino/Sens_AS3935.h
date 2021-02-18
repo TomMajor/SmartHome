@@ -36,7 +36,7 @@
 
 #define AS3935_ADDR 1
 #define AS3935_INT_PIN 3
-#define CLK_TEST_FREQ_HZ 2026 // 2000
+#define CLK_TEST_FREQ_HZ 2026 // 2000 - see README, section calibration
 
 // clang-format off
 
