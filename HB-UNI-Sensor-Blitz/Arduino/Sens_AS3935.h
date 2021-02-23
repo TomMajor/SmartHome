@@ -238,7 +238,7 @@ public:
             }
             currentCount            = currentCount / 2u;                      // slope count to frequency
             unsigned long frequency = (unsigned long)currentCount * 128ul;    // Freq. divider 32, measure time *4 (250ms)
-            uint16_t      currDiff  = abs(3906u - currentCount);
+            uint16_t      currDiff  = abs(3906 - (int16_t)currentCount);
             if (currDiff < bestDiff) {
                 bestDiff = currDiff;
                 bestTune = currTune;
