@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-Sec-WDS-2
-// Version 1.07
+// Version 1.08
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -165,15 +165,6 @@ public:
 
     void measure(__attribute__((unused)) bool async = false)
     {
-        // after device reset, make sure to always trigger a first message if not in dry state
-        static bool onlyOnce = false;
-        if (!onlyOnce) {
-            onlyOnce  = true;
-            _position = State::PosA;
-            DPRINTLN(F("Init Pos"));
-            return;
-        }
-
         uint16_t adcWet = measureChannel(m_SensePinWet);
         DPRINT(F("ADC Wet:   "));
         DDECLN(adcWet);
@@ -251,8 +242,6 @@ public:
 
     void init(uint8_t adcpin1, uint8_t adcpin2)
     {
-        BaseChannel::init();
-        BaseChannel::possens.init(adcpin1, adcpin2);
 #ifdef WDS2_STANDARD
         DPRINTLN(F("Device: WDS2_STANDARD"));
 #elif defined WDS2_CUSTOM
@@ -263,6 +252,9 @@ public:
 #elif defined THREE_STATE
         DPRINTLN(F("Configuration: THREE_STATE"));
 #endif
+        // possens.init must be called before BaseChannel::init() - because BaseChannel::init() already does a trigger/measure
+        BaseChannel::possens.init(adcpin1, adcpin2);
+        BaseChannel::init();
     }
 };
 
@@ -312,6 +304,7 @@ void setup()
     hal.battery.critical(BAT_VOLT_CRITICAL);
     hal.battery.init(seconds2ticks(60ul * 60 * 24), sysclock);    // 1x Batt.messung täglich
     sdev.initDone();
+    sdev.channel(1).changed(true);    // trigger first message after reset
 }
 
 void loop()
