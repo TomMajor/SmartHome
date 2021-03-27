@@ -24,7 +24,7 @@
 
 ## Zusätzliche Infos
 
-- [:arrow_right: Erstellung Gerber-Dateien in Eagle](Files/HowToGenerateGerberAndDrillFilesInEagle-JLCPCB.pdf)
+[:arrow_right: Erstellung Gerber-Dateien in Eagle](Files/HowToGenerateGerberAndDrillFilesInEagle-JLCPCB.pdf)
 
-- [:arrow_right: JLCPCB CAM Prozessdatei](Files/jlcpcb_2_layer_v72.zip)
+[:arrow_right: JLCPCB CAM Prozessdatei](Files/jlcpcb_2_layer_v72.zip)
 
