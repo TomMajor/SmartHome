@@ -1,13 +1,20 @@
-//- -----------------------------------------------------------------------------------------------------------------------
-// AskSin++
-// 2016-10-31 papa Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
-// 2018-12-01 jp112sdl Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
-// 2019-02-24 TomMajor Creative Commons - http://creativecommons.org/licenses/by-nc-sa/3.0/de/
-//- -----------------------------------------------------------------------------------------------------------------------
+//---------------------------------------------------------
+// DisplayTest42
+// Version 1.02
+// (C) 2019-2021 Tom Major (Creative Commons)
+// https://creativecommons.org/licenses/by-nc-sa/4.0/
+// You are free to Share & Adapt under the following terms:
+// Give Credit, NonCommercial, ShareAlike
+// +++
+// AskSinPP 2016-10-31 papa Creative Commons
+// HB-Dis-EP-42BW 2018-12-01 jp112sdl Creative Commons
+//---------------------------------------------------------
 
 // MightyCore 1284P, STANDARD pinout, 8MHz
 
 //---------------------------------------------------------
+// #define USE_COLOR     // default ist black/white, uncomment this line for 3-colors ePaper black/white/red
+
 #define EI_NOTEXTERNAL
 #include <EnableInterrupt.h>
 #include <AskSinPP.h>
@@ -15,7 +22,11 @@
 #include "Icons.h"
 
 #include <GxEPD.h>
+#ifdef USE_COLOR
+#include <GxGDEW042Z15/GxGDEW042Z15.h>    // 4.2" b/w/r
+#else
 #include <GxGDEW042T2/GxGDEW042T2.h>    // 4.2" b/w
+#endif
 
 #include <GxIO/GxIO_SPI/GxIO_SPI.h>
 #include <GxIO/GxIO.h>
@@ -70,29 +81,35 @@ void initDisplay()
 
     const char* title PROGMEM    = "HB-Dis-EP-42BW";
     const char* asksinpp PROGMEM = "AskSinPP";
-    const char* version PROGMEM  = "V " ASKSIN_PLUS_PLUS_VERSION;
-    const char* c1 PROGMEM       = "Thanks papa for grand AskSinPP";
-    const char* c2 PROGMEM       = "Thanks Jerome for cool project";
-    const char* c3 PROGMEM       = "Thanks Marco for PCB design";
-    const char* c4 PROGMEM       = "LCD Test Tom Major";
+    const char* version PROGMEM  = "V" ASKSIN_PLUS_PLUS_VERSION_STR;
+    const char* c1 PROGMEM       = "DisplayTest42 Tom Major";
+    const char* c2 PROGMEM       = "Thanks papa for great AskSinPP";
+    const char* c3 PROGMEM       = "Thanks Jerome for cool project";
+    const char* c4 PROGMEM       = "Thanks Marco for PCB design";
 
     u8g2Fonts.setCursor(centerPosition(title), 95);
     u8g2Fonts.print(title);
 
+#ifdef USE_COLOR
+    u8g2Fonts.setForegroundColor(GxEPD_RED);
+#endif
     u8g2Fonts.setCursor(centerPosition(asksinpp), 170);
     u8g2Fonts.print(asksinpp);
-
     u8g2Fonts.setCursor(centerPosition(version), 210);
     u8g2Fonts.print(version);
+#ifdef USE_COLOR
+    u8g2Fonts.setForegroundColor(GxEPD_BLACK);
+#endif
 
     u8g2Fonts.setFont(u8g2_font_helvB12_tf);
-    u8g2Fonts.setCursor(centerPosition(c1), 300);
+    int x = centerPosition(c2);
+    u8g2Fonts.setCursor(x, 270);
     u8g2Fonts.print(c1);
-    u8g2Fonts.setCursor(centerPosition(c2), 330);
+    u8g2Fonts.setCursor(x, 300);
     u8g2Fonts.print(c2);
-    u8g2Fonts.setCursor(centerPosition(c2), 360);
+    u8g2Fonts.setCursor(x, 330);
     u8g2Fonts.print(c3);
-    u8g2Fonts.setCursor(centerPosition(c2), 390);
+    u8g2Fonts.setCursor(x, 360);
     u8g2Fonts.print(c4);
 
     display.drawRect(60, 138, 175, 80, DisplayConfig.clFG);

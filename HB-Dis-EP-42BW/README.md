@@ -340,10 +340,11 @@ ergibt **39uA**
 ## Displaytest
 
 - testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein.
+- für ein Farb-ePaper die Zeile `// #define USE_COLOR` aktivieren (auskommentieren)
 
-![pic](Images/Displaytest.jpg)
+![pic](Images/DisplayTest42.jpg)
 
-[DisplayTest_42BW](DisplayTest_42BW)
+[Displaytest Sketch](Arduino/DisplayTest42)
 
 
 ## Lizenz
