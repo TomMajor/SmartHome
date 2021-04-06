@@ -30,6 +30,7 @@
   - [Anschlussbelegung DS18B20](#anschlussbelegung-ds18b20)
   - [Optionaler Reset-Baustein MCP111](#optionaler-reset-baustein-mcp111)
   - [Bewegungsmelder mit PIR AS312 am digitalen Eingang](#bewegungsmelder-mit-pir-as312-am-digitalen-eingang)
+  - [Was sonst noch passierte (Batteriewechsel)](#was-sonst-noch-passierte-batteriewechsel)
   - [Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones](#exclamation-warnung-vor-dem-flashen-von-33v-geräten-mit-usbasp-klones)
 - Links, Bibliotheken und Lizenz
   - [Links](#links)
@@ -560,6 +561,13 @@ Quelle: FHEM user *Gernott*<br>
 ![pic](Images/UniSensor_PIR2.jpg)
 
 ![pic](Images/UniSensor_PIR3.jpg)
+
+
+## Was sonst noch passierte (Batteriewechsel)
+
+- Batteriewechsel beim HB-UNI-Sensor1 nach ca. 2 Jahren..
+
+![pic](Images/HB-UNI-Sensor1_BatteryChange.png)
 
 
 ## :warning: Warnung vor dem Flashen von 3,3V Geräten mit USBasp Klones
