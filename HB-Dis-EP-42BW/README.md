@@ -1,5 +1,5 @@
 
-# Infos und AddOn zum 4,2" ePaper Display HB-Dis-EP-42BW
+# Infos, Aufbau und AddOn zum 4,2" ePaper Display HB-Dis-EP-42BW
 
 ![pic](Images/Built-up/HB-Dis-EP-42BW_1.jpg)
 
@@ -7,13 +7,19 @@
 [Original HB-Dis-EP-42BW](https://github.com/jp112sdl/HB-Dis-EP-42BW)
 
 
-## AddOn für CCU2/CCU3/RaspberryMatic 
-
-- meine Version des HB-Dis-EP-42BW ePaper Addon aus dem Jahr 2019 (Stripdown aus Jérômes JP-HB-Devices-addon nur für das ePaper) wurde eingestellt.
-
-- Dafür kommt jetzt bei mir die neue und erweiterte Version [HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced) zum Einsatz, die nebem dem HB-Dis-EP-42BW ePaper Gerät auch noch die Geräte HB-RC-12-EP und HB-OU-MP3-LED kann.
-
-:warning: Achtung, bitte entweder nur Jérômes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
+## Inhaltsverzeichnis
+- [Aufbau - Alveran's Gehäusevariante](#aufbau---alverans-gehäusevariante)
+- [AddOn für CCU2/CCU3/RaspberryMatic](#addon-für-ccu2ccu3raspberrymatic)
+- [Script Helper](#script-helper)
+- [HomeMatic-Skript: Nur die geänderten Zeilen an das Display senden (DutyCycle sparen)](#homematic-skript-nur-die-geänderten-zeilen-an-das-display-senden-dutycycle-sparen)
+- [Bootloader](#bootloader)
+- [Fuses](#fuses)
+- [Arduino IDE-Einstellungen](#arduino-ide---einstellungen)
+- [Firmware / Hex-Files](#firmware-hex-files)
+- [Displaytest](#displaytest)
+- [Strommessung und Kalkulation der Batterielebensdauer](#strommessung-und-kalkulation-der-batterielebensdauer)
+- [Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt](#meine-favorisierten-änderungen-falls-es-mal-zu-einem-redesign-der-epaper-platine-von-stan23-kommt)
+- [Lizenz](#lizenz)
 
 
 ## Aufbau - Alveran's Gehäusevariante
@@ -53,6 +59,15 @@
 ![pic](Images/Built-up/Basis_2.jpg)
 
 ![pic](Images/Built-up/HB-Dis-EP-42BW_2.jpg)
+
+
+## AddOn für CCU2/CCU3/RaspberryMatic
+
+- meine Version des HB-Dis-EP-42BW ePaper Addon aus dem Jahr 2019 (Stripdown aus Jérômes JP-HB-Devices-addon nur für das ePaper) wurde eingestellt.
+
+- Dafür kommt jetzt bei mir die neue und erweiterte Version [HB-TM-JP-AddOn-Reduced](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-JP-AddOn-Reduced) zum Einsatz, die nebem dem HB-Dis-EP-42BW ePaper Gerät auch noch die Geräte HB-RC-12-EP und HB-OU-MP3-LED kann.
+
+:warning: Achtung, bitte entweder nur Jérômes JP-HB-Devices-addon oder das HB-TM-JP-AddOn-Reduced installieren, niemals beide AddOn gleichzeitig, das wird nicht funktionieren!
 
 
 ## Script Helper
@@ -263,6 +278,38 @@
 ```
 
 
+## Bootloader
+
+[Bootloader ATmega1284P](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284_RC-Osc_or_Quarz)
+
+
+## Fuses
+
+![pic](Images/Fuses_1284p_1.png)
+
+![pic](Images/Fuses_1284p_2.png)
+
+
+## Arduino IDE-Einstellungen
+
+![pic](Images/ArduinoIDE_1284p.png)
+
+
+## Firmware / Hex-Files
+
+[Firmware / Hex-Files](Firmware)
+
+
+## Displaytest
+
+- testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein.
+- für ein Farb-ePaper die Zeile `// #define USE_COLOR` aktivieren (auskommentieren)
+
+![pic](Images/DisplayTest42.jpg)
+
+[Displaytest Sketch](Arduino/DisplayTest42)
+
+
 ## Strommessung und Kalkulation der Batterielebensdauer
 
 Alle Messungen erfolgten über 20Ohm Shuntwiderstand.
@@ -323,28 +370,6 @@ ergibt **39uA**
 - Config Taster als SMD Taster von hinten bestückbar
 - Verpolschutz in der +Leitung mit P-Kanal Mosfet im SOT-23 Package
 - Lötpads für 3mm-Zweifarb-LED besser an die Pinform anpassen so dass diese ohne Nacharbeit auf dem Board aufsetzten kann
-
-
-## Bootloader
-
-[Bootloader ATmega1284P](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader/mega1284_RC-Osc_or_Quarz)
-
-
-## Fuses
-
-![pic](Images/Fuses_1284p_1.png)
-
-![pic](Images/Fuses_1284p_2.png)
-
-
-## Displaytest
-
-- testet die Funktion des ePaper Displays mit Ansteuerung durch den ATmega1284p - der CC1101 muss nicht verbaut sein.
-- für ein Farb-ePaper die Zeile `// #define USE_COLOR` aktivieren (auskommentieren)
-
-![pic](Images/DisplayTest42.jpg)
-
-[Displaytest Sketch](Arduino/DisplayTest42)
 
 
 ## Lizenz
