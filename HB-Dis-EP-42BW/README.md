@@ -14,11 +14,12 @@
 - [HomeMatic-Skript: Nur die geänderten Zeilen an das Display senden (DutyCycle sparen)](#homematic-skript-nur-die-geänderten-zeilen-an-das-display-senden-dutycycle-sparen)
 - [Bootloader](#bootloader)
 - [Fuses](#fuses)
-- [Arduino IDE-Einstellungen](#arduino-ide---einstellungen)
-- [Firmware / Hex-Files](#firmware-hex-files)
+- [Arduino IDE-Einstellungen](#arduino-ide-einstellungen)
+- [Firmware / Hex-Files](#firmware--hex-files)
 - [Displaytest](#displaytest)
 - [Strommessung und Kalkulation der Batterielebensdauer](#strommessung-und-kalkulation-der-batterielebensdauer)
 - [Meine favorisierten Änderungen falls es mal zu einem Redesign der ePaper Platine von stan23 kommt](#meine-favorisierten-änderungen-falls-es-mal-zu-einem-redesign-der-epaper-platine-von-stan23-kommt)
+- [ePaper Full-Refresh Zeiten](#epaper-full-refresh-zeiten)
 - [Lizenz](#lizenz)
 
 
@@ -370,6 +371,11 @@ ergibt **39uA**
 - Config Taster als SMD Taster von hinten bestückbar
 - Verpolschutz in der +Leitung mit P-Kanal Mosfet im SOT-23 Package
 - Lötpads für 3mm-Zweifarb-LED besser an die Pinform anpassen so dass diese ohne Nacharbeit auf dem Board aufsetzten kann
+
+
+## ePaper Full-Refresh Zeiten
+
+![pic](Images/epaper_refresh.jpg)
 
 
 ## Lizenz
