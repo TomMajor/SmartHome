@@ -10,9 +10,12 @@ $HMConfig::culHmModel{'F103'} = {name => 'HB-UNI-Sensor1', st => 'UniSensor1', c
 # examples see HMConfig.pm line 350ff
 # 'ledMode', a=> 5.6, s=>0.2, .. is already configured in HMConfig.pm
 # see also franks explanations: https://forum.fhem.de/index.php/topic,20620.msg1148330.html#msg1148330
-$HMConfig::culHmRegDefine{'lowBatLimitUS1'}  = {a=>18.0,s=>1.0,l=>0,min=>1.0   ,max=>5     ,p=>'n',c=>''   ,f=>10,u=>'V' ,d=>0,t=>'Low batterie limit, step 0.1 V.'};
-$HMConfig::culHmRegDefine{'updateIntervall'} = {a=>32.0,s=>2.0,l=>0,min=>60    ,max=>43200 ,p=>'n',c=>''   ,f=>'',u=>'s' ,d=>0,t=>'Sensor measure and send intervall in seconds.'};
-$HMConfig::culHmRegDefine{'altitudeUS1'}     = {a=>34.0,s=>2.0,l=>0,min=>0     ,max=>10000 ,p=>'n',c=>''   ,f=>'',u=>'m' ,d=>0,t=>'Altitude for calculate air pressure at see level in meter.'};
+$HMConfig::culHmRegDefine{'lowBatLimitUS1'}  = {a=>18.0,s=>1.0,l=>0,min=>1.0   ,max=>5     ,p=>'n',c=>''   ,f=>10,u=>'V' ,d=>0,t=>'Low batterie limit, step 0.1 V'};
+$HMConfig::culHmRegDefine{'updateIntervall'} = {a=>32.0,s=>2.0,l=>0,min=>60    ,max=>43200 ,p=>'n',c=>''   ,f=>'',u=>'s' ,d=>0,t=>'Sensor measure and send intervall in seconds'};
+$HMConfig::culHmRegDefine{'altitudeUS1'}     = {a=>34.0,s=>2.0,l=>0,min=>0     ,max=>10000 ,p=>'n',c=>''   ,f=>'',u=>'m' ,d=>0,t=>'Altitude for calculate air pressure at see level in meter'};
+$HMConfig::culHmRegDefine{'offsetTempUS1'}   = {a=>36.0,s=>4.0,l=>0,min=>-5.0  ,max=>5.0   ,p=>'n',c=>''   ,f=>10,u=>'m' ,d=>0,t=>'Temperature offset, factor 0.1 K'};
+$HMConfig::culHmRegDefine{'offsetPressUS1'}  = {a=>40.0,s=>4.0,l=>0,min=>-10.0 ,max=>10.0  ,p=>'n',c=>''   ,f=>10,u=>'m' ,d=>0,t=>'Pressure offset, factor 0.1 hPa'};
+$HMConfig::culHmRegDefine{'offsetHumiUS1'}   = {a=>44.0,s=>4.0,l=>0,min=>-10.0 ,max=>10.0  ,p=>'n',c=>''   ,f=>10,u=>'m' ,d=>0,t=>'Humidity offset, factor 0.1 percent'};
 
 # Register model mapping
 $HMConfig::culHmRegModel{'HB-UNI-Sensor1'} = {
@@ -21,7 +24,10 @@ $HMConfig::culHmRegModel{'HB-UNI-Sensor1'} = {
     'ledMode'         => 1,
     'transmDevTryMax' => 1,
     'updateIntervall' => 1,
-    'altitudeUS1'     => 1
+    'altitudeUS1'     => 1,
+    'offsetTempUS1'   => 1,
+    'offsetPressUS1'  => 1,
+    'offsetHumiUS1'   => 1
 };
 
 # subtype channel mapping
