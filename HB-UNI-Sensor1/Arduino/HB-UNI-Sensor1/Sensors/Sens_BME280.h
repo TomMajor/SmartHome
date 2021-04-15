@@ -33,7 +33,7 @@ class Sens_BME280 : public Sensor {
     int16_t  _temperature;
     uint16_t _pressure;
     uint16_t _pressureNN;
-    uint8_t  _humidity;
+    uint16_t _humidity;
     BME280I2C
     _bme280;
 
@@ -41,10 +41,10 @@ class Sens_BME280 : public Sensor {
     {
         float temp(NAN), hum(NAN), pres(NAN);
         _bme280.read(pres, temp, hum, BME280::TempUnit_Celsius, BME280::PresUnit_hPa);    // hPa
-        _temperature = (int16_t)(temp * 10);                                              // HB-UNI-Sensor1: C*10
-        _pressure    = (uint16_t)(pres * 10);                                             // HB-UNI-Sensor1: hPa*10
-        _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(altitude), temp, pres) * 10);
-        _humidity    = (uint8_t)hum;
+        _temperature = (int16_t)(temp * 10.0);                                            // HB-UNI-Sensor1: Temp *10
+        _pressure    = (uint16_t)(pres * 10.0);                                           // HB-UNI-Sensor1: Press *10
+        _pressureNN  = (uint16_t)(EnvironmentCalculations::EquivalentSeaLevelPressure(float(altitude), temp, pres) * 10.0);
+        _humidity    = (uint16_t)(hum * 10.0);    // HB-UNI-Sensor1: Humi *10
     }
 
 public:
@@ -95,7 +95,7 @@ public:
             DDECLN(_pressure);
             DPRINT(F("BME280 PressureNN x10   : "));
             DDECLN(_pressureNN);
-            DPRINT(F("BME280 Humidity         : "));
+            DPRINT(F("BME280 Humidity x10     : "));
             DDECLN(_humidity);
         }
     }
@@ -103,7 +103,7 @@ public:
     int16_t  temperature() { return _temperature; }
     uint16_t pressure() { return _pressure; }
     uint16_t pressureNN() { return _pressureNN; }
-    uint8_t  humidity() { return _humidity; }
+    uint16_t humidity() { return _humidity; }
 };
 
 }

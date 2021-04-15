@@ -23,6 +23,7 @@
   - [RaspberryMatic/CCU Installation](#raspberrymaticccu-installation)
   - [RaspberryMatic WebUI](#raspberrymatic-webui)
   - [FHEM Installation](#fhem-installation)
+  - [Offseteinstellungen für Temperatur, Luftdruck und Luftfeuchte über WebUI](#offseteinstellungen-für-temperatur-luftdruck-und-luftfeuchte-über-webui)
   - [Serieller Log beim Start des Sensors](#serieller-log-beim-start-des-sensors)
 - Diverse Infos
   - [Benutzerspezifische Sensordaten](#benutzerspezifische-sensordaten)
@@ -439,8 +440,23 @@ Die Datei FHEM/HMConfig_UniSensor1.pm nach /opt/fhem/FHEM kopieren, dann FHEM ne
 ![pic](Images/fhem2.png)
 
 **Parameter Höhe einstellen:**<br>
-"Ich konnte bei meinem THPL Sensor mit BME280 und MAX44009 über getConfig // **Config drücken** // set regSet altitude 590 // **Config drücken** // getConfig // **Config drücken** die Höhe einstellen. Bitte berichtigt mich, wenn ich da zu viel drücke und mache- so hat es jedenfalls funktioniert ::)"<br>
+"Ich konnte bei meinem THPL Sensor mit BME280 und MAX44009 über getConfig // **Config-Button drücken** // set regSet altitudeUS1 590 // **Config-Button drücken** // getConfig // **Config-Button drücken** die Höhe einstellen. Bitte berichtigt mich, wenn ich da zu viel drücke und mache- so hat es jedenfalls funktioniert ::)"<br>
 FHEM user *kpwg*
+
+
+## Offseteinstellungen für Temperatur, Luftdruck und Luftfeuchte über WebUI
+
+- Ab HB-UNI-Sensor1 Version V1.40 und HB-TM-Devices-AddOn V2.60 können die Offsetwerte für Temperatur, Luftdruck und Luftfeuchte über das WebUI eingestellt werden.
+
+- Achtung, für negative Werte mit Kommastelle gibt es in einigen RaspberryMatic Versionen (z.B. 3.57.4.20210320) einen [Bug - ProofAndSetValue #1058](https://github.com/jens-maus/RaspberryMatic/issues/1058), durch den man nur ganzzahlige negative Werte einstellen kann.<br>
+Bei der RaspberryMatic Version 3.53.34.20201121 ist der Bug noch nicht vorhanden.
+
+- Einen Workaround für diesen Bug von Baxxy ist [hier](https://homematic-forum.de/forum/viewtopic.php?p=652376#p652376) beschrieben.
+
+- Die relative Luftfeuchte wird immer ohne Kommastelle an die Zentrale gesendet. Zum einen reicht das oft aus da viele Sensoren sowieso mit Abweichungen von mehreren Prozent spezifiziert sind, zum anderen kann man dadurch den HM internen Datentyp HUMIDITY nutzen und damit die Feuchte auch in einem Diagramm darstellen was mit eigenen Datentypen meines Wissens nach nicht möglich ist.<br>
+HB-UNI-Sensor1 intern wird jedoch auch bei der Luftfeuchte mit Kommastelle gerechnet, so dass eine eventuelle Offseteinstellung mit Kommastelle voll zum Tragen kommt falls man die Möglichkeit hat, diesen Messwert genau zu kalibrieren.
+
+![pic](Images/HB-UNI-Sensor1_Offseteinstellung.png)
 
 
 ## Serieller Log beim Start des Sensors

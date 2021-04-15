@@ -22,7 +22,7 @@ namespace as {
 template <uint8_t I2C_ADDR> class Sens_SHT31 : public Sensor {
 
     int16_t          _temperature;
-    uint8_t          _humidity;
+    uint16_t         _humidity;
     ::Adafruit_SHT31 _sht31;
 
 public:
@@ -60,16 +60,16 @@ public:
             float t    = _sht31.readTemperature();
             float h    = _sht31.readHumidity();
             if (!isnan(t)) {                           // check if 'is not a number'
-                _temperature = (int16_t)(t * 10.0);    // HB-UNI-Sensor1: C*10
+                _temperature = (int16_t)(t * 10.0);    // HB-UNI-Sensor1: Temp *10
                 DPRINT(F("SHT31 Temperature x10   : "));
                 DDECLN(_temperature);
             } else {
                 rRet = false;
                 DPRINT(F("SHT31 failed to read temperature"));
             }
-            if (!isnan(h)) {    // check if 'is not a number'
-                _humidity = (uint8_t)(h + 0.5);
-                DPRINT(F("SHT31 Humidity          : "));
+            if (!isnan(h)) {                         // check if 'is not a number'
+                _humidity = (uint16_t)(h * 10.0);    // HB-UNI-Sensor1: Humi *10
+                DPRINT(F("SHT31 Humidity x10      : "));
                 DDECLN(_humidity);
             } else {
                 rRet = false;
@@ -80,8 +80,8 @@ public:
         return bRet;
     }
 
-    int16_t temperature() { return _temperature; }
-    uint8_t humidity() { return _humidity; }
+    int16_t  temperature() { return _temperature; }
+    uint16_t humidity() { return _humidity; }
 };
 
 }

@@ -20,9 +20,9 @@
 namespace as {
 
 class Sens_SHT21 : public Sensor {
-    SI7021  _si7021;
-    int16_t _temperature;
-    uint8_t _humidity;
+    SI7021   _si7021;
+    int16_t  _temperature;
+    uint16_t _humidity;
 
 public:
     Sens_SHT21()
@@ -57,19 +57,19 @@ public:
         _temperature = _humidity = 0;
         bool bRet                = false;
         if (_present == true) {
-            _temperature = (int16_t)(_si7021.readTemp() * 10.0);    // HB-UNI-Sensor1: C*10
-            _humidity    = (uint8_t)(_si7021.readHumidity() + 0.5);
+            _temperature = (int16_t)(_si7021.readTemp() * 10.0);         // HB-UNI-Sensor1: Temp *10
+            _humidity    = (uint16_t)(_si7021.readHumidity() * 10.0);    // HB-UNI-Sensor1: Humi *10
             bRet         = true;
             DPRINT(F("SHT21 Temperature x10   : "));
             DDECLN(_temperature);
-            DPRINT(F("SHT21 Humidity          : "));
+            DPRINT(F("SHT21 Humidity x10      : "));
             DDECLN(_humidity);
         }
         return bRet;
     }
 
-    int16_t temperature() { return _temperature; }
-    uint8_t humidity() { return _humidity; }
+    int16_t  temperature() { return _temperature; }
+    uint16_t humidity() { return _humidity; }
 };
 
 }

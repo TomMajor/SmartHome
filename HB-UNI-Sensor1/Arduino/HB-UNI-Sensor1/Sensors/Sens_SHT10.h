@@ -22,7 +22,7 @@ template <uint8_t DATAPIN, uint8_t CLOCKPIN> class Sens_SHT10 : public Sensor {
     Sensirion _sht10;
     bool      _i2cSharedAccess;
     int16_t   _temperature;
-    uint8_t   _humidity;
+    uint16_t  _humidity;
 
     void i2cDisable()
     {
@@ -75,30 +75,30 @@ public:
     bool measure()
     {
         _temperature = _humidity = 0;
-        bool bRet    = false;
+        bool bRet                = false;
         if (_present == true) {
             i2cDisable();
             uint16_t rawData;
             if (_sht10.measTemp(&rawData) == 0) {
                 float t      = _sht10.calcTemp(rawData);
-                _temperature = (int16_t)(t * 10);
+                _temperature = (int16_t)(t * 10.0);    // HB-UNI-Sensor1: Temp *10
                 if (_sht10.measHumi(&rawData) == 0) {
                     float h   = _sht10.calcHumi(rawData, t);
-                    _humidity = (uint8_t)h;
+                    _humidity = (uint16_t)(h * 10.0);    // HB-UNI-Sensor1: Humi *10
                     bRet      = true;
                 }
             }
-            DPRINT("SHT10    Temperature   : ");
+            DPRINT("SHT10 Temperature x10  : ");
             DDECLN(_temperature);
-            DPRINT("SHT10    Humidity      : ");
+            DPRINT("SHT10 Humidity x10     : ");
             DDECLN(_humidity);
             i2cEnable();
         }
         return bRet;
     }
 
-    int16_t temperature() { return _temperature; }
-    uint8_t humidity() { return _humidity; }
+    int16_t  temperature() { return _temperature; }
+    uint16_t humidity() { return _humidity; }
 };
 
 }

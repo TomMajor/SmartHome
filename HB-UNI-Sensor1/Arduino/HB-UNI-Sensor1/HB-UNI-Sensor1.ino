@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.23
+// Version 1.40
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
@@ -122,10 +122,10 @@ const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_SERIAL,    // Device Serial
     { 0xF1, 0x03 },    // Device Model
     // Firmware Version
-    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x14" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
     // bei Änderungen von Payload, message layout, Datenpunkt-Typen usw. muss die Version an beiden Stellen hochgezogen werden!
-    0x13,
+    0x14,
     as::DeviceType::THSensor,    // Device Type
     { 0x01, 0x01 }               // Info Bytes
 };
@@ -227,7 +227,8 @@ public:
 // Intervall in Sek. benutzt siehe auch hb-uni-sensorX.xml, <parameter
 // id="Sendeintervall"> .. ausserdem werden die Register 0x22/0x23 für den
 // konf. Parameter Höhe benutzt
-DEFREGISTER(Reg0, MASTERID_REGS, DREG_LEDMODE, DREG_LOWBATLIMIT, DREG_TRANSMITTRYMAX, 0x20, 0x21, 0x22, 0x23)
+DEFREGISTER(Reg0, MASTERID_REGS, DREG_LEDMODE, DREG_LOWBATLIMIT, DREG_TRANSMITTRYMAX, 0x20, 0x21, 0x22, 0x23, 0x24, 0x25, 0x26, 0x27, 0x28, 0x29,
+            0x2A, 0x2B, 0x2C, 0x2D, 0x2E, 0x2F)
 class SensorList0 : public RegList0<Reg0> {
 public:
     SensorList0(uint16_t addr)
@@ -241,6 +242,18 @@ public:
     bool     altitude(uint16_t value) const { return this->writeRegister(0x22, (value >> 8) & 0xff) && this->writeRegister(0x23, value & 0xff); }
     uint16_t altitude() const { return (this->readRegister(0x22, 0) << 8) + this->readRegister(0x23, 0); }
 
+    // !! WebUI Offsets mit negativem Bereich und Kommastellen:
+    // https://homematic-forum.de/forum/viewtopic.php?f=76&t=66418
+    // https://homematic-forum.de/forum/viewtopic.php?f=76&t=62578
+    bool    tempOffset10(int32_t value) const { return setOffsetValue(0x24, value); }
+    int32_t tempOffset10() const { return getOffsetValue(0x24); }
+
+    bool    pressureOffset10(int32_t value) const { return setOffsetValue(0x28, value); }
+    int32_t pressureOffset10() const { return getOffsetValue(0x28); }
+
+    bool    humidityOffset10(int32_t value) const { return setOffsetValue(0x2C, value); }
+    int32_t humidityOffset10() const { return getOffsetValue(0x2C); }
+
     void defaults()
     {
         clear();
@@ -249,6 +262,21 @@ public:
         transmitDevTryMax(6);
         updIntervall(600);
         altitude(0);
+        tempOffset10(0);
+        pressureOffset10(0);
+        humidityOffset10(0);
+    }
+
+private:
+    bool setOffsetValue(uint8_t addr, int32_t value) const
+    {
+        return this->writeRegister(addr, (value >> 24) & 0xff) && this->writeRegister(addr + 1, (value >> 16) & 0xff)
+               && this->writeRegister(addr + 2, (value >> 8) & 0xff) && this->writeRegister(addr + 3, value & 0xff);
+    }
+    int32_t getOffsetValue(uint8_t addr) const
+    {
+        return ((int32_t)(this->readRegister(addr, 0)) << 24) + ((int32_t)(this->readRegister(addr + 1, 0)) << 16)
+               + ((int32_t)(this->readRegister(addr + 2, 0)) << 8) + ((int32_t)(this->readRegister(addr + 3, 0)));
     }
 };
 
@@ -258,7 +286,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 
     int16_t  temperature10;
     uint16_t airPressure10;
-    uint8_t  humidity;
+    uint16_t humidity10;
     uint32_t brightness100;
     uint8_t  digInputState;
     uint16_t customData;
@@ -308,7 +336,7 @@ public:
         , Alarm(seconds2ticks(60))
         , temperature10(0)
         , airPressure10(0)
-        , humidity(0)
+        , humidity10(0)
         , brightness100(0)
         , digInputState(0)
         , customData(0)
@@ -328,7 +356,8 @@ public:
         digitalInput.disableINT();    // digitalInput Interrupt abschalten, dieser könnte beim Senden ausgelöst werden (bei PIR aufgetreten)
 #endif
         measure();
-        uint8_t msgcnt = device().nextcount();
+        uint8_t msgcnt   = device().nextcount();
+        uint8_t humidity = (uint8_t)((humidity10 + 5) / 10);    // rounding
         msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(), customData);
         if (msg.flags() & Message::BCAST) {
             device().broadcastEvent(msg, *this);
@@ -367,7 +396,7 @@ public:
         temperature10 = 188;    // 18.8C (scaling 10)
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
-        humidity = 88;    // 88%
+        humidity10 = 888;    // 88.8% (scaling 10)
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
         airPressure10 = 10880;    // 1088 hPa (scaling 10)
@@ -382,7 +411,7 @@ public:
         bme280.measure(altitude);
         temperature10 = bme280.temperature();
         airPressure10 = bme280.pressureNN();
-        humidity      = bme280.humidity();
+        humidity10    = bme280.humidity();
 #elif defined SENSOR_BMP180
         uint16_t altitude = this->device().getList0().altitude();
         bmp180.measure(altitude);
@@ -406,15 +435,15 @@ public:
 #ifdef SENSOR_SHT31
         sht31.measure();
         temperature10 = sht31.temperature();
-        humidity      = sht31.humidity();
+        humidity10    = sht31.humidity();
 #elif defined SENSOR_SHT21
         sht21.measure();
         temperature10 = sht21.temperature();
-        humidity      = sht21.humidity();
+        humidity10    = sht21.humidity();
 #elif defined SENSOR_SHT10
         sht10.measure();
         temperature10 = sht10.temperature();
-        humidity      = sht10.humidity();
+        humidity10    = sht10.humidity();
 #endif
 #endif
 
@@ -453,6 +482,28 @@ public:
         // bei Bedarf die Batteriespannung vor der Übertragung neu messen
         // device().battery().update();
         batteryVoltage = device().battery().current();    // BatteryTM class, mV resolution
+
+        // Offset Korrekturen
+        int16_t tOffset = (int16_t)this->device().getList0().tempOffset10();
+        if (tOffset != 0) {
+            temperature10 = temperature10 + tOffset;
+            DPRINT(F("Temp. Corrected x10     : "));
+            DDECLN(temperature10);
+        }
+
+        int16_t pOffset = (int16_t)this->device().getList0().pressureOffset10();
+        if (pOffset != 0) {
+            airPressure10 = airPressure10 + pOffset;
+            DPRINT(F("Press. Corrected x10    : "));
+            DDECLN(airPressure10);
+        }
+
+        int16_t hOffset = (int16_t)this->device().getList0().humidityOffset10();
+        if (hOffset != 0) {
+            humidity10 = humidity10 + hOffset;
+            DPRINT(F("Humi. Corrected x10     : "));
+            DDECLN(humidity10);
+        }
     }
 
     void initSensors()
@@ -484,7 +535,7 @@ public:
 #ifdef SENSOR_SHT10
         // für SHT10 immer SharedAccess aktivieren, auch ohne weitere I2C-Sensoren
         // dies ist wichtig für den Ruhestromverbrauch um nach Ende der Messung SCL/SDA immer auf High zu haben
-        sht10.i2cEnableSharedAccess();    
+        sht10.i2cEnableSharedAccess();
         sht10.init();
 #endif
 #ifdef SENSOR_DIGINPUT
@@ -558,6 +609,18 @@ public:
         uint16_t altitude = this->getList0().altitude();
         DPRINT(F("altitude: "));
         DDECLN(altitude);
+
+        int8_t tempOffset10 = this->getList0().tempOffset10();
+        DPRINT(F("tempOffset x10:  "));
+        DDECLN(tempOffset10);
+
+        int8_t pressureOffset10 = this->getList0().pressureOffset10();
+        DPRINT(F("pressOffset x10: "));
+        DDECLN(pressureOffset10);
+
+        int8_t humidityOffset10 = this->getList0().humidityOffset10();
+        DPRINT(F("humiOffset x10:  "));
+        DDECLN(humidityOffset10);
     }
 };
 
