@@ -31,6 +31,9 @@
 
 ## Change Log
 
+- 2.60 - 16.04.2021
+  - HB-UNI-Sensor1, Unterstützung für Offseteinstellungen für Temperatur, Luftdruck und Luftfeuchte über WebUI
+
 - 2.54 - 06.01.2021
   - Unterstützung für HB-Sec-WDS-2
 
