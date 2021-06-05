@@ -451,10 +451,10 @@ FHEM user *kpwg*
 - Achtung, für negative Werte mit Kommastelle gibt es in einigen RaspberryMatic Versionen (z.B. 3.57.4.20210320) einen [Bug - ProofAndSetValue #1058](https://github.com/jens-maus/RaspberryMatic/issues/1058), durch den man nur ganzzahlige negative Werte einstellen kann.<br>
 Bei der RaspberryMatic Version 3.53.34.20201121 ist der Bug noch nicht vorhanden.
 
-- Einen Workaround für diesen Bug von Baxxy ist [hier](https://homematic-forum.de/forum/viewtopic.php?p=652376#p652376) beschrieben.
+- Einen Workaround für diesen Bug wird von Baxxy [hier](https://homematic-forum.de/forum/viewtopic.php?p=652376#p652376) beschrieben.
 
 - Die relative Luftfeuchte wird immer ohne Kommastelle an die Zentrale gesendet. Zum einen reicht das oft aus da viele Sensoren sowieso mit Abweichungen von mehreren Prozent spezifiziert sind, zum anderen kann man dadurch den HM internen Datentyp HUMIDITY nutzen und damit die Feuchte auch in einem Diagramm darstellen was mit eigenen Datentypen meines Wissens nach nicht möglich ist.<br>
-HB-UNI-Sensor1 intern wird jedoch auch bei der Luftfeuchte mit Kommastelle gerechnet, so dass eine eventuelle Offseteinstellung mit Kommastelle voll zum Tragen kommt falls man die Möglichkeit hat, diesen Messwert genau zu kalibrieren.
+HB-UNI-Sensor1 intern wird jedoch auch bei der Luftfeuchte mit Kommastelle gerechnet, so dass eine eventuelle Offseteinstellung mit Kommastelle auch bei der Luftfeuchte voll zum Tragen kommt falls man die Möglichkeit hat, diesen Messwert genau zu kalibrieren.
 
 ![pic](Images/HB-UNI-Sensor1_Offseteinstellung.png)
 
