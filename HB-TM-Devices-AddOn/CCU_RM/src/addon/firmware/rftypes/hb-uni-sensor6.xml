@@ -2,7 +2,7 @@
 <device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
     <type name="HB-UNI-Sensor6" id="HB-UNI-Sensor6" updatable="true">
-      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x14" />
       <parameter index="10.0" size="2.0" const_value="0xF116" />
     </type>
   </supported_types>
@@ -34,6 +34,21 @@
     <parameter id="Hoehe ueber NN">
       <logical type="integer" min="0" max="10000" default="0" unit="m" />
       <physical type="integer" interface="config" list="0" index="34" size="2" />
+    </parameter>
+    <parameter id="Temperatur-Offset">
+      <logical type="float" min="-5.0" max="5.0" default="0.0" unit="K" />
+      <physical type="integer" signed="true" interface="config" list="0" index="36" size="4" />
+      <conversion type="float_integer_scale" factor="10" />
+    </parameter>
+    <parameter id="Luftdruck-Offset">
+      <logical type="float" min="-10.0" max="10.0" default="0.0" unit="hPa" />
+      <physical type="integer" signed="true" interface="config" list="0" index="40" size="4" />
+      <conversion type="float_integer_scale" factor="10" />
+    </parameter>
+    <parameter id="Luftfeuchte-Offset">
+      <logical type="float" min="-10.0" max="10.0" default="0.0" unit="%" />
+      <physical type="integer" signed="true" interface="config" list="0" index="44" size="4" />
+      <conversion type="float_integer_scale" factor="10" />
     </parameter>
   </paramset>
   <channels>
