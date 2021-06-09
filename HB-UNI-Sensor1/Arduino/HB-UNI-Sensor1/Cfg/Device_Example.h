@@ -1,6 +1,7 @@
 //---------------------------------------------------------
 // Device_Example.h
-// 2019-10-09 Tom Major (Creative Commons)
+// PCB: Breadboard / Prototyp_HB-UNI-Sensor1.jpg
+// 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -26,10 +27,10 @@
 // Über diese defines werden die real angeschlossenen Sensoren aktiviert.
 // Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
 //
-//#define SENSOR_DS18X20    // ONEWIRE_PIN define weiter unten muss zur HW passen! DS18X20_COUNT muss definiert sein!
+#define SENSOR_DS18X20    // ONEWIRE_PIN define weiter unten muss zur HW passen! DS18X20_COUNT muss definiert sein!
 #define SENSOR_BME280       // BME280 Library (finitespace) verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
-#define SENSOR_MAX44009     // MAX44009_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_MAX44009   // MAX44009_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_TSL2561    // TSL2561_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_BH1750     // BH1750_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT31      // SHT31_ADDR define weiter unten muss zur HW passen!
@@ -48,9 +49,9 @@
 
 //---------------------------------------------------------
 // Pin und Address Definitionen Sensoren
-//#define ONEWIRE_PIN       3
-//#define DS18X20_COUNT     1
-#define MAX44009_ADDR       0x4A
+#define ONEWIRE_PIN         3
+#define DS18X20_COUNT       1
+//#define MAX44009_ADDR     0x4A
 //#define TSL2561_ADDR      TSL2561_ADDR_FLOAT
 //#define BH1750_ADDR       0x23    // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
 //#define SHT31_ADDR        0x44    // by default its 0x44, you can also adjust the sensor for 0x45 and then pass that value in

@@ -1,6 +1,7 @@
 //---------------------------------------------------------
-// Device_Example.h
-// 2019-10-09 Tom Major (Creative Commons)
+// Device_UniSensor_Aussen.h
+// PCB: SensorPLHT_v201
+// 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike

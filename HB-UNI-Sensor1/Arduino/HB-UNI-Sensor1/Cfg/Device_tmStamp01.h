@@ -1,6 +1,7 @@
 //---------------------------------------------------------
-// Device_Example.h
-// 2019-12-27 Tom Major (Creative Commons)
+// Device_tmStamp01.h
+// PCB: tmStamp
+// 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
