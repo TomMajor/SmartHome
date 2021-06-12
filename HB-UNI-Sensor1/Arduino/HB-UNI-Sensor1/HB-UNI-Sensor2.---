@@ -1,5 +1,5 @@
 //---------------------------------------------------------
-// HB-UNI-Sensor1
+// HB-UNI-Sensor2
 // Version 1.50
 // (C) 2018-2021 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
@@ -120,7 +120,7 @@ Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global 
 const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_ID,        // Device ID
     cDEVICE_SERIAL,    // Device Serial
-    { 0xF1, 0x03 },    // Device Model HB-UNI-Sensor1
+    { 0xF1, 0x12 },    // Device Model HB-UNI-Sensor2
     // Firmware Version
     // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x14" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
@@ -156,7 +156,7 @@ public:
 class WeatherEventMsg : public Message {
 public:
     void init(uint8_t msgcnt, int16_t temp, uint16_t airPressure, uint8_t humidity, uint32_t brightness, uint8_t digInputState,
-              uint16_t batteryVoltage, bool batLow, uint16_t absHumidity, int16_t dewPoint)
+              uint16_t batteryVoltage, bool batLow, uint16_t customData)
     {
 
         uint8_t t1 = (temp >> 8) & 0x7f;
@@ -172,11 +172,11 @@ public:
         if ((msgcnt % 20) == 2) {
             flags = BIDI | WKMEUP;
         }
-        Message::init(25, msgcnt, 0x70, flags, t1, t2);
+        Message::init(23, msgcnt, 0x70, flags, t1, t2);
 
         // Message Length (first byte param.): 11 + payload
         //  1 Byte payload -> length 12
-        // 14 Byte payload -> length 25
+        // 12 Byte payload -> length 23
         // max. payload: 17 Bytes (https://www.youtube.com/watch?v=uAyzimU60jw)
 
         // BIDI|WKMEUP: erwartet ACK vom Empfänger, ohne ACK wird das Senden wiederholt
@@ -217,13 +217,9 @@ public:
         pload[8] = (batteryVoltage >> 8) & 0xff;
         pload[9] = batteryVoltage & 0xff;
 
-        // absHumidity
-        pload[10] = (absHumidity >> 8) & 0xff;
-        pload[11] = absHumidity & 0xff;
-
-        // dewPoint
-        pload[12] = (dewPoint >> 8) & 0xff;
-        pload[13] = dewPoint & 0xff;
+        // user custom data
+        pload[10] = (customData >> 8) & 0xff;
+        pload[11] = customData & 0xff;
     }
 };
 
@@ -296,8 +292,6 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     uint16_t customData;
     uint16_t batteryVoltage;
     bool     regularWakeUp;
-    uint16_t absHumidity100;
-    int16_t  dewPoint10;
 
 #ifdef SENSOR_DS18X20
     OneWire      oneWire;
@@ -348,8 +342,6 @@ public:
         , customData(0)
         , batteryVoltage(0)
         , regularWakeUp(true)
-        , absHumidity100(0)
-        , dewPoint10(0)
 #ifdef SENSOR_DS18X20
         , oneWire(ONEWIRE_PIN)
         , ds18x20Count(0)
@@ -366,8 +358,7 @@ public:
         measure();
         uint8_t msgcnt   = device().nextcount();
         uint8_t humidity = (uint8_t)((humidity10 + 5) / 10);    // rounding
-        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(),
-                 absHumidity100, dewPoint10);
+        msg.init(msgcnt, temperature10, airPressure10, humidity, brightness100, digInputState, batteryVoltage, device().battery().low(), customData);
         if (msg.flags() & Message::BCAST) {
             device().broadcastEvent(msg, *this);
         } else {
@@ -402,16 +393,16 @@ public:
         // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
 #if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21)               \
     && !defined(SENSOR_SHT10)
-        temperature10 = 200;    // 20.0C (scaling 10)
+        temperature10 = 188;    // 18.8C (scaling 10)
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
-        humidity10 = 500;    // 50.0% (scaling 10)
+        humidity10 = 888;    // 88.8% (scaling 10)
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
-        airPressure10 = 11000;    // 1100 hPa (scaling 10)
+        airPressure10 = 10880;    // 1088 hPa (scaling 10)
 #endif
 #if !defined(SENSOR_MAX44009) && !defined(SENSOR_TSL2561) && !defined(SENSOR_BH1750)
-        brightness100 = 0;    // 0 Lux (scaling 100)
+        brightness100 = 8800000;    // 88000 Lux (scaling 100)
 #endif
 
 // Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen
@@ -493,7 +484,6 @@ public:
 
         // Offset-Korrekturen
         // die Korrektur wird generell global nach der Messung erledigt um nicht in jeder Sensor-Klasse die Offset-Werte übergeben zu müssen
-        // Nur zur Berechnung von abs.Luftfeuchtigkeit und Taupunkt werden die korrigierten Werte an die BME280 Klasse übergeben, siehe unten
         int16_t tOffset = (int16_t)this->device().getList0().tempOffset10();
         if (tOffset != 0) {
             temperature10 = temperature10 + tOffset;
@@ -514,13 +504,6 @@ public:
             DPRINT(F("Humi. Corrected x10     : "));
             DDECLN(humidity10);
         }
-
-#ifdef SENSOR_BME280
-        // extra Werte Abs.Luftfeuchtigkeit und Taupunkt nur beim HB-UNI-Sensor1
-        // Berechnung erfolgt mit Offset-korrigierten Werten, deswegen hier!
-        absHumidity100 = bme280.absHumidity(temperature10, humidity10);
-        dewPoint10     = bme280.dewPoint(temperature10, humidity10);
-#endif
     }
 
     void initSensors()
