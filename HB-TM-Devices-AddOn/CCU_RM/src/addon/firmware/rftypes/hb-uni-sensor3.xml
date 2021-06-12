@@ -2,7 +2,7 @@
 <device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
     <type name="HB-UNI-Sensor3" id="HB-UNI-Sensor3" updatable="true">
-      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x14" />
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x15" />
       <parameter index="10.0" size="2.0" const_value="0xF113" />
     </type>
   </supported_types>

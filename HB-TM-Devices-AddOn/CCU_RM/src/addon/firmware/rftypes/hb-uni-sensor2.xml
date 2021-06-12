@@ -2,7 +2,7 @@
 <device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
     <type name="HB-UNI-Sensor2" id="HB-UNI-Sensor2" updatable="true">
-      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x13" />
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x15" />
       <parameter index="10.0" size="2.0" const_value="0xF112" />
     </type>
   </supported_types>
@@ -34,6 +34,21 @@
     <parameter id="Hoehe ueber NN">
       <logical type="integer" min="0" max="10000" default="0" unit="m" />
       <physical type="integer" interface="config" list="0" index="34" size="2" />
+    </parameter>
+    <parameter id="Temperatur-Offset">
+      <logical type="float" min="-5.0" max="5.0" default="0.0" unit="K" />
+      <physical type="integer" signed="true" interface="config" list="0" index="36" size="4" />
+      <conversion type="float_integer_scale" factor="10" />
+    </parameter>
+    <parameter id="Luftdruck-Offset">
+      <logical type="float" min="-10.0" max="10.0" default="0.0" unit="hPa" />
+      <physical type="integer" signed="true" interface="config" list="0" index="40" size="4" />
+      <conversion type="float_integer_scale" factor="10" />
+    </parameter>
+    <parameter id="Luftfeuchte-Offset">
+      <logical type="float" min="-10.0" max="10.0" default="0.0" unit="%" />
+      <physical type="integer" signed="true" interface="config" list="0" index="44" size="4" />
+      <conversion type="float_integer_scale" factor="10" />
     </parameter>
   </paramset>
   <channels>
@@ -116,6 +131,12 @@
           </physical>
           <conversion type="float_integer_scale" factor="100.0" />
         </parameter>
+        <parameter id="VALVE_STATE" operations="read,event">
+          <logical type="integer" min="0" max="99" />
+          <physical type="integer" interface="command" value_id="VALVE_STATE" no_init="true">
+            <event frame="WEATHER_EVENT" />
+          </physical>
+        </parameter>
         <parameter id="OPERATING_VOLTAGE" operations="read,event">
           <logical type="float" min="0.5" max="5.5" unit="V" />
           <physical type="integer" interface="command" value_id="OPERATING_VOLTAGE">
@@ -123,7 +144,7 @@
           </physical>
           <conversion type="float_integer_scale" factor="1000.0" />
         </parameter>
-      </paramset>  
+      </paramset>
       <paramset type="LINK" id="HB-UNI-Sensor2_link"></paramset>
     </channel>
   </channels>
@@ -133,6 +154,7 @@
       <parameter type="integer" index="11" size="2.0" param="AIR_PRESSURE" />
       <parameter type="integer" index="13" size="1.0" param="HUMIDITY" />
       <parameter type="integer" index="14" size="4.0" param="LUX" />
+      <parameter type="integer" index="18" size="1.0" param="VALVE_STATE" />
       <parameter type="integer" index="19" size="2.0" param="OPERATING_VOLTAGE" />
     </frame>
   </frames>
