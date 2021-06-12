@@ -122,36 +122,3 @@ sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
 
 translate_deSearch="stringTableWeather_MinNumberOfLightnings"
 sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
-
-#------------------------------------------------------------------------------
-# Undo English translate.lang.stringtable.js
-translate_enFile="/www/webui/js/lang/en/translate.lang.stringtable.js"
-
-# --- Translations Values ---
-translate_enSearch="stringTableWeather_BlitzZaehler"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_BlitzEntfernung"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-# --- Translations Config ---
-translate_enSearch="stringTableWeather_CapacitorIndex"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_IndoorMode"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_ShowDisturbers"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_NoiseFloor"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_SpikeRejection"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_WatchdogThreshold"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
-
-translate_enSearch="stringTableWeather_MinNumberOfLightnings"
-sed -i "/\(${translate_enSearch}\)/d" $translate_enFile
