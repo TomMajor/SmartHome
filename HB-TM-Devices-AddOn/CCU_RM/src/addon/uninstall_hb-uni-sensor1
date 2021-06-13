@@ -34,3 +34,23 @@ rm -f $FIRMWARE_FILE
 # remove image files
 rm -f /www/config/img/devices/250/$DEVICE_IMG
 rm -f /www/config/img/devices/50/$DEVICE_THUMB
+
+#------------------------------------------------------------------------------
+# Undo stringtable_de.txt
+stringtable_deFile="/www/config/stringtable_de.txt"
+
+stringtable_deSearch="WEATHER|Abs_Luftfeuchte"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+stringtable_deSearch="WEATHER|Taupunkt"
+sed -i "/\($stringtable_deSearch\)/d" $stringtable_deFile
+
+#------------------------------------------------------------------------------
+# Undo German translate.lang.stringtable.js
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+
+translate_deSearch="stringTableWeather_AbsLuftfeuchte"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile
+
+translate_deSearch="stringTableWeather_Taupunkt"
+sed -i "/\(${translate_deSearch}\)/d" $translate_deFile

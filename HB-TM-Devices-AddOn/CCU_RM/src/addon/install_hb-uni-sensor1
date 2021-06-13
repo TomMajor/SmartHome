@@ -37,3 +37,32 @@ webuiInsert="${webuiInsert}DEV_PATHS['$DEVICE']['250'] = '\/config\/img\/devices
 if [ -z "`cat $webuiFile | grep \"$DEVICE\"`" ]; then
 	sed -i "s/\($webuiSearch\)/\1$webuiInsert/g" $webuiFile
 fi
+
+#------------------------------------------------------------------------------
+# Edit stringtable_de.txt
+stringtable_deFile="/www/config/stringtable_de.txt"
+
+stringtable_deInsert="WEATHER|Abs_Luftfeuchte\t\${stringTableWeather_AbsLuftfeuchte}"
+if [ -z "`cat $stringtable_deFile | grep \"Abs_Luftfeuchte\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+stringtable_deInsert="WEATHER|Taupunkt\t\${stringTableWeather_Taupunkt}"
+if [ -z "`cat $stringtable_deFile | grep \"Taupunkt\"`" ]; then
+    echo -e $stringtable_deInsert >> $stringtable_deFile
+fi
+
+#------------------------------------------------------------------------------
+# Edit German translate.lang.stringtable.js
+translate_deFile="/www/webui/js/lang/de/translate.lang.stringtable.js"
+translate_deSearch="\"dummy\" : \"\","
+
+translate_deInsert="\n    \"stringTableWeather_AbsLuftfeuchte\" : \"Abs. Luftfeuchte\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_AbsLuftfeuchte\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
+
+translate_deInsert="\n    \"stringTableWeather_Taupunkt\" : \"Taupunkt\","
+if [ -z "`cat $translate_deFile | grep \"stringTableWeather_Taupunkt\"`" ]; then
+	sed -i "s/\($translate_deSearch\)/\1$translate_deInsert/g" $translate_deFile
+fi
