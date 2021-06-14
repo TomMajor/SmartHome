@@ -67,3 +67,14 @@ if (!src) {
 - Um eine Konfiguration an ein nicht dauerhaft empfangsbereites Gerät zu übertragen (Fernbedienung, Sensor usw.) ist zuerst der Anlernmodus des Gerätes zu aktivieren und danach *Restore Config* auszuwählen.
 - Referenzen:<br>
 [HomeMatic-Forum](https://homematic-forum.de/forum/viewtopic.php?f=31&t=26624)<br>
+
+
+## ioBroker zeigt bestimmte Datenpunkte eines Sensors nicht an
+
+- passiert öfters wenn ein Homebrew-Sensor ein Update bekommen für neue Datenpunkte bekommen hat
+
+- mögliche Lösungen:
+
+1. Sensor ablernen und neu anlernen
+
+2. hm-rpc.meta löschen
