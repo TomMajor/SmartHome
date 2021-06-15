@@ -75,6 +75,10 @@ if (!src) {
 
 - mögliche Lösungen:
 
-1. Sensor ablernen und neu anlernen
+1. Zunächst immer den Sensor in der Zentrale ablernen und neu anlernen.
 
-2. hm-rpc.meta löschen
+2. Dann den fraglichen Sensor in hm-rpc.meta unter ioBroker/Objekte löschen.<br>
+Falls hm-rpc.meta nicht sichtbar ist, den Button oben "Wechseln Sie in die Statusansicht" (Viereck mit einer 1 drin) mehrmals toggeln.
+
+3. Nach dem Löschen des Sensors in hm-rpc.meta die Geräte neu synchronisieren lassen (Instanz hm-rpc.0 konfigurieren, "Geräte neu einlesen", Haken rein).
+
