@@ -31,8 +31,12 @@
 
 ## Change Log
 
+- 2.61 - 12.06.2021
+  - HB-UNI-Sensor1, neue Firmware 1.5, Unterstützung für die zusätzliche Datenpunkte 'absolute Luftfeuchte' und 'Taupunkt'
+  - Datenpunkt 'Ventilposition' (Digitaler Eingang) ist vom HB-UNI-Sensor1 in den HB-UNI-Sensor2 verschoben worden (wg. seltenem Gebrauch, siehe auch [Benutzerspezifische Sensordaten](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten)
+
 - 2.60 - 16.04.2021
-  - HB-UNI-Sensor1, Unterstützung für Offseteinstellungen für Temperatur, Luftdruck und Luftfeuchte über WebUI
+  - HB-UNI-Sensor1, neue Firmware 1.4, Unterstützung für Offseteinstellungen für Temperatur, Luftdruck und Luftfeuchte über WebUI
 
 - 2.54 - 06.01.2021
   - Unterstützung für HB-Sec-WDS-2
