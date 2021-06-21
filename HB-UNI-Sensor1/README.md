@@ -496,31 +496,35 @@ wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt w
 
 ###### Ich habe dazu ein paar kurze Beispiele gemacht:
 
-- hb-uni-sensor2.xml<br>
+###### hb-uni-sensor2.xml
+
 Hier ist der Datenpunkt Digitaler Eingang ('Ventilposition' im WebUI) eingefügt, dafür sind die beiden Datenpunkte Absolute Luftfeuchte und Taupunkt weggelassen.<br>
-Dazu habe ich einen passendes HB-UNI-Sensor3 Sketch gemacht.
+Dazu habe ich einen passendes HB-UNI-Sensor3 Sketch gemacht.<br>
 ![pic](Images/HB-UNI-Sensor2_WebUI.png)
 <br>
 Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor2 heißen (Bei der Arduino-IDE müssen Sketch-Name und Verzeichnisname müssen gleich sein).
 
-- hb-uni-sensor3.xml<br>
+###### hb-uni-sensor3.xml
+
 Hier ist der Datenpunkt Digitaler Eingang ('Ventilposition' im WebUI) geändert in 'Wassertemperatur' um eine Frage aus dem Forum aufzugreifen.<br>
-Dazu habe ich einen passendes HB-UNI-Sensor3 Sketch gemacht, in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.
+Dazu habe ich einen passendes HB-UNI-Sensor3 Sketch gemacht, in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.<br>
 ![pic](Images/HB-UNI-Sensor3_WebUI.png)
 <br>
 Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor3 heißen (Bei der Arduino-IDE müssen Sketch-Name und Verzeichnisname müssen gleich sein).
 
-- hb-uni-sensor4.xml<br>
+###### hb-uni-sensor4.xml
+
 Ist identisch zu hb-uni-sensor2.xml, nur als Dummy vorgehalten.
 
-- hb-uni-sensor5.xml<br>
-Ein neuer Datenpunkt für den UV-Sensor VEML6070 wurde ergänzt, der per define im Sketch unterstützt wird.
+###### hb-uni-sensor5.xml
+
+Ein neuer Datenpunkt für den UV-Sensor VEML6070 wurde ergänzt, der per define im Sketch unterstützt wird.<br>
 Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
 
-- hb-uni-sensor6.xml<br>
-Ein neuer Datenpunkt für den UV-Sensor VEML6075 wurde ergänzt, der per define im Sketch unterstützt wird.
-Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
+###### hb-uni-sensor6.xml
 
+Ein neuer Datenpunkt für den UV-Sensor VEML6075 wurde ergänzt, der per define im Sketch unterstützt wird.<br>
+Der Datenpunkt 'Ventilposition' (Digitaler Eingang) wurde entfernt.
 
 ###### Außerdem noch der Hinweis das bei Änderungen am xml immer eventuell vorhandene dazugehörigen Geräte mit dieser Device Model ID in der Zentrale abgelernt/gelöscht und nach der xml Änderung wieder neu angelernt werden müssen.
 
@@ -583,7 +587,7 @@ Quelle: FHEM user *Gernott*<br>
 
 ## Was sonst noch passierte (Batteriewechsel)
 
-- Batteriewechsel beim HB-UNI-Sensor1 nach ca. 2 Jahren..
+- Batteriewechsel beim HB-UNI-Sensor1 Außen nach ca. 2 Jahren..
 
 ![pic](Images/HB-UNI-Sensor1_BatteryChange.png)
 
