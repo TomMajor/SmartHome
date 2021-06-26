@@ -1,6 +1,8 @@
 
 # Universalsensor HB-UNI-Sensor1
 
+![pic](https://raw.githubusercontent.com/TomMajor/SmartHome/master/Images/PLHT_i220_small.jpg)
+
 ## Inhaltsverzeichnis
 - Allgemeines
   - [Features](#features)
@@ -85,12 +87,11 @@ Beispiel:<br>
 ## Bilder
 
 ##### Prototyp
-<br>
 
 ![pic](Images/Prototyp_HB-UNI-Sensor1.jpg)
 
+
 ##### Beispiel Aufbau Aussensensor - Version 2.01
-<br>
 
 ![pic](Images/HB-UNI-Sensor1_HW1.jpg)
 
@@ -104,8 +105,8 @@ Beispiel:<br>
 
 ![pic](Images/HB-UNI-Sensor1_HW6.jpg)
 
+
 ##### Beispiel Aufbau Innensensor - Version i2.20
-<br>
 
 ![pic](Images/UniSensor_HW_Vi2.20_1.jpg)
 
@@ -116,6 +117,8 @@ Beispiel:<br>
 ![pic](Images/UniSensor_HW_Vi2.20_4.jpg)
 
 ![pic](Images/UniSensor_HW_Vi2.20_5.jpg)
+
+![pic](Images/UniSensor_HW_Vi2.20_6.jpg)
 
 ![pic](Images/UniSensor_HW_Vi2.20_10.jpg)
 
@@ -260,10 +263,11 @@ Bestückungsvarianten
 - Gehäusevariante 2 (Innen): 3D Druck, Design by Jan_von_neben_an (Schmelzerboy) <br>
 [Gehäuse HB-UNI-Sensor1](https://www.thingiverse.com/thing:3766944)
 
+![pic](Images/UniSensor_HW_Vi2.20_8.jpg)
+
 - Gehäusevariante 3 (Innen): 3D Druck, Design by SonOfAbaddon <br>
 [Gehäuse HB-UNI-Sensor1](https://www.thingiverse.com/thing:4752365)
 
-![pic](Images/UniSensor_HW_Vi2.20_6.jpg)
 
 | Bauelement | Wert | Bauform | Bemerkungen | Beispiel Reichelt oder aliexpress |
 |---|---|---|---|---|
