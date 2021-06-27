@@ -131,9 +131,15 @@ const struct DeviceInfo PROGMEM devinfo = {
 };
 
 // Configure the used hardware
-typedef AvrSPI<10, 11, 12, 13>                 SPIType;
-typedef Radio<SPIType, 2>                      RadioType;
-typedef StatusLed<LED_PIN>                     LedType;
+typedef AvrSPI<10, 11, 12, 13> SPIType;
+typedef Radio<SPIType, 2>      RadioType;
+
+#if defined(LED_PIN1) && defined(LED_PIN2)
+typedef DualStatusLed<LED_PIN1, LED_PIN2> LedType;
+#else
+typedef StatusLed<LED_PIN> LedType;
+#endif
+
 typedef AskSin<LedType, BAT_SENSOR, RadioType> BaseHal;
 
 class Hal : public BaseHal {

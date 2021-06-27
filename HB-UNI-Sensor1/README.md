@@ -1,7 +1,7 @@
 
 # Universalsensor HB-UNI-Sensor1
 
-![pic](https://raw.githubusercontent.com/TomMajor/SmartHome/master/Images/PLHT_i220_small.jpg)
+<p align="center"><img src="https://raw.githubusercontent.com/TomMajor/SmartHome/master/Images/PLHT_i220_small.jpg?raw=true"/></p>
 
 ## Inhaltsverzeichnis
 - Allgemeines
