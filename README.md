@@ -14,8 +14,9 @@
 
 ## Disclaimer
 
-|**Bei meinen SmartHome-Geräten und AddOn handelt es sich um reine Hobby-Projekte.**|
+|   |
 |---|
+|**Bei meinen SmartHome-Geräten und AddOn handelt es sich um reine Hobby-Projekte.**|
 |**Ich kann keine Garantie für Fehlerfreiheit, (umfangreichen) Support, Realisierung von individuellen Wünschen oder zeitnahe Unterstützung für neue CCU-Firmwares geben!**|
 |**Die Verwendung erfolgt auf eigene Gefahr (z.B. unerwünschte Nebeneffekte in der CCU-Firmware).**|
 
