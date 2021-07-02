@@ -39,6 +39,11 @@ BME280 Board: Entfernung LDO und Brücke Vin-Vout
 MAX44009 Board: Entfernung LDO und Brücke Vin-Vout
 ![pic](Images/GY-49_LDO.jpg)
 
+Die rot markierte Vin-Vout Lötbrücke ist in meinen Augen die eleganteste Variante ohne weiteren Aufwand, setzt aber etwas SMD-Löterfahrung und eine ruhige Hand voraus.<br>
+Man könnte z.B. auch auf den Pads des ausgelöteten LDO eine Drahtbrücke zwischen Vin und Vout ziehen, die Pads dort sind etwas größer zum Löten.<br>
+Im Bild das LDO-Pad links Mitte mit rechts Oben brücken, grün markiert. Dabei darauf achten dass kein Kurzschluss zu GND entsteht (die GND Fläche ist aber lackiert).
+![pic](Images/LDO_Bridge_Variant.jpg)
+
 
 ## Überprüfung des AVR Ruhestroms (power-down Mode)
 
