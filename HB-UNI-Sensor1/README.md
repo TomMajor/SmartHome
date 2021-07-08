@@ -504,17 +504,21 @@ wieder in das richtige Verzeichnis kopiert und in der Zentrale berücksichtigt w
 
 Hier ist der Datenpunkt Digitaler Eingang ('Ventilposition' im WebUI) eingefügt, dafür sind die beiden Datenpunkte Absolute Luftfeuchte und Taupunkt weggelassen.<br>
 Dazu habe ich einen passendes HB-UNI-Sensor2 Sketch gemacht.<br>
+
 ![pic](Images/HB-UNI-Sensor2_WebUI.png)
-<br>
-Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor2 heißen (Bei der Arduino-IDE müssen Sketch-Name und Verzeichnisname gleich sein). Und es darf beim Kompilieren nur ein .ino pro Verzeichnis vorhanden sein!
+
+Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor2 heißen (Bei der Arduino-IDE müssen Sketch-Name und Verzeichnisname gleich sein).<br>
+Und es darf beim Kompilieren nur ein .ino pro Verzeichnis vorhanden sein!
 
 ###### hb-uni-sensor3.xml
 
 Hier ist der Datenpunkt Digitaler Eingang ('Ventilposition' im WebUI) geändert in 'Wassertemperatur' um eine Frage aus dem Forum aufzugreifen.<br>
 Dazu habe ich einen passendes HB-UNI-Sensor3 Sketch gemacht, in dem nur als Beispiel diese Wassertemperatur mit dem Wert 22,4 °C gesendet wird.<br>
+
 ![pic](Images/HB-UNI-Sensor3_WebUI.png)
-<br>
-Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor3 heißen (Bei der Arduino-IDE müssen Sketch-Name und Verzeichnisname gleich sein). Und es darf beim Kompilieren nur ein .ino pro Verzeichnis vorhanden sein!
+
+Dieser sketch liegt mit im /Arduino Verzeichnis. Er muss in .ino umbenannt werden und für die Arduino-IDE muss das Verzeichnis dann HB-UNI-Sensor3 heißen (Bei der Arduino-IDE müssen Sketch-Name und Verzeichnisname gleich sein).<br>
+Und es darf beim Kompilieren nur ein .ino pro Verzeichnis vorhanden sein!
 
 ###### hb-uni-sensor4.xml
 
