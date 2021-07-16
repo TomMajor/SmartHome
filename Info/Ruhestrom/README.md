@@ -84,3 +84,13 @@ wake-up Periode
 Aktivzeit
 
 ![pic](Images/RTC_Wakeup_Pulse.png)
+
+
+## Arduino Mini Pro mit gedrehtem FTDI-Interface
+
+Durch den [Beitrag](https://forum.fhem.de/index.php/topic,57486.msg1166508.html#msg1166508) von McShire im grünen Forum bin ich darauf aufmerksam geworden dass es eine neue? Version des Arduino Mini Pro gibt, bei dem die Belegung der Pins des FTDI-Interface gedreht ist.<br>
+Er hatte das nicht gleich bemerkt und somit Schwierigkeiten beim seriellen Flashen.<br>
+<br>
+Im Bild links die alte Belegung, rechts die gedrehte. Bei der gedrehten steht auch nicht mehr DTR (wonach ich mich immer orientiert habe), sondern DTR ist dort mit GRN bezeichnet.
+
+![pic](Images/ArduinoProMini_Alt_Neu.jpg)
