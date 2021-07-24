@@ -111,3 +111,24 @@ tar -zcf media/usb/backup/history-$DATE.tgz backup_tmp/history
 #   cp media/usb/backup/history-$DATE.tgz /mnt/local_share
 #   sudo umount /mnt/local_share
 ```
+
+
+## SSH-Login mittels keyfile
+
+- .ssh Verzeichnis im homedir anlegen falls noch nicht vorhanden
+```
+cd ~
+mkdir .ssh
+chmod 700 .ssh
+```
+- mittels puttygen ein Schlüsselpaar erzeugen
+- Achtung, dabei für das public keyfile nicht das Putty Save Format verwenden (Button "Save public key"), sondern in puttygen den key direkt aus der Box "Public key for pasting into OpenSSH authorized_keys file" kopieren und in eien neue Datei (z.B. iobroker.pub) schreiben!
+- public keyfile iobroker.pub nach ~/.ssh/ kopieren, z.B. mittels WinSCP
+```
+cd .ssh
+cat iobroker.pub >> authorized_keys
+chmod 600 .ssh/authorized_keys
+rm iobroker.pub
+```
+- anschliessend kann das SSH-Login ohne Password unter Verwendung des private keyfiles erfolgen
+
