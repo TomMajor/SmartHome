@@ -1,0 +1,31 @@
+
+Ich möchte euch die neue Frontblende die in Zusammenarbeit mit TomMajor entstanden ist vorstellen.
+
+front-spi.stl
+
+- passend für Waveshare 4.2 Inch E-Paper Display Modul mit SPI Interface
+- passend für beide Platinen Versionen von Stan23
+- 5mm dünner als die alte Version, dadurch steht die Front nicht mehr so weit heraus. Sieht einfach besser aus.
+- integrierte Lücke für die LED, scheint bei hellem Material durch.
+- die Linien treffen besser auf die Abstände der Taster
+
+Ihr müsst das Funkmodul auf die andere Seite Löten
+Die Platinen müssen mit einem Abstand von zwei Millimetern verbunden werden(zwei Spacer mit einem Millimeter)
+Die Standard 5mm Taster die Jerome beispielsweise bei der Wetterstation verlinkt hat
+
+-----
+
+>Du hast zwei Langlöcher von unten vorgesehen, sind die dazu da um die Frontblende "anzuklemmen".
+>Falls ja, hättest du zufällig eine Info welche Schrauben man dafür nehmen sollte?
+
+Die Schrauben sollten M3 in 20er länge sein. Das was gerade in der Bastelkiste vorrätig war...
+
+-----
+
+Ich habe die Platinen mit diesen M3 Plastikschrauben verbunden und dazwischen zwei dieser Spacer gelegt und an der Seite eingekürzt da sonst die Platine nicht ganz rein rutscht. Eine Mutter dazwischen ist zu viel, da muss man zu sehr drücken bis die Taster ansprechen, deswegen diese dünnen Plastikspacer. Alternativ könnte man die Plastikmuttern auch einen Millimeter dünner schleifen.
+IMG_20190407_132156.jpg Die Front passt jetzt Super. 
+
+Zwei Spacer ergeben 2mm, das passt perfekt. (Eine Mutter hat 2,5mm)
+Das höchste sind die Muttern und das Funkmodul.
+
+Ich habe die 5mm Taster die Jerome bei der Wetterstation verlinkt hat. Mein Messschieber zeigt 4,9mm an.
