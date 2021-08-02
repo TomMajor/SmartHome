@@ -1,0 +1,8 @@
+
+Author(s) of files in this subdirectory:
+jp112sdl
+https://github.com/jp112sdl
+Alveran
+
+Source of files in this subdirectory:
+https://github.com/jp112sdl/HB-Dis-EP-42BW
