@@ -75,7 +75,8 @@ sleep 5
 rsync --delete -aLvzh -P /opt/iobroker /backup_tmp/
 
 # das gleiche für die iobroker History die bei mir separat auf einer USB-SSD liegt
-# standardmässig ist sie unter /opt/iobroker/iobroker-data/history zu finden und wird vom ersten rsync command oben mitgesichert
+# standardmässig wäre sie unter /opt/iobroker/iobroker-data/history zu finden und wird vom ersten rsync command oben mitgesichert
+# in diesem Fall braucht man das zweite rsync hier nicht
 rsync --delete -aLvzh -P /media/usb/history /backup_tmp/
 
 # iobroker sobald als möglich wieder starten
@@ -86,10 +87,12 @@ iobroker start
 DATE=$(date +"%Y%m%d-%H%M%S")
 # use relative paths for tar, see "tar: Removing leading '/' from member names"
 cd /
-tar -zcf media/usb/backup/iobroker-$DATE.tgz backup_tmp/iobroker
-tar -zcf media/usb/backup/history-$DATE.tgz backup_tmp/history
+tar -zcf media/usb/backup/$DATE-iobroker.tgz backup_tmp/iobroker
+tar -zcf media/usb/backup/$DATE-history.tgz backup_tmp/history
 
-# ToDo alte Backups löschen, kommt demnächst
+# Alte Backups löschen, die älter als 3 Monate sind
+find /media/usb/backup -name '*-iobroker.tgz' -mtime +91 -exec rm -rf {} \;
+find /media/usb/backup -name '*-history.tgz' -mtime +91 -exec rm -rf {} \;
 
 # Optional
 # Zyklisch den Inhalt von /media/usb/backup als extra Backup auf einen PC, NAS etc. kopieren
