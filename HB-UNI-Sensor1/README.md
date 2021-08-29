@@ -167,6 +167,7 @@ Die I2C Adressen lassen sich (falls der Sensor das unterstützt) meisten am Sens
 | SHT31 | 44, 45 | wählbar über Pin |
 | SHT21 | 40 | - |
 | SHT10 | - | kein I2C Sensor, kann aber die I2C Pins mitbenutzen |
+| AHT15 | 38 | - |
 | VEML6070 | 38+39 (+0C) | beide 3x Adressen werden benötigt, 0C unklar |
 | VEML6075 | 10 | - |
 | 24AA025UID | 50..57 | kein Sensor, ggf. für später für UID vorgehalten |
