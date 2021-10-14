@@ -36,6 +36,7 @@
 //#define SENSOR_SHT31      // SHT31_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT21
 //#define SENSOR_SHT10      // SHT10_DATAPIN / SHT10_CLKPIN define weiter unten muss zur HW passen!
+//#define SENSOR_AHTXX
 //#define SENSOR_DIGINPUT   // DIGINPUT_PIN define weiter unten muss zur HW passen!
 //#define SENSOR_VEML6070
 //#define SENSOR_VEML6075

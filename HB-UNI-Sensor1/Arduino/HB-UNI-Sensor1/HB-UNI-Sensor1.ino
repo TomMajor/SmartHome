@@ -88,6 +88,10 @@ using namespace as;
 #include "Sensors/Sens_SHT10.h"    // HB-UNI-Sensor1 custom sensor class
 #endif
 
+#ifdef SENSOR_AHTXX
+#include "Sensors/Sens_AHTxx.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
 #ifdef SENSOR_DIGINPUT
 #include "Sensors/Sens_DIGINPUT.h"    // HB-UNI-Sensor1 custom sensor class
 Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global sein (Interrupt event)
@@ -335,6 +339,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_SHT10
     Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
 #endif
+#ifdef SENSOR_AHTXX
+    Sens_AHTxx ahtxx;
+#endif
 #ifdef SENSOR_VEML6070
     Sens_VEML6070<> veml6070;
 #endif
@@ -407,10 +414,10 @@ public:
         // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
         // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
 #if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21)               \
-    && !defined(SENSOR_SHT10)
+    && !defined(SENSOR_SHT10) && !defined(SENSOR_AHTXX)
         temperature10 = 200;    // 20.0C (scaling 10)
 #endif
-#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10)
+#if !defined(SENSOR_BME280) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10) && !defined(SENSOR_AHTXX)
         humidity10 = 500;    // 50.0% (scaling 10)
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
@@ -433,19 +440,7 @@ public:
         airPressure10 = bmp180.pressureNN();
 #endif
 
-// Falls DS18X20 vorhanden, dessen Temp der BME280/BMP180 Temp vorziehen
-#ifdef SENSOR_DS18X20
-        Sens_DS18X20::measure(ds18x20, ds18x20Count);
-        temperature10 = ds18x20[0].temperature();
-        // Beispiel: Hier sind alle DS18B20 Temperaturen im Array falls mehrere DS18B20 an einem Pin/Bus verwendet werden
-        // Dafür muss DS18X20_COUNT in der Konfigurationsdatei angepasst werden!
-        // for (uint8_t i = 0; i < DS18X20_COUNT; i++) {
-        //    temp10Array18x20[i] = ds18x20[i].temperature();
-        //}
-#endif
-
-// Feuchte/Temp vom SHT31/21/10 falls kein BME280 vorhanden
-#ifndef SENSOR_BME280
+// Feuchte/Temp vom SHT31/21/10/AHTxx, überschreibt ggf. BME280/BMP180 Messung, ggf. für anderen Bedarf anpassen
 #ifdef SENSOR_SHT31
         sht31.measure();
         temperature10 = sht31.temperature();
@@ -458,7 +453,21 @@ public:
         sht10.measure();
         temperature10 = sht10.temperature();
         humidity10    = sht10.humidity();
+#elif defined SENSOR_AHTXX
+        ahtxx.measure();
+        temperature10 = ahtxx.temperature();
+        humidity10    = ahtxx.humidity();
 #endif
+
+// Falls DS18X20 vorhanden, dessen Temp allen anderen Temps vorziehen (überschreiben), ggf. für anderen Bedarf anpassen
+#ifdef SENSOR_DS18X20
+        Sens_DS18X20::measure(ds18x20, ds18x20Count);
+        temperature10 = ds18x20[0].temperature();
+        // Beispiel: Hier sind alle DS18B20 Temperaturen im Array falls mehrere DS18B20 an einem Pin/Bus verwendet werden
+        // Dafür muss DS18X20_COUNT in der Konfigurationsdatei angepasst werden!
+        // for (uint8_t i = 0; i < DS18X20_COUNT; i++) {
+        //    temp10Array18x20[i] = ds18x20[i].temperature();
+        //}
 #endif
 
 // Entweder MAX44009 oder TSL2561 oder BH1750 für Helligkeit, ggf. für anderen Bedarf anpassen
@@ -561,6 +570,9 @@ public:
         // dies ist wichtig für den Ruhestromverbrauch um nach Ende der Messung SCL/SDA immer auf High zu haben
         sht10.i2cEnableSharedAccess();
         sht10.init();
+#endif
+#ifdef SENSOR_AHTXX
+        ahtxx.init();
 #endif
 #ifdef SENSOR_DIGINPUT
         digitalInput.init(DIGINPUT_PIN);
