@@ -36,6 +36,9 @@ proc main {argc argv} {
     catch {
         set pingRet [exec ping -c 2 -W 1 $cDEVICE_IP]
 		set pos [string first " packets received," $pingRet]
+        # Bei Fehlermeldung (in STROM.ErrMsg) <Error: Device at x.x.x.x not reachable> ist evtl. das lokale ping Pgm abweichend
+        # In diesem Fall alternativ die nächste Zeile aktivieren, dafür Zeile 38 deaktivieren
+        # set pos [string first " received," $pingRet]
 		if { $pos > 10 } {
 			set ipReachable [string range $pingRet [expr $pos - 1] [expr $pos - 1]]
 		}
