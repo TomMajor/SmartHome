@@ -2,8 +2,8 @@
 ! STROM.Update2.hms
 !
 ! HomeMatic Skript für HB-ES-S0-CNT6
-! Version 0.22
-! 2019-09-03 Tom Major (Creative Commons)
+! Version 0.23
+! 2021-12-01 Tom Major (Creative Commons)
 ! https://creativecommons.org/licenses/by-nc-sa/4.0/
 ! You are free to Share & Adapt under the following terms:
 ! Give Credit, NonCommercial, ShareAlike
@@ -63,12 +63,13 @@ while (channel <= CHANNEL_COUNT) {
         if (pulseKWH == 0) {                                    ! sollte bei korrekter LIST_PULSE_KWH nie vorkommen
             quit;
         }
-        var counter  = curCnt / pulseKWH;                       ! aktueller Stromzähler in kWh
-        var diffCnt  = curCnt - lastCnt;                        ! Delta
-        var power    = 1000.0 * diffCnt / tDiff;                ! Momentanverbrauch in Watt
-        dom.GetObject(sysLast).State(curCnt);                   ! aktuellen Zählerwert speichern
-        dom.GetObject(sysCounter).State(counter.Round(2));      ! aktuellen Stromzähler in kWh speichern
-        dom.GetObject(sysPower).State(power);                   ! aktuellen Momentanverbrauch in Watt speichern
+        var counter  = curCnt / pulseKWH;                          ! aktueller Stromzähler in kWh
+        var diffCnt  = curCnt - lastCnt;                           ! Delta
+        ! In Homematic Script existiert keine natürliche Rangfolge von Operatoren.  
+        var power    = (3600000.0 * diffCnt) / (pulseKWH * tDiff); ! Momentanverbrauch in Watt
+        dom.GetObject(sysLast).State(curCnt);                      ! aktuellen Zählerwert speichern
+        dom.GetObject(sysCounter).State(counter.Round(2));         ! aktuellen Stromzähler in kWh speichern
+        dom.GetObject(sysPower).State(power);                      ! aktuellen Momentanverbrauch in Watt speichern
     }
     
     channel = channel + 1;
