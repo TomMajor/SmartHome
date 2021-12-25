@@ -16,7 +16,7 @@ Sie basiert auf der hervorragenden [Mighty Mini 1284P](https://github.com/JChris
 - Verpolschutz On-Board
 - ISP und FTDI-Programmier-Schnittstelle
 - Alle 32 I/O Pins herausgeführt
-- Pin-Beschriftung [MightyCore Standard pinout](https://github.com/MCUdude/MightyCore)
+- Pin-Beschriftung [MightyCore Standard pinout](https://github.com/MCUdude/MightyCore#pinout)
 - [JLCPCB](https://jlcpcb.com/) kompatible BOM (Bill of materials) und Pick-and-Place Dateien vorhanden
 - Die folgenden zusätzlichen Optionen existieren, alle nur *bei Bedarf* bestückbar:
   - Optionaler Reset-Baustein MCP111 (Schutz vor "Babbling Idiot")
@@ -54,7 +54,7 @@ Sie basiert auf der hervorragenden [Mighty Mini 1284P](https://github.com/JChris
 
 - im gleichen Verzeichnis: **Pick_Place_tms1284.xlsx** - Pick-and-Place Datei für JLCPCB.
 
-- die JLCPCB Teileliste wurde auf minimale Kosten ausgelegt, d.h. keine "extended parts". Dafür muss man den Mosfet T1 sowie die (optionalen) Bauteile Q1 (AWSCR-8.00CV-T) und IC3 (MCP111T-240) selber bestückten. Sowohl Q1 als auch IC3 braucht man nicht unbedingt für minimale AskSinPP Bestückung.
+- die JLCPCB Teileliste wurde auf minimale Kosten ausgelegt, d.h. keine "extended parts" (außer der AVR natürlich). Dafür muss man den Mosfet T1 sowie die (optionalen) Bauteile Q1 (AWSCR-8.00CV-T) und IC3 (MCP111T-240) selber bestückten. Sowohl Q1 als auch IC3 braucht man nicht unbedingt für minimale AskSinPP Bestückung.
 
 - Auf jeden Fall selber bestücken muss man also T1, das CC1101-Modul und den Config-Taster (DTSM-3).
 
@@ -65,7 +65,7 @@ Sie basiert auf der hervorragenden [Mighty Mini 1284P](https://github.com/JChris
 
 - die intern auf dem Board belegten Pins haben eine kleine Linienmarkierung am jeweiligen Lötpad. Dies betrifft 4 SPI-Leitungen (4-7), /INT2 (2) und PA6/PA7 (30,31). Die Pins RXD0/TXD0 (8,9) sind intern nicht wirklich belegt, werden jedoch bei der Programmierung über Bootloader und FTDI-Programmier-Schnittstelle verwendet.
 
-- Eine SPI ist immer Multi-Device fähig, d.h. mit zusätzlichen Chip-Select Signal kann man die SPI zum CC1101 auch noch außen parallel für andere Chips benutzen.
+- Eine SPI ist immer Multi-Device fähig, d.h. mit zusätzlichen Chip-Select Signal kann man die SPI zum CC1101 auch noch außen parallel für andere SPI-Chips benutzen. Eventuell sind dafür aber SW-Anpassungen nötig um die dann gemeinsam genutzte Ressource SPI zwischen AskSinPP und anderen SW-Modulen konfliktfrei zu teilen, z.B. mit Hilfe eines Mutex.
 
 - Falls man PA6/PA7 unbedingt außen brauchen sollte kann man auf die Bestückung vom Taster und LED verzichten.
 
