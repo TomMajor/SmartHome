@@ -50,3 +50,6 @@ Wahrscheinlich reichen dann z.B. auch 10uF am Mosfet, wichtig ist dass der Einsc
 
 ![pic](Images/HB-SEC-RHS-3_PCB.jpg)
 
+###### Links
+
+[HomeMatic Forum: Abschaltung des CC1101 über Mosfet bei AskSinPP-Geräten](https://homematic-forum.de/forum/viewtopic.php?f=76&t=66483)
