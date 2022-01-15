@@ -5,7 +5,7 @@ Im Oktober des Jahres 2019 verspürte ich das Verlangen nach einer kleinen AskSi
 Es gibt ja bereits einige Platinen dieser Art auf dem "Markt", aber einige davon sind nicht Open Source :crying_cat_face: und die anderen hatten nicht die zusätzlichen Optionen die ich im Sinn hatte.<br>
 Herausgekommen ist dabei die *tmStamp*.
 
-Features:
+## Features
 
 - Einsatz eines Arduino Pro Mini um nicht immer den ATmega328P als SMD TQFP32 löten zu müssen
 - Es wurde ein Kompromiss angestrebt zwischen einerseits minimalen Abmessungen (Pro Mini und CC1101 als Stack übereinander) und andererseits zusätzlichen Optionen um das Board möglichst universell einsetzen zu können
@@ -120,6 +120,13 @@ Allerdings habe ich dort den gleichen Bohrlochdurchmesser von 0,7mm wie für die
 - Beide Verbesserungen aus V1.00 wurden gemacht.
 - Züsätzlich ein Loch in Nähe des CC1101 Antennenpads gesetzt um bei Bedarf auch einen Draht von unten direkt in das Antennenpad einlöten zu können.<br>
 Die Antenne direkt von oben in das CC1101-Modul einzulöten geht natürlich auch.
+
+
+## Links
+
+[AskSinPP Library](https://github.com/pa-pa/AskSinPP)
+
+[HomeMatic Forum: tmStamp](https://homematic-forum.de/forum/viewtopic.php?f=76&t=55497)
 
 
 ## Lizenz
