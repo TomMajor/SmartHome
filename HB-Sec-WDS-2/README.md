@@ -98,6 +98,15 @@ Das ist nur bei der Variante WDS2_CUSTOM notwendig, für die Variante WDS2_STAND
 ![pic](Images/HB-Sec-WDS-2_Serieller_Log.png)
 
 
+## Übertragungsmodus
+
+:warning: Nach dem Anlernen an die CCU muss der Übertragungsmodus auf Standard gestellt werden.<br>
+Gesichert wäre nur mit Verwendung eines AES Schlüssels un dem entsprechenden *USE_AES* define im Sketch möglich.<br>
+Dazu in den Geräteeinstellungen im **Kanal 1** des Gerätes auf die Spalte mit dem Übertragungsmodus klicken und Standard einstellen.<br>
+
+![pic](Images/HB-Sec-WDS-2_Uebertragungsmodus.png)
+
+
 ## Option: Echte Batteriezustandsmessung unter Last, um frühzeit leere Batterien zu erkennen und zu tauschen.
 
 siehe
