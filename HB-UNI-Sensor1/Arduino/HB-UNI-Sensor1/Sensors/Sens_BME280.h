@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // Sens_BME280
-// (C) 2018-2021 Tom Major (Creative Commons)
+// (C) 2018-2022 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -107,32 +107,6 @@ public:
     uint16_t pressure() { return _pressure10; }
     uint16_t pressureNN() { return _pressureNN10; }
     uint16_t humidity() { return _humidity10; }
-
-    // absHumidity kann optional verwendet werden nur für Geräte die dies benötigen
-    // die Offset-Korrekturen werden zentral im HB-UNI-SensorX Sketch am Ende von measure() berechnet
-    // und können so bei der Berechnung von absHumidity einfliessen wenn absHumidity() erst nach den Offset-Korrekturen aufgerufen wird!
-    // so werden die Sensorklassen nicht mit extra Code für die Offset-Korrekturen belastet
-    // siehe auch HB-UNI-Sensor2.ino
-    uint16_t absHumidity(int16_t temp10, uint16_t humi10)
-    {
-        float    temp  = (float)(temp10) / 10.0;
-        float    hum   = (float)(humi10) / 10.0;
-        uint16_t aH100 = (uint16_t)(EnvironmentCalculations::AbsoluteHumidity(temp, hum, EnvironmentCalculations::TempUnit_Celsius) * 100.0);
-        DPRINT(F("BME280 AbsHumidity x100 : "));
-        DDECLN(aH100);
-        return aH100;
-    }
-
-    // dewPoint kann optional verwendet werden nur für Geräte die dies benötigen
-    int16_t dewPoint(int16_t temp10, uint16_t humi10)
-    {
-        float   temp = (float)(temp10) / 10.0;
-        float   hum  = (float)(humi10) / 10.0;
-        int16_t dP10 = (int16_t)(EnvironmentCalculations::DewPoint(temp, hum, EnvironmentCalculations::TempUnit_Celsius) * 10.0);
-        DPRINT(F("BME280 DewPoint x10     : "));
-        DDECLN(dP10);
-        return dP10;
-    }
 };
 
 }

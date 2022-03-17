@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.50
-// (C) 2018-2021 Tom Major (Creative Commons)
+// Version 1.51
+// (C) 2018-2022 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -103,6 +103,10 @@ Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global 
 
 #ifdef SENSOR_VEML6075
 #include "Sensors/Sens_VEML6075.h"    // HB-UNI-Sensor1 custom sensor class
+#endif
+
+#if defined(SENSOR_BME280) || defined(SENSOR_SHT31) || defined(SENSOR_SHT21) || defined(SENSOR_SHT10) || defined(SENSOR_AHTXX)
+#include "Sensors/Sens_Environment.h"    // needs Arduino Lib https://github.com/finitespace/BME280
 #endif
 
 #ifdef CLOCK_SYSCLOCK
@@ -348,6 +352,9 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
 #ifdef SENSOR_VEML6075
     Sens_VEML6075 veml6075;
 #endif
+#if defined(SENSOR_BME280) || defined(SENSOR_SHT31) || defined(SENSOR_SHT21) || defined(SENSOR_SHT10) || defined(SENSOR_AHTXX)
+    Sens_Environment environment;
+#endif
 
 public:
     WeatherChannel()
@@ -530,11 +537,16 @@ public:
             DDECLN(humidity10);
         }
 
-#ifdef SENSOR_BME280
-        // extra Werte Abs.Luftfeuchtigkeit und Taupunkt nur beim HB-UNI-Sensor1
-        // Berechnung erfolgt mit Offset-korrigierten Werten, deswegen hier!
-        absHumidity100 = bme280.absHumidity(temperature10, humidity10);
-        dewPoint10     = bme280.dewPoint(temperature10, humidity10);
+#if defined(SENSOR_BME280) || defined(SENSOR_SHT31) || defined(SENSOR_SHT21) || defined(SENSOR_SHT10) || defined(SENSOR_AHTXX)
+        // extra Werte Abs.Luftfeuchtigkeit und Taupunkt können optional verwendet werden - nur für Geräte die dies benötigen
+        // Berechnung erfolgt mit Offset-korrigierten Werten
+        // die Offset-Korrekturen werden zentral im HB-UNI-SensorX Sketch hier am Ende von measure() berechnet
+        // und können so bei der Berechnung der Abs.Luftfeuchtigkeit und des Taupunkts einfliessen
+        // so werden die Sensorklassen nicht mit extra Code für die Offset-Korrekturen belastet
+        // die Arduino Lib https://github.com/finitespace/BME280 muss für die beiden extra Werte installiert sein, auch wenn kein BME280 aktiviert
+        // ist!
+        absHumidity100 = environment.absHumidity(temperature10, humidity10);
+        dewPoint10     = environment.dewPoint(temperature10, humidity10);
 #endif
     }
 
