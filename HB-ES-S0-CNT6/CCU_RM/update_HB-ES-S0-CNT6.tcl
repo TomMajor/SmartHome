@@ -2,8 +2,8 @@
 #
 # -------------------------------------
 # TCL Skript für HB-ES-S0-CNT6
-# Version 0.20
-# 2019-08-30 Tom Major (Creative Commons)
+# Version 0.21
+# (C) 2019-2022 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/4.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -87,6 +87,8 @@ proc main {argc argv} {
         }
     }
     set crc [expr ~$crc]  ;# CRC-32 ISO 3309
+    # ab RaspberryMatic 3.63.8.20220330 kann es auch 64bit TCL geben, dann Maskierung auf 32bit CRC notwendig
+    set crc [expr $crc & 0xFFFFFFFF]
 
     # parse CRC
     set crcInt 0
@@ -94,7 +96,7 @@ proc main {argc argv} {
     if { $pos > 0 } {
         set crcStr [string range $wgetRet [expr $pos + 4] [expr $pos + 13]] ;# 10 digits
         set crcInt [forceInteger $crcStr]
-		#puts "crcInt: $crcInt [format %u $crcInt]"
+		#puts "crcInt: [format %u $crcInt]"
 	}
 
     #puts "CRC: [format %u $crc]"
