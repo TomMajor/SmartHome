@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Device_UniSensor_Aussen.h
-// PCB: SensorPLHT_v201
-// 2018-2021 Tom Major (Creative Commons)
+// PCB: Sensor PLHT V 2.50
+// 2018-2022 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -28,12 +28,12 @@
 // Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
 //
 #define SENSOR_DS18X20      // ONEWIRE_PIN define weiter unten muss zur HW passen! DS18X20_COUNT muss definiert sein!
-#define SENSOR_BME280       // BME280 Library (finitespace) verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
+//#define SENSOR_BME280     // BME280 Library (finitespace) verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!
 //#define SENSOR_BMP180
-#define SENSOR_MAX44009     // MAX44009_ADDR define weiter unten muss zur HW passen!
+//#define SENSOR_MAX44009   // MAX44009_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_TSL2561    // TSL2561_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_BH1750     // BH1750_ADDR define weiter unten muss zur HW passen!
-//#define SENSOR_SHT31      // SHT31_ADDR define weiter unten muss zur HW passen!
+#define SENSOR_SHT31        // SHT31_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT21
 //#define SENSOR_SHT10      // SHT10_DATAPIN / SHT10_CLKPIN define weiter unten muss zur HW passen!
 //#define SENSOR_AHTXX
@@ -52,10 +52,10 @@
 // Pin und Address Definitionen Sensoren
 #define ONEWIRE_PIN         3
 #define DS18X20_COUNT       1
-#define MAX44009_ADDR       0x4A
+//#define MAX44009_ADDR     0x4A
 //#define TSL2561_ADDR      TSL2561_ADDR_FLOAT
 //#define BH1750_ADDR       0x23    // 0x23 (ADDR connecting to Gnd) or 0x5C (ADDR connecting to Vcc)
-//#define SHT31_ADDR        0x44    // by default its 0x44, you can also adjust the sensor for 0x45 and then pass that value in
+#define SHT31_ADDR          0x44    // by default its 0x44, you can also adjust the sensor for 0x45 and then pass that value in
 //#define SHT10_DATAPIN     A4
 //#define SHT10_CLKPIN      A5
 //#define DIGINPUT_PIN      A1
@@ -79,14 +79,15 @@
 //#define BAT_SENSOR tmBatteryResDiv<A0, 9, 5700>
 //------------
 // 3) Echte Batteriespannungsmessung unter Last, siehe README und Thema "Babbling Idiot Protection"
-// tmBatteryLoad: sense pin A0, activation pin D9, Faktor = Rges/Rlow*1000, z.B. 10/30 Ohm, Faktor 40/10*1000 = 4000, 200ms Belastung vor Messung
-#define BAT_SENSOR tmBatteryLoad<A0, 9, 4000, 200>
+// tmBatteryLoad Parameter: 1) sense pin A0, 2) activation pin D9, 3) Faktor RLoad = Rges/Rlow*1000, 4) 200ms Belastung vor Messung
+// Bsp. Faktor RLoad: 10/30 Ohm -> 4000, 10/27 Ohm -> 3700
+#define BAT_SENSOR tmBatteryLoad<A0, 9, 3700, 200>
 
 
 //---------------------------------------------------------
 // Schwellwerte für Batteriespannungsmessung
-#define BAT_VOLT_LOW        22  // 2.2V
-#define BAT_VOLT_CRITICAL   20  // 2.0V
+#define BAT_VOLT_LOW        24  // 2.4V
+#define BAT_VOLT_CRITICAL   22  // 2.2V
 
 
 #endif

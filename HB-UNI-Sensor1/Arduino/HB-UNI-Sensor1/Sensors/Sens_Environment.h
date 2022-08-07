@@ -27,7 +27,7 @@ public:
         float    temp  = (float)(temp10) / 10.0;
         float    hum   = (float)(humi10) / 10.0;
         uint16_t aH100 = (uint16_t)(EnvironmentCalculations::AbsoluteHumidity(temp, hum, EnvironmentCalculations::TempUnit_Celsius) * 100.0);
-        DPRINT(F("BME280 AbsHumidity x100 : "));
+        DPRINT(F("AbsHumidity x100        : "));
         DDECLN(aH100);
         return aH100;
     }
@@ -37,7 +37,7 @@ public:
         float   temp = (float)(temp10) / 10.0;
         float   hum  = (float)(humi10) / 10.0;
         int16_t dP10 = (int16_t)(EnvironmentCalculations::DewPoint(temp, hum, EnvironmentCalculations::TempUnit_Celsius) * 10.0);
-        DPRINT(F("BME280 DewPoint x10     : "));
+        DPRINT(F("DewPoint x10            : "));
         DDECLN(dP10);
         return dP10;
     }

@@ -42,7 +42,7 @@
 // - Clock Definition
 // - Schaltungsvariante und Pins für Batteriespannungsmessung
 // - Schwellwerte für Batteriespannungsmessung
-#include "Cfg/Device_Example.h"
+#include "Cfg/Device_UniSensor_Aussen.h"
 
 
 // number of available peers per channel
