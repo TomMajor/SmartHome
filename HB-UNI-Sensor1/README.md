@@ -30,6 +30,7 @@
 - Diverse Infos
   - [Benutzerspezifische Sensordaten](#benutzerspezifische-sensordaten)
   - [Trägheit verschiedener Temperatursensoren](#trägheit-verschiedener-temperatursensoren)
+  - [Vergleich HB-UNI-Sensor1 vs. HmIP-STHO](#vergleich-hb-uni-sensor1-vs-hmip-stho)
   - [Anschlussbelegung DS18B20](#anschlussbelegung-ds18b20)
   - [Optionaler Reset-Baustein MCP111](#optionaler-reset-baustein-mcp111)
   - [Bewegungsmelder mit PIR AS312 am digitalen Eingang](#bewegungsmelder-mit-pir-as312-am-digitalen-eingang)
@@ -560,6 +561,13 @@ Quelle: FHEM user *Gernott*<br>
 *'Links war der BME280-breakout horizontal positioniert, recht vertikal über eine Kante stehend. Dort wir der Sensor offenbar besser angeströmt und reagiert dann deutlich schneller. Der SHT hing ohne breakout dünn verdrahtet im Raum und reagiert ziemlich schnell.'*
 
 ![pic](Images/Vergleich_Temperatursensoren.png)
+
+
+## Vergleich HB-UNI-Sensor1 vs. HmIP-STHO
+
+- HB-UNI-Sensor1 bestückt mit DS18B20 (Temperatur) und SHT30 (Luftfeuchte)
+
+![pic](Images/HB-UNI-Sensor1_vs_HmIP-STHO.png)
 
 
 ## Anschlussbelegung DS18B20
