@@ -47,7 +47,9 @@
 ###### ESP32 für Arduino installieren
 
 - In der Arduino IDE unter Einstellungen diesen link bei *Additional Boards Manager URLs* eintragen:<br>
-`https://dl.espressif.com/dl/package_esp32_index.json`
+```
+https://dl.espressif.com/dl/package_esp32_index.json
+```
 
 ![pic](Images/Arduino_Preferences.png)
 

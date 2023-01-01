@@ -4,7 +4,7 @@
 
 ## Wiederherstellung der alten, nicht-alphabetische Menureihenfolge ab RaspberryMatic Ver. 3.47.18.20190918
 
-- Die Datei [color.map](https://github.com/TomMajor/SmartHome/tree/master/Info/Skripte_und_Loesungen/Files/color.map) nach /usr/local/etc/config kopieren und die Permissions 0644 dafür setzen.
+- Die Datei [color.map](https://github.com/TomMajor/SmartHome/blob/master/Info/Skripte_und_Loesungen_HomeMatic_RaspberryMatic/Files/color.map) nach /usr/local/etc/config kopieren und die Permissions 0644 dafür setzen.
 - danach den Browsercache löschen.
 - Referenzen:<br>
 [706](https://github.com/jens-maus/RaspberryMatic/issues/706)<br>

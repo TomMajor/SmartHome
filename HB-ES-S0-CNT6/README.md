@@ -118,7 +118,7 @@ Die Impulse/kWh sind im Datenblatt des S0-Stromzählers vermerkt bzw. auch auf d
   - Anhaken: *"Vor dem Ausführen alle laufenden Verzögerungen für diese Aktivitäten beenden (z.B. Retriggern)."*
   - Aktion 1: die Skript-Kommandos aus STROM.Update1.hms sofort ausführen<br>
   - Aktion 2: die Skript-Kommandos aus STROM.Update2.hms mit 15sec Verzögerung ausführen<br>
-  - siehe auch [Programm STROM.Update](https://github.com/TomMajor/SmartHome/tree/master/HB-ES-S0-CNT6/Version_1.0/CCU_RM/STROM.Update.pdf)
+  - siehe auch [Programm STROM.Update](https://github.com/TomMajor/SmartHome/blob/master/HB-ES-S0-CNT6/CCU_RM/STROM.Update.pdf)
 - nach einer Wartezeit von ein paar Minuten sollten sich nun in den Systemvariablen STROM.Counter1..x die aktuellen Zählerstände in kWh sowie in den Systemvariablen STROM.Power1..x die aktuellen Momentanverbräuche in Watt befinden.
 
 #### CUxD.CMD_EXEC / system.Exec
