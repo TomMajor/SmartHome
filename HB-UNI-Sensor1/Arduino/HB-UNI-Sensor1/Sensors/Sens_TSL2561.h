@@ -20,10 +20,10 @@ namespace as {
 
 template <uint8_t I2C_ADDR> class Sens_TSL2561 : public Sensor {
 
+    ::TSL2561 _tsl2561;
+    uint8_t   _sensitivity;
     uint16_t  _brightnessRawFull, _brightnessRawIR;
     uint32_t  _brightnessLux100;
-    uint8_t   _sensitivity;
-    ::TSL2561 _tsl2561;
 
     uint8_t getID()
     {
@@ -98,7 +98,7 @@ public:
                 // bei zu viel Licht die Empfindlichkeit (exposure time) solange verringern bis sinnvolle Werte kommen
                 // momentan wird hier nur mit Gain 0 gearbeitet, Gain 16 ist fuer Aussenhelligkeiten problematisch (siehe Messwerte) und
                 // wuerde nur etwas bringen falls man in sehr dunklen Umgebungen Lux-Werte mit hoher Aufloesung braucht
-                if ((_brightnessRawFull == _brightnessRawIR) || (_brightnessRawFull > 60000)) {    // ungueltiger Wert
+                if (((_brightnessRawFull == _brightnessRawIR) && (_brightnessRawFull > 0)) || (_brightnessRawFull > 60000)) {    // ungueltiger Wert
                     // DPRINT("#INVALID# "); DDEC(_brightnessRawFull); DPRINT(" "); DDEC(_brightnessRawIR); DPRINT(" "); DDEC(_sensitivity);
                     // DPRINT(F("\r\n"));
                     if (_sensitivity > 0) {    // ungueltiger Wert, Empfindlichkeit verringern
