@@ -106,7 +106,7 @@
           </description>
         </parameter>
         <parameter id="AIR_PRESSURE" operations="read,event">
-          <logical type="float" min="500.0" max="1100.0" unit="hPa" />
+          <logical type="float" min="0.00" max="1100.0" unit="hPa" />
           <physical type="integer" interface="command" value_id="AIR_PRESSURE">
             <event frame="WEATHER_EVENT" />
           </physical>

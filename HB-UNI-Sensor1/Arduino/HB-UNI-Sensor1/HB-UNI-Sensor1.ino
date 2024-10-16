@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.51
-// (C) 2018-2022 Tom Major (Creative Commons)
+// Version 1.5
+// (C) 2018-2024 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -32,7 +32,7 @@
 #include "Sensors/tmBattery.h"
 
 //---------------------------------------------------------
-// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen
+// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_UniSensor_Aussen.h) geholt um mehrere Geräte ohne weitere Änderungen
 // des Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren.
 // Die konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
 // - Device ID und Device Serial
@@ -42,6 +42,7 @@
 // - Clock Definition
 // - Schaltungsvariante und Pins für Batteriespannungsmessung
 // - Schwellwerte für Batteriespannungsmessung
+//
 #include "Cfg/Device_UniSensor_Aussen.h"
 
 
@@ -123,14 +124,14 @@ Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global 
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs (HB-UNI-SensorX) muss Device ID und Device Serial unterschiedlich sein!
-// Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_Example.h) geholt um mehrere Geräte ohne weitere Änderungen des
+// Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_UniSensor_Aussen.h) geholt um mehrere Geräte ohne weitere Änderungen des
 // Sketches flashen zu können.
 const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_ID,        // Device ID
     cDEVICE_SERIAL,    // Device Serial
     { 0xF1, 0x03 },    // Device Model HB-UNI-Sensor1
     // Firmware Version
-    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x14" />
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x15" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
     // bei Änderungen von Payload, message layout, Datenpunkt-Typen usw. muss die Version an beiden Stellen hochgezogen werden!
     0x15,
@@ -418,20 +419,19 @@ public:
 
     void measure()
     {
-        // Messwerte mit Dummy-Werten vorbelegen falls kein realer Sensor für die Messgröße vorhanden ist
-        // zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM
+        // Messwerte mit 0 vorbelegen falls kein realer Sensor für diese Messgröße konfiguriert ist
 #if !defined(SENSOR_DS18X20) && !defined(SENSOR_BME280) && !defined(SENSOR_BMP180) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21)               \
     && !defined(SENSOR_SHT10) && !defined(SENSOR_AHTXX)
-        temperature10 = 200;    // 20.0C (scaling 10)
+        temperature10 = 0;
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_SHT31) && !defined(SENSOR_SHT21) && !defined(SENSOR_SHT10) && !defined(SENSOR_AHTXX)
-        humidity10 = 500;    // 50.0% (scaling 10)
+        humidity10 = 0;
 #endif
 #if !defined(SENSOR_BME280) && !defined(SENSOR_BMP180)
-        airPressure10 = 11000;    // 1100 hPa (scaling 10)
+        airPressure10 = 0;
 #endif
 #if !defined(SENSOR_MAX44009) && !defined(SENSOR_TSL2561) && !defined(SENSOR_BH1750)
-        brightness100 = 0;    // 0 Lux (scaling 100)
+        brightness100 = 0;
 #endif
 
 // Entweder BME280 oder BMP180 für Luftdruck/Temp, ggf. für anderen Bedarf anpassen

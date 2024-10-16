@@ -31,6 +31,9 @@
 
 ## Change Log
 
+- 2.62 - 10.08.2024
+  - HB-UNI-Sensor1, Firmware 1.5 und HB-TM-Devices-AddOn: nicht vorhandene Sensoren bekommen den default-Wert 0 (Luftdruck)
+
 - 2.61 - 12.06.2021
   - HB-UNI-Sensor1, neue Firmware 1.5, Unterstützung für die zusätzliche Datenpunkte 'absolute Luftfeuchte' und 'Taupunkt'
   - Datenpunkt 'Ventilposition' (Digitaler Eingang) ist vom HB-UNI-Sensor1 in den HB-UNI-Sensor2 verschoben worden (wg. seltenem Gebrauch, siehe auch [Benutzerspezifische Sensordaten](https://github.com/TomMajor/SmartHome/tree/master/HB-UNI-Sensor1#benutzerspezifische-sensordaten)
