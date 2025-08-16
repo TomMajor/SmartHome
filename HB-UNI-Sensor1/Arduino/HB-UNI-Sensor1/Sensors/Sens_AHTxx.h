@@ -1,6 +1,6 @@
 //---------------------------------------------------------
 // Sens_AHTxx
-// 2021-10 Tom Major (Creative Commons)
+// 2025-08-16 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -70,22 +70,22 @@
 // clang-format on
 
 typedef enum : uint8_t {
-    AHT1x_SENSOR = 0x00,
-    AHT2x_SENSOR = 0x01,
-} AHTXX_I2C_SENSOR;
+    AHT1x_SENSOR = 1,
+    AHT2x_SENSOR = 2,
+} AHT_TYPE_t;
 
 namespace as {
 
 //-----------------------------------------------------------------------------
-class Sens_AHTxx : public Sensor {
+template <uint8_t AHTXX_TYPE> class Sens_AHTxx : public Sensor {
 
 private:
-    AHTXX_I2C_SENSOR _sensorType;
-    uint8_t          _address;
-    uint8_t          _status;
-    uint8_t          _rawData[7];    // {status, RH, RH, RH+T, T, T, CRC}, CRC for AHT2x only
-    int16_t          _temperature;
-    uint16_t         _humidity;
+    AHT_TYPE_t _sensorType;
+    uint8_t    _address;
+    uint8_t    _status;
+    uint8_t    _rawData[7];    // {status, RH, RH, RH+T, T, T, CRC}, CRC for AHT2x only
+    int16_t    _temperature;
+    uint16_t   _humidity;
 
     //---------------------------------------------------------
     bool begin()
@@ -143,7 +143,7 @@ private:
             dataSize = 7;
         }
 
-        Wire.requestFrom(_address, dataSize, (uint8_t) true);    // read n-byte to "wire.h" rxBuffer, true-send stop after transmission
+        Wire.requestFrom(_address, dataSize, (uint8_t)true);    // read n-byte to "wire.h" rxBuffer, true-send stop after transmission
         if (Wire.available() != dataSize) {
             _status = AHTXX_DATA_ERROR;    // update status byte, received data smaller than expected
             return;                        // no reason to continue
@@ -177,7 +177,7 @@ private:
         }    // send initialization command, for AHT1x only
         else {
             Wire.write(AHT2X_INIT_REG);
-        }                                            // send initialization command, for AHT2x only
+        }    // send initialization command, for AHT2x only
         Wire.write(value);                           // send initialization register controls
         Wire.write(AHTXX_INIT_CTRL_NOP);             // send initialization register NOP control
         return (Wire.endTransmission(true) == 0);    // true=success, false=I2C error
@@ -191,11 +191,11 @@ private:
         Wire.write(AHTXX_STATUS_REG);
         if (Wire.endTransmission(true) != 0) {
             return AHTXX_ERROR;
-        }                                                          // collision on I2C bus, sensor didn't return ACK
-        Wire.requestFrom(_address, (uint8_t)1, (uint8_t) true);    // read 1-byte to "wire.h" rxBuffer, true-send stop after transmission
+        }    // collision on I2C bus, sensor didn't return ACK
+        Wire.requestFrom(_address, (uint8_t)1, (uint8_t)true);    // read 1-byte to "wire.h" rxBuffer, true-send stop after transmission
         if (Wire.available() == 1) {
             return Wire.read();
-        }                      // read 1-byte from "wire.h" rxBuffer
+        }    // read 1-byte from "wire.h" rxBuffer
         return AHTXX_ERROR;    // collision on I2C bus, "wire.h" rxBuffer is empty
     }
 
@@ -205,7 +205,7 @@ private:
         uint8_t value = readStatusRegister();
         if (value != AHTXX_ERROR) {
             return (value & AHTXX_STATUS_CTRL_CAL_ON);
-        }                      // 0x08=loaded, 0x00=not loaded
+        }    // 0x08=loaded, 0x00=not loaded
         return AHTXX_ERROR;    // collision on I2C bus, sensor didn't return ACK
     }
 
@@ -214,10 +214,10 @@ private:
     {
         if (readAHT == AHTXX_FORCE_READ_DATA) {    // force to read data via I2C & update "_rawData[]" buffer
             delay(AHTXX_CMD_DELAY);
-            Wire.requestFrom(_address, (uint8_t)1, (uint8_t) true);    // read 1-byte to "wire.h" rxBuffer, true-send stop after transmission
+            Wire.requestFrom(_address, (uint8_t)1, (uint8_t)true);    // read 1-byte to "wire.h" rxBuffer, true-send stop after transmission
             if (Wire.available() != 1) {
                 return AHTXX_DATA_ERROR;
-            }                             // no reason to continue, "return" terminates the entire function & "break" just exits the loop
+            }    // no reason to continue, "return" terminates the entire function & "break" just exits the loop
             _rawData[0] = Wire.read();    // read 1-byte from "wire.h" rxBuffer
         }
         if ((_rawData[0] & AHTXX_STATUS_CTRL_BUSY) == AHTXX_STATUS_CTRL_BUSY) {
@@ -313,7 +313,7 @@ private:
 
 public:
     Sens_AHTxx()
-        : _sensorType(AHT1x_SENSOR)
+        : _sensorType(static_cast<AHT_TYPE_t>(AHTXX_TYPE))
         , _address(AHTXX_ADDRESS_X38)
         , _status(AHTXX_NO_ERROR)
         , _rawData { 0 }
@@ -329,13 +329,13 @@ public:
         while (i > 0) {
             if (begin()) {
                 _present = true;
-                DPRINTLN(F("AHT1x found"));
+                DPRINTLN(F("AHTxx found"));
                 return true;
             }
             delay(100);
             i--;
         }
-        DPRINTLN(F("Error: AHT1x not connected or failed to load calib. coeff."));
+        DPRINTLN(F("Error: AHTxx not connected or failed to load calib. coeff."));
         return false;
     }
 

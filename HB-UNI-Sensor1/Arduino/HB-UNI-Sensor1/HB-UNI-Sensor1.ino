@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-UNI-Sensor1
-// Version 1.5
-// (C) 2018-2024 Tom Major (Creative Commons)
+// Version 1.51
+// (C) 2018-2025 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -15,7 +15,7 @@
 // Insbesondere die RAM-Einsparungen sind wichtig für die Stabilität / dynamische Speicherzuweisungen etc.
 // Dies beseitigt dann auch die mögliche Arduino-Warnung 'Low memory available, stability problems may occur'.
 //
-//#define NDEBUG
+// #define NDEBUG
 
 //---------------------------------------------------------
 // define this to read the device id, serial and device type from bootloader section
@@ -32,9 +32,9 @@
 #include "Sensors/tmBattery.h"
 
 //---------------------------------------------------------
-// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_UniSensor_Aussen.h) geholt um mehrere Geräte ohne weitere Änderungen
-// des Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten definieren.
-// Die konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
+// Alle Device Parameter werden aus einer Konfigurationsdatei (hier im Beispiel Cfg/Device_UniSensor_Aussen.h) geholt um mehrere Geräte ohne weitere
+// Änderungen des Sketches flashen zu können. Für mehrere Geräte einfach mehrere .h Dateien anlegen und dort die Unterschiede zwischen den Geräten
+// definieren. Die konfigurierbaren Device Parameter in der .h Datei sind im Einzelnen:
 // - Device ID und Device Serial
 // - Aktivierung der verwendeten Sensoren
 // - Pin Definitionen Allgemein
@@ -124,8 +124,8 @@ Sens_DIGINPUT digitalInput;           // muss wegen Verwendung in loop() global 
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs (HB-UNI-SensorX) muss Device ID und Device Serial unterschiedlich sein!
-// Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_UniSensor_Aussen.h) geholt um mehrere Geräte ohne weitere Änderungen des
-// Sketches flashen zu können.
+// Device ID und Device Serial werden aus einer .h Datei (hier im Beispiel Cfg/Device_UniSensor_Aussen.h) geholt um mehrere Geräte ohne weitere
+// Änderungen des Sketches flashen zu können.
 const struct DeviceInfo PROGMEM devinfo = {
     cDEVICE_ID,        // Device ID
     cDEVICE_SERIAL,    // Device Serial
@@ -345,7 +345,7 @@ class WeatherChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CH
     Sens_SHT10<SHT10_DATAPIN, SHT10_CLKPIN> sht10;
 #endif
 #ifdef SENSOR_AHTXX
-    Sens_AHTxx ahtxx;
+    Sens_AHTxx<AHT_MODE> ahtxx;
 #endif
 #ifdef SENSOR_VEML6070
     Sens_VEML6070<> veml6070;
@@ -377,7 +377,7 @@ public:
 #endif
     {
     }
-    virtual ~WeatherChannel() {}
+    virtual ~WeatherChannel() { }
 
     virtual void trigger(AlarmClock& clock)
     {
@@ -630,7 +630,7 @@ public:
         : TSDevice(info, addr)
     {
     }
-    virtual ~SensChannelDevice() {}
+    virtual ~SensChannelDevice() { }
 
     virtual void configChanged()
     {

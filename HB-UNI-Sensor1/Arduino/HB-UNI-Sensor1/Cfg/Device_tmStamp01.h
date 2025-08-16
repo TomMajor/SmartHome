@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // Device_tmStamp01.h
 // PCB: tmStamp
-// 2018-2021 Tom Major (Creative Commons)
+// 2018-2025 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -36,7 +36,7 @@
 //#define SENSOR_SHT31      // SHT31_ADDR define weiter unten muss zur HW passen!
 //#define SENSOR_SHT21
 //#define SENSOR_SHT10      // SHT10_DATAPIN / SHT10_CLKPIN define weiter unten muss zur HW passen!
-//#define SENSOR_AHTXX
+//#define SENSOR_AHTXX      // AHT_MODE define weiter unten muss zur HW passen!
 //#define SENSOR_DIGINPUT   // DIGINPUT_PIN define weiter unten muss zur HW passen!
 //#define SENSOR_VEML6070
 //#define SENSOR_VEML6075
@@ -58,6 +58,7 @@
 //#define SHT31_ADDR        0x44    // by default its 0x44, you can also adjust the sensor for 0x45 and then pass that value in
 //#define SHT10_DATAPIN     A4
 //#define SHT10_CLKPIN      A5
+//#define AHT_MODE          1       // 1 für AHT1x, 2 für AHT2x
 //#define DIGINPUT_PIN      A1
 
 
