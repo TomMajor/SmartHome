@@ -55,9 +55,10 @@ sub CUL_HM_ParseUniSensor1(@){
 
         my ($dTempBat, $pressure, $humidity, $brightness100, $digInputByte, $batVoltage, $absHumidity10, $dewPoint10) = map{hex($_)} unpack ('A4A4A2A8A2A4A4A4', $msgData);
 
-        # temperature, int with scaling factor 10 from device to get one decimal place
+        # temperature, int with scaling factor 10 from device to get one decimal place, battery state in Bit15
         my $temperature =  $dTempBat & 0x7fff;
-        $temperature = ($temperature &0x4000) ? $temperature - 0x8000 : $temperature;
+        # if negative: value = 2-complement value - range (range 15Bit = 32768)
+        $temperature = ($temperature & 0x4000) ? $temperature - 0x8000 : $temperature;
         $temperature = sprintf('%0.1f', $temperature / 10);
 
         my $stateMsg = 'state:T: ' . $temperature;
@@ -107,7 +108,9 @@ sub CUL_HM_ParseUniSensor1(@){
         push (@events, [$shash, 1, 'absHumidity:' . $absHumidity]);
 
         # dewPoint
-        my $dewPoint = sprintf('%.1f', $dewPoint10 / 10);
+        # if negative: value = 2-complement value - range (range 16Bit = 65536)
+        my $dewPoint = ($dewPoint10 & 0x8000) ? $dewPoint10 - 0x10000 : $dewPoint10;
+        $dewPoint = sprintf('%.1f', $dewPoint / 10);
         $stateMsg .= ' DP: ' . $dewPoint;
         push (@events, [$shash, 1, 'dewPoint:' . $dewPoint]);
 
