@@ -15,6 +15,7 @@
 - [Bootloader](#bootloader)
 - [Fuses](#fuses)
 - [Arduino IDE-Einstellungen](#arduino-ide-einstellungen)
+- [AVRDUDE Kommandozeilen-Befehle](#avrdude-kommandozeilen-befehle)
 - [Firmware / Hex-Files](#firmware--hex-files)
 - [Displaytest](#displaytest)
 - [Strommessung und Kalkulation der Batterielebensdauer](#strommessung-und-kalkulation-der-batterielebensdauer)
@@ -296,9 +297,29 @@
 ![pic](Images/ArduinoIDE_1284p.png)
 
 
+## AVRDUDE Kommandozeilen-Befehle
+
+Flash Write/Read
+```
+c:\Tools\AVRDUDE\avrdude.exe -c stk500v2 -p m1284p -P COM2 -b 115200 -e -U flash:w:HB-Dis-EP-42BW.hex:i -v
+c:\Tools\AVRDUDE\avrdude.exe -c stk500v2 -p m1284p -P COM2 -b 115200 -U flash:r:readtest.bin:r
+```
+
+Fuses Write/Read
+```
+c:\Tools\AVRDUDE\avrdude.exe -c stk500v2 -p m1284p -P COM2 -b 115200 -U lfuse:w:0xff:m -U hfuse:w:0xdd:m -U efuse:w:0xff:m
+c:\Tools\AVRDUDE\avrdude.exe -c stk500v2 -p m1284p -P COM2 -b 115200 -U lfuse:r:lowfuse.hex:h -U hfuse:r:highfuse.hex:h -U efuse:r:extfuse.hex:h
+```
+
+EEPROM Read
+```
+c:\Tools\AVRDUDE\avrdude.exe -c stk500v2 -p m1284p -P COM2 -b 115200 -U eeprom:r:eeprom.bin:r
+```
+
+
 ## Firmware / Hex-Files
 
-[Firmware / Hex-Files](Firmware)
+[Firmware / Hex-Files](Firmware_Binary)
 
 
 ## Displaytest
