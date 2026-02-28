@@ -13,7 +13,7 @@
 - einfach 3 freie Pins für die Schließerkontakte verwenden
 
 
-## Das angemeldete Gerät im RaspberryMatic WebUI
+## Das angemeldete Gerät in der OpenCCU WebUI
 
 ![pic](Images/HB_SCI_3_FM.png)
 

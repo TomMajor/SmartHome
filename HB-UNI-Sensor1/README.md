@@ -22,8 +22,8 @@
   - [Verbesserungen für's nächste Redesign](#verbesserungen-fürs-nächste-redesign)
   - [Bestellung der Platine](#bestellung-der-platine)
 - Installation
-  - [RaspberryMatic/CCU Installation](#raspberrymaticccu-installation)
-  - [RaspberryMatic WebUI](#raspberrymatic-webui)
+  - [OpenCCU Installation](#openccu-installation)
+  - [OpenCCU WebUI](#openccu-webui)
   - [FHEM Installation](#fhem-installation)
   - [Offseteinstellungen für Temperatur, Luftdruck und Luftfeuchte über WebUI](#offseteinstellungen-für-temperatur-luftdruck-und-luftfeuchte-über-webui)
   - [Serieller Log beim Start des Sensors](#serieller-log-beim-start-des-sensors)
@@ -44,14 +44,14 @@
 
 ## Features
 
-- Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor
+- Demonstriert einen HomeMatic/OpenCCU/FHEM Universalsensor
 - Sensoren für Temperatur (DS18B20, BME280), Luftdruck (BME280, BMP180), Luftfeuchte (BME280, SHT10, SHT21, SHT31), Helligkeit (MAX44009, TSL2561, BH1750), UV-Index (VEML6070, VEML6075) uvm. bestückbar
 - modifizierbar für andere Sensoren
 - Bestückung mit Arduino Pro Mini oder alternativ mit ATmega328P
 - RC- oder Quarzoszillator möglich
 - konfigurierbares Sendeintervall über WebUI
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
-- über die defines am Anfang des Sketches können entweder Dummy Werte für die Sensoren (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM) oder reale Sensoren aktiviert werden
+- über die defines am Anfang des Sketches können entweder Dummy Werte für die Sensoren (zum Testen der Anbindung an HomeMatic/OpenCCU/FHEM) oder reale Sensoren aktiviert werden
 Beispiel:<br>
 `#define SENSOR_BME280    // realer BME280 angeschlossen`<br>
 `//#define SENSOR_BME280    // es werden BME280 Dummy Werte gesendet`
@@ -419,16 +419,16 @@ Gute Erfahrungen habe ich z.B. mit JLCPCB gemacht, die Platinen kosten meisten n
 ![pic](Images/Bestellung_JLCPCB_201.png)
 
 
-## RaspberryMatic/CCU Installation
+## OpenCCU Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-devices-addon.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn/CCU_RM) installieren.
 
 ![pic](Images/HB-UNI-Sensor1_Install.png)
 
 
-## RaspberryMatic WebUI
+## OpenCCU WebUI
 
-Der angemeldete Sensor auf der RaspberryMatic:
+Der angemeldete Sensor auf OpenCCU:
 
 ![pic](Images/HB-UNI-Sensor1_WebUI.png)
 
@@ -454,7 +454,7 @@ FHEM user *kpwg*
 
 - Ab HB-UNI-Sensor1 Version V1.40 und HB-TM-Devices-AddOn V2.60 können die Offsetwerte für Temperatur, Luftdruck und Luftfeuchte über das WebUI eingestellt werden.
 
-- Achtung, für negative Werte mit Kommastelle gibt es in einigen RaspberryMatic Versionen (z.B. 3.57.4.20210320) einen [Bug - ProofAndSetValue #1058](https://github.com/jens-maus/RaspberryMatic/issues/1058), durch den man nur ganzzahlige negative Werte einstellen kann.<br>
+- Achtung, für negative Werte mit Kommastelle gibt es in einigen RaspberryMatic Versionen (z.B. 3.57.4.20210320) einen [Bug - ProofAndSetValue #1058](https://github.com/OpenCCU/OpenCCU/issues/1058), durch den man nur ganzzahlige negative Werte einstellen kann.<br>
 Bei der RaspberryMatic Version 3.53.34.20201121 ist der Bug noch nicht vorhanden.
 
 - Einen Workaround für diesen Bug wird von Baxxy [hier](https://homematic-forum.de/forum/viewtopic.php?p=652376#p652376) beschrieben.

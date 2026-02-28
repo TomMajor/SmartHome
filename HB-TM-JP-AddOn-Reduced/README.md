@@ -9,7 +9,7 @@
   - [HB-OU-MP3-LED](https://github.com/jp112sdl/HB-OU-MP3-LED) (Funkgong mit MP3-Wiedergabe und LED-Signalisierung)
   - außerdem ist mein [Script Helper](https://github.com/TomMajor/SmartHome/tree/master/HB-Dis-EP-42BW#script-helper) für das 4,2" ePaper Display enthalten.<br><br>
 
-- Ich habe das dafür notwendige HomeMatic/RaspberryMatic AddOn aus Jérômes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein separates AddOn nur für die genannten Geräte zu haben.<br><br>
+- Ich habe das dafür notwendige HomeMatic/OpenCCU AddOn aus Jérômes Universalsammlung JP-HB-Devices-addon "herausoperiert" und ein paar Modifikationen gemacht um ein separates AddOn nur für die genannten Geräte zu haben.<br><br>
 Vielen Dank an Jérôme für die Unterstützung bei dieser Arbeit. :thumbsup: <br>
 
 [comment]: # (rc.d filename: hb-tm-jp-addon-reduced, github name: HB-TM-JP-AddOn-Reduced, info name: HB-TM-JP AddOn Reduced)

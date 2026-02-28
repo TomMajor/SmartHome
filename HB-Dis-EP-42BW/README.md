@@ -9,7 +9,7 @@
 
 ## Inhaltsverzeichnis
 - [Aufbau - Alveran's Gehäusevariante](#aufbau---alverans-gehäusevariante)
-- [AddOn für CCU2/CCU3/RaspberryMatic](#addon-für-ccu2ccu3raspberrymatic)
+- [AddOn für OpenCCU](#addon-für-openccu)
 - [Script Helper](#script-helper)
 - [HomeMatic-Skript: Nur die geänderten Zeilen an das Display senden (DutyCycle sparen)](#homematic-skript-nur-die-geänderten-zeilen-an-das-display-senden-dutycycle-sparen)
 - [Bootloader](#bootloader)
@@ -63,7 +63,7 @@
 ![pic](Images/Built-up/HB-Dis-EP-42BW_2.jpg)
 
 
-## AddOn für CCU2/CCU3/RaspberryMatic
+## AddOn für OpenCCU
 
 - meine Version des HB-Dis-EP-42BW ePaper Addon aus dem Jahr 2019 (Stripdown aus Jérômes JP-HB-Devices-addon nur für das ePaper) wurde eingestellt.
 

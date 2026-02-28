@@ -25,7 +25,7 @@
 //---------------------------------------------------------
 // Aktivierung der verwendeten Sensoren
 // Über diese defines werden die real angeschlossenen Sensoren aktiviert.
-// Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/RaspberryMatic/FHEM)
+// Andernfalls verwendet der Sketch Dummy-Werte als Messwerte (zum Testen der Anbindung an HomeMatic/OpenCCU/FHEM)
 //
 //#define SENSOR_DS18X20    // ONEWIRE_PIN define weiter unten muss zur HW passen! DS18X20_COUNT muss definiert sein!
 #define SENSOR_BME280       // BME280 Library (finitespace) verwendet I2C Addr. 0x76, für 0x77 die Library anpassen!

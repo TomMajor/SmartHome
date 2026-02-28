@@ -69,7 +69,7 @@
   Bei der Umstellung des Systems nach HomeMatic habe ich bequemerweise das Gehäuse an der Wand weiterverwendet und nur die Platine dafür neu designed. Ohne diese Randbedingung kann man die Platine natürlich kleiner machen.
 
 
-## CCU2/CCU3/RaspberryMatic Installation
+## OpenCCU Installation
 
 Einstellungen/Systemsteuerung/Zusatzsoftware -> Datei [hb-tm-devices-addon.tgz](https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn/CCU_RM) installieren.
 

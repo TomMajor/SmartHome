@@ -7,7 +7,7 @@ Außerdem werden die Gesamtzählerstände aller Kanäle zyklisch intern im Gerä
 
 ## Features
 
-- Integration von Wechselstromzähler mit S0-Ausgang in HomeMatic/RaspberryMatic.
+- Integration von Wechselstromzähler mit S0-Ausgang in HomeMatic/OpenCCU.
 - Anbindung an die Zentrale über Ethernet
 - anpassbare Kanalanzahl für die Auswertung in der Zentrale, es sind max. 6 HW-Kanäle vorhanden.
 - für jeden Kanal gibt es eine Systemvariable Zählerstand [kWh] sowie Momentanverbrauch [Watt].
@@ -31,7 +31,7 @@ In diesen Fall sind die Namen und Einheiten der verwendeten Systemvariablen und 
 ## Hintergrund
 
 - Seit längerer Zeit betreibe ich im Haus 5 Wechselstromzähler mit S0-Ausgang (1x Gesamtverbrauch + 4x einzelne Kreise). Diese waren bisher über 1-Wire an FHEM angebunden.
-- Das FHEM Gerät lief über viele Jahre stabil. Im Zuge meines Umstiegs 2018/2019 von FHEM auf HomeMatic/RaspberryMatic habe ich diese Funktion jetzt in HomeMatic integriert.
+- Das FHEM Gerät lief über viele Jahre stabil. Im Zuge meines Umstiegs 2018/2019 von FHEM auf HomeMatic/OpenCCU habe ich diese Funktion jetzt in HomeMatic integriert.
 - Ich habe mir vorher mehrere Konzepte und Systeme angeschaut. Zunächst wollte ich den HBW-Sen-EP von jfische/stan23 verwenden, habe mich aber wegen des dafür notwendigen HomeMatic-Wired Gateways und Busses dagegen entschieden (da ich HM-Wired sonst nicht brauche).<br>
 Stattdessen habe ich das Konzept meines alten 1-Wire/FHEM 6-Kanal Gerätes für HomeMatic/Ethernet angepasst bzw. Teile davon neu entwickelt.
 
@@ -84,7 +84,7 @@ die Website mit Debuginformationen:<br>
 `http://192.168.1.227/debug`<br>
 - die S0 Eingänge mit den S0-Ausgängen der Wechselstromzähler verbinden, dabei auf richtige Polung achten, jeder S0 Kreis hat einen + und - Anschluß.
 
-#### CCU / RaspberryMatic (TCL-Skript)
+#### OpenCCU (TCL-Skript)
 
 - die Anzahl der verwendeten Kanäle in der Datei update_HB-ES-S0-CNT6.tcl anpassen, möglich sind 1..6 Kanäle:<br>
 `set cCHANNEL_COUNT  5`<br>
@@ -93,7 +93,7 @@ die Website mit Debuginformationen:<br>
 - SSH Verbindung öffnen und update_HB-ES-S0-CNT6.tcl nach /usr/local/addons kopieren.
 - dann noch für diese Datei (/usr/local/addons/update_HB-ES-S0-CNT6.tcl) die Permissions auf 0755 setzen.
 
-#### CCU / RaspberryMatic (HomeMatic-Skript)
+#### OpenCCU (HomeMatic-Skript)
 
 - die Anzahl der verwendeten Kanäle in **beide** Dateien STROM.CreateSysVars.hms und STROM.Update2.hms anpassen, möglich sind 1..6 Kanäle:<br>
 `integer CHANNEL_COUNT = 5;`<br>
@@ -154,7 +154,7 @@ Dazu muss das Kommando *FACTORY_RESET* gesendet werden, es kommt eine Rückfrage
 
 ## Weitere Fragen
 
-Dies ist eine Kurzanleitung für erfahrene AVR/Arduino/HomeMatic/RaspberryMatic Benutzer. :smile_cat:<br>
+Dies ist eine Kurzanleitung für erfahrene AVR/Arduino/HomeMatic/OpenCCU Benutzer. :smile_cat:<br>
 Bei weiteren Fragen zum Projekt bitte diesen Thread benutzen:<br>
 [HomeMatic Forum: HB-ES-S0-CNT6](https://homematic-forum.de/forum/viewtopic.php?f=76&t=54164)
 

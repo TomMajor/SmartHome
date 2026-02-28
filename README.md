@@ -6,10 +6,10 @@
 
 ## AddOn Kompatibilität
 
-|  | AddOn | Version | Status | letzte getestete Firmware (RaspberryMatic) |
+|  | AddOn | Version | Status | letzte getestete Firmware (OpenCCU) |
 |---|---|---|---|---|
-| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | 2.61 | lauffähig unter CCU / RaspberryMatic | 3.75.7.20240420 |
-| :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | 2.14 | lauffähig unter CCU / RaspberryMatic | 3.75.7.20240420 |
+| :heavy_check_mark: | [HB-TM-Devices-AddOn](HB-TM-Devices-AddOn)       | 2.63 | lauffähig unter OpenCCU | 3.85.7.20260131 |
+| :heavy_check_mark: | [HB-TM-JP-AddOn-Reduced](HB-TM-JP-AddOn-Reduced) | 2.14 | lauffähig unter OpenCCU | 3.85.7.20260131 |
 
 
 ## Disclaimer
@@ -36,7 +36,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 ## Universalsensor HB-UNI-Sensor1
 
-- Demonstriert einen HomeMatic/RaspberryMatic/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
+- Demonstriert einen HomeMatic/OpenCCU/FHEM Universalsensor für Temperatur, Luftdruck, Luftfeuchte, Helligkeit usw.
 - modifizierbar für andere Sensoren
 - konfigurierbares Sendeintervall über WebUI
 - konfigurierbare Höhe (für Berechnung des Luftdrucks auf Meeresniveau/Normaldruck) über WebUI
@@ -72,7 +72,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 ## 6fach S0-Stromzähler HB-ES-S0-CNT6
 
-- Integration von Wechselstromzähler mit S0-Ausgang in HomeMatic/RaspberryMatic
+- Integration von Wechselstromzähler mit S0-Ausgang in HomeMatic/OpenCCU
 - Anbindung an die Zentrale über Ethernet
 - anpassbare Kanalanzahl für die Auswertung in der Zentrale, es sind max. 6 HW-Kanäle vorhanden
 - Alle Zählerstände werden 1x pro Stunde im EEPROM abgelegt und gehen bei einem Stromausfall nicht verloren
@@ -134,7 +134,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 
 ## HB-TM-Devices-AddOn
 
-- Ein RaspberryMatic / CCU AddOn zur Unterstützung meiner Projekte/Geräte:
+- Ein OpenCCU AddOn zur Unterstützung meiner Projekte/Geräte:
   - HB-UNI-Sensor1
   - HB-UNI-Sensor2..6 (Benutzerspezifische Sensordaten)
   - HB-SEN-LJet
@@ -233,9 +233,9 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 -> [Projektseite Bootloader & Fuses](https://github.com/TomMajor/SmartHome/tree/master/Info/Bootloader)
 
 
-## HomeMatic / RaspberryMatic - Skripte und Lösungen
+## HomeMatic / OpenCCU - Skripte und Lösungen
 
--> [Projektseite HomeMatic / RaspberryMatic - Skripte und Lösungen](https://github.com/TomMajor/SmartHome/tree/master/Info/Skripte_und_Loesungen_HomeMatic_RaspberryMatic)
+-> [Projektseite HomeMatic / OpenCCU - Skripte und Lösungen](https://github.com/TomMajor/SmartHome/tree/master/Info/Skripte_und_Loesungen_HomeMatic)
 
 
 ## ioBroker - Skripte und Lösungen
@@ -277,7 +277,7 @@ Bei Fragen oder Problemen also bitte in den entsprechenden Threads im [HomeMatic
 -> [Warnung](https://github.com/TomMajor/SmartHome/tree/master/Info/Warnung_Flashen_33_USBasp_Klones)
 
 
-## Meine RaspberryMatic Zentrale (Raspberry Pi + RPI-RF-MOD)
+## Meine OpenCCU Zentrale (Raspberry Pi + RPI-RF-MOD)
 
 ![pic](Images/MyRaspberryMaticCCU.jpg)
 
