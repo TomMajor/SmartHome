@@ -2,8 +2,8 @@
 #
 # -------------------------------------
 # TCL Skript für HB-ES-S0-CNT6
-# Version 0.21
-# (C) 2019-2022 Tom Major (Creative Commons)
+# Version 0.22
+# (C) 2019-2026 Tom Major (Creative Commons)
 # https://creativecommons.org/licenses/by-nc-sa/4.0/
 # You are free to Share & Adapt under the following terms:
 # Give Credit, NonCommercial, ShareAlike
@@ -14,6 +14,10 @@
 # STROM.ErrMsg              Typ: String
 #
 # Beschreibung siehe STROM.Update.hms
+#
+# Tested with:
+# TCL  8.6      >>echo 'puts $tcl_version;exit 0' | tclsh)
+# wget 1.25.0   >>wget --version
 # ---------------------------------------------------------
 
 # =========================================================
@@ -51,14 +55,18 @@ proc main {argc argv} {
     }
 
     # get counter values
-    set wgetRet ""
-    catch {
-        set url "$cDEVICE_IP/counter"
-        set wgetRet [exec wget --no-check-certificate --quiet --timeout=5 -O - $url]
-        # puts "result:\n$wgetRet"
-    }
+    # wget -O -: Sendet den Inhalt an stdout (statt eine Datei zu schreiben)
+    set url "http://$cDEVICE_IP/counter"
+	set wgetStat [catch {exec wget --no-check-certificate --quiet --timeout=5 -O - $url} wgetRet]
+	if { $wgetStat != 0 } {
+    	set errorMsg "Wget failed with error code $wgetStat"
+        setHomeMaticErrorMsg $errorMsg
+		return
+	}
+    puts "Wget success"
+    puts "wgetRet length: [string length $wgetRet]"
+	#puts "Wget result:\n$wgetRet"
     
-    #puts "wgetRet length: [string length $wgetRet]"
     if { [string length $wgetRet] < 100 } {	;# Html Stringlänge: 213 Byte für 6 Counter + CRC
         set errorMsg "Error: Invalid wget return data"
         setHomeMaticErrorMsg $errorMsg
@@ -105,6 +113,7 @@ proc main {argc argv} {
         setHomeMaticErrorMsg $errorMsg
         return
 	}
+	puts "CRC OK"
 
     set rega_cmd ""
     if { $cCHANNEL_COUNT >= 1 } {

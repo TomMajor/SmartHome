@@ -14,6 +14,7 @@
 # Declare files that must have LF endings (e.g., shell scripts)
 # But not for OpenCCU firmware xml files, these have CRLF as default
 *.sh text eol=lf
+*.tcl text eol=lf
 HB-TM-Devices-AddOn/CCU_RM/** text eol=lf
 HB-TM-Devices-AddOn/CCU_RM/**/*.xml text eol=crlf
 HB-TM-JP-AddOn-Reduced/CCU_RM/** text eol=lf
