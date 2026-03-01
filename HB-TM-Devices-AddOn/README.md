@@ -31,6 +31,9 @@
 
 ## Change Log
 
+- 2.63 - 01.03.2026
+  - HB-SEN-LJet, Firmware 1.1, neuer Datenpunkt 'Distanz', default keine Peiltabelle, Update Intervall default 4h
+
 - 2.62 - 10.08.2024
   - HB-UNI-Sensor1, Firmware 1.5 und HB-TM-Devices-AddOn: nicht vorhandene Sensoren bekommen den default-Wert 0 (Luftdruck)
 
@@ -101,7 +104,7 @@ Vielen Dank an Jérôme für seine wertvollen Vorlagen und Hinweise. :thumbsup: 
   - Datei ${BACKUP_DIR}/saved anlegen
   - Patches anwenden (die Original Patches von Jérôme soweit für die ausgewählten 3 Geräte nötig)
 <br><br>
-- B) Update der RaspberryMatic Firmware, AddOn ist installiert
+- B) Update der OpenCCU Firmware, AddOn ist installiert
   - Merkmal: ${BACKUP_DIR}/saved existiert nicht (gemeint ist für den neuen Firmware String, für den alten ggf. schon)
   - weiter wie 1)
 <br><br>
@@ -185,9 +188,9 @@ Das fällt beim Ausführen zur Bootzeit weg, weil das rc-Skript vor dem Starten 
 - Bei einer CCU2 und CCU3 findet das installieren des Addons via update_script in einer chroot Umgebung statt. Es ist zwar über Umwege auch da möglich am read-only rootfs Änderungen vorzunehmen. Gewollt ist es da allerdings nicht.<br>
   *jmaus*
 
-#### RaspberryMatic rc.d Skript 'init' Zweig
+#### OpenCCU rc.d Skript 'init' Zweig
 
-- Beim Hochfahren gibt es mit RaspberryMatic die Möglichkeit Dinge die ein Addon VOR ausführen des ReGaHss, rfd, etc. Dienstes erledigen muss in einen "init" Zweig des Addon rc Skriptes zu stecken.<br>
+- Beim Hochfahren gibt es mit OpenCCU die Möglichkeit, Dinge die ein Addon VOR ausführen des ReGaHss, rfd, etc. Dienstes erledigen muss, in einen "init" Zweig des Addon rc Skriptes zu stecken.<br>
 Das nutzt z.B. CUxD damit es VOR dem start von ReGaHss&Co einige Dinge erledigen kann (siehe https://github.com/jens-maus/cuxd/blob/master/ccu3/rc.d/cuxdaemon#L61).<br>
 Damit sollte es dann z.B. möglich sein das du die Dinge die du VOR ReGaHss erledigen musst in dem "init" Zweig deines rc Skriptes abhandelst und damit eigentlich nicht mehr selbst ReGaHss stoppen/starten musst (was eben vermieden werden sollte).<br>
   *jmaus*
@@ -201,6 +204,8 @@ Die Geräte bekommen dabei das "dirty"-Flag und landen im Posteingang.<br>
 Sie dürften auch aus allen Programmen rausfliegen. Bin mir aber nicht 100% sicher.<br>
 Aus diesem Grund halte ich vor der Installation meines Addons die beiden Dienste an und starte sie erst zum Schluss wieder.<br>
   *jp112sdl*
+
+#### :warning: **Bei Änderungen am xml sollte das Gerät aus der Zentrale gelöscht und anschließend wieder neu angelernt werden**
 
 #### neues xml testen:
 

@@ -1,7 +1,7 @@
 //---------------------------------------------------------
 // HB-SEN-LevelJet
-// Version 1.04
-// (C) 2019-2020 Tom Major (Creative Commons)
+// Version 1.1
+// (C) 2019-2026 Tom Major (Creative Commons)
 // https://creativecommons.org/licenses/by-nc-sa/4.0/
 // You are free to Share & Adapt under the following terms:
 // Give Credit, NonCommercial, ShareAlike
@@ -13,7 +13,7 @@
 //---------------------------------------------------------
 // !! NDEBUG beim LevelJet Sketch unbedingt ausgeschaltet lassen
 // Serial Port Init (DINIT) via AskSinPP/Debug.h wird 2fach benutzt: Tx AskSinPP Debug out, Rx LevelJet (19200 Baud erforderlich)
-//#define NDEBUG
+// #define NDEBUG
 
 //---------------------------------------------------------
 // define this to read the device id, serial and device type from bootloader section
@@ -38,7 +38,7 @@
 // all library classes are placed in the namespace 'as'
 using namespace as;
 
-LEVELJET<true, true> leveljet;    // Pegel in mm, benutze Peiltabelle
+LEVELJET<true, false> leveljet;    // Pegel in mm, keine Peiltabelle
 
 // define all device properties
 // Bei mehreren Geräten des gleichen Typs muss Device ID und Device Serial unterschiedlich sein!
@@ -47,10 +47,10 @@ const struct DeviceInfo PROGMEM devinfo = {
     "LEVELJET01",            // Device Serial
     { 0xF1, 0x04 },          // Device Model
     // Firmware Version
-    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x10" />
+    // die CCU Addon xml Datei ist mit der Zeile <parameter index="9.0" size="1.0" cond_op="E" const_value="0x11" />
     // fest an diese Firmware Version gebunden! cond_op: E Equal, GE Greater or Equal
     // bei Änderungen von Payload, message layout, Datenpunkt-Typen usw. muss die Version an beiden Stellen hochgezogen werden!
-    0x10,
+    0x11,
     0x53,             // Device Type
     { 0x01, 0x01 }    // Info Bytes
 };
@@ -79,13 +79,13 @@ public:
     {
         clear();
         transmitDevTryMax(6);
-        updIntervall(21600);    // 6h
+        updIntervall(14400);    // 4h
     }
 };
 
 class MeasureEventMsg : public Message {
 public:
-    void init(uint8_t msgcnt, uint8_t percent, uint16_t levelMM, uint16_t volumeLiter)
+    void init(uint8_t msgcnt, uint8_t percent, uint16_t distance, uint16_t level, uint16_t volume)
     {
         // als Standard wird BCAST gesendet um Energie zu sparen, siehe Beschreibung HB-UNI-Sensor1.
         // Bei jeder 10. Nachricht senden wir stattdessen BIDI|WKMEUP, um eventuell anstehende Konfigurationsänderungen auch
@@ -94,36 +94,39 @@ public:
         if ((msgcnt % 10) == 2) {
             flags = BIDI | WKMEUP;
         }
-        Message::init(15, msgcnt, 0x53, flags, percent, 0);
-        pload[0] = volumeLiter >> 8;
-        pload[1] = volumeLiter & 0xff;
-        pload[2] = levelMM >> 8;
-        pload[3] = levelMM & 0xff;
+        // Message Length: 11 + payload
+        Message::init(17, msgcnt, 0x53, flags, percent, 0);
+        pload[0] = volume >> 8;
+        pload[1] = volume & 0xff;
+        pload[2] = level >> 8;
+        pload[3] = level & 0xff;
+        pload[4] = distance >> 8;
+        pload[5] = distance & 0xff;
     }
 };
 
 class MeasureChannel : public Channel<Hal, List1, EmptyList, List4, PEERS_PER_CHANNEL, SensorList0>, public Alarm {
     MeasureEventMsg msg;
     uint8_t         percent;
-    uint16_t        levelMM;
-    uint16_t        volumeLiter;
+    uint16_t        distance, level, volume;
 
 public:
     MeasureChannel()
         : Channel()
         , Alarm(seconds2ticks(60))
         , percent(0)
-        , levelMM(0)
-        , volumeLiter(0)
+        , distance(0)
+        , level(0)
+        , volume(0)
     {
     }
-    virtual ~MeasureChannel() {}
+    virtual ~MeasureChannel() { }
 
     virtual void trigger(AlarmClock& clock)
     {
         measure();
         uint8_t msgcnt = device().nextcount();
-        msg.init(msgcnt, percent, levelMM, volumeLiter);
+        msg.init(msgcnt, percent, distance, level, volume);
         if (msg.flags() & Message::BCAST) {
             device().broadcastEvent(msg, *this);
         } else {
@@ -137,9 +140,10 @@ public:
 
     void measure()
     {
-        percent     = leveljet.percent();
-        levelMM     = leveljet.level();
-        volumeLiter = leveljet.volume();
+        percent  = leveljet.Percent();
+        distance = leveljet.Distance();
+        level    = leveljet.Level();
+        volume   = leveljet.Volume();
     }
 
     void setupSensor()
@@ -173,7 +177,7 @@ public:
         : TSDevice(info, addr)
     {
     }
-    virtual ~SensChannelDevice() {}
+    virtual ~SensChannelDevice() { }
 
     virtual void configChanged()
     {
