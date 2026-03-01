@@ -1,3 +1,33 @@
 
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Explicitly identify text/script files
+*.txt text
+*.md text
+*.json text
+*.yaml text
+*.xml text
+*.bat text
+*.cmd text
+
+# Declare files that must have LF endings (e.g., shell scripts)
+# But not for OpenCCU firmware xml files, these have CRLF as default
+*.sh text eol=lf
+HB-TM-Devices-AddOn/CCU_RM/** text eol=lf
+HB-TM-Devices-AddOn/CCU_RM/**/*.xml text eol=crlf
+HB-TM-JP-AddOn-Reduced/CCU_RM/** text eol=lf
+HB-TM-JP-AddOn-Reduced/CCU_RM/**/*.xml text eol=crlf
+
+# Declare files that must have CRLF endings (e.g., Visual Studio solution files)
+*.sln text eol=crlf
+
+# Denote binary files that should not be touched
+# This section should be the last section!
+*.bin binary
+*.pdf binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.zip binary
+*.tgz binary

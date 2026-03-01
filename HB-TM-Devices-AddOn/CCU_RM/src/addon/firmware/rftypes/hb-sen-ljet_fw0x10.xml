@@ -2,7 +2,7 @@
 <device version="2" rx_modes="CONFIG,WAKEUP,LAZY_CONFIG" cyclic_timeout="45000">
   <supported_types>
     <type name="HB-SEN-LJet" id="HB-SEN-LJet">
-      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x11" />
+      <parameter index="9.0" size="1.0" cond_op="E" const_value="0x10" />
       <parameter index="10.0" size="2.0" const_value="0xF104" />
     </type>
   </supported_types>
@@ -12,7 +12,7 @@
       <physical type="integer" interface="config" list="0" index="20" size="1" />
     </parameter>
     <parameter id="Sendeintervall">
-      <logical type="integer" min="60" max="43200" default="14400" unit="s" />
+      <logical type="integer" min="60" max="43200" default="21600" unit="s" />
       <physical type="integer" interface="config" list="0" index="32" size="2" />
     </parameter>
   </paramset>
@@ -73,13 +73,6 @@
           </physical>
           <conversion type="float_integer_scale" factor="10.0"/>
         </parameter>
-        <parameter id="Distanz" operations="read,event">
-          <logical type="float" min="0.0" max="2000.0" unit="cm"/>
-          <physical type="integer" interface="command" value_id="Distanz" no_init="true">
-            <event frame="MEASURE_EVENT"/>
-          </physical>
-          <conversion type="float_integer_scale" factor="10.0"/>
-        </parameter>
       </paramset>  
       <paramset type="LINK" id="HB-SEN-LJet_link"></paramset>
     </channel>
@@ -88,8 +81,7 @@
     <frame id="MEASURE_EVENT" direction="from_device" event="true" fixed_channel="1" type="0x53">
       <parameter type="integer" index="9" size="1.0" param="FILLING_LEVEL"/>
       <parameter type="integer" index="11" size="2.0" param="Tankinhalt"/>
-      <parameter type="integer" index="13" size="2.0" param="Pegel" />
-      <parameter type="integer" index="15" size="2.0" param="Distanz" />
+      <parameter type="integer" index="13.0" size="2.0" param="Pegel" />
     </frame>
   </frames>
   <paramset_defs></paramset_defs>

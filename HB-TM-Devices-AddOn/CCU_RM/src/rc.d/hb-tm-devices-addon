@@ -270,8 +270,8 @@ case "$1" in
 
     info)
       echo "Info: <b>HB-TM-Devices AddOn</b><br>"
-      echo "Info: <b>CCU3, RaspberryMatic</b><br>"
-      echo "Info: (c) 2018-2024 TomMajor<br>"
+      echo "Info: Fuer HB-UNI-Sensor1, HB-SEN-LJet, HB-Sec-WDS-2 u.a.<br>"
+      echo "Info: (c) 2018-2026 TomMajor<br>"
       echo "Info: <a href='https://github.com/TomMajor/SmartHome/tree/master/HB-TM-Devices-AddOn'>Projekt auf Github</a>"
       echo "Version: $(cat ${ADDON_DIR}/VERSION)"
       echo "Name: HB-TM-Devices AddOn"
